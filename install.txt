@@ -1,0 +1,17 @@
+-----------------------------------------------------------
+SETUP
+-----------------------------------------------------------
+
+1. Download sqlite from http://www.sqlite.org/download.html
+	a) Shell (http://www.sqlite.org/2013/sqlite-shell-win32-x86-3080000.zip)
+	b) DLL (http://www.sqlite.org/2013/sqlite-dll-win32-x86-3080000.zip) <-- USEFUL ?
+	
+2. Install sqlite gem for Ruby
+	a) Install Ruby* 
+	b) Install Gem*
+	c) Run : gem install sqlite3 (http://rubygems.org/gems/sqlite3)
+	c) Run : gem install sqlite3-ruby (http://rubygems.org/gems/sqlite3-ruby)
+	
+	
+	
+*Cf. Reame.txt (or install.txt or setup.txt, I can't remember) from BuSeRb project.
