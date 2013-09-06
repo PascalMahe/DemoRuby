@@ -4,5 +4,5 @@ SETUP
 
 1. Install sqlite3 gem for ruby :
 	gem install sqlite3
-	As in install_gmes.bat (in BuSeDrive-Rb), check for proxy
+	As in install_gems.bat (in BuSeDrive-Rb), check for proxy
 	

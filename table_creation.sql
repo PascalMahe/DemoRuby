@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS RefCoat(
 	text TEXT
 );
 
-CREATE TABLE IF NOT EXISTS RefBinder(
+CREATE TABLE IF NOT EXISTS RefBlinder(
 	id INTEGER PRIMARY KEY,
 	text TEXT
 );
@@ -48,36 +48,47 @@ CREATE TABLE IF NOT EXISTS RefShoes(
 CREATE TABLE IF NOT EXISTS Weather(
 	id_weather INTEGER PRIMARY KEY,
 	id_wind_direction INTEGER, -- FK to RefDirection
-	temperature INTEGER, -- in °C
+	temperature INTEGER, -- in degreesC
 	wind_speed INTEGER,
 	insolation TEXT,
 	FOREIGN KEY(id_wind_direction) REFERENCES RefDirection(id)
 );
 
+CREATE TABLE IF NOT EXISTS Job(
+	id_job INTEGER PRIMARY KEY,
+	start_time DATETIME, 
+	loading_end_time DATETIME,
+	crawling_end_time DATETIME,
+	computing_end_time DATETIME
+);
+
 CREATE TABLE IF NOT EXISTS Meeting(
 	id_meeting INTEGER PRIMARY KEY,
 	id_track_condition INTEGER, -- FK to RefTrackCondition
+	id_job INTEGER, -- FK to Job
 	date DATE,
 	racetrack TEXT,
 	number INTEGER, 
 	url TEXT,
 	FOREIGN KEY(id_track_condition) REFERENCES RefTrackCondition(id)
+	FOREIGN KEY(id_job) REFERENCES Job(id_job)
 );
 
 CREATE TABLE IF NOT EXISTS Race(
-	id_race INTEGER PRIMARY KEY
+	id_race INTEGER PRIMARY KEY,
 	id_meeting INTEGER, -- FK to Meeting
 	id_racetype INTEGER, -- FK to RefRaceType
 	time TEXT,
 	number INTEGER,
+	name TEXT,
 	country TEXT,
 	result TEXT,
+	result_insertion_time DATETIME,
 	distance INTEGER, -- en meters
 	detailed_conditions TEXT,
-	bets INTEGER, -- in €
-	name TEXT,
+	bets INTEGER, -- in euros
 	url TEXT,
-	value INTEGER, -- in €
+	value INTEGER, -- in euros
 	FOREIGN KEY(id_racetype) REFERENCES RefRaceType(id),
 	FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
 );
@@ -89,9 +100,17 @@ CREATE TABLE IF NOT EXISTS Forecast(
 	expected_result TEXT,
 	result_match_rate REAL, -- ratio
 	normalised_result_match_rate REAL, -- percent
-	origin_score REAL
+	origin_score REAL,
 	FOREIGN KEY(id_race) REFERENCES Race(id_race),
 	FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
+);
+
+CREATE TABLE IF NOT EXISTS Weight(
+	id_weight INTEGER PRIMARY KEY,
+	id_forecast INTEGER, -- FK to Forecast
+	name TEXT,
+	value REAL,
+	FOREIGN KEY(id_forecast) REFERENCES Forecast(id_forecast)
 );
 
 CREATE TABLE IF NOT EXISTS Origin(
@@ -133,7 +152,7 @@ CREATE TABLE IF NOT EXISTS Horse(
 	FOREIGN KEY(id_coat) REFERENCES RefCoat(id)
 );
 
-CREATE TABLE IF NOT EXISTS Horse(
+CREATE TABLE IF NOT EXISTS Runner(
 	id_runner INTEGER PRIMARY KEY,
 	id_race INTEGER, -- FK to Race
 	id_horse INTEGER, -- FK to Horse
@@ -151,10 +170,10 @@ CREATE TABLE IF NOT EXISTS Horse(
 	races_run INTEGER,
 	victories INTEGER,
 	places INTEGER,
-	earnings_career INTEGER, -- in €
-	earnings_current_year INTEGER, -- in €
-	earnings_last_year INTEGER, -- in €
-	earnings_victory INTEGER, -- in €
+	earnings_career INTEGER, -- in euros
+	earnings_current_year INTEGER, -- in euros
+	earnings_last_year INTEGER, -- in euros
+	earnings_victory INTEGER, -- in euros
 	description TEXT,
 	distance INTEGER,
 	load REAL,
