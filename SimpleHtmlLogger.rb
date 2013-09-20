@@ -73,7 +73,7 @@ class SimpleHtmlLogger
 		str_now = timestamp.strftime("%d/%m/%Y %H:%M:%S.%L")
 		complete_log = str_now + " - " + level + " - " + message.to_s
 		puts(complete_log)
-		@file.puts('<p class="' + level + '">' + complete_log + '</p>')
+		@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + message.to_s + '</td>')
  	end
 	
 	def info(message)
@@ -82,6 +82,14 @@ class SimpleHtmlLogger
 	
 	def debug(message)
 		log(Debug, message)
+	end
+	
+	def error(message)
+		log(Error, message)
+	end
+	
+	def imp(message)
+		log(Important, message)
 	end
 	
 	def copy_html_to_log_file(html_filename)
