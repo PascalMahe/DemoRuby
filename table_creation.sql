@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS Weight(
 CREATE TABLE IF NOT EXISTS Origin(
 	id_origin INTEGER PRIMARY KEY,
 	name TEXT,
-	order TEXT,
+	column_order TEXT,
 	url TEXT
 );
 
