@@ -1,0 +1,5 @@
+sql: 
+ insert:
+  - weather: 'INSERT INTO Weather (id_wind_direction, temperature,
+				wind_speed, insolation) VALUES (?, ?, ?, ?)'
+  - job: 'INSERT INTO Job (

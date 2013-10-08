@@ -1,0 +1,25 @@
+Weather
+Job
+Meeting
+Race
+-Forecast
+-Weight
+-Origin
+Jockey
+Trainer
+Owner
+Breeder
+Horse
+Runner
+RefObject
+	RefDirection
+	RefTrackCondition
+	RefRaceType
+	RefColumn
+	RefSex
+	RefBreed
+	RefCoat
+	RefBlinder
+	RefShoes
+	
+	
