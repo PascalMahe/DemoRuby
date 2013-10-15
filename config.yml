@@ -1,5 +1,4 @@
-sql: 
- insert:
-  - weather: 'INSERT INTO Weather (id_wind_direction, temperature,
-				wind_speed, insolation) VALUES (?, ?, ?, ?)'
-  - job: 'INSERT INTO Job (
+gen:
+ time_lapse: 3.months
+ database_name: 'pmu.db'
+ 

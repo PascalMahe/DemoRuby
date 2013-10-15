@@ -1,0 +1,219 @@
+insert:
+ # REFERENCE TABLES
+ refdirection: 'INSERT INTO RefDirection (name) VALUES (:name)'
+ reftrackcondition: 'INSERT INTO RefTrackCondition (name) VALUES (:name)'
+ refracetype: 'INSERT INTO RefRaceType (name) VALUES (:name)'
+ refcolumn: 'INSERT INTO RefColumn (name) VALUES (:name)'
+ refsex: 'INSERT INTO RefSex (name) VALUES (:name)'
+ refbreed: 'INSERT INTO RefBreed (name) VALUES (:name)'
+ refcoat: 'INSERT INTO RefCoat(name) VALUES (:name)'
+ refblinder: 'INSERT INTO RefBlinder (name) VALUES (:name)'
+ refshoes: 'INSERT INTO RefShoes (name) VALUES (:name)'
+  
+ # BUSINESS TABLES
+ weather: 'INSERT INTO Weather (
+				id_wind_direction, 
+				temperature,
+				wind_speed, 
+				insolation
+			) VALUES (
+				:wind_direction, 
+				:temperature,
+				:wind_speed, 
+				:insolation
+			)'
+
+ job: 'INSERT INTO Job(
+			start_time, 
+			loading_end_time,
+			crawling_end_time,
+			computing_end_time
+		) VALUES (
+			:start_time, 
+			:loading_end_time,
+			:crawling_end_time,
+			:computing_end_time
+		)'
+
+ meeting: 'INSERT INTO Meeting(
+				id_track_condition, 
+				id_job, 
+				date,
+				racetrack,
+				number, 
+				url
+			) VALUES (
+				:track_condition, 
+				:job, 
+				:date,
+				:racetrack,
+				:number, 
+				:url
+			)'
+
+ race: 'INSERT INTO Race(
+			id_meeting, 
+			id_racetype, 
+			time,
+			number,
+			name,
+			country,
+			result,
+			result_insertion_time,
+			distance, 
+			detailed_conditions,
+			bets, 
+			url,
+			value
+		) VALUES (
+			:meeting, 
+			:racetype, 
+			:time,
+			:number,
+			:name,
+			:country,
+			:result,
+			:result_insertion_time,
+			:distance, 
+			:detailed_conditions,
+			:bets, 
+			:url,
+			:value
+		)'
+
+ forecast: 'INSERT INTO Forecast(
+				id_race, 
+				id_origin, 
+				expected_result,
+				result_match_rate, 
+				normalised_result_match_rate, 
+				origin_score,
+			) VALUES (
+				:race, 
+				:origin, 
+				:expected_result,
+				:result_match_rate, 
+				:normalised_result_match_rate, 
+				:origin_score,
+			)'
+
+ weight: 'INSERT INTO Weight(
+				id_forecast, 
+				name,
+				value,
+			) VALUES (
+				:id_forecast, 
+				:name,
+				:value,
+			)'
+
+ origin: 'INSERT INTO Origin(
+				name,
+				column_order,
+				url
+			) VALUES (
+				:name,
+				:column_order,
+				:url
+			)'
+
+ jockey: 'INSERT INTO Jockey(
+				name,
+				jacket
+			) VALUES (
+				:name,
+				:jacket
+			)'
+
+ trainer: 'INSERT INTO Trainer(
+				name
+			) VALUES (
+				:name
+			)'
+
+ owner: 'INSERT INTO Owner(
+				name
+			) VALUES (
+				:name
+			)'
+
+ breeder: 'INSERT INTO Breeder(
+				name
+			) VALUES (
+				:name
+			)'
+
+ horse: 'INSERT INTO Horse(
+				id_sex, 
+				id_breed, 
+				id_coat, 
+				name
+			) VALUES (
+				:sex, 
+				:breed, 
+				:coat, 
+				name)'
+
+ runner: 'INSERT INTO Runner(
+				id_race, 
+				id_horse, 
+				id_jockey, 
+				id_trainer, 
+				id_owner, 
+				id_breeder, 
+				id_blinder, 
+				id_shoes, 
+				number,
+				draw,
+				single_rating,
+				final_place,
+				non_runner, 
+				races_run,
+				victories,
+				places,
+				earnings_career, 
+				earnings_current_year, 
+				earnings_last_year, 
+				earnings_victory, 
+				description,
+				distance,
+				load,
+				history,
+				url,
+				score_horse,
+				score_jockey,
+				score_owner,
+				score_trainer,
+				score_breeder
+			) VALUES (
+				:race, 
+				:horse, 
+				:jockey, 
+				:trainer, 
+				:owner, 
+				:breeder, 
+				:blinder, 
+				:shoes, 
+				:number,
+				:draw,
+				:single_rating,
+				:final_place,
+				:non_runner, 
+				:races_run,
+				:victories,
+				:places,
+				:earnings_career, 
+				:earnings_current_year, 
+				:earnings_last_year, 
+				:earnings_victory, 
+				:description,
+				:distance,
+				:load,
+				:history,
+				:url,
+				:score_horse,
+				:score_jockey,
+				:score_owner,
+				:score_trainer,
+				:score_breeder
+			)'

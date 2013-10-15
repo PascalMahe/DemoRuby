@@ -1,60 +1,59 @@
-sql:
- create:
-  # REFERENCE TABLES
-  - refdirection: 'CREATE TABLE IF NOT EXISTS RefDirection(
+create:
+# REFERENCE TABLES
+ refdirection: 'CREATE TABLE IF NOT EXISTS RefDirection(
 						id INTEGER PRIMARY KEY,
 						text TEXT
 					);'
-  - reftrackcondition: 'CREATE TABLE IF NOT EXISTS RefTrackCondition(
+ reftrackcondition: 'CREATE TABLE IF NOT EXISTS RefTrackCondition(
 						id INTEGER PRIMARY KEY,
 						text TEXT
 					);'
-  - refracetype: 'CREATE TABLE IF NOT EXISTS RefRaceType(
+ refracetype: 'CREATE TABLE IF NOT EXISTS RefRaceType(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
-  - refcolumn: 'CREATE TABLE IF NOT EXISTS RefColumn(
+ refcolumn: 'CREATE TABLE IF NOT EXISTS RefColumn(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
-  - refsex: 'CREATE TABLE IF NOT EXISTS RefSex(
+ refsex: 'CREATE TABLE IF NOT EXISTS RefSex(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
-  - refbreed: 'CREATE TABLE IF NOT EXISTS RefBreed(
+ refbreed: 'CREATE TABLE IF NOT EXISTS RefBreed(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
-  - refcoat: 'CREATE TABLE IF NOT EXISTS RefCoat(
+ refcoat: 'CREATE TABLE IF NOT EXISTS RefCoat(
 				id INTEGER PRIMARY KEY,
 				text TEXT
 			);'
 
-  - refblinder: 'CREATE TABLE IF NOT EXISTS RefBlinder(
+ refblinder: 'CREATE TABLE IF NOT EXISTS RefBlinder(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
-  - refshoes: 'CREATE TABLE IF NOT EXISTS RefShoes(
+ refshoes: 'CREATE TABLE IF NOT EXISTS RefShoes(
 					id INTEGER PRIMARY KEY,
 					text TEXT
 				);'
 
- # BUSINESS TABLES 
-  - weather: 'CREATE TABLE IF NOT EXISTS Weather(
+# BUSINESS TABLES 
+ weather: 'CREATE TABLE IF NOT EXISTS Weather(
 				id_weather INTEGER PRIMARY KEY,
 				id_wind_direction INTEGER, -- FK to RefDirection
-				temperature INTEGER, -- in degreesC
+				temperature INTEGER, -- in degrees C
 				wind_speed INTEGER,
 				insolation TEXT,
 				FOREIGN KEY(id_wind_direction) REFERENCES RefDirection(id)
 			);'
 
-  - job: 'CREATE TABLE IF NOT EXISTS Job(
+ job: 'CREATE TABLE IF NOT EXISTS Job(
 			id_job INTEGER PRIMARY KEY,
 			start_time DATETIME, 
 			loading_end_time DATETIME,
@@ -62,7 +61,7 @@ sql:
 			computing_end_time DATETIME
 		);'
 
-  - meeting: 'CREATE TABLE IF NOT EXISTS Meeting(
+ meeting: 'CREATE TABLE IF NOT EXISTS Meeting(
 				id_meeting INTEGER PRIMARY KEY,
 				id_track_condition INTEGER, -- FK to RefTrackCondition
 				id_job INTEGER, -- FK to Job
@@ -74,7 +73,7 @@ sql:
 				FOREIGN KEY(id_job) REFERENCES Job(id_job)
 			);'
 
-  - race: 'CREATE TABLE IF NOT EXISTS Race(
+ race: 'CREATE TABLE IF NOT EXISTS Race(
 			id_race INTEGER PRIMARY KEY,
 			id_meeting INTEGER, -- FK to Meeting
 			id_racetype INTEGER, -- FK to RefRaceType
@@ -93,7 +92,7 @@ sql:
 			FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
 		);'
 
-  - forecast: 'CREATE TABLE IF NOT EXISTS Forecast(
+ forecast: 'CREATE TABLE IF NOT EXISTS Forecast(
 				id_forecast INTEGER PRIMARY KEY,
 				id_race INTEGER, -- FK to Race
 				id_origin INTEGER, -- FK to Origin
@@ -105,7 +104,7 @@ sql:
 				FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
 			);'
 
-  - weight: 'CREATE TABLE IF NOT EXISTS Weight(
+ weight: 'CREATE TABLE IF NOT EXISTS Weight(
 				id_weight INTEGER PRIMARY KEY,
 				id_forecast INTEGER, -- FK to Forecast
 				name TEXT,
@@ -113,35 +112,35 @@ sql:
 				FOREIGN KEY(id_forecast) REFERENCES Forecast(id_forecast)
 			);'
 
-  - origin: 'CREATE TABLE IF NOT EXISTS Origin(
+ origin: 'CREATE TABLE IF NOT EXISTS Origin(
 				id_origin INTEGER PRIMARY KEY,
 				name TEXT,
 				column_order TEXT,
 				url TEXT
 			);'
 
-  - jockey: 'CREATE TABLE IF NOT EXISTS Jockey(
+ jockey: 'CREATE TABLE IF NOT EXISTS Jockey(
 				id_jockey INTEGER PRIMARY KEY,
 				name TEXT,
 				jacket TEXT
-			);
+			);'
 
-  - trainer: 'CREATE TABLE IF NOT EXISTS Trainer(
+ trainer: 'CREATE TABLE IF NOT EXISTS Trainer(
 				id_trainer INTEGER PRIMARY KEY,
 				name TEXT
 			);'
 
-  - owner: 'CREATE TABLE IF NOT EXISTS Owner(
+ owner: 'CREATE TABLE IF NOT EXISTS Owner(
 				id_owner INTEGER PRIMARY KEY,
 				name TEXT
 			);'
 
-  - breeder: 'CREATE TABLE IF NOT EXISTS Breeder(
+ breeder: 'CREATE TABLE IF NOT EXISTS Breeder(
 				id_breeder INTEGER PRIMARY KEY,
 				name TEXT
 			);'
 
-  - horse: 'CREATE TABLE IF NOT EXISTS Horse(
+ horse: 'CREATE TABLE IF NOT EXISTS Horse(
 				id_horse INTEGER PRIMARY KEY,
 				id_sex INTEGER, -- FK to RefSex
 				id_breed INTEGER, -- FK to RefBreed
@@ -152,7 +151,7 @@ sql:
 				FOREIGN KEY(id_coat) REFERENCES RefCoat(id)
 			);'
 
-  - runner: 'CREATE TABLE IF NOT EXISTS Runner(
+ runner: 'CREATE TABLE IF NOT EXISTS Runner(
 				id_runner INTEGER PRIMARY KEY,
 				id_race INTEGER, -- FK to Race
 				id_horse INTEGER, -- FK to Horse
