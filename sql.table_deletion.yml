@@ -1,0 +1,21 @@
+:drop:
+ # reference tablES
+ :refsex: 'drop table RefSex;'
+ :refbreed: 'drop table RefBreed;'
+ :refcoat: 'drop table RefCoat;'
+ :refblinder: 'drop table RefBlinder;'
+ :refshoes: 'drop table RefShoes;'
+ # business tables 
+ :weather: 'drop table Weather;'
+ :job: 'drop table Job;'
+ :meeting: 'drop table Meeting;'
+ :race: 'drop table Race;'
+ :forecast: 'drop table Forecast;'
+ :weight: 'drop table Weight;'
+ :origin: 'drop table Origin;'
+ :jockey: 'drop table Jockey;'
+ :trainer: 'drop table Trainer;'
+ :owner: 'drop table Owner;'
+ :breeder: 'drop table Breeder;'
+ :horse: 'drop table Horse;'
+ :runner: 'drop table Runner;'

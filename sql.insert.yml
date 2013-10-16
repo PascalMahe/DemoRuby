@@ -1,17 +1,17 @@
-insert:
+:insert:
  # REFERENCE TABLES
- refdirection: 'INSERT INTO RefDirection (name) VALUES (:name)'
- reftrackcondition: 'INSERT INTO RefTrackCondition (name) VALUES (:name)'
- refracetype: 'INSERT INTO RefRaceType (name) VALUES (:name)'
- refcolumn: 'INSERT INTO RefColumn (name) VALUES (:name)'
- refsex: 'INSERT INTO RefSex (name) VALUES (:name)'
- refbreed: 'INSERT INTO RefBreed (name) VALUES (:name)'
- refcoat: 'INSERT INTO RefCoat(name) VALUES (:name)'
- refblinder: 'INSERT INTO RefBlinder (name) VALUES (:name)'
- refshoes: 'INSERT INTO RefShoes (name) VALUES (:name)'
+ :refdirection: 'INSERT INTO RefDirection (name) VALUES (:name)'
+ :reftrackcondition: 'INSERT INTO RefTrackCondition (name) VALUES (:name)'
+ :refracetype: 'INSERT INTO RefRaceType (name) VALUES (:name)'
+ :refcolumn: 'INSERT INTO RefColumn (name) VALUES (:name)'
+ :refsex: 'INSERT INTO RefSex (name) VALUES (:name)'
+ :refbreed: 'INSERT INTO RefBreed (name) VALUES (:name)'
+ :refcoat: 'INSERT INTO RefCoat(name) VALUES (:name)'
+ :refblinder: 'INSERT INTO RefBlinder (name) VALUES (:name)'
+ :refshoes: 'INSERT INTO RefShoes (name) VALUES (:name)'
   
  # BUSINESS TABLES
- weather: 'INSERT INTO Weather (
+ :weather: 'INSERT INTO Weather (
 				id_wind_direction, 
 				temperature,
 				wind_speed, 
@@ -23,7 +23,7 @@ insert:
 				:insolation
 			)'
 
- job: 'INSERT INTO Job(
+ :job: 'INSERT INTO Job(
 			start_time, 
 			loading_end_time,
 			crawling_end_time,
@@ -35,7 +35,7 @@ insert:
 			:computing_end_time
 		)'
 
- meeting: 'INSERT INTO Meeting(
+ :meeting: 'INSERT INTO Meeting(
 				id_track_condition, 
 				id_job, 
 				date,
@@ -51,7 +51,7 @@ insert:
 				:url
 			)'
 
- race: 'INSERT INTO Race(
+ :race: 'INSERT INTO Race(
 			id_meeting, 
 			id_racetype, 
 			time,
@@ -81,7 +81,7 @@ insert:
 			:value
 		)'
 
- forecast: 'INSERT INTO Forecast(
+ :forecast: 'INSERT INTO Forecast(
 				id_race, 
 				id_origin, 
 				expected_result,
@@ -97,7 +97,7 @@ insert:
 				:origin_score,
 			)'
 
- weight: 'INSERT INTO Weight(
+ :weight: 'INSERT INTO Weight(
 				id_forecast, 
 				name,
 				value,
@@ -107,7 +107,7 @@ insert:
 				:value,
 			)'
 
- origin: 'INSERT INTO Origin(
+ :origin: 'INSERT INTO Origin(
 				name,
 				column_order,
 				url
@@ -117,7 +117,7 @@ insert:
 				:url
 			)'
 
- jockey: 'INSERT INTO Jockey(
+ :jockey: 'INSERT INTO Jockey(
 				name,
 				jacket
 			) VALUES (
@@ -125,25 +125,25 @@ insert:
 				:jacket
 			)'
 
- trainer: 'INSERT INTO Trainer(
+ :trainer: 'INSERT INTO Trainer(
 				name
 			) VALUES (
 				:name
 			)'
 
- owner: 'INSERT INTO Owner(
+ :owner: 'INSERT INTO Owner(
 				name
 			) VALUES (
 				:name
 			)'
 
- breeder: 'INSERT INTO Breeder(
+ :breeder: 'INSERT INTO Breeder(
 				name
 			) VALUES (
 				:name
 			)'
 
- horse: 'INSERT INTO Horse(
+ :horse: 'INSERT INTO Horse(
 				id_sex, 
 				id_breed, 
 				id_coat, 
@@ -154,7 +154,7 @@ insert:
 				:coat, 
 				name)'
 
- runner: 'INSERT INTO Runner(
+ :runner: 'INSERT INTO Runner(
 				id_race, 
 				id_horse, 
 				id_jockey, 

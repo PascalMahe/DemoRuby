@@ -1,4 +1,4 @@
-gen:
- time_lapse: 3.months
- database_name: 'pmu.db'
+:gen:
+ :time_lapse: 3.months
+ :database_name: 'pmu.db'
  

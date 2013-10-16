@@ -16,25 +16,38 @@ logger.info("START TIME: " + start_time.strftime("%d/%m/%Y %H:%M:%S.%L"))
 config = []
 config = YAML.load_file("config.yml") # From file (cf. http://strugglingwithruby.blogspot.fr/2008/10/yaml.html)
 logger.debug("Config : " + config.to_s)
-sql_create = YAML.load_file("table_creation.sql.yml")
-sql_delete = YAML.load_file("table_deletion.sql.yml")
-sql_insert = YAML.load_file("insert.sql.yml")
-sql = sql_create.merge!(sql_delete.merge!(sql_insert))
-config["sql"] = sql
-#logger.debug("Config : " + config.to_s)
+sql_create = YAML.load_file("sql.table_creation.yml")
+sql_delete = YAML.load_file("sql.table_deletion.yml")
+sql_insert = YAML.load_file("sql.insert.yml")
+sql_select = YAML.load_file("sql.select.yml")
+logger.debug("sql_select : " + sql_select.to_s)
+sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select)))
+config[:sql] = sql
+
 
 # Creating interface with database
-dbi = DatabaseInterface::new(logger, config["gen"]["database_name"], config["sql"])
+dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config[:sql])
 
-logger.imp("CREATING DATABASE")
+logger.imp("CHECKING DATABASE EXISTENCE")
+table_nb = dbi.get_table_number()
+created = false
+if(table_nb < 22) then
+	logger.info("Creating tables")
+	dbi.create_tables()
+	logger.info("Tables created")
+else 
+	logger.info("Tables already exist")
+end
+	
+
 
 logger.imp("TESTING OBJECTS")
 
 job = Job.new
-job.start_time = start_time
-job.loading_end_time = start_time = Time.now
-job.crawling_end_time = start_time = Time.now
-job.computing_end_time = start_time = Time.now
+job.start_time = start_time.strftime("%d/%m/%Y %H:%M:%S.%L")
+# job.loading_end_time = Time.now
+# job.crawling_end_time = Time.now
+# job.computing_end_time = Time.now
 
 dbi.insert_job(job)
 
