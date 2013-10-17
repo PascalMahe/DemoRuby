@@ -30,6 +30,38 @@ class Runner
 	attr_accessor :score_jockey
 	attr_accessor :score_owner
 	attr_accessor :score_trainer
-	attr_accessor :score_breeder	
+	attr_accessor :score_breeder
+
+	def to_s()
+		return "Runner : id = " + id.to_s +
+		", race = " + race.to_s +
+		", jockey = " + jockey.to_s +
+		", trainer = " + trainer.to_s +
+		", owner = " + owner.to_s +
+		", breeder = " + breeder.to_s +
+		", blinder = " + blinder.to_s +
+		", number = " + number.to_s +
+		", draw = " + draw.to_s +
+		", single_rating = " + single_rating.to_s +
+		", final_place = " + final_place.to_s +
+		", non_runner = " + non_runner.to_s +
+		", races_run = " + races_run.to_s +
+		", victories = " + victories.to_s +
+		", places = " + places.to_s +
+		", earnings_career = " + earnings_career.to_s +
+		", earnings_current_year = " + earnings_current_year.to_s +
+		", earnings_last_year = " + earnings_last_year.to_s +
+		", earnings_victory = " + earnings_victory.to_s +
+		", description = " + description.to_s +
+		", distance = " + distance.to_s +
+		", load = " + load.to_s +
+		", history = " + history.to_s +
+		", url = " + url.to_s +
+		", score_horse = " + score_horse.to_s +
+		", score_jockey = " + score_jockey.to_s +
+		", score_owner = " + score_owner.to_s +
+		", score_trainer = " + score_trainer.to_s +
+		", score_breeder = " + score_breeder.to_s
+	end
 end
 

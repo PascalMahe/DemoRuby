@@ -5,6 +5,14 @@ class Weather
 	attr_accessor :temperature
 	attr_accessor :wind_speed
 	attr_accessor :insolation
+	
+	def to_s()
+		return "Weather : id = " + id.to_s +
+		", wind_direction = " + wind_direction.to_s + 
+		", temperature = " + temperature.to_s +
+		", wind_speed = " + wind_speed.to_s +
+		", insolation = " + insolation.to_s
+	end
 end
 
 class Meeting
@@ -16,6 +24,16 @@ class Meeting
 	attr_accessor :number
 	attr_accessor :url
 	attr_accessor :race_list
+	
+	def to_s()
+		return "Meeting : id = " + id.to_s +
+		", track_condition = " + track_condition.to_s + 
+		", job = " + job.to_s +
+		", date = " + date.to_s +
+		", racetrack = " + racetrack.to_s +
+		", number = " + number.to_s +
+		", url = " + url.to_s
+	end
 end
 
 class Race
@@ -34,4 +52,22 @@ class Race
 	attr_accessor :url
 	attr_accessor :value
 	attr_accessor :runner_list
+	
+	def to_s()
+		return "Race : id = " + id.to_s +
+		", meeting = " + meeting.to_s + 
+		", racetype = " + racetype.to_s +
+		", time = " + time.to_s +
+		", number = " + number.to_s +
+		", name = " + name.to_s +
+		", country = " + country.to_s + 
+		", result = " + result.to_s +
+		", result_insertion_time = " + result_insertion_time.to_s +
+		", distance = " + distance.to_s +
+		", detailed_conditions = " + detailed_conditions.to_s +
+		", bets = " + bets.to_s + 
+		", url = " + url.to_s +
+		", value = " + value.to_s +
+		", runner_list = " + runner_list.to_s
+	end
 end

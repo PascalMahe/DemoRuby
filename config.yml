@@ -1,4 +1,5 @@
 :gen:
  :time_lapse: 3.months
  :database_name: 'pmu.db'
+ :test_database_name: 'test.db'
  

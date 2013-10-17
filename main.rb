@@ -24,11 +24,11 @@ logger.debug("sql_select : " + sql_select.to_s)
 sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select)))
 config[:sql] = sql
 
+# Creating test interface with database
+logger.imp("TESTS")
+dbi = DatabaseInterface::new(logger, config[:gen][:test_database_name], config[:sql])
 
-# Creating interface with database
-dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config[:sql])
-
-logger.imp("CHECKING DATABASE EXISTENCE")
+logger.imp("Checcking Database Existence")
 table_nb = dbi.get_table_number()
 created = false
 if(table_nb < 22) then
@@ -38,17 +38,25 @@ if(table_nb < 22) then
 else 
 	logger.info("Tables already exist")
 end
-	
 
+logger.imp("Testing Objects")
 
-logger.imp("TESTING OBJECTS")
-
-job = Job.new
+job = Job::new
 job.start_time = start_time.strftime("%d/%m/%Y %H:%M:%S.%L")
-# job.loading_end_time = Time.now
-# job.crawling_end_time = Time.now
-# job.computing_end_time = Time.now
+job.loading_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
+job.crawling_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
+job.computing_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
 
 dbi.insert_job(job)
+
+selected_job = dbi.load_job(job.id)
+logger.debug(selected_job.to_s)
+
+#TODO : test other object
+
+# Creating test interface with database
+logger.imp("END TESTS")
+logger.imp("REAL STUFF")
+dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config[:sql])
 
 logger.end_log

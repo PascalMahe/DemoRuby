@@ -210,10 +210,5 @@
 				:distance,
 				:load,
 				:history,
-				:url,
-				:score_horse,
-				:score_jockey,
-				:score_owner,
-				:score_trainer,
-				:score_breeder
+				:url
 			)'
