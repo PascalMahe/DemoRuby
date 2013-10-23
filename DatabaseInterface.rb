@@ -81,16 +81,16 @@ class DatabaseInterface
 		ref_direction.id = execute_query(
 			@sql[:insert][:refdirection], 
 			@stat_insert_refdirection, 
-			:name => ref_direction.name, 
+			{:text => ref_direction.text}, 
 			true
 		)
 	end
 	
-	def insert_ref_track_condition(track_condition)
-		track_condition.id = execute_query(
+	def insert_ref_track_condition(ref_track_condition)
+		ref_track_condition.id = execute_query(
 			@sql[:insert][:reftrackcondition], 
 			@stat_insert_reftrackcondition, 
-			:name => track_condition.name, 
+			{:text => ref_track_condition.text}, 
 			true
 		)
 	end
@@ -99,7 +99,7 @@ class DatabaseInterface
 		ref_race_type.id = execute_query(
 			@sql[:insert][:refracetype], 
 			@stat_insert_refracetype, 
-			:name => ref_race_type.name, 
+			{:text => ref_race_type.text}, 
 			true
 		)
 	end
@@ -108,7 +108,7 @@ class DatabaseInterface
 		ref_column.id = execute_query(
 			@sql[:insert][:refcolumn], 
 			@stat_insert_refcolumn, 
-			:name => ref_column.name, 
+			{:text => ref_column.text}, 
 			true
 		)
 	end
@@ -117,7 +117,7 @@ class DatabaseInterface
 		ref_sex.id = execute_query(
 			@sql[:insert][:refsex], 
 			@stat_insert_refsex, 
-			:name => ref_sex.name, 
+			{:text => ref_sex.text}, 
 			true
 		)
 	end
@@ -126,7 +126,7 @@ class DatabaseInterface
 		ref_breed.id = execute_query(
 			@sql[:insert][:refbreed], 
 			@stat_insert_refbreed, 
-			:name => ref_breed.name, 
+			{:text => ref_breed.text}, 
 			true
 		)
 	end
@@ -135,7 +135,7 @@ class DatabaseInterface
 		ref_coat.id = execute_query(
 			@sql[:insert][:refcoat], 
 			@stat_insert_refcoat, 
-			:name => ref_coat.name, 
+			{:text => ref_coat.text}, 
 			true
 		)
 	end
@@ -144,7 +144,7 @@ class DatabaseInterface
 		ref_blinder.id = execute_query(
 			@sql[:insert][:refblinder], 
 			@stat_insert_refblinder, 
-			:name => ref_blinder.name, 
+			{:text => ref_blinder.text}, 
 			true
 		)
 	end
@@ -153,7 +153,7 @@ class DatabaseInterface
 		ref_shoes.id = execute_query(
 			@sql[:insert][:shoes], 
 			@stat_insert_shoes, 
-			:name => ref_shoes.name, 
+			{:text => ref_shoes.text}, 
 			true
 		)
 	end
@@ -169,6 +169,21 @@ class DatabaseInterface
 		weather.id = execute_query(
 			@sql[:insert][:weather], 
 			@stat_insert_weather, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_job(job)
+		values_hash = {
+			:start_time => job.start_time, 
+			:loading_end_time => job.loading_end_time,
+			:crawling_end_time => job.crawling_end_time,
+			:computing_end_time => job.computing_end_time
+		}
+		job.id = execute_query(
+			@sql[:insert][:job], 
+			@stat_insert_job, 
 			values_hash, 
 			true
 		)
@@ -214,158 +229,219 @@ class DatabaseInterface
 		)
 	end
 	
-	#TODO
-	def insert_job(job)
+	def insert_forecast(forecast)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:id_race => forecast.race.id, 
+			:id_origin => forecast.origin.id,
+			:expected_result => forecast.expected_result
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		forecast.id = execute_query(
+			@sql[:insert][:forecast], 
+			@stat_insert_forecast, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_weight(weight)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:id_forecast => weight.forecast.id, 
+			:name => weight.name,
+			:value => weight.value
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		weight.id = execute_query(
+			@sql[:insert][:weight], 
+			@stat_insert_weight, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_origin(origin)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:name => origin.name, 
+			:column_order => origin.column_order,
+			:url => origin.url
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		origin.id = execute_query(
+			@sql[:insert][:origin], 
+			@stat_insert_origin, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_jockey(jockey)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:name => jockey.name, 
+			:column_order => jockey.column_order,
+			:url => jockey.url
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		jockey.id = execute_query(
+			@sql[:insert][:jockey], 
+			@stat_insert_jockey, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_trainer(trainer)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:name => trainer.name
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		trainer.id = execute_query(
+			@sql[:insert][:trainer], 
+			@stat_insert_trainer, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_owner(owner)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:name => owner.name
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		owner.id = execute_query(
+			@sql[:insert][:owner], 
+			@stat_insert_owner, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_breeder(breeder)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:name => breeder.name
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		breeder.id = execute_query(
+			@sql[:insert][:breeder], 
+			@stat_insert_owner, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_horse(horse)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:id_sex => horse.sex.id, 
+			:id_breed => horse.breed.id,
+			:id_coat => horse.coat.id,
+			:name => horse.name
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		horse.id = execute_query(
+			@sql[:insert][:horse], 
+			@stat_insert_horse, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	def insert_runner(runner)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:id_race => runner.race.id, 
+			:id_horse => runner.horse.id,
+			:id_jockey => runner.jockey.id,
+			:id_trainer => runner.trainer.id, 
+			:id_owner => runner.owner.id,
+			:id_breeder => runner.breeder.id,
+			:id_blinder => runner.blinder.id, 
+			:id_shoes => runner.shoes.id,
+			:number => runner.number,
+			:draw => runner.draw, 
+			:single_rating => runner.single_rating,
+			:non_runner => runner.non_runner,
+			:races_run => runner.races_run, 
+			:victories => runner.victories,
+			:places => runner.places,
+			:earnings_career => runner.earnings_career, 
+			:earnings_current_year => runner.earnings_current_year,
+			:earnings_last_year => runner.earnings_last_year,
+			:earnings_victory => runner.earnings_victory, 
+			:description => runner.description,
+			:distance => runner.distance,
+			:load => runner.load, 
+			:history => runner.history,
+			:url => runner.url
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		runner.id = execute_query(
+			@sql[:insert][:runner], 
+			@stat_insert_runner, 
 			values_hash, 
 			true
 		)
 	end
 	
-	def insert_job(job)
+	#UPDATE
+	#race : update result & result_insertion_time
+	def update_race_with_result(race)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:result => race.result,
+			:result_insertion_time => 'now',
+			:id => race.id
 		}
-		job.id = execute_query(
-			@sql[:insert][:job], 
-			@stat_insert_job, 
+		execute_query(
+			@sql[:update][:race], 
+			@stat_update_race, 
 			values_hash, 
-			true
+			false
+		)
+	end
+	
+	#runner :final_place
+	def update_runner_with_final_place(runner)
+		values_hash = {
+			:final_place => runner.final_place,
+			:id => runner.id
+		}
+		execute_query(
+			@sql[:update][:runner], 
+			@stat_update_runner, 
+			values_hash, 
+			false
+		)
+	end
+	
+	#forecast : result_match_rate & normalised_result_match_rate
+	def update_runner_with_match_rate(forecast)
+		values_hash = {
+			:result_match_rate => forecast.result_match_rate,
+			:normalised_result_match_rate => forecast.normalised_result_match_rate,
+			:id => forecast.id
+		}
+		execute_query(
+			@sql[:update][:forecast], 
+			@stat_update_forecast, 
+			values_hash, 
+			false
 		)
 	end
 	
 	#LOADING QUERIES
+	#REFERENCE OBJECT LISTS
+	def load_ref_object_list(class_to_instanciate, query, statement)
+		ref_direction_list = {}
+		rows = execute_select(
+			query,
+			statement,
+			{}
+		)
+		rows.each do |row|
+			ref_dir = class_to_instanciate.new(row["id"], row["name"])
+			ref_direction_list[ref_dir] = ref_dir.id
+		end
+		return ref_direction_list
+	end
+	
+	def load_ref_direction_list()
+		test = RefDirection::new("-1", "test in DatabaseInterface")
+		return load_ref_object_list(
+			RefDirection, 
+			@sql[:select][:refdirectionlist],
+			@stat_select_ref_direction_list
+		)
+	end
+	
+	#BUSINESS
 	def load_job(id)
 		job = Job::new
 		result_set = execute_select_w_one_result(
@@ -381,4 +457,3 @@ class DatabaseInterface
 	end
 	
 end
-

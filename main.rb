@@ -1,6 +1,7 @@
 require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
 require './SimpleHtmlLogger.rb'
+require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'
 require './people.rb'
@@ -47,12 +48,16 @@ job.loading_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
 job.crawling_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
 job.computing_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
 
+dbi.insert_ref_direction(RefDirection::new("", "test1"))
 dbi.insert_job(job)
 
 selected_job = dbi.load_job(job.id)
 logger.debug(selected_job.to_s)
 
-#TODO : test other object
+#TODO : test other objects
+logger.info("Testing loading of RefObjects")
+ref_dir_list = dbi.load_ref_direction_list()
+logger.debug(ref_dir_list)
 
 # Creating test interface with database
 logger.imp("END TESTS")

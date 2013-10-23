@@ -99,7 +99,6 @@
 				expected_result TEXT,
 				result_match_rate REAL, /* ratio */
 				normalised_result_match_rate REAL, /* percent */
-				origin_score REAL,
 				FOREIGN KEY(id_race) REFERENCES Race(id_race),
 				FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
 			);'

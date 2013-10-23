@@ -1,14 +1,14 @@
 :insert:
  # REFERENCE TABLES
- :refdirection: 'INSERT INTO RefDirection (name) VALUES (:name)'
- :reftrackcondition: 'INSERT INTO RefTrackCondition (name) VALUES (:name)'
- :refracetype: 'INSERT INTO RefRaceType (name) VALUES (:name)'
- :refcolumn: 'INSERT INTO RefColumn (name) VALUES (:name)'
- :refsex: 'INSERT INTO RefSex (name) VALUES (:name)'
- :refbreed: 'INSERT INTO RefBreed (name) VALUES (:name)'
- :refcoat: 'INSERT INTO RefCoat(name) VALUES (:name)'
- :refblinder: 'INSERT INTO RefBlinder (name) VALUES (:name)'
- :refshoes: 'INSERT INTO RefShoes (name) VALUES (:name)'
+ :refdirection: 'INSERT INTO RefDirection (text) VALUES (:text)'
+ :reftrackcondition: 'INSERT INTO RefTrackCondition (text) VALUES (:text)'
+ :refracetype: 'INSERT INTO RefRaceType (text) VALUES (:text)'
+ :refcolumn: 'INSERT INTO RefColumn (text) VALUES (:text)'
+ :refsex: 'INSERT INTO RefSex (text) VALUES (:text)'
+ :refbreed: 'INSERT INTO RefBreed (text) VALUES (:text)'
+ :refcoat: 'INSERT INTO RefCoat(text) VALUES (:text)'
+ :refblinder: 'INSERT INTO RefBlinder (text) VALUES (:text)'
+ :refshoes: 'INSERT INTO RefShoes (text) VALUES (:text)'
   
  # BUSINESS TABLES
  :weather: 'INSERT INTO Weather (
@@ -84,17 +84,11 @@
  :forecast: 'INSERT INTO Forecast(
 				id_race, 
 				id_origin, 
-				expected_result,
-				result_match_rate, 
-				normalised_result_match_rate, 
-				origin_score,
+				expected_result
 			) VALUES (
 				:race, 
 				:origin, 
-				:expected_result,
-				:result_match_rate, 
-				:normalised_result_match_rate, 
-				:origin_score,
+				:expected_result
 			)'
 
  :weight: 'INSERT INTO Weight(
@@ -165,8 +159,7 @@
 				id_shoes, 
 				number,
 				draw,
-				single_rating,
-				final_place,
+				single_rating
 				non_runner, 
 				races_run,
 				victories,
@@ -179,12 +172,7 @@
 				distance,
 				load,
 				history,
-				url,
-				score_horse,
-				score_jockey,
-				score_owner,
-				score_trainer,
-				score_breeder
+				url
 			) VALUES (
 				:race, 
 				:horse, 
@@ -196,8 +184,7 @@
 				:shoes, 
 				:number,
 				:draw,
-				:single_rating,
-				:final_place,
+				:single_rating
 				:non_runner, 
 				:races_run,
 				:victories,

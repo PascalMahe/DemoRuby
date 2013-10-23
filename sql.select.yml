@@ -1,4 +1,18 @@
 :select:
+ # SPECIAL TABLES
  :master: "SELECT COUNT(*) FROM sqlite_master WHERE type='table'"
+ 
+ # REFERENCE TABLES
+ :refdirectionlist: 'SELECT * FROM RefDirection'
+ :reftrackconditionlist: 'SELECT * FROM RefDirection'
+ :refracetypelist: 'SELECT * FROM RefDirection'
+ :refcolumnlist: 'SELECT * FROM RefDirection'
+ :refsexlist: 'SELECT * FROM RefDirection'
+ :refbreedlist: 'SELECT * FROM RefDirection'
+ :refcoatlist: 'SELECT * FROM RefDirection'
+ :refblinderlist: 'SELECT * FROM RefDirection'
+ :refshoeslist: 'SELECT * FROM RefDirection'
+ 
+ # BUSINESS TABLES
  :job: "SELECT * FROM Job WHERE id_job = :id"
 
