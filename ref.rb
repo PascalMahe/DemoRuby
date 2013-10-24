@@ -31,6 +31,12 @@ class RefRaceType < RefObject
 	end
 end
 
+class RefSex < RefObject
+	def to_s()
+		return to_s("RefSex")
+	end
+end
+
 class RefColumn < RefObject
 	def to_s()
 		return to_s("RefColumn")

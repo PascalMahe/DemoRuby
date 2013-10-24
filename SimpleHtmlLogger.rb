@@ -70,10 +70,11 @@ class SimpleHtmlLogger
 		timestamp = Time.now
 		#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
 		# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
-		str_now = timestamp.strftime("%d/%m/%Y %H:%M:%S.%L")
+		str_now = timestamp.strftime("%H:%M:%S.%L")
 		complete_log = str_now + " - " + level + " - " + message.to_s
 		puts(complete_log)
-		@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + message.to_s + '</td>')
+		html_message = html_escape(message.to_s)
+		@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
  	end
 	
 	def info(message)
@@ -96,6 +97,12 @@ class SimpleHtmlLogger
 		File.open(html_filename, "r").each_line do |line|
 			@file.write(line)
 		end
+	end
+	
+	def html_escape(string)
+		html_escaped_string = string.gsub("<", "&lt;")
+		html_escaped_string = html_escaped_string.gsub(">", "&gt;")
+		return html_escaped_string
 	end
 end
 

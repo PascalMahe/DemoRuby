@@ -151,7 +151,7 @@ class DatabaseInterface
 	
 	def insert_ref_shoes(ref_shoes)
 		ref_shoes.id = execute_query(
-			@sql[:insert][:shoes], 
+			@sql[:insert][:refshoes], 
 			@stat_insert_shoes, 
 			{:text => ref_shoes.text}, 
 			true
@@ -419,25 +419,89 @@ class DatabaseInterface
 	#LOADING QUERIES
 	#REFERENCE OBJECT LISTS
 	def load_ref_object_list(class_to_instanciate, query, statement)
-		ref_direction_list = {}
+		ref_object_list = {}
 		rows = execute_select(
 			query,
 			statement,
 			{}
 		)
 		rows.each do |row|
-			ref_dir = class_to_instanciate.new(row["id"], row["name"])
-			ref_direction_list[ref_dir] = ref_dir.id
+			ref_dir = class_to_instanciate.new(row["id"], row["text"])
+			ref_object_list[ref_dir.id] = ref_dir
 		end
-		return ref_direction_list
+		return ref_object_list
 	end
 	
 	def load_ref_direction_list()
-		test = RefDirection::new("-1", "test in DatabaseInterface")
 		return load_ref_object_list(
 			RefDirection, 
 			@sql[:select][:refdirectionlist],
 			@stat_select_ref_direction_list
+		)
+	end
+	
+	def load_ref_track_condition_list()
+		return load_ref_object_list(
+			RefTrackCondition, 
+			@sql[:select][:reftrackconditionlist],
+			@stat_select_ref_track_condition
+		)
+	end
+	
+	def load_ref_race_type_list()
+		return load_ref_object_list(
+			RefRaceType, 
+			@sql[:select][:refracetypelist],
+			@stat_select_ref_race_type_list
+		)
+	end
+	
+	def load_ref_column_list()
+		return load_ref_object_list(
+			RefColumn, 
+			@sql[:select][:refcolumnlist],
+			@stat_select_ref_column_list
+		)
+	end
+	
+	def load_ref_sex_list()
+		return load_ref_object_list(
+			RefSex, 
+			@sql[:select][:refsexlist],
+			@stat_select_ref_sex_list
+		)
+	end
+	
+	def load_ref_breed_list()
+		return load_ref_object_list(
+			RefBreed, 
+			@sql[:select][:refbreedlist],
+			@stat_select_ref_breed_list
+		)
+	end
+	
+	
+	def load_ref_coat_list()
+		return load_ref_object_list(
+			RefCoat, 
+			@sql[:select][:refcoatlist],
+			@stat_select_ref_coat_list
+		)
+	end
+	
+	def load_ref_blinder_list()
+		return load_ref_object_list(
+			RefBlinder, 
+			@sql[:select][:refblinderlist],
+			@stat_select_ref_blinder_list
+		)
+	end
+	
+	def load_ref_shoes_list()
+		return load_ref_object_list(
+			RefShoes, 
+			@sql[:select][:refshoeslist],
+			@stat_select_ref_shoes_list
 		)
 	end
 	
