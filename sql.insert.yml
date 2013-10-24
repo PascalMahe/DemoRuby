@@ -9,6 +9,7 @@
  :refcoat: 'INSERT INTO RefCoat(text) VALUES (:text)'
  :refblinder: 'INSERT INTO RefBlinder (text) VALUES (:text)'
  :refshoes: 'INSERT INTO RefShoes (text) VALUES (:text)'
+ :ref_object: 'INSERT INTO %s (text) VALUES (:text)'
   
  # BUSINESS TABLES
  :weather: 'INSERT INTO Weather (

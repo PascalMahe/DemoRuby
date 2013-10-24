@@ -3,16 +3,18 @@
  :master: "SELECT COUNT(*) FROM sqlite_master WHERE type='table'"
  
  # REFERENCE TABLES
- :refdirectionlist: 'SELECT * FROM RefDirection'
- :reftrackconditionlist: 'SELECT * FROM RefTrackCondition'
- :refracetypelist: 'SELECT * FROM RefRaceType'
- :refcolumnlist: 'SELECT * FROM RefColumn'
- :refsexlist: 'SELECT * FROM RefSex'
- :refbreedlist: 'SELECT * FROM RefBreed'
- :refcoatlist: 'SELECT * FROM RefCoat'
- :refblinderlist: 'SELECT * FROM RefBlinder'
- :refshoeslist: 'SELECT * FROM RefShoes'
+ :ref_direction_list: 'SELECT * FROM RefDirection'
+ :ref_trackcondition_list: 'SELECT * FROM RefTrackCondition'
+ :ref_racetype_list: 'SELECT * FROM RefRaceType'
+ :ref_column_list: 'SELECT * FROM RefColumn'
+ :ref_sex_list: 'SELECT * FROM RefSex'
+ :ref_breed_list: 'SELECT * FROM RefBreed'
+ :ref_coat_list: 'SELECT * FROM RefCoat'
+ :ref_blinder_list: 'SELECT * FROM RefBlinder'
+ :ref_shoes_list: 'SELECT * FROM RefShoes'
  
  # BUSINESS TABLES
- :job: "SELECT * FROM Job WHERE id_job = :id"
+ :job_by_id: "SELECT * FROM Job WHERE id_job = :id"
+ :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
+ :meeting_by_id: "SELECT * FROM Meeting WHERE id_meeting = :id"
 

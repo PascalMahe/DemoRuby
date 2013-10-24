@@ -10,12 +10,14 @@ require './DatabaseInterface.rb'
 
 start_time = Time.now
 
+# Initializing logger
 logger = SimpleHtmlLogger::new(SimpleHtmlLogger::Debug)
-logger.info("START TIME: " + start_time.strftime("%d/%m/%Y %H:%M:%S.%L"))
 
 # Read config file
 config = []
 config = YAML.load_file("config.yml") # From file (cf. http://strugglingwithruby.blogspot.fr/2008/10/yaml.html)
+logger.info("START TIME: " + start_time.strftime(config[:gen][:default_date_time_format]))
+
 logger.debug("Config : " + config.to_s)
 sql_create = YAML.load_file("sql.table_creation.yml")
 sql_delete = YAML.load_file("sql.table_deletion.yml")
@@ -24,6 +26,12 @@ sql_select = YAML.load_file("sql.select.yml")
 logger.debug("sql_select : " + sql_select.to_s)
 sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select)))
 config[:sql] = sql
+loading_end_time = Time.now
+
+# Creating job 
+current_job = Job::new
+current_job.start_time = start_time
+current_job.loading_end_time = loading_end_time
 
 # Creating test interface with database
 logger.imp("TESTS")
@@ -42,19 +50,6 @@ end
 
 logger.imp("Testing Objects")
 
-job = Job::new
-job.start_time = start_time.strftime("%d/%m/%Y %H:%M:%S.%L")
-job.loading_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
-job.crawling_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
-job.computing_end_time = Time.now.strftime("%d/%m/%Y %H:%M:%S.%L")
-
-
-dbi.insert_job(job)
-
-selected_job = dbi.load_job(job.id)
-logger.debug(selected_job.to_s)
-
-#TODO : test other objects
 logger.info("Testing loading of RefObjects")
 #dbi.insert_ref_direction(RefDirection::new("", "test1"))
 #dbi.insert_ref_track_condition(RefTrackCondition::new("", "test1"))
@@ -66,46 +61,52 @@ logger.info("Testing loading of RefObjects")
 #dbi.insert_ref_blinder(RefBlinder::new("", "test1"))
 #dbi.insert_ref_shoes(RefShoes::new("", "test1"))
 
+ref_list_hash = dbi.load_all_refs()
 
-logger.info("RefDirection : ")
-ref_dir_list = dbi.load_ref_direction_list()
-logger.debug(ref_dir_list.to_s)
+logger.info("Testing creation of Business Objects")
 
-logger.info("RefTrackCondition : ")
-ref_track_condition_list = dbi.load_ref_track_condition_list()
-logger.debug(ref_track_condition_list)
+logger.info("Testing Job")
+job = Job::new
+job.start_time = start_time.strftime(config[:gen][:default_date_time_format])
+job.loading_end_time = Time.now.strftime(config[:gen][:default_date_time_format])
+job.crawling_end_time = Time.now.strftime(config[:gen][:default_date_time_format])
+job.computing_end_time = Time.now.strftime(config[:gen][:default_date_time_format])
 
-logger.info("RefRaceType : ")
-ref_race_type_list = dbi.load_ref_race_type_list()
-logger.debug(ref_race_type_list)
+dbi.insert_job(job)
 
-logger.info("RefColumn : ")
-ref_column_list = dbi.load_ref_column_list()
-logger.debug(ref_column_list)
+selected_job = dbi.load_job_by_id(job.id, config[:gen][:default_date_time_format])
+logger.debug(selected_job.to_s)
 
-logger.info("RefSex : ")
-ref_sex_list = dbi.load_ref_sex_list()
-logger.debug(ref_sex_list)
+logger.info("Testing Weather")
+weather = Weather::new
+weather.wind_direction = ref_list_hash[:ref_direction_list]["S"]
+weather.temperature = 19
+weather.wind_speed = 11
+weather.insolation = "P6.png"
 
-logger.info("RefBreed : ")
-ref_breed_list = dbi.load_ref_breed_list()
-logger.debug(ref_breed_list)
+dbi.insert_weather(weather)
 
-logger.info("RefCoat : ")
-ref_coat_list = dbi.load_ref_coat_list()
-logger.debug(ref_coat_list)
+selected_weather = dbi.load_weather_by_id(weather.id)
+logger.debug(selected_weather.to_s)
 
-logger.info("RefBlinder : ")
-ref_blinder_list = dbi.load_ref_blinder_list()
-logger.debug(ref_blinder_list)
+logger.info("Testing Meeting")
+meeting = Meeting::new
+meeting.job = selected_job
+meeting.track_condition = ref_list_hash[:ref_trackcondition_list]["Terrain bon", logger]
+meeting.date = Time.now.strftime(config[:gen][:default_date_format])
+meeting.racetrack = "Auteuil"
+meeting.number = 11
+meeting.url = "http://www.test.com"
 
-logger.info("RefShoes : ")
-ref_shoes_list = dbi.load_ref_shoes_list()
-logger.debug(ref_shoes_list)
+dbi.insert_meeting(meeting)
 
-# Creating test interface with database
+selected_meeting = dbi.load_meeting_by_id(meeting.id)
+logger.debug(selected_meeting.to_s)
+
 logger.imp("END TESTS")
+
 logger.imp("REAL STUFF")
+# Creating real interface with database
 dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config[:sql])
 
 logger.end_log

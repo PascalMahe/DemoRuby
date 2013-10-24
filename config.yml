@@ -2,4 +2,7 @@
  :time_lapse: 3.months
  :database_name: 'pmu.db'
  :test_database_name: 'test.db'
+ :default_date_time_format: '%d/%m/%Y %H:%M:%S.%L'
+ :default_date_format: '%d/%m/%Y'
+ :default_time_format: '%H:%M:%S.%L'
  
