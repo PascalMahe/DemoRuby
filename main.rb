@@ -35,7 +35,7 @@ current_job.loading_end_time = loading_end_time
 
 # Creating test interface with database
 logger.imp("TESTS")
-dbi = DatabaseInterface::new(logger, config[:gen][:test_database_name], config[:sql])
+dbi = DatabaseInterface::new(logger, config[:gen][:test_database_name], config)
 
 logger.imp("Checcking Database Existence")
 table_nb = dbi.get_table_number()
@@ -74,7 +74,7 @@ job.computing_end_time = Time.now.strftime(config[:gen][:default_date_time_forma
 
 dbi.insert_job(job)
 
-selected_job = dbi.load_job_by_id(job.id, config[:gen][:default_date_time_format])
+selected_job = dbi.load_job_by_id(job.id)
 logger.debug(selected_job.to_s)
 
 logger.info("Testing Weather")
@@ -107,6 +107,6 @@ logger.imp("END TESTS")
 
 logger.imp("REAL STUFF")
 # Creating real interface with database
-dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config[:sql])
+dbi = DatabaseInterface::new(logger, config[:gen][:database_name], config)
 
 logger.end_log

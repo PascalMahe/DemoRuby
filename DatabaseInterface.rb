@@ -2,14 +2,15 @@ require 'sqlite3'
 
 class DatabaseInterface
 	
-	def initialize(logger, database_name, sql_hash)
+	def initialize(logger, database_name, config)
 		@logger = logger
 		@db = SQLite3::Database.new (database_name)
 		# cf. http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670696
 		@db.type_translation = true
 		# cf. http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670736
 		@db.results_as_hash = true
-		@sql = sql_hash
+		@sql = config[:sql]
+		@config = config
 	end
 	
 	#For INSERT, UPDATE or DELETE
@@ -572,17 +573,21 @@ class DatabaseInterface
 	
 	
 	#BUSINESS
-	def load_job_by_id(id, format)
+	def load_job_by_id(id)
 		job = Job::new
 		result_set = execute_select_w_one_result(
 			@sql[:select][:job_by_id], 
 			@stat_select_job_by_id, 
 			:id => id)
 		job.id = id
-		job.start_time = result_set["start_time"].strftime(format)
-		job.loading_end_time = result_set["loading_end_time"].strftime(format)
-		job.crawling_end_time = result_set["crawling_end_time"].strftime(format)
-		job.computing_end_time = result_set["computing_end_time"].strftime(format)
+		job.start_time = result_set["start_time"]
+			.strftime(@config[:gen][:default_date_format])
+		job.loading_end_time = result_set["loading_end_time"]
+			.strftime(@config[:gen][:default_date_format])
+		job.crawling_end_time = result_set["crawling_end_time"]
+			.strftime(@config[:gen][:default_date_format])
+		job.computing_end_time = result_set["computing_end_time"]
+			.strftime(@config[:gen][:default_date_format])
 		return job
 	end
 	
