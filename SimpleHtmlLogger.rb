@@ -66,15 +66,17 @@ class SimpleHtmlLogger
 	end
 	
 	def log(level, message)
-		timestamp = Time.now
-		#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
-		# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
-		str_now = timestamp.strftime("%H:%M:%S.%L")
-		color_code = get_color_code_from_level(level)
-		complete_log = colorize(str_now + " - " + level + " - " + message.to_s, color_code)
-		puts(complete_log)
-		html_message = html_escape(message.to_s)
-		@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
+		# if can_write_level?(level) then
+			timestamp = Time.now
+			#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
+			# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
+			str_now = timestamp.strftime("%H:%M:%S.%L")
+			color_code = get_color_code_from_level(level)
+			complete_log = colorize(str_now + " - " + level + " - " + message.to_s, color_code)
+			puts(complete_log)
+			html_message = html_escape(message.to_s)
+			@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
+		# end
  	end
 	
 	def get_color_code_from_level(level)
@@ -89,6 +91,24 @@ class SimpleHtmlLogger
 		end
 		return color_code
 	end
+	
+	def can_write_level?(level_to_check)
+		if level_to_check == Important or level_to_check == Error then
+			return true
+		end
+		if level_to_check == Info then
+			if @level != Debug then
+				return true
+			else
+				return false
+			end
+		end
+		if @level == Debug then
+			return true
+		end
+		return false
+	end
+	
 	
 	# see http://stackoverflow.com/a/2070405/2112089
 	def colorize(text, color_code)

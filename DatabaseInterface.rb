@@ -14,6 +14,7 @@ class DatabaseInterface
 		@db.type_translation = true
 		# cf. http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670736
 		@db.results_as_hash = true
+		
 		@sql = config[:sql]
 		@config = config
 	end
@@ -24,6 +25,10 @@ class DatabaseInterface
 			log_message = log_message + ", with values : " + values_hash.to_s
 		end
 		@logger.debug(log_message)
+	end
+	
+	def transaction_active?
+		return @db.transaction_active?
 	end
 	
 	#For INSERT, UPDATE or DELETE
@@ -44,9 +49,12 @@ class DatabaseInterface
 				@logger.debug("Insertion Ok, got ID : " + id.to_s)
 				return id
 			end
-		rescue SQLite3::Exception => e 
-			@logger.error "Exception occured"
-			@logger.error e
+		rescue SQLite3::BusyException => e 
+			@logger.error "BusyException occured"
+			@logger.error e.to_s
+		rescue SQLite3::LockedException => e 
+			@logger.error "LockedException occured"
+			@logger.error e.to_s
 		end
 	end
 	
@@ -77,7 +85,11 @@ class DatabaseInterface
 		end
 		begin
 			statement.bind_params(values_hash)
-			return statement.execute().first
+			result_set = statement.execute
+			# @logger.debug("Result_set : " + result_set.to_s)
+			row = result_set.next
+			result_set.close
+			return row
 		rescue SQLite3::Exception => e 
 			@logger.error "Exception occured"
 			@logger.error e
@@ -188,8 +200,8 @@ class DatabaseInterface
 	end
 	def insert_ref_track_condition(ref_track_condition)
 		ref_track_condition.id = execute_query(
-			@sql[:insert][:ref_trackcondition], 
-			@stat_insert_reftrackcondition, 
+			@sql[:insert][:ref_track_condition], 
+			@stat_insert_ref_track_condition, 
 			{:text => ref_track_condition.text}, 
 			true
 		)
@@ -230,7 +242,7 @@ class DatabaseInterface
 		values_hash = {
 			:track_condition => meeting.track_condition.id, 
 			:job => meeting.job.id,
-			:date => meeting.date,
+			:date => meeting.date.strftime(@config[:gen][:default_date_format]),
 			:racetrack => meeting.racetrack,
 			:number => meeting.number,
 			:url => meeting.url
@@ -618,37 +630,48 @@ class DatabaseInterface
 	
 	
 	#BUSINESS
+	def load_breeder_by_id(id)
+		breeder = Breeder::new
+		row = execute_select_w_one_result(
+			@sql[:select][:breeder_by_id], 
+			@stat_select_breeder_by_id, 
+			:id => id)
+		breeder.id = id
+		breeder.name = row["name"]
+		return breeder
+	end
+	
 	def load_job_by_id(id)
 		job = Job::new
-		result_set = execute_select_w_one_result(
+		row = execute_select_w_one_result(
 			@sql[:select][:job_by_id], 
 			@stat_select_job_by_id, 
 			:id => id)
 		job.id = id
-		job.start_time = result_set["start_time"]
-			.strftime(@config[:gen][:default_date_format])
-		job.loading_end_time = result_set["loading_end_time"]
-			.strftime(@config[:gen][:default_date_format])
-		job.crawling_end_time = result_set["crawling_end_time"]
-			.strftime(@config[:gen][:default_date_format])
-		job.computing_end_time = result_set["computing_end_time"]
-			.strftime(@config[:gen][:default_date_format])
+		job.start_time = row["start_time"]
+			.strftime(@config[:gen][:default_date_time_format])
+		job.loading_end_time = row["loading_end_time"]
+			.strftime(@config[:gen][:default_date_time_format])
+		job.crawling_end_time = row["crawling_end_time"]
+			.strftime(@config[:gen][:default_date_time_format])
+		job.computing_end_time = row["computing_end_time"]
+			.strftime(@config[:gen][:default_date_time_format])
 		return job
 	end
 	
 	def load_weather_by_id(id)
 		weather = Weather::new
-		result_set = execute_select_w_one_result(
+		row = execute_select_w_one_result(
 			@sql[:select][:weather_by_id], 
 			@stat_select_weather_by_id, 
 			:id => id)
 			
 		weather.id = id
-		weather.temperature = result_set["temperature"]
-		weather.wind_speed = result_set["wind_speed"]
-		weather.insolation = result_set["insolation"]
+		weather.temperature = row["temperature"]
+		weather.wind_speed = row["wind_speed"]
+		weather.insolation = row["insolation"]
 		# Wind_direction : get from RefDirection list
-		wind_direction_id = result_set["id_wind_direction"]
+		wind_direction_id = row["id_wind_direction"]
 		wind_direction = @ref_list_hash[:ref_direction_list].get(wind_direction_id)
 		weather.wind_direction = wind_direction
 		
@@ -657,62 +680,63 @@ class DatabaseInterface
 	
 	def load_meeting_by_id(id)
 		meeting = Meeting::new
-		result_set = execute_select_w_one_result(
+		row = execute_select_w_one_result(
 			@sql[:select][:meeting_by_id], 
 			@stat_select_meeting_by_id, 
 			:id => id)
 		meeting.id = id
 		
-		meeting.id = id
-		meeting.date = result_set["date"]
-		meeting.racetrack = result_set["racetrack"]
-		meeting.number = result_set["number"]
-		meeting.url = result_set["url"]
+		meeting.date = row["date"]
+		meeting.racetrack = row["racetrack"]
+		meeting.number = row["number"]
+		meeting.url = row["url"]
 		# track_condition : get from RefTrackCondition list
-		track_condition_id = result_set["id_track_condition"]
+		track_condition_id = row["id_track_condition"]
 		track_condition = @ref_list_hash[:ref_trackcondition_list].get(track_condition_id)
 		meeting.track_condition = track_condition
 		
 		# job : loaded from database
-		job_id = result_set["id_job"]
+		job_id = row["id_job"]
 		job = load_job_by_id(job_id)
 		meeting.job = job
+	
 		return meeting
 	end
 	
 	def load_race_by_id(id)
 		race = Race::new
-		result_set = execute_select_w_one_result(
+		row = execute_select_w_one_result(
 			@sql[:select][:race_by_id], 
 			@stat_select_race_by_id, 
 			:id => id)
 			
-		@logger.debug(result_set)
+		@logger.debug(row)
 		
 		race.id = id
+
 		# simple values
-		race.time = result_set["time"]
-		race.number = result_set["number"]
-		race.name = result_set["name"]
-		race.country = result_set["country"]		
-		race.result = result_set["result"]
-		race.result_insertion_time = result_set["result_insertion_time"]
-		race.distance = result_set["distance"]
-		race.detailed_conditions = result_set["detailed_conditions"]		
-		race.bets = result_set["bets"]
-		race.url = result_set["url"]
-		race.value = result_set["value"]
+		race.time = row["time"]
+		race.number = row["number"]
+		race.name = row["name"]
+		race.country = row["country"]		
+		race.result = row["result"]
+		race.result_insertion_time = row["result_insertion_time"]
+		race.distance = row["distance"]
+		race.detailed_conditions = row["detailed_conditions"]		
+		race.bets = row["bets"]
+		race.url = row["url"]
+		race.value = row["value"]
 		
 		# race_type : get from RefRaceType list
-		race_type_id = result_set["id_race_type"]
+		race_type_id = row["id_race_type"]
 		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id, @logger)
 		race.race_type = race_type
 		
 		# objects
-		meeting_id = result_set["id_meeting"]
+		meeting_id = row["id_meeting"]
 		meeting = load_meeting_by_id(meeting_id)
 		race.meeting = meeting
-		
+
 		return race
 	end
 end

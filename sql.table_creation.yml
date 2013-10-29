@@ -38,13 +38,31 @@
 					);'
 
 # BUSINESS TABLES 
- :weather: 'CREATE TABLE IF NOT EXISTS Weather(
-				id_weather INTEGER PRIMARY KEY,
-				id_wind_direction INTEGER, /* FK to RefDirection */
-				temperature INTEGER, /* in degrees C */
-				wind_speed INTEGER,
-				insolation TEXT,
-				FOREIGN KEY(id_wind_direction) REFERENCES RefDirection(id)
+ :breeder: 'CREATE TABLE IF NOT EXISTS Breeder(
+				id_breeder INTEGER PRIMARY KEY,
+				name TEXT
+			);'
+
+ :forecast: 'CREATE TABLE IF NOT EXISTS Forecast(
+				id_forecast INTEGER PRIMARY KEY,
+				id_race INTEGER, /* FK to Race */
+				id_origin INTEGER, /* FK to Origin */
+				expected_result TEXT,
+				result_match_rate REAL, /* ratio */
+				normalised_result_match_rate REAL, /* percent */
+				FOREIGN KEY(id_race) REFERENCES Race(id_race),
+				FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
+			);'			
+
+ :horse: 'CREATE TABLE IF NOT EXISTS Horse(
+				id_horse INTEGER PRIMARY KEY,
+				id_sex INTEGER, /* FK to RefSex */
+				id_breed INTEGER, /* FK to RefBreed */
+				id_coat INTEGER, /* FK to RefCoat */
+				name TEXT,
+				FOREIGN KEY(id_sex) REFERENCES RefSex(id),
+				FOREIGN KEY(id_breed) REFERENCES RefBreed(id),
+				FOREIGN KEY(id_coat) REFERENCES RefCoat(id)
 			);'
 
  :job: 'CREATE TABLE IF NOT EXISTS Job(
@@ -54,6 +72,12 @@
 			crawling_end_time DATETIME,
 			computing_end_time DATETIME
 		);'
+
+ :jockey: 'CREATE TABLE IF NOT EXISTS Jockey(
+				id_jockey INTEGER PRIMARY KEY,
+				name TEXT,
+				jacket TEXT
+			);'
 
  :meeting: 'CREATE TABLE IF NOT EXISTS Meeting(
 				id_meeting INTEGER PRIMARY KEY,
@@ -65,6 +89,18 @@
 				url TEXT,
 				FOREIGN KEY(id_track_condition) REFERENCES RefTrackCondition(id)
 				FOREIGN KEY(id_job) REFERENCES Job(id_job)
+			);'
+
+ :origin: 'CREATE TABLE IF NOT EXISTS Origin(
+				id_origin INTEGER PRIMARY KEY,
+				name TEXT,
+				column_order TEXT,
+				url TEXT
+			);'
+
+ :owner: 'CREATE TABLE IF NOT EXISTS Owner(
+				id_owner INTEGER PRIMARY KEY,
+				name TEXT
 			);'
 
  :race: 'CREATE TABLE IF NOT EXISTS Race(
@@ -85,64 +121,6 @@
 			FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id),
 			FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
 		);'
-
- :forecast: 'CREATE TABLE IF NOT EXISTS Forecast(
-				id_forecast INTEGER PRIMARY KEY,
-				id_race INTEGER, /* FK to Race */
-				id_origin INTEGER, /* FK to Origin */
-				expected_result TEXT,
-				result_match_rate REAL, /* ratio */
-				normalised_result_match_rate REAL, /* percent */
-				FOREIGN KEY(id_race) REFERENCES Race(id_race),
-				FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
-			);'
-
- :weight: 'CREATE TABLE IF NOT EXISTS Weight(
-				id_weight INTEGER PRIMARY KEY,
-				id_forecast INTEGER, /* FK to Forecast */
-				name TEXT,
-				value REAL,
-				FOREIGN KEY(id_forecast) REFERENCES Forecast(id_forecast)
-			);'
-
- :origin: 'CREATE TABLE IF NOT EXISTS Origin(
-				id_origin INTEGER PRIMARY KEY,
-				name TEXT,
-				column_order TEXT,
-				url TEXT
-			);'
-
- :jockey: 'CREATE TABLE IF NOT EXISTS Jockey(
-				id_jockey INTEGER PRIMARY KEY,
-				name TEXT,
-				jacket TEXT
-			);'
-
- :trainer: 'CREATE TABLE IF NOT EXISTS Trainer(
-				id_trainer INTEGER PRIMARY KEY,
-				name TEXT
-			);'
-
- :owner: 'CREATE TABLE IF NOT EXISTS Owner(
-				id_owner INTEGER PRIMARY KEY,
-				name TEXT
-			);'
-
- :breeder: 'CREATE TABLE IF NOT EXISTS Breeder(
-				id_breeder INTEGER PRIMARY KEY,
-				name TEXT
-			);'
-
- :horse: 'CREATE TABLE IF NOT EXISTS Horse(
-				id_horse INTEGER PRIMARY KEY,
-				id_sex INTEGER, /* FK to RefSex */
-				id_breed INTEGER, /* FK to RefBreed */
-				id_coat INTEGER, /* FK to RefCoat */
-				name TEXT,
-				FOREIGN KEY(id_sex) REFERENCES RefSex(id),
-				FOREIGN KEY(id_breed) REFERENCES RefBreed(id),
-				FOREIGN KEY(id_coat) REFERENCES RefCoat(id)
-			);'
 
  :runner: 'CREATE TABLE IF NOT EXISTS Runner(
 				id_runner INTEGER PRIMARY KEY,
@@ -179,4 +157,26 @@
 				FOREIGN KEY(id_breeder) REFERENCES Breeder(id),
 				FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id),
 				FOREIGN KEY(id_shoes) REFERENCES RefShoes(id)
+			);'
+
+ :trainer: 'CREATE TABLE IF NOT EXISTS Trainer(
+				id_trainer INTEGER PRIMARY KEY,
+				name TEXT
+			);'
+
+ :weather: 'CREATE TABLE IF NOT EXISTS Weather(
+				id_weather INTEGER PRIMARY KEY,
+				id_wind_direction INTEGER, /* FK to RefDirection */
+				temperature INTEGER, /* in degrees C */
+				wind_speed INTEGER,
+				insolation TEXT,
+				FOREIGN KEY(id_wind_direction) REFERENCES RefDirection(id)
+			);'
+
+ :weight: 'CREATE TABLE IF NOT EXISTS Weight(
+				id_weight INTEGER PRIMARY KEY,
+				id_forecast INTEGER, /* FK to Forecast */
+				name TEXT,
+				value REAL,
+				FOREIGN KEY(id_forecast) REFERENCES Forecast(id_forecast)
 			);'

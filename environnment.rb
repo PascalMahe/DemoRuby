@@ -36,6 +36,24 @@ class Meeting
 		", url = " + url.to_s + 
 		"]"
 	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Meeting then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.track_condition == self.track_condition and
+		other_object.job == self.job and
+		other_object.date == self.date and
+		other_object.racetrack == self.racetrack and
+		other_object.number == self.number and
+		other_object.url == self.url and
+		other_object.race_list == self.race_list then
+			return true
+		else 
+			return false
+		end
+	end
 end
 
 class Race

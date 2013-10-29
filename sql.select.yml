@@ -14,6 +14,7 @@
  :ref_shoes_list: 'SELECT * FROM RefShoes'
  
  # BUSINESS TABLES
+ :breeder_by_id: "SELECT * FROM Breeder WHERE id_breeder = :id"
  :job_by_id: "SELECT * FROM Job WHERE id_job = :id"
  :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
  :meeting_by_id: "SELECT * FROM Meeting WHERE id_meeting = :id"

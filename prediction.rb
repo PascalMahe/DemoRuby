@@ -13,6 +13,21 @@ class Job
 		", crawling_end_time = " + crawling_end_time.to_s +
 		", computing_end_time = " + computing_end_time.to_s + "]"
 	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Job then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.start_time == self.start_time and
+		other_object.loading_end_time == self.loading_end_time and
+		other_object.crawling_end_time == self.crawling_end_time and
+		other_object.computing_end_time == self.computing_end_time then
+			return true
+		else 
+			return false
+		end
+	end
 end
 
 class Forecast
