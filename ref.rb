@@ -27,7 +27,7 @@ class RefObjectContainer < Hash
 	def [](text, logger = nil)
 		if not self.has_key?(text) then
 			if logger != nil then 
-				logger.debug("Looking for %s in :" % text)
+				logger.debug("Looking for text = %s in :" % text)
 				logger.debug(self)
 			end
 			ref_to_add = @class.new(text)
@@ -40,13 +40,54 @@ class RefObjectContainer < Hash
 	end
 	
 	#fetches from id
-	def get(key)
+	def get(key, logger = nil)
 		# Select gets the element such as value.id == key
 		# and returns a hash containing that element.
 		# cf. http://www.ruby-doc.org/core-2.0.0/Hash.html#method-i-select
 		new_hash = self.select{|k,v| v.id == key}
+		
+		if logger != nil then 
+			logger.debug("Looking for id = %s in :" % key)
+			logger.debug(self)
+		end
 		# We only want the first element
 		return new_hash.shift()[1]
+	end
+end
+
+class RefBlinder < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefBlinder")
+	end
+end
+
+class RefBreed < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefBreed")
+	end
+end
+
+class RefCoat < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefCoat")
+	end
+end
+
+class RefColumn < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefColumn")
 	end
 end
 
@@ -59,66 +100,12 @@ class RefDirection < RefObject
 	end
 end
 
-class RefTrackCondition < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return super_to_s("RefTrackCondition")
-	end
-end
-
 class RefRaceType < RefObject
 		
 	alias :super_to_s :to_s
 
 	def to_s()
-		return to_s("RefRaceType")
-	end
-end
-
-class RefSex < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return to_s("RefSex")
-	end
-end
-
-class RefColumn < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return to_s("RefColumn")
-	end
-end
-
-class RefBreed < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return to_s("RefBreed")
-	end
-end
-
-class RefCoat < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return to_s("RefCoat")
-	end
-end
-
-class RefBlinder < RefObject
-		
-	alias :super_to_s :to_s
-
-	def to_s()
-		return to_s("RefBlinder")
+		return super_to_s("RefRaceType")
 	end
 end
 
@@ -127,7 +114,25 @@ class RefShoes < RefObject
 	alias :super_to_s :to_s
 
 	def to_s()
-		return to_s("RefShoes")
+		return super_to_s("RefShoes")
+	end
+end
+
+class RefSex < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefSex")
+	end
+end
+
+class RefTrackCondition < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefTrackCondition")
 	end
 end
 

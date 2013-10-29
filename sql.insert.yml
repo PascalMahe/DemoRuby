@@ -1,14 +1,14 @@
 :insert:
  # REFERENCE TABLES
- :refdirection: 'INSERT INTO RefDirection (text) VALUES (:text)'
- :reftrackcondition: 'INSERT INTO RefTrackCondition (text) VALUES (:text)'
- :refracetype: 'INSERT INTO RefRaceType (text) VALUES (:text)'
- :refcolumn: 'INSERT INTO RefColumn (text) VALUES (:text)'
- :refsex: 'INSERT INTO RefSex (text) VALUES (:text)'
- :refbreed: 'INSERT INTO RefBreed (text) VALUES (:text)'
- :refcoat: 'INSERT INTO RefCoat(text) VALUES (:text)'
- :refblinder: 'INSERT INTO RefBlinder (text) VALUES (:text)'
- :refshoes: 'INSERT INTO RefShoes (text) VALUES (:text)'
+ :ref_blinder: 'INSERT INTO RefBlinder (text) VALUES (:text)'
+ :ref_breed: 'INSERT INTO RefBreed (text) VALUES (:text)'
+ :ref_coat: 'INSERT INTO RefCoat(text) VALUES (:text)'
+ :ref_column: 'INSERT INTO RefColumn (text) VALUES (:text)'
+ :ref_direction: 'INSERT INTO RefDirection (text) VALUES (:text)'
+ :ref_race_type: 'INSERT INTO RefRaceType (text) VALUES (:text)'
+ :ref_sex: 'INSERT INTO RefSex (text) VALUES (:text)'
+ :ref_shoes: 'INSERT INTO RefShoes (text) VALUES (:text)'
+ :ref_track_condition: 'INSERT INTO RefTrackCondition (text) VALUES (:text)'
  :ref_object: 'INSERT INTO %s (text) VALUES (:text)'
   
  # BUSINESS TABLES
@@ -52,9 +52,35 @@
 				:url
 			)'
 
- :race: 'INSERT INTO Race(
+ :race_without_result: 'INSERT INTO Race(
 			id_meeting, 
-			id_racetype, 
+			id_race_type, 
+			time,
+			number,
+			name,
+			country,
+			distance, 
+			detailed_conditions,
+			bets, 
+			url,
+			value
+		) VALUES (
+			:meeting, 
+			:race_type, 
+			:time,
+			:number,
+			:name,
+			:country,
+			:distance, 
+			:detailed_conditions,
+			:bets, 
+			:url,
+			:value
+		)'
+
+ :race_with_result: 'INSERT INTO Race(
+			id_meeting, 
+			id_race_type, 
 			time,
 			number,
 			name,
@@ -68,7 +94,7 @@
 			value
 		) VALUES (
 			:meeting, 
-			:racetype, 
+			:race_type, 
 			:time,
 			:number,
 			:name,

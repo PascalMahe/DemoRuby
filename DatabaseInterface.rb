@@ -2,9 +2,14 @@ require 'sqlite3'
 
 class DatabaseInterface
 	
-	def initialize(logger, database_name, config)
-		@logger = logger
-		@db = SQLite3::Database.new (database_name)
+	def initialize(config, is_test)
+		@logger = config[:logger]
+		if is_test then
+			db_name = config[:gen][:test_database_name]
+		else 
+			db_name = config[:gen][:database_name]
+		end
+		@db = SQLite3::Database.new (db_name)
 		# cf. http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670696
 		@db.type_translation = true
 		# cf. http://sqlite-ruby.rubyforge.org/sqlite3/faq.html#538670736
@@ -13,15 +18,26 @@ class DatabaseInterface
 		@config = config
 	end
 	
+	def log_nicely(message_header, query, values_hash = nil)
+		log_message = message_header + query
+		if values_hash != nil or values_hash.empty? then
+			log_message = log_message + ", with values : " + values_hash.to_s
+		end
+		@logger.debug(log_message)
+	end
+	
 	#For INSERT, UPDATE or DELETE
-	def execute_query(query, statement, values_hash, is_insertion)
+	def execute_query(query, statement = nil, values_hash = nil, is_insertion = nil)
 		if statement == nil then
 			statement = @db.prepare(query)
 		end
-		@logger.debug("Executing query : " + query +
-			", with values : " + values_hash.to_s)
+		
+		log_nicely("Executing query : ", query, values_hash)
+		
 		begin
-			statement.bind_params(values_hash)
+			if values_hash != nil then
+				statement.bind_params(values_hash)
+			end
 			statement.execute()
 			if is_insertion then
 				id = @db.last_insert_row_id()
@@ -39,8 +55,9 @@ class DatabaseInterface
 		if statement == nil then
 			statement = @db.prepare(query)
 		end
-		@logger.debug("Executing query : " + query + ", with values : " + 
-			values_hash.to_s)
+		
+		log_nicely("Executing query : ", query, values_hash)
+		
 		begin
 			statement.bind_params(values_hash)
 			return statement.execute()			
@@ -52,8 +69,9 @@ class DatabaseInterface
 	
 	#For SELECT with one result
 	def execute_select_w_one_result(query, statement, values_hash)
-		@logger.debug("Executing query : " + query + 
-			", with values : " + values_hash.to_s)
+
+		log_nicely("Fetching first result of query : ", query, values_hash)
+			
 		if statement == nil then
 			statement = @db.prepare(query)
 		end
@@ -76,6 +94,12 @@ class DatabaseInterface
 		end
 	end
 	
+	def drop_tables()
+		@sql[:drop].each do |query_array|
+			execute_query(query_array[1])
+		end
+	end
+	
 	#INSERTION QUERIES
 	#REF
 	def insert_ref_object(ref_class, ref_object)
@@ -91,47 +115,11 @@ class DatabaseInterface
 		)
 	end
 	
-	def insert_ref_direction(ref_direction)
-		ref_direction.id = execute_query(
-			@sql[:insert][:ref_direction], 
-			@stat_insert_refdirection, 
-			{:text => ref_direction.text}, 
-			true
-		)
-	end
-	
-	def insert_ref_track_condition(ref_track_condition)
-		ref_track_condition.id = execute_query(
-			@sql[:insert][:ref_trackcondition], 
-			@stat_insert_reftrackcondition, 
-			{:text => ref_track_condition.text}, 
-			true
-		)
-	end
-	
-	def insert_ref_race_type(ref_race_type)
-		ref_race_type.id = execute_query(
-			@sql[:insert][:ref_racetype], 
-			@stat_insert_refracetype, 
-			{:text => ref_race_type.text}, 
-			true
-		)
-	end
-	
-	def insert_ref_column(ref_column)
-		ref_column.id = execute_query(
-			@sql[:insert][:ref_column], 
-			@stat_insert_refcolumn, 
-			{:text => ref_column.text}, 
-			true
-		)
-	end
-	
-	def insert_ref_sex(ref_sex)
-		ref_sex.id = execute_query(
-			@sql[:insert][:ref_sex], 
-			@stat_insert_refsex, 
-			{:text => ref_sex.text}, 
+	def insert_ref_blinder(ref_blinder)
+		ref_blinder.id = execute_query(
+			@sql[:insert][:ref_blinder], 
+			@stat_insert_refblinder, 
+			{:text => ref_blinder.text}, 
 			true
 		)
 	end
@@ -154,20 +142,55 @@ class DatabaseInterface
 		)
 	end
 	
-	def insert_ref_blinder(ref_blinder)
-		ref_blinder.id = execute_query(
-			@sql[:insert][:ref_blinder], 
-			@stat_insert_refblinder, 
-			{:text => ref_blinder.text}, 
+	def insert_ref_column(ref_column)
+		ref_column.id = execute_query(
+			@sql[:insert][:ref_column], 
+			@stat_insert_refcolumn, 
+			{:text => ref_column.text}, 
 			true
 		)
 	end
 	
+	def insert_ref_direction(ref_direction)
+		ref_direction.id = execute_query(
+			@sql[:insert][:ref_direction], 
+			@stat_insert_refdirection, 
+			{:text => ref_direction.text}, 
+			true
+		)
+	end
+	
+	def insert_ref_race_type(ref_race_type)
+		ref_race_type.id = execute_query(
+			@sql[:insert][:ref_race_type], 
+			@stat_insert_refrace_type, 
+			{:text => ref_race_type.text}, 
+			true
+		)
+	end
+
+	def insert_ref_sex(ref_sex)
+		ref_sex.id = execute_query(
+			@sql[:insert][:ref_sex], 
+			@stat_insert_refsex, 
+			{:text => ref_sex.text}, 
+			true
+		)
+	end
+		
 	def insert_ref_shoes(ref_shoes)
 		ref_shoes.id = execute_query(
 			@sql[:insert][:ref_shoes], 
 			@stat_insert_shoes, 
 			{:text => ref_shoes.text}, 
+			true
+		)
+	end
+	def insert_ref_track_condition(ref_track_condition)
+		ref_track_condition.id = execute_query(
+			@sql[:insert][:ref_trackcondition], 
+			@stat_insert_reftrackcondition, 
+			{:text => ref_track_condition.text}, 
 			true
 		)
 	end
@@ -220,15 +243,16 @@ class DatabaseInterface
 		)
 	end
 	
-	def insert_race(race)
+	def insert_race_with_result(race)
 		values_hash = {
-			:id_meeting => race.meeting.id, 
-			:id_racetype => race.racetype.id,
+			:meeting => race.meeting.id, 
+			:race_type => race.race_type.id,
 			:time => race.time,
 			:number => race.number, 
 			:name => race.name,
 			:country => race.country,
 			:result => race.result, 
+			:result_insertion_time => race.result_insertion_time, 
 			:distance => race.distance,
 			:detailed_conditions => race.detailed_conditions,
 			:bets => race.bets,
@@ -236,8 +260,30 @@ class DatabaseInterface
 			:value => race.value
 		}
 		race.id = execute_query(
-			@sql[:insert][:race], 
-			@stat_insert_race, 
+			@sql[:insert][:race_with_result], 
+			@stat_insert_race_with_result, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_race_without_result(race)
+		values_hash = {
+			:meeting => race.meeting.id, 
+			:race_type => race.race_type.id,
+			:time => race.time,
+			:number => race.number, 
+			:name => race.name,
+			:country => race.country, 
+			:distance => race.distance,
+			:detailed_conditions => race.detailed_conditions,
+			:bets => race.bets,
+			:url => race.url,
+			:value => race.value
+		}
+		race.id = execute_query(
+			@sql[:insert][:race_without_result], 
+			@stat_insert_race_without_result, 
 			values_hash, 
 			true
 		)
@@ -445,44 +491,12 @@ class DatabaseInterface
 		end
 		return ref_object_list
 	end
-	
-	def load_ref_direction_list()
+		
+	def load_ref_blinder_list()
 		return load_ref_object_list(
-			RefDirection, 
-			@sql[:select][:ref_direction_list],
-			@stat_select_ref_direction_list
-		)
-	end
-	
-	def load_ref_track_condition_list()
-		return load_ref_object_list(
-			RefTrackCondition, 
-			@sql[:select][:ref_trackcondition_list],
-			@stat_select_ref_track_condition
-		)
-	end
-	
-	def load_ref_race_type_list()
-		return load_ref_object_list(
-			RefRaceType, 
-			@sql[:select][:ref_racetype_list],
-			@stat_select_ref_race_type_list
-		)
-	end
-	
-	def load_ref_column_list()
-		return load_ref_object_list(
-			RefColumn, 
-			@sql[:select][:ref_column_list],
-			@stat_select_ref_column_list
-		)
-	end
-	
-	def load_ref_sex_list()
-		return load_ref_object_list(
-			RefSex, 
-			@sql[:select][:ref_sex_list],
-			@stat_select_ref_sex_list
+			RefBlinder, 
+			@sql[:select][:ref_blinder_list],
+			@stat_select_ref_blinder_list
 		)
 	end
 	
@@ -494,7 +508,6 @@ class DatabaseInterface
 		)
 	end
 	
-	
 	def load_ref_coat_list()
 		return load_ref_object_list(
 			RefCoat, 
@@ -503,11 +516,35 @@ class DatabaseInterface
 		)
 	end
 	
-	def load_ref_blinder_list()
+	def load_ref_column_list()
 		return load_ref_object_list(
-			RefBlinder, 
-			@sql[:select][:ref_blinder_list],
-			@stat_select_ref_blinder_list
+			RefColumn, 
+			@sql[:select][:ref_column_list],
+			@stat_select_ref_column_list
+		)
+	end
+		
+	def load_ref_direction_list()
+		return load_ref_object_list(
+			RefDirection, 
+			@sql[:select][:ref_direction_list],
+			@stat_select_ref_direction_list
+		)
+	end
+	
+	def load_ref_race_type_list()
+		return load_ref_object_list(
+			RefRaceType, 
+			@sql[:select][:ref_race_type_list],
+			@stat_select_ref_race_type_list
+		)
+	end
+	
+	def load_ref_sex_list()
+		return load_ref_object_list(
+			RefSex, 
+			@sql[:select][:ref_sex_list],
+			@stat_select_ref_sex_list
 		)
 	end
 	
@@ -516,6 +553,14 @@ class DatabaseInterface
 			RefShoes, 
 			@sql[:select][:ref_shoes_list],
 			@stat_select_ref_shoes_list
+		)
+	end
+	
+	def load_ref_track_condition_list()
+		return load_ref_object_list(
+			RefTrackCondition, 
+			@sql[:select][:ref_track_condition_list],
+			@stat_select_ref_track_condition
 		)
 	end
 	
@@ -560,7 +605,7 @@ class DatabaseInterface
 		@ref_list_hash = {
 			:ref_direction_list => ref_dir_list,
 			:ref_trackcondition_list => ref_track_condition_list,
-			:ref_racetype_list => ref_race_type_list,
+			:ref_race_type_list => ref_race_type_list,
 			:ref_column_list => ref_column_list,
 			:ref_sex_list => ref_sex_list,
 			:ref_breed_list => ref_breed_list,
@@ -633,5 +678,41 @@ class DatabaseInterface
 		job = load_job_by_id(job_id)
 		meeting.job = job
 		return meeting
+	end
+	
+	def load_race_by_id(id)
+		race = Race::new
+		result_set = execute_select_w_one_result(
+			@sql[:select][:race_by_id], 
+			@stat_select_race_by_id, 
+			:id => id)
+			
+		@logger.debug(result_set)
+		
+		race.id = id
+		# simple values
+		race.time = result_set["time"]
+		race.number = result_set["number"]
+		race.name = result_set["name"]
+		race.country = result_set["country"]		
+		race.result = result_set["result"]
+		race.result_insertion_time = result_set["result_insertion_time"]
+		race.distance = result_set["distance"]
+		race.detailed_conditions = result_set["detailed_conditions"]		
+		race.bets = result_set["bets"]
+		race.url = result_set["url"]
+		race.value = result_set["value"]
+		
+		# race_type : get from RefRaceType list
+		race_type_id = result_set["id_race_type"]
+		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id, @logger)
+		race.race_type = race_type
+		
+		# objects
+		meeting_id = result_set["id_meeting"]
+		meeting = load_meeting_by_id(meeting_id)
+		race.meeting = meeting
+		
+		return race
 	end
 end

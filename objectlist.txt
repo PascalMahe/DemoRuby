@@ -12,14 +12,12 @@ Breeder
 Horse
 Runner
 RefObject
-	RefDirection
-	RefTrackCondition
-	RefRaceType
-	RefColumn
-	RefSex
+	RefBlinder
 	RefBreed
 	RefCoat
-	RefBlinder
+	RefColumn
+	RefDirection
+	RefRaceType
+	RefSex
 	RefShoes
-	
-	
+	RefTrackCondition

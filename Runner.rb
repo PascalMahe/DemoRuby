@@ -33,7 +33,7 @@ class Runner
 	attr_accessor :score_breeder
 
 	def to_s()
-		return "Runner : id = " + id.to_s +
+		return "Runner[id = " + id.to_s +
 		", race = " + race.to_s +
 		", jockey = " + jockey.to_s +
 		", trainer = " + trainer.to_s +
@@ -61,7 +61,8 @@ class Runner
 		", score_jockey = " + score_jockey.to_s +
 		", score_owner = " + score_owner.to_s +
 		", score_trainer = " + score_trainer.to_s +
-		", score_breeder = " + score_breeder.to_s
+		", score_breeder = " + score_breeder.to_s + 
+		"]"
 	end
 end
 
