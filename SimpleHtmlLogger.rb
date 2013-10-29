@@ -64,18 +64,36 @@ class SimpleHtmlLogger
 		copy_html_to_log_file("log_html_footer.htm")
 		@file.close
 	end
-
 	
 	def log(level, message)
 		timestamp = Time.now
 		#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
 		# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
 		str_now = timestamp.strftime("%H:%M:%S.%L")
-		complete_log = str_now + " - " + level + " - " + message.to_s
+		color_code = get_color_code_from_level(level)
+		complete_log = colorize(str_now + " - " + level + " - " + message.to_s, color_code)
 		puts(complete_log)
 		html_message = html_escape(message.to_s)
 		@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
  	end
+	
+	def get_color_code_from_level(level)
+		if level == Important then 
+			color_code = 34
+		elsif level == Error then 
+			color_code = 31
+		elsif level == Debug then 
+			color_code = 35
+		else 
+			color_code = 37
+		end
+		return color_code
+	end
+	
+	# see http://stackoverflow.com/a/2070405/2112089
+	def colorize(text, color_code)
+	  "\e[#{color_code}m#{text}\e[0m"
+	end
 	
 	def info(message)
 		log(Info, message)
