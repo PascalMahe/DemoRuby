@@ -15,8 +15,16 @@
  
  # BUSINESS TABLES
  :breeder_by_id: "SELECT * FROM Breeder WHERE id_breeder = :id"
+ :forecast_by_id: "SELECT * FROM Forecast WHERE id_forecast = :id"
+ :horse_by_id: "SELECT * FROM Horse WHERE id_horse = :id"
  :job_by_id: "SELECT * FROM Job WHERE id_job = :id"
- :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
+ :jockey_by_id: "SELECT * FROM Jockey WHERE id_jockey = :id"
  :meeting_by_id: "SELECT * FROM Meeting WHERE id_meeting = :id"
+ :origin_by_id: "SELECT * FROM Origin WHERE id_origin = :id"
+ :owner_by_id: "SELECT * FROM Owner WHERE id_owner = :id"
  :race_by_id: "SELECT * FROM Race WHERE id_race = :id"
+ :runner_by_id: "SELECT * FROM Runner WHERE id_runner = :id"
+ :trainer_by_id: "SELECT * FROM Trainer WHERE id_trainer = :id"
+ :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
+ :weight_by_id: "SELECT * FROM Weight WHERE id_weight = :id"
 

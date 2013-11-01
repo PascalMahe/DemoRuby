@@ -21,11 +21,15 @@
  :forecast: 'INSERT INTO Forecast(
 				id_race, 
 				id_origin, 
-				expected_result
+				expected_result,
+				result_match_rate,
+				normalised_result_match_rate
 			) VALUES (
 				:race, 
 				:origin, 
-				:expected_result
+				:expected_result,
+				:result_match_rate, 
+				:normalised_result_match_rate
 			)'
 
  :horse: 'INSERT INTO Horse(
@@ -37,7 +41,7 @@
 				:sex, 
 				:breed, 
 				:coat, 
-				name)'			
+				:name)'			
 
  :job: 'INSERT INTO Job(
 			start_time, 
@@ -158,7 +162,7 @@
 				id_shoes, 
 				number,
 				draw,
-				single_rating
+				single_rating,  
 				non_runner, 
 				races_run,
 				victories,
@@ -183,7 +187,7 @@
 				:shoes, 
 				:number,
 				:draw,
-				:single_rating
+				:single_rating,
 				:non_runner, 
 				:races_run,
 				:victories,
@@ -220,9 +224,9 @@
  :weight: 'INSERT INTO Weight(
 				id_forecast, 
 				name,
-				value,
+				value
 			) VALUES (
-				:id_forecast, 
+				:forecast, 
 				:name,
-				:value,
+				:value
 			)'

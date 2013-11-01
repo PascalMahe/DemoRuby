@@ -10,6 +10,19 @@ class Jockey
 		", jacket = " + jacket.to_s + 
 		"]"
 	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Jockey then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.name == self.name and
+		other_object.jacket == self.jacket then
+			return true
+		else 
+			return false
+		end
+	end
 end
 
 class Trainer
@@ -20,6 +33,18 @@ class Trainer
 		return "Trainer[id = " + id.to_s +
 		", name = " + name.to_s + 
 		"]"
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Trainer then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.name == self.name then
+			return true
+		else 
+			return false
+		end
 	end
 end
 
@@ -32,6 +57,18 @@ class Owner
 		", name = " + name.to_s + 
 		"]"
 	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Owner then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.name == self.name then
+			return true
+		else 
+			return false
+		end
+	end
 end
 
 class Breeder
@@ -42,6 +79,18 @@ class Breeder
 		return "Breeder[id = " + id.to_s +
 		", name = " + name.to_s + 
 		"]"
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Breeder then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.name == self.name then
+			return true
+		else 
+			return false
+		end
 	end
 end
 
@@ -59,6 +108,21 @@ class Horse
 		", breed = " + breed.to_s + 
 		", coat = " + coat.to_s + 
 		"]"
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Horse then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.name == self.name and
+		other_object.sex == self.sex and
+		other_object.breed == self.breed and
+		other_object.coat == self.coat then
+			return true
+		else 
+			return false
+		end
 	end
 end
 

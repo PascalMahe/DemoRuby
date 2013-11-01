@@ -19,10 +19,10 @@ class Job
 			return false
 		end
 		if other_object.id == self.id and
-		other_object.start_time == self.start_time and
-		other_object.loading_end_time == self.loading_end_time and
-		other_object.crawling_end_time == self.crawling_end_time and
-		other_object.computing_end_time == self.computing_end_time then
+			other_object.start_time == self.start_time and
+			other_object.loading_end_time == self.loading_end_time and
+			other_object.crawling_end_time == self.crawling_end_time and
+			other_object.computing_end_time == self.computing_end_time then
 			return true
 		else 
 			return false
@@ -47,7 +47,23 @@ class Forecast
 		", result_match_rate = " + result_match_rate.to_s +
 		", normalised_result_match_rate = " + normalised_result_match_rate.to_s + 
 		"]"
-		
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Forecast then
+			return false
+		end
+		if other_object.id == self.id and
+			other_object.race == self.race and
+			other_object.origin == self.origin and
+			other_object.expected_result == self.expected_result and
+			other_object.result_match_rate == self.result_match_rate and
+			other_object.normalised_result_match_rate == self.normalised_result_match_rate and
+			other_object.origin_score == self.origin_score then
+			return true
+		else 
+			return false
+		end
 	end
 end
 
@@ -77,6 +93,20 @@ class Origin
 		", name = " + start_time.to_s + 
 		", column_order = " + loading_end_time.to_s + 
 		"]"
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Origin then
+			return false
+		end
+		if other_object.id == self.id and
+			other_object.name == self.name and
+			other_object.column_order == self.column_order and
+			other_object.url == self.url then
+			return true
+		else 
+			return false
+		end
 	end
 end
 

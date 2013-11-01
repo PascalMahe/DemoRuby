@@ -11,6 +11,18 @@ class RefObject
 		return ref_class + "[id = " + id.to_s +
 		", text = " + text.to_s + "]"
 	end
+	
+	def ==(other_object)
+		if not other_object.instance_of? self.class then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.text == self.text then
+			return true
+		else 
+			return false
+		end
+	end
 end
 
 class RefObjectContainer < Hash

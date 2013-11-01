@@ -91,4 +91,28 @@ class Race
 		", runner_list = " + runner_list.to_s + 
 		"]"
 	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Race then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.meeting == self.meeting and
+		other_object.race_type == self.race_type and
+		other_object.time == self.time and
+		other_object.number == self.number and
+		other_object.name == self.name and
+		other_object.country == self.country and
+		other_object.result == self.result and
+		other_object.result_insertion_time == self.result_insertion_time and
+		other_object.distance == self.distance and
+		other_object.detailed_conditions == self.detailed_conditions and
+		other_object.bets == self.bets and
+		other_object.url == self.url and
+		other_object.value == self.value then
+			return true
+		else 
+			return false
+		end
+	end
 end
