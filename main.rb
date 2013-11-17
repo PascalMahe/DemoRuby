@@ -1,5 +1,6 @@
 ﻿require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
+require 'test/unit'
 require './common.rb'
 require './SimpleHtmlLogger.rb'
 require './ref.rb'
@@ -8,6 +9,7 @@ require './prediction.rb'
 require './people.rb'
 require './Runner.rb'
 require './DatabaseInterface.rb'
+
 
 start_time = Time.now
 config = load_config()
@@ -40,20 +42,12 @@ else
 	logger.info("Tables already exist")
 end
 
-logger.info("Loading reference values")
-ref_list_hash = dbi.load_all_refs()
 
-logger.imp("Testing Objects")
-
-logger.info("Testing creation of Business Objects")
-
-#TestDatabaseInterface.test_insert_job
-
-#TestDatabaseInterface.test_insert_weather
-
-#TestDatabaseInterface.test_insert_meeting
-
-#TestDatabaseInterface.test_insert_race
+#create a new empty TestSuite, giving it a name
+db_tests = Test::Unit::TestSuite.new("Database Interfacing Tests")
+db_tests << TestDatabaseInterface.new('test_insert_breeder')#calls TestDatabaseInterface#test_insert_breeder
+#run the suite
+Test::Unit::UI::Console::TestRunner.run(db_tests)
 
 
 logger.imp("END TESTS")
@@ -61,5 +55,7 @@ logger.imp("END TESTS")
 logger.imp("REAL STUFF")
 # Creating real interface with database
 dbi = DatabaseInterface::new(config, false)
+logger.info("Loading reference values")
+ref_list_hash = dbi.load_all_refs()
 
 logger.end_log

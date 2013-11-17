@@ -1,0 +1,3 @@
+(new Image).src = 'https://ib.adnxs.com/getuid?https%3a%2f%2fpix.impdesk.com%2fapn%2fpixel%3fua%3dMozilla%252f5.0%2520(Windows%2520NT%25206.1%253b%2520WOW64%253b%2520rv%253a25.0)%2520Gecko%252f20100101%2520Firefox%252f25.0%26referer%3dhttp%253a%252f%252fpmu3.solution.weborama.fr%252ffcgi-bin%252fperformance.fcgi%253fID%253d445947%2526A%253d2%2526TR%253d9541%2526AR%253d1%2526AV%253d0%2526H%253dI%2526J%253d1%2526da%253d1384556680%26ip%3d180879377%26id%3d1127%26apn_user_id%3d$UID';
+(new Image).src = 'https://pixel.rubiconproject.com/tap.php?v=17913&nid=2931&put=52869384B9A9E910F47B980F&expires=30';
+(new Image).src = 'https://cm.g.doubleclick.net/pixel?google_nid=infectiousuk&google_hm=UoaThLmp6RD0e5gP';
