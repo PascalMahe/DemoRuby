@@ -5,9 +5,7 @@ INSTALLING RUBY :
  - check version in install_ruby.bat
 	-> if different from 2.0.0 (x64), change it
  - run install_ruby.bat
-
  
- TESTING PASSWORD AND LOGIN IN .HGRC
 --------------------------------
 INSTALLING RUBY DevKit : 
 --------------------------------
