@@ -23,7 +23,7 @@ INSTALLING RUBY DevKit :
 
 	
 --------------------------------
- INSTALLING Selenium WebDriver: 
+ INSTALLING Selenium WebDriver & Sqlite3 : 
 --------------------------------
  - run install_gems.bat
  - if it fails because of proxy, see inside for commands to go through the proxy
