@@ -72,9 +72,11 @@ class SimpleHtmlLogger
 			# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
 			str_now = timestamp.strftime("%H:%M:%S.%L")
 			color_code = get_color_code_from_level(level)
-			complete_log = colorize(str_now + " - " + level + " - " + message.to_s, color_code)
+			complete_log = terminal_pretty(message.to_s)
+			complete_log = colorize(str_now + " - " + level + " - " + complete_log, color_code)
 			puts(complete_log)
 			html_message = html_escape(message.to_s)
+			html_message = html_pretty(html_message)
 			@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
 		# end
  	end
@@ -141,6 +143,34 @@ class SimpleHtmlLogger
 		html_escaped_string = string.gsub("<", "&lt;")
 		html_escaped_string = html_escaped_string.gsub(">", "&gt;")
 		return html_escaped_string
+	end
+	
+	def pretty(string, new_line_string)
+		# regex : ',' not between parentheses (see http://stackoverflow.com/a/9030062/2112089)
+		#','		=> Match a comma
+		#'(?!'		=> only if it's not followed by...
+		#'[^(]*'	=> any number of characters except opening parens
+		#'\)'		=> followed by a closing parens
+		#')'		=> End of lookahead
+		#
+		pretty_string = string.gsub(/(,(?![^(]*\)))/, "," + new_line_string)
+		# regex : '[' not followed by ']'
+		pretty_string = pretty_string.gsub(/(\[)([^\]])/, '\1' + new_line_string + '\2')
+		# regex : ']' when not preceded by '['
+		pretty_string = pretty_string.gsub(/([^\[])(\])/, '\1' + new_line_string + '\2')
+		# regex : '{' not followed by '}'
+		pretty_string = pretty_string.gsub(/({)([^}])/, '\1' + new_line_string + '\2')
+		# regex : '}' when not preceded by '{'
+		pretty_string = pretty_string.gsub(/([^{])(})/, '\1' + new_line_string + '\2')
+		return pretty_string
+	end
+	
+	def html_pretty(string)		
+		return pretty(string, '<br/>')
+	end
+	
+	def terminal_pretty(string)
+		return pretty(string, "\n\t")
 	end
 end
 
