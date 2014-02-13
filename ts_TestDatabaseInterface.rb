@@ -247,7 +247,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_trainer
-		@logger.info("Testing Trainer")
+		@logger.info("Testing insertion of Trainer")
 		trainer = Trainer::new
 		trainer.name = "R.CHOTARD"
 
@@ -259,7 +259,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_weather
-		@logger.info("Testing Weather")
+		@logger.info("Testing insertion of Weather")
 		weather = Weather::new
 		weather.wind_direction = @ref_list_hash[:ref_direction_list]["S"]
 		weather.temperature = 19
@@ -277,7 +277,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_weight
-		@logger.info("Testing Weight")
+		@logger.info("Testing insertion of Weight")
 		weight = Weight::new
 		weight.forecast = @dbi.load_forecast_by_id(1)
 		weight.name = "flLfD"
