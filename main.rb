@@ -72,8 +72,13 @@ begin #general exception catching block
 	  :ftp      => PROXY,
 	  :ssl      => PROXY
 	)
+	
+	# Proxy problem : see http://tech.danbarrese.com/2013/04/08/solved-use-watir-webdriver-behind-proxy/
+	# and http://code.google.com/p/selenium/issues/detail?id=4300
+	ENV['no_proxy'] = '127.0.0.1'
+	
 	#Loading browser
-	driver = Selenium::WebDriver.for(:firefox)
+	driver = Selenium::WebDriver.for(:firefox, :profile => profile)
 	driver.manage.timeouts.implicit_wait = 15 # seconds
 
 	logger.info("Starting to crawl")
@@ -83,14 +88,56 @@ begin #general exception catching block
 		base_adress = config[:gen][:base_adress_test]
 	end
 
+	# Getting main page
 	driver.get(base_adress)
-
+	
+	#TODO : loop on ALL* the days
+	# *ALL = config[:gen][::time_lapse]
+	date = Date::new(2013,11,15)
+	
+	#Fetching meetings
+	#Loop on meetings
+	meeting_list = []
+	html_meeting_list = driver.find_element(:class, "listReu")
+	html_meeting_list = html_meeting_list.find_elements(:xpath, "li/a")
+	logger.info("Loading meetings : there are " + html_meeting_list.size.to_s + " meetings.")
+	html_meeting_list.each do |meeting|
+		curr_meeting = Meeting::new
+		#Basic info for meetings
+		
+		curr_meeting.date = date
+		curr_meeting.url = meeting.attribute("href")
+		meeting_text_split = meeting.text.split(" - ")
+		curr_meeting.number = meeting_text_split[0]
+		curr_meeting.racetrack = meeting_text_split[1]
+		meeting_list.push(curr_meeting)
+		logger.debug(curr_meeting)
+		curr_meeting.job = current_job
+		
+		#Fetching races & weather
+		driver.get(curr_meeting.url)
+		curr_weather = Weather::new
+		curr_meeting.weather = curr_weather
+		#Basic weather info
+		html_weather_container = driver.find_element(:id, "container_meteo")
+		html_weather_img = html_weather_container.find_element(:xpath, "div/img")
+		curr_weather.insolation = html_weather_img.attribute("src")
+		weather_text = html_weather_container.text
+		weather_text_split_once = weather_text.split(" - ") #PAS TOUJOURS PRESENT, A REVOIR
+		curr_meeting.track_condition = ref_list_hash[:ref_track_condition_list][weather_text_split_once[0]]
+		weather_text_split_twice = weather_text_split_once[1].split()
+		weather.temperature = weather_text_split_twice[0]
+		weather.wind_speed = weather_text_split_twice[2]
+		weather.wind_direction = weather_text_split_twice[4]
+		logger.debug(weather)
+	end
+	
 
 #rescue ArgumentError, NameError => err
 #	logger.error(err)
 #	puts err
 rescue Exception => err
-	logger.error(err)
+	logger.error(err.inspect)
 	logger.error(err.backtrace)
 end
 
