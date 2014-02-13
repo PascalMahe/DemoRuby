@@ -24,6 +24,7 @@ class Meeting
 	attr_accessor :racetrack
 	attr_accessor :number
 	attr_accessor :url
+	attr_accessor :weather
 	attr_accessor :race_list
 	
 	def to_s()
@@ -34,6 +35,7 @@ class Meeting
 		", racetrack = " + racetrack.to_s +
 		", number = " + number.to_s +
 		", url = " + url.to_s + 
+		", weather = " + weather.to_s + 
 		"]"
 	end
 	
@@ -48,6 +50,7 @@ class Meeting
 		other_object.racetrack == self.racetrack and
 		other_object.number == self.number and
 		other_object.url == self.url and
+		other_object.weather == self.weather and
 		other_object.race_list == self.race_list then
 			return true
 		else 

@@ -83,12 +83,14 @@
 				id_meeting INTEGER PRIMARY KEY,
 				id_track_condition INTEGER, /* FK to RefTrackCondition */
 				id_job INTEGER, /* FK to Job */
+				id_weather INTEGER, /* FK to Weather */
 				date DATE,
 				racetrack TEXT,
 				number INTEGER, 
 				url TEXT,
 				FOREIGN KEY(id_track_condition) REFERENCES RefTrackCondition(id)
 				FOREIGN KEY(id_job) REFERENCES Job(id_job)
+				FOREIGN KEY(id_weather) REFERENCES Weather(id_weather)
 			);'
 
  :origin: 'CREATE TABLE IF NOT EXISTS Origin(
