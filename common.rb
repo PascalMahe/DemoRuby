@@ -4,9 +4,6 @@ require './SimpleHtmlLogger.rb'
 require './DatabaseInterface.rb'
 
 def load_config()
-	# Initializing logger
-	logger = SimpleHtmlLogger::new(SimpleHtmlLogger::Debug)
-	logger.info("Loading config")
 	
 	# Read config file
 	config = []
@@ -21,6 +18,5 @@ def load_config()
 	sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select)))
 	
 	config[:sql] = sql
-	config[:logger] = logger
 	return config
 end

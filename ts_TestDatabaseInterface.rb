@@ -9,17 +9,17 @@ require './Runner.rb'
 class TestDatabaseInterface < Test::Unit::TestCase
 
 	def setup
+		$logger = SimpleHtmlLogger::new(SimpleHtmlLogger::Debug)
     	if @config == nil then
 			@config = load_config()
-			@dbi = DatabaseInterface::new(@config, true)
-			@logger = @config[:logger]
+			@dbi = DatabaseInterface::new(@config, true)			
 			@ref_list_hash = @dbi.load_all_refs
-			@logger.imp("TEST SUITE : TestDatabaseInterface")
+			$logger.imp("TEST SUITE : TestDatabaseInterface")
 		end
     end
 	
 	def test_insert_breeder
-		@logger.info("Testing insertion of Breeder")
+		$logger.info("Testing insertion of Breeder")
 		breeder = Breeder::new
 		breeder.name = "LYNN LODGE STUD"
 		
@@ -30,7 +30,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_forecast
-		@logger.info("Testing insertion of Forecast")
+		$logger.info("Testing insertion of Forecast")
 		forecast = Forecast::new
 		forecast.race = @dbi.load_race_by_id(1)
 		forecast.origin = @dbi.load_origin_by_id(1)
@@ -49,11 +49,11 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_horse
-		@logger.info("Testing insertion of Horse")
+		$logger.info("Testing insertion of Horse")
 		horse = Horse::new
-		horse.sex = @ref_list_hash[:ref_sex_list]["M", @logger]
-		horse.breed = @ref_list_hash[:ref_breed_list]["Pur-sang", @logger]
-		horse.coat = @ref_list_hash[:ref_coat_list]["gris", @logger]
+		horse.sex = @ref_list_hash[:ref_sex_list]["M", $logger]
+		horse.breed = @ref_list_hash[:ref_breed_list]["Pur-sang", $logger]
+		horse.coat = @ref_list_hash[:ref_coat_list]["gris", $logger]
 		horse.name = "SILVER TREASURE"
 		horse.id = @dbi.insert_horse(horse)
 		
@@ -65,7 +65,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_job
-		@logger.info("Testing insertion of Job")
+		$logger.info("Testing insertion of Job")
 		job = Job::new
 		job.start_time = Time.now.strftime(@config[:gen][:default_date_time_format])
 		job.loading_end_time = Time.now.strftime(@config[:gen][:default_date_time_format])
@@ -83,7 +83,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_jockey
-		@logger.info("Testing insertion of Jockey")
+		$logger.info("Testing insertion of Jockey")
 		jockey = Jockey::new
 		jockey.jacket = "/turf/casaques/31102013/petites-casaques-course/1/4.png*-60px"
 		jockey.name = "c.soumillon"
@@ -95,10 +95,10 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 
 	def test_insert_meeting
-		@logger.info("Testing insertion of RMeeting")
+		$logger.info("Testing insertion of RMeeting")
 		meeting = Meeting::new
 		meeting.job = @dbi.load_job_by_id(1)
-		meeting.track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon", @logger]
+		meeting.track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon", $logger]
 		meeting.date = Time.now
 		meeting.racetrack = "Auteuil"
 		meeting.number = 11
@@ -120,7 +120,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_origin
-		@logger.info("Testing insertion of Origin")
+		$logger.info("Testing insertion of Origin")
 		origin = Origin::new
 		origin.name = "Single Rating"
 		origin.column_order = "single_rating"
@@ -135,7 +135,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_owner
-		@logger.info("Testing insertion of Owner")
+		$logger.info("Testing insertion of Owner")
 		owner = Owner::new
 		owner.name = "MLLE A.WEAVER"
 
@@ -146,10 +146,10 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_race
-		@logger.info("Testing insertion of Race")
+		$logger.info("Testing insertion of Race")
 		race = Race::new
 		race.meeting = @dbi.load_meeting_by_id(1)
-		race.race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions", @logger]
+		race.race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions", $logger]
 		race.time = Time.now.strftime(@config[:gen][:default_time_format])
 		race.number = 2
 		race.country = "BEL"
@@ -176,7 +176,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_ref_objects
-		@logger.info("Testing insertion of RefObjects")
+		$logger.info("Testing insertion of RefObjects")
 		@dbi.insert_ref_direction(RefDirection::new("", "test1"))
 		@dbi.insert_ref_track_condition(RefTrackCondition::new("", "test1"))
 		@dbi.insert_ref_race_type(RefRaceType::new("", "test1"))
@@ -189,7 +189,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_runner
-		@logger.info("Testing insertion of Runner")
+		$logger.info("Testing insertion of Runner")
 		runner = Runner::new
 		runner.race = @dbi.load_race_by_id(1)
 		runner.horse = @dbi.load_horse_by_id(1)
@@ -197,8 +197,8 @@ class TestDatabaseInterface < Test::Unit::TestCase
 		runner.trainer = @dbi.load_trainer_by_id(1)
 		runner.owner = @dbi.load_owner_by_id(1)
 		runner.breeder = @dbi.load_breeder_by_id(1)
-		runner.blinder = @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif", @logger]
-		runner.shoes = @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif", @logger]
+		runner.blinder = @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif", $logger]
+		runner.shoes = @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif", $logger]
 		runner.number = 1
 		runner.draw = 5
 		runner.single_rating = 9.7
@@ -247,7 +247,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_trainer
-		@logger.info("Testing insertion of Trainer")
+		$logger.info("Testing insertion of Trainer")
 		trainer = Trainer::new
 		trainer.name = "R.CHOTARD"
 
@@ -259,7 +259,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_weather
-		@logger.info("Testing insertion of Weather")
+		$logger.info("Testing insertion of Weather")
 		weather = Weather::new
 		weather.wind_direction = @ref_list_hash[:ref_direction_list]["S"]
 		weather.temperature = 19
@@ -277,7 +277,7 @@ class TestDatabaseInterface < Test::Unit::TestCase
 	end
 	
 	def test_insert_weight
-		@logger.info("Testing insertion of Weight")
+		$logger.info("Testing insertion of Weight")
 		weight = Weight::new
 		weight.forecast = @dbi.load_forecast_by_id(1)
 		weight.name = "flLfD"

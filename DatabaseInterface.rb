@@ -3,7 +3,7 @@ require 'sqlite3'
 class DatabaseInterface
 	
 	def initialize(config, is_test)
-		@logger = config[:logger]
+		
 		if is_test then
 			db_name = config[:gen][:test_database_name]
 		else 
@@ -24,7 +24,7 @@ class DatabaseInterface
 		if values_hash != nil or values_hash.empty? then
 			log_message = log_message + ", with values : " + values_hash.to_s
 		end
-		@logger.debug(log_message)
+		$logger.debug(log_message)
 	end
 	
 	def transaction_active?
@@ -45,15 +45,15 @@ class DatabaseInterface
 			statement.execute()
 			if is_insertion then
 				id = @db.last_insert_row_id()
-				@logger.debug("Insertion Ok, got ID : " + id.to_s)
+				$logger.debug("Insertion Ok, got ID : " + id.to_s)
 				return id
 			end
 		rescue SQLite3::BusyException => e 
-			@logger.error "BusyException occured"
-			@logger.error e.to_s
+			$logger.error "BusyException occured"
+			$logger.error e.to_s
 		rescue SQLite3::LockedException => e 
-			@logger.error "LockedException occured"
-			@logger.error e.to_s
+			$logger.error "LockedException occured"
+			$logger.error e.to_s
 		end
 	end
 	
@@ -69,8 +69,8 @@ class DatabaseInterface
 			statement.bind_params(values_hash)
 			return statement.execute()			
 		rescue SQLite3::Exception => e 
-			@logger.error "Exception occured"
-			@logger.error e
+			$logger.error "Exception occured"
+			$logger.error e
 		end
 	end
 	
@@ -85,13 +85,13 @@ class DatabaseInterface
 		begin
 			statement.bind_params(values_hash)
 			result_set = statement.execute
-			# @logger.debug("Result_set : " + result_set.to_s)
+			# $logger.debug("Result_set : " + result_set.to_s)
 			row = result_set.next
 			result_set.close
 			return row
 		rescue SQLite3::Exception => e 
-			@logger.error "Exception occured"
-			@logger.error e
+			$logger.error "Exception occured"
+			$logger.error e
 		end
 	end
 	
@@ -577,42 +577,42 @@ class DatabaseInterface
 	end
 	
 	def load_all_refs()
-		@logger.info("Loading all reference objects")
-		@logger.info("RefDirection")
+		$logger.info("Loading all reference objects")
+		$logger.info("RefDirection")
 		ref_dir_list = load_ref_direction_list()
-		@logger.debug(ref_dir_list.to_s)
+		$logger.debug(ref_dir_list.to_s)
 
-		@logger.info("RefTrackCondition")
+		$logger.info("RefTrackCondition")
 		ref_track_condition_list = load_ref_track_condition_list()
-		@logger.debug(ref_track_condition_list)
+		$logger.debug(ref_track_condition_list)
 
-		@logger.info("RefRaceType")
+		$logger.info("RefRaceType")
 		ref_race_type_list = load_ref_race_type_list()
-		@logger.debug(ref_race_type_list)
+		$logger.debug(ref_race_type_list)
 
-		@logger.info("RefColumn")
+		$logger.info("RefColumn")
 		ref_column_list = load_ref_column_list()
-		@logger.debug(ref_column_list)
+		$logger.debug(ref_column_list)
 
-		@logger.info("RefSex")
+		$logger.info("RefSex")
 		ref_sex_list = load_ref_sex_list()
-		@logger.debug(ref_sex_list)
+		$logger.debug(ref_sex_list)
 
-		@logger.info("RefBreed")
+		$logger.info("RefBreed")
 		ref_breed_list = load_ref_breed_list()
-		@logger.debug(ref_breed_list)
+		$logger.debug(ref_breed_list)
 
-		@logger.info("RefCoat")
+		$logger.info("RefCoat")
 		ref_coat_list = load_ref_coat_list()
-		@logger.debug(ref_coat_list)
+		$logger.debug(ref_coat_list)
 
-		@logger.info("RefBlinder")
+		$logger.info("RefBlinder")
 		ref_blinder_list = load_ref_blinder_list()
-		@logger.debug(ref_blinder_list)
+		$logger.debug(ref_blinder_list)
 
-		@logger.info("RefShoes")
+		$logger.info("RefShoes")
 		ref_shoes_list = load_ref_shoes_list()
-		@logger.debug(ref_shoes_list)
+		$logger.debug(ref_shoes_list)
 
 		@ref_list_hash = {
 			:ref_direction_list => ref_dir_list,
@@ -673,11 +673,11 @@ class DatabaseInterface
 			:id => id)
 			
 		horse.id = id
-		@logger.debug(row)
+		$logger.debug(row)
 		horse.name = row["name"]
 		# sex : get from RefSex list
 		sex_id = row["id_sex"]
-		sex = @ref_list_hash[:ref_sex_list].get(sex_id, @logger)
+		sex = @ref_list_hash[:ref_sex_list].get(sex_id, $logger)
 		horse.sex = sex
 		# coat : get from RefCoatlist
 		coat_id = row["id_coat"]
@@ -779,7 +779,7 @@ class DatabaseInterface
 			@stat_select_race_by_id, 
 			:id => id)
 			
-		@logger.debug(row)
+		$logger.debug(row)
 		
 		race.id = id
 
@@ -798,7 +798,7 @@ class DatabaseInterface
 		
 		# race_type : get from RefRaceType list
 		race_type_id = row["id_race_type"]
-		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id, @logger)
+		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id, $logger)
 		race.race_type = race_type
 		
 		# objects

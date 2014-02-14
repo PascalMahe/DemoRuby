@@ -6,34 +6,61 @@ class Weather
 	attr_accessor :wind_speed
 	attr_accessor :insolation
 	
+	def initialize(insolation, temperature, wind_direction, wind_speed)
+		@insolation = insolation
+		@temperature = temperature
+		@wind_direction = wind_direction
+		@wind_speed = wind_speed
+	end
+	
 	def to_s()
 		return "Weather[id = " + id.to_s +
-		", wind_direction = " + wind_direction.to_s + 
-		", temperature = " + temperature.to_s +
-		", wind_speed = " + wind_speed.to_s +
 		", insolation = " + insolation.to_s + 
+		", temperature = " + temperature.to_s +
+		", wind_direction = " + wind_direction.to_s + 
+		", wind_speed = " + wind_speed.to_s +
 		"]"
 	end
 end
 
 class Meeting
-	attr_accessor :id
-	attr_accessor :track_condition
-	attr_accessor :job
 	attr_accessor :date
-	attr_accessor :racetrack
+	attr_accessor :id
+	attr_accessor :job
 	attr_accessor :number
+	attr_accessor :racetrack
+	attr_accessor :race_list
+	attr_accessor :track_condition
 	attr_accessor :url
 	attr_accessor :weather
-	attr_accessor :race_list
+	
+#	def initialize(date, job, number, racetrack, race_list, track_condition, url, weather)
+#		@date = date
+#		@job = job
+#		@number = number
+#		@racetrack = racetrack
+#		@race_list = race_list
+#		@track_condition = track_condition
+#		@url = url
+#		@weather = weather
+#	end
+	
+	def initialize(date, job, number, racetrack, race_list, url)
+		@date = date
+		@job = job
+		@number = number
+		@racetrack = racetrack
+		@race_list = race_list
+		@url = url
+	end
 	
 	def to_s()
 		return "Meeting[id = " + id.to_s +
-		", track_condition = " + track_condition.to_s + 
-		", job = " + job.to_s +
 		", date = " + date.to_s +
-		", racetrack = " + racetrack.to_s +
+		", job = " + job.to_s +
 		", number = " + number.to_s +
+		", racetrack = " + racetrack.to_s +
+		", track_condition = " + track_condition.to_s + 
 		", url = " + url.to_s + 
 		", weather = " + weather.to_s + 
 		"]"
@@ -75,6 +102,13 @@ class Race
 	attr_accessor :url
 	attr_accessor :value
 	attr_accessor :runner_list
+	
+	def initialize(meeting, name, number, url)
+		@meeting = meeting
+		@name = name
+		@number = number
+		@url = url
+	end
 	
 	def to_s()
 		return "Race[id = " + id.to_s +
