@@ -11,7 +11,7 @@ require './people.rb'
 require './Runner.rb'
 require './DatabaseInterface.rb'
 
-def fetch_meetings(html_meeting_list)
+def fetch_meetings(html_meeting_list, date, current_job)
 	#parameter : a WebElement representing an <ul> tag, containing the list of meetings
 	
 	#Loop on meetings to fetch basic info : number, racetrack and url
@@ -63,6 +63,7 @@ def fetch_meeting_shallow(html_meeting, date, job)
 end
 
 def fetch_meeting(meeting)
+	# Parameter : a Meeting, containing the basic data, including the URL of the page where the rest are to be gathered
 	
 	#Fetching deeper info 
 	$driver.get(meeting.url)
@@ -88,11 +89,12 @@ def fetch_meeting(meeting)
 	race_table = $driver.find_element(:class, "tableauResultsHippiqueBody")
 	meeting.race_list = fetch_races(race_table)
 	
-	#$logger.debug(meeting)
+	$logger.debug(meeting)
 	return meeting
 end
 
 def fetch_weather(html_weather)
+	# Parameter : a WebElement, containing the basic data
 	
 	#Basic weather info
 	html_weather_img = html_weather.find_element(:xpath, "div/img")
@@ -108,12 +110,12 @@ def fetch_weather(html_weather)
 	wind_direction = $ref_list_hash[:ref_direction_list][weather_text_split[4]]
 	
 	curr_weather = Weather::new(insolation, temperature, wind_direction, wind_speed)
-	#$logger.debug(curr_weather)
+	$logger.debug(curr_weather)
 	return curr_weather
 end
 
 def fetch_races(race_table)
-	#Parameter : a webElement wrapping a <tbody> tag, containing the races
+	#Parameter : a WebElement wrapping a <tbody> tag, containing the races
 	
 	race_list = []
 	html_race_list = race_table.find_elements(:xpath, "tr")
@@ -122,7 +124,7 @@ def fetch_races(race_table)
 		race_list.push(business_race)
 	end
 	
-	for race_list.each do |race|
+	race_list.each do |race|
 		fetch_race(race)
 	end
 	return race_list
@@ -134,7 +136,7 @@ def fetch_race_shallow(html_race)
 	number = html_race.find_element(:class, "TRHcol1")
 	number = number.text
 	
-	race_link = html_race.find_elements(:xpath, "td/a")
+	race_link = html_race.find_element(:xpath, "td/a")
 	url = race_link.attribute("href")
 	
 	name = race_link.text
@@ -153,6 +155,12 @@ def fetch_race_shallow(html_race)
 	value = value.sub(' ', '')
 	
 	#TODO : extract distance & racetype
+end
+
+def fetch_race(race)
+	# Parameter : a Race, containing the basic data, including the URL of the page where the rest are to be gathered
+
+	#TODO
 end
 
 begin #general exception catching block
@@ -246,7 +254,7 @@ begin #general exception catching block
 	
 	#Fetching meetings
 	html_meeting_list = $driver.find_element(:class, "listReu")
-	meeting_list = fetch_meetings(html_meeting_list)
+	meeting_list = fetch_meetings(html_meeting_list, date, current_job)
 	
 
 #rescue ArgumentError, NameError => err

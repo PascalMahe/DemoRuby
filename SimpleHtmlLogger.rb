@@ -77,6 +77,7 @@ class SimpleHtmlLogger
 			puts(complete_log)
 			html_message = html_escape(message.to_s)
 			html_message = html_pretty(html_message)
+			#puts html_message
 			@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
 		# end
  	end
@@ -145,7 +146,7 @@ class SimpleHtmlLogger
 		return html_escaped_string
 	end
 	
-	def pretty(string, new_line_string)
+	def pretty(string, new_line_string, tab_string)
 		# regex : ',' not between parentheses (see http://stackoverflow.com/a/9030062/2112089)
 		#','		=> Match a comma
 		#'(?!'		=> only if it's not followed by...
@@ -153,24 +154,108 @@ class SimpleHtmlLogger
 		#'\)'		=> followed by a closing parens
 		#')'		=> End of lookahead
 		#
-		pretty_string = string.gsub(/(,(?![^(]*\)))/, "," + new_line_string)
+		#pretty_string = string.gsub(/(,(?![^(]*\)))/, "," + new_line_string)
+		
 		# regex : '[' not followed by ']'
-		pretty_string = pretty_string.gsub(/(\[)([^\]])/, '\1' + new_line_string + '\2')
+		opening_square_regex = /(\[)([^\]])/
+		
 		# regex : ']' when not preceded by '['
-		pretty_string = pretty_string.gsub(/([^\[])(\])/, '\1' + new_line_string + '\2')
+		closing_square_regex = /([^\[])(\])/		
+		
 		# regex : '{' not followed by '}'
-		pretty_string = pretty_string.gsub(/({)([^}])/, '\1' + new_line_string + '\2')
+		closing_curly_regex = /({)([^}])/
+		
 		# regex : '}' when not preceded by '{'
-		pretty_string = pretty_string.gsub(/([^{])(})/, '\1' + new_line_string + '\2')
-		return pretty_string
+		closing_curly_regex = /([^{])(})/
+		
+		#pretty_string = pretty_string.gsub(opening_square_regex, '\1' + new_line_string + '\2')
+		#pretty_string = pretty_string.gsub(closing_square_regex, '\1' + new_line_string + '\2')
+		#pretty_string = pretty_string.gsub(closing_curly_regex, '\1' + new_line_string + '\2')
+		#pretty_string = pretty_string.gsub(closing_curly_regex, '\1' + new_line_string + '\2')
+		
+		#at each bracket (opening or closing), a new_line_string is inserted, followed by a number of tab_strings
+		#the number of tabs is incremented after each opening bracket and decremented after each closing bracket
+		i = 0
+		tab_nb = 0
+		opened_paren = 0
+		while (i < string.length() - 1) do
+
+			if string[i].eql?("[") and not (string[i + 1].eql?("]")) then
+				tab_nb = tab_nb + 1
+				nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, false)
+				i = i + nb_char_inserted
+			end
+
+			if string[i].eql?("{") and not (string[i + 1].eql?("}")) then
+				tab_nb = tab_nb + 1
+				nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, false)
+				i = i + nb_char_inserted
+			end
+
+			if string[i].eql?("]") 
+				if i - 1 > 0 then 
+					if not (string[i - 1].eql?("[")) then
+						tab_nb = tab_nb - 1
+						nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
+						i = i + nb_char_inserted
+					end #end if
+				end #end if
+			end #end if
+			
+			if string[i].eql?("}") 
+				if i - 1 > 0 then 
+					if not (string[i - 1].eql?("{")) then
+						tab_nb = tab_nb - 1
+						nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
+						i = i + nb_char_inserted
+					end #end if 
+				end #end if
+			end #end if
+			
+			if string[i].eql?("(") then
+				opened_paren = opened_paren + 1
+			end
+			if string[i].eql?(")") then
+				opened_paren = opened_paren - 1
+			end
+			if string[i].eql?(",") and opened_paren == 0 then
+				nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
+				i = i + nb_char_inserted
+			end
+			
+			i = i + 1
+		end #end while
+		
+		
+		return string
 	end
 	
-	def html_pretty(string)		
-		return pretty(string, '<br/>')
+	def insert_new_line_and_tabs(string, insertion_index, tab_nb, tab_string, new_line_string, insert_after)
+		# inserts into the string (at the specified index) the new_line_string and Xtab_nb times the tab_string
+		# returns the number of char inserted
+		i = 0
+		str_tab = ""
+		while i < tab_nb do
+			str_tab = str_tab + tab_string
+			i = i + 1
+		end
+		insertion_string = new_line_string + str_tab
+		offset = 0
+		if insert_after then 
+			offset = 1
+		end
+		string.insert(insertion_index + offset, insertion_string)
+		return insertion_string.length + offset
+	end
+	
+	def html_pretty(string)	
+		prettified = pretty(string, '<br/>', '&nbsp;&nbsp;&nbsp;')
+		#puts prettified
+		return prettified
 	end
 	
 	def terminal_pretty(string)
-		return pretty(string, "\n\t")
+		return pretty(string, "\n", "\t")
 	end
 end
 
