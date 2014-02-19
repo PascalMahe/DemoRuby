@@ -65,7 +65,7 @@ end
 def fetch_meeting(meeting)
 	# Parameter : a Meeting, containing the basic data, including the URL of the page where the rest are to be gathered
 	
-	#Fetching deeper info 
+	#Fetching page w/ deeper info 
 	$driver.get(meeting.url)
 	
 	#weather
@@ -76,6 +76,12 @@ def fetch_meeting(meeting)
 	weather_text = html_weather_container.text
 	if weather_text.include?(" - ") then
 		track_condition = weather_text.split(" - ")[0]
+		# the meeting name is included in the track_condition at this point
+		# it's removed by using the fact that it's in a <span>
+		meeting_name = html_weather_container.find_element(:xpath, "span")
+		meeting_name = meeting_name.text
+		track_condition = track_condition.gsub(meeting_name, '')
+		track_condition.strip!
 	else
 		track_condition = ""
 	end
@@ -87,7 +93,7 @@ def fetch_meeting(meeting)
 	# Just like meetings : two loops, one for a shallow pass to get URLs and basic data,
 	# the other to get the data on each race's page
 	race_table = $driver.find_element(:class, "tableauResultsHippiqueBody")
-	meeting.race_list = fetch_races(race_table)
+	meeting.race_list = fetch_races(race_table, meeting)
 	
 	$logger.debug(meeting)
 	return meeting
@@ -114,13 +120,13 @@ def fetch_weather(html_weather)
 	return curr_weather
 end
 
-def fetch_races(race_table)
+def fetch_races(race_table, meeting)
 	#Parameter : a WebElement wrapping a <tbody> tag, containing the races
 	
 	race_list = []
 	html_race_list = race_table.find_elements(:xpath, "tr")
 	html_race_list.each do |html_race|
-		business_race = fetch_race_shallow(html_race)
+		business_race = fetch_race_shallow(html_race, meeting)
 		race_list.push(business_race)
 	end
 	
@@ -130,7 +136,7 @@ def fetch_races(race_table)
 	return race_list
 end
 
-def fetch_race_shallow(html_race)
+def fetch_race_shallow(html_race, meeting)
 	# Parameter : a WebElement wrapping a <tr> tag, containing the shallow data about the race
 	
 	number = html_race.find_element(:class, "TRHcol1")
@@ -150,18 +156,152 @@ def fetch_race_shallow(html_race)
 	text_below = text_below.text
 	text_below = text_below.split(" - ")
 	value = text_below[1]
-	value = value.sub('.', '')
-	value = value.sub('€', '')
-	value = value.sub(' ', '')
+	# value : 'X.XXX €'
+	str_value = value.sub('.', '')
+	str_value = value.sub('€', '')
+	str_value = value.sub(' ', '')
+	str_value.strip!
+	int_value = str_value.to_i
 	
-	#TODO : extract distance & racetype
+	str_distance_and_racetype = text_below[0]
+	# distance : numbers to the end (minus the 'm')
+	int_distance_starting_index = str_distance_and_racetype.index(/[1-9]/)
+	str_distance = str_distance_and_racetype.slice(int_distance_starting_index..str_distance_and_racetype.length)
+	# erasing the 'm'
+	str_distance = str_distance.sub('m', '')
+	int_distance = str_distance.to_i
+	
+	
+	# racetype : everything that's not distance
+	str_racetype_name = str_distance_and_racetype.slice(0..int_distance_starting_index)
+	str_racetype_name.strip!
+	racetype = $ref_list_hash[:ref_racetype][str_racetype_name]
+	
+	race = Race::new(meeting, name, number, url, time, int_value, int_distance, racetype)
+	#$logger.debug(race)
+	return race
 end
 
 def fetch_race(race)
 	# Parameter : a Race, containing the basic data, including the URL of the page where the rest are to be gathered
-
-	#TODO
+	# Fields to fill : detailed conditions, runners
+	
+	#Fetching page w/ deeper info 
+	$driver.get(meeting.url)
+	
+	# detailed conditions
+	detailed_conditions = $driver.find_element(:id, "conds_detail")
+	detailed_conditions = detailed_conditions.text
+	detailed_conditions.strip!
+	
+	$logger.debug(race)
+	
+	#runner
+	race.runner_list = fetch_runners(race)
 end
+
+def fetch_runners(race)
+	# Parameter : a Race
+	# Returns a list of (completed) Runners
+	
+	list_runners = []
+	runner_rows = driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
+	runner_rows.each do |runner_row|
+		runner = fetch_runner(runner_row, race)
+		list_runners.push(runner)
+	end
+		
+	return list_runners
+end
+
+def fetch_runner(html_runner, race)
+	# Parameter : a WebElement wrapping around a <tr> containing all data on the runner
+	# Fields to fill :
+	# - race
+	# - horse
+	# - jockey
+	# - trainer
+	# - owner
+	# - breeder
+	# - blinder
+	# - shoes
+	# - number
+	# - draw
+	# - single_rating
+	# - final_place
+	# - non_runner
+	# - races_run
+	# - victories
+	# - places
+	# - earnings_career
+	# - earnings_current_year
+	# - earnings_last_year
+	# - earnings_victory
+	# - description
+	# - distance
+	# - load
+	# - history
+	# - url
+	
+	# horse
+	horse = fetch_horse(html_runner)
+	
+	# jockey
+	jockey = fetch_jockey(html_runner)
+	
+	# trainer
+	trainer = fetch_trainer(html_runner)
+	
+	# owner
+	owner = fetch_owner(html_runner)
+	
+	# breeder
+	breeder = fetch_breeder(html_runner)
+	
+	# blinder
+	blinder_li_element = $driver.find_element(:xpath, "/td[@class='tableauPariBodyList']/div/ul/li[@class='eye']")
+	# if blinder_li_web_element doesn't have any children, no blinder
+	blinder_img_element = blinder_li_element.find_element(:xpath, "/img")
+	str_blinder = ""
+	if blinder_img_element != null
+		str_blinder = blinder_img_element.attribute("src")
+	end
+	
+	# shoes
+	# number
+	# draw
+	# single_rating
+	# final_place
+	# non_runner
+	# races_run
+	# victories
+	# places
+	# earnings_career
+	# earnings_current_year
+	# earnings_last_year
+	# earnings_victory
+	# description
+	# distance
+	# load
+	# history
+	# url
+	
+	
+	$logger.debug(race)
+	
+	#runner
+	race.runner_list = fetch_runners(race)
+end
+
+
+
+
+###########################################################################################
+#################################                        ##################################
+#################################    MAIN SCRIPT HERE    ##################################
+#################################                        ##################################
+###########################################################################################
+
 
 begin #general exception catching block
 
@@ -256,7 +396,17 @@ begin #general exception catching block
 	html_meeting_list = $driver.find_element(:class, "listReu")
 	meeting_list = fetch_meetings(html_meeting_list, date, current_job)
 	
-
+	$logger.info("Ending crawl")
+	crawling_end_time = Time.now
+	current_job.crawling_end_time = crawling_end_time
+	
+	$logger.info("Starting computations")
+	$logger.info("Ending computations")
+	computing_end_time = Time.now
+	
+	$logger.debug(current_job)
+	$logger.imp("END REAL STUFF")
+	
 #rescue ArgumentError, NameError => err
 #	$logger.error(err)
 #	puts err

@@ -103,11 +103,15 @@ class Race
 	attr_accessor :value
 	attr_accessor :runner_list
 	
-	def initialize(meeting, name, number, url)
+	def initialize(meeting, name, number, url, time, value, distance, racetype)
 		@meeting = meeting
 		@name = name
 		@number = number
 		@url = url
+		@time = time
+		@value = value
+		@distance = distance
+		@racetype = racetype
 	end
 	
 	def to_s()
