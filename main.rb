@@ -40,7 +40,7 @@ def fetch_meeting_shallow(html_meeting, date, job)
 	url = html_meeting.attribute("href")
 	
 	meeting_text_split = html_meeting.text.split(" - ")
-	number = html_meeting[0]
+	number = meeting_text_split[0]
 	racetrack = meeting_text_split[1]
 	
 	#date
@@ -70,6 +70,9 @@ def fetch_meeting(meeting)
 	
 	#weather
 	html_weather_container = $driver.find_element(:id, "container_meteo")
+	$logger.debug(meeting)
+	$logger.debug("Meeting : " + meeting.racetrack + " (" + meeting.number + ") - fetching weather")
+	
 	weather = fetch_weather(html_weather_container)
 	
 	#track_condition
@@ -95,7 +98,7 @@ def fetch_meeting(meeting)
 	race_table = $driver.find_element(:class, "tableauResultsHippiqueBody")
 	meeting.race_list = fetch_races(race_table, meeting)
 	
-	$logger.debug(meeting)
+	#$logger.debug(meeting)
 	return meeting
 end
 
@@ -105,18 +108,27 @@ def fetch_weather(html_weather)
 	#Basic weather info
 	html_weather_img = html_weather.find_element(:xpath, "div/img")
 	insolation = html_weather_img.attribute("src")
+	$logger.debug("Weather : insolation => " + insolation)
 	weather_text = html_weather.text
+	$logger.debug("Weather : weather_text => " + weather_text)
 	if weather_text.include?(" - ") then
 		weather_text = weather_text.split(" - ")[1] # ignoring the part before the ' - ' if it's present
 	end
 	
-	weather_text_split = weather_text[1].split()
+	# TODO : find the index of the first number and get a substring starting from there
+	# THEN (and only then) split the string
+	
+	weather_text_split = weather_text.split(' ')
+	$logger.debug("Weather : weather_text_split => " + weather_text_split.inspect)
 	temperature = weather_text_split[0]
+	$logger.debug("Weather : temperature => " + temperature)
 	wind_speed = weather_text_split[2]
+	$logger.debug("Weather : wind_speed => " + wind_speed)
 	wind_direction = $ref_list_hash[:ref_direction_list][weather_text_split[4]]
+	$logger.debug("Weather : wind_direction => " + weather_text_split[4])
 	
 	curr_weather = Weather::new(insolation, temperature, wind_direction, wind_speed)
-	$logger.debug(curr_weather)
+	#$logger.debug(curr_weather)
 	return curr_weather
 end
 
@@ -155,6 +167,14 @@ def fetch_race_shallow(html_race, meeting)
 	text_below = text_below.find_element(:xpath, "div")
 	text_below = text_below.text
 	text_below = text_below.split(" - ")
+	if text_below.length == 3 then
+		# if the size is 3, it means there's another ' - ' sequence
+		# -> it's because racetype can have a ' - ' sequence in it (eg 'Attelé Européenne - Autostart')
+		# => agregate 0 & 1 and put 2 in 1
+		text_below[0] = text_below[0] + ' - ' + text_below[1]
+		text_below[1] = text_below[2]
+		text_below.pop #removing last element
+	end
 	value = text_below[1]
 	# value : 'X.XXX €'
 	str_value = value.sub('.', '')
@@ -166,16 +186,18 @@ def fetch_race_shallow(html_race, meeting)
 	str_distance_and_racetype = text_below[0]
 	# distance : numbers to the end (minus the 'm')
 	int_distance_starting_index = str_distance_and_racetype.index(/[1-9]/)
+	
 	str_distance = str_distance_and_racetype.slice(int_distance_starting_index..str_distance_and_racetype.length)
 	# erasing the 'm'
 	str_distance = str_distance.sub('m', '')
+	
 	int_distance = str_distance.to_i
 	
 	
 	# racetype : everything that's not distance
 	str_racetype_name = str_distance_and_racetype.slice(0..int_distance_starting_index)
 	str_racetype_name.strip!
-	racetype = $ref_list_hash[:ref_racetype][str_racetype_name]
+	racetype = $ref_list_hash[:ref_race_type_list][str_racetype_name]
 	
 	race = Race::new(meeting, name, number, url, time, int_value, int_distance, racetype)
 	#$logger.debug(race)
@@ -187,14 +209,14 @@ def fetch_race(race)
 	# Fields to fill : detailed conditions, runners
 	
 	#Fetching page w/ deeper info 
-	$driver.get(meeting.url)
+	$driver.get(race.url)
 	
 	# detailed conditions
 	detailed_conditions = $driver.find_element(:id, "conds_detail")
 	detailed_conditions = detailed_conditions.text
 	detailed_conditions.strip!
 	
-	$logger.debug(race)
+	#$logger.debug(race)
 	
 	#runner
 	race.runner_list = fetch_runners(race)
@@ -205,16 +227,19 @@ def fetch_runners(race)
 	# Returns a list of (completed) Runners
 	
 	list_runners = []
-	runner_rows = driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
+	runner_rows = $driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
 	runner_rows.each do |runner_row|
-		runner = fetch_runner(runner_row, race)
+		runner = fetch_runner_shallow(runner_row, race)
 		list_runners.push(runner)
+	end
+	list_runners.each do |runner|
+		fetch_runner(runner)
 	end
 		
 	return list_runners
 end
 
-def fetch_runner(html_runner, race)
+def fetch_runner_shallow(html_runner, race)
 	# Parameter : a WebElement wrapping around a <tr> containing all data on the runner
 	# Fields to fill :
 	# - race
@@ -230,6 +255,14 @@ def fetch_runner(html_runner, race)
 	# - single_rating
 	# - final_place
 	# - non_runner
+	# - load
+	# - distance
+	# - history
+	# - url
+	
+	# final_place => see fetch_race_results
+	
+	# see fetch_runner for :
 	# - races_run
 	# - victories
 	# - places
@@ -238,10 +271,7 @@ def fetch_runner(html_runner, race)
 	# - earnings_last_year
 	# - earnings_victory
 	# - description
-	# - distance
-	# - load
-	# - history
-	# - url
+
 	
 	# horse
 	horse = fetch_horse(html_runner)
@@ -267,22 +297,39 @@ def fetch_runner(html_runner, race)
 		str_blinder = blinder_img_element.attribute("src")
 	end
 	
-	# shoes
+	# shoes & draw are in the same column
+	# difference is : shoe's an <img>, draw's a number
+	shoes_or_draw_element = $driver.find_element(:xpath, "/td[@class='tableauPariBodyList']/div/ul/li[@class='eye']")
+	# if shoes_or_draw_element doesn't have any children, no shoes
+	shoes_or_draw_element = blinder_li_element.find_element(:xpath, "/img")
+	str_shoes = ""
+	str_draw = ""
+	int_draw = 0
+	if shoes_or_draw_element != null
+		str_shoes = shoes_or_draw_element.attribute("src")
+	else 
+		str_draw = shoes_or_draw_element.text
+		int_draw = str_draw.to_i # to_i returns 0 if str_draw is a NaN (cf. http://www.ruby-doc.org/core-2.1.0/String.html#method-i-to_i)
+	end
+	
 	# number
-	# draw
+	number_element = $driver.find_element(:xpath, "/td[@class='tableauPariColNCheval']")
+	str_number = number_element.text
+	int_number = str_number.to_i
+	
 	# single_rating
-	# final_place
+	single_rating_element = $driver.find_element(:xpath, "/td[@class='tableauPariColCote']")
+	str_single_rating = single_rating_element.text
+	fl_single_rating = str_single_rating.to_f
+	
 	# non_runner
-	# races_run
-	# victories
-	# places
-	# earnings_career
-	# earnings_current_year
-	# earnings_last_year
-	# earnings_victory
-	# description
-	# distance
+	# non_runner = true if the jockey column contains "Non Partant"
+	non_runner_element = $driver.find_element(:xpath, "/td/div[@class='detailCourseCarrousselBody']/ul/li[@class='monte']")
+	str_non_runner = non_runner_element.text
+	b_non_runner = str_non_runner.eql?("Non Partant")
+	
 	# load
+	# distance
 	# history
 	# url
 	
@@ -291,6 +338,30 @@ def fetch_runner(html_runner, race)
 	
 	#runner
 	race.runner_list = fetch_runners(race)
+end
+
+def fetch_horse(html_element_runner)
+	# Parameter : a WebElement wrapping a <tr> containing the data to fetch to create a horse
+end
+
+def fetch_jockey(html_element_runner)
+	# Parameter : a WebElement wrapping a <tr> containing the data to fetch to create a horse
+end
+
+def fetch_trainer(html_element_runner)
+	# Parameter : a WebElement wrapping a <tr> containing the data to fetch to create a horse
+end
+
+def fetch_owner(html_element_runner)
+	# Parameter : a WebElement wrapping a <tr> containing the data to fetch to create a horse
+end
+
+def fetch_breeder(html_element_runner)
+	# Parameter : a WebElement wrapping a <tr> containing the data to fetch to create a horse
+end
+
+def fetch_runner(runner)
+	# Parameter : a Runner, including the URL of the page in which to look for deppeer data
 end
 
 
