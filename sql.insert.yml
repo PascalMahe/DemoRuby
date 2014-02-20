@@ -69,14 +69,16 @@
 				date,
 				racetrack,
 				number, 
-				url
+				url,
+				weather
 			) VALUES (
 				:track_condition, 
 				:job, 
 				:date,
 				:racetrack,
 				:number, 
-				:url
+				:url,
+				:weather
 			)'
 
  :origin: 'INSERT INTO Origin(

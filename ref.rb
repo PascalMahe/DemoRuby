@@ -36,12 +36,12 @@ class RefObjectContainer < Hash
 	end
 	
 	#fetches from text
-	def [](text, logger = nil)
+	def [](text)
 		if not self.has_key?(text) then
-			if logger != nil then 
-				logger.debug("Looking for text = %s in :" % text)
-				logger.debug(self)
-			end
+			
+			$logger.debug("Looking for text = %s in :" % text)
+			$logger.debug(self)
+			
 			ref_to_add = @class.new(text)
 			ref_to_add.id = @database_interface.insert_ref_object(@class, ref_to_add)
 			self[text] = ref_to_add
@@ -52,16 +52,15 @@ class RefObjectContainer < Hash
 	end
 	
 	#fetches from id
-	def get(key, logger = nil)
+	def get(key)
 		# Select gets the element such as value.id == key
 		# and returns a hash containing that element.
 		# cf. http://www.ruby-doc.org/core-2.0.0/Hash.html#method-i-select
 		new_hash = self.select{|k,v| v.id == key}
 		
-		if logger != nil then 
-			logger.debug("Looking for id = %s in :" % key)
-			logger.debug(self)
-		end
+		$logger.debug("Looking for id = %s in :" % key)
+		$logger.debug(self)
+		
 		# We only want the first element
 		return new_hash.shift()[1]
 	end
