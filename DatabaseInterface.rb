@@ -21,7 +21,7 @@ class DatabaseInterface
 	
 	def log_nicely(message_header, query, values_hash = nil)
 		log_message = message_header + query
-		if values_hash != nil or values_hash.empty? then
+		if values_hash != nil and not values_hash.empty? then
 			log_message = log_message + ", with values : " + values_hash.to_s
 		end
 		$logger.debug(log_message)
@@ -41,7 +41,7 @@ class DatabaseInterface
 		begin
 			if values_hash != nil then
 				statement.bind_params(values_hash)
-			end
+			end		
 			statement.execute()
 			if is_insertion then
 				id = @db.last_insert_row_id()
@@ -107,6 +107,12 @@ class DatabaseInterface
 	
 	def drop_tables()
 		@sql[:drop].each do |query_array|
+			execute_query(query_array[1])
+		end
+	end
+	
+	def clean_tables()
+		@sql[:clean].each do |query_array|
 			execute_query(query_array[1])
 		end
 	end

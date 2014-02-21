@@ -9,7 +9,7 @@
  :sql_delete: 'sql.table_deletion.yml'
  :sql_insert: 'sql.insert.yml'
  :sql_select: 'sql.select.yml'
- :base_adress: 'file:///D:/Dev/RPP/Test-HTML/journee_01_finie_course_21_2.htm'
- :base_adress_test: 'file:///D:/Dev/RPP/Test-HTML/journee_01_finie_course_21_2.htm'
+ :base_adress: 'file:///D:/Dev/RPP/Test-HTML/accueil.htm'
+ :base_adress_test: 'file:///D:/Dev/RPP/Test-HTML/accueil.htm'
  
  

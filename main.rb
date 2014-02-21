@@ -397,12 +397,14 @@ begin #general exception catching block
 	current_job.loading_end_time = loading_end_time
 
 	# Creating test interface with database
-	$logger.imp("TESTS")
+	if $is_test then 
+		$logger.imp("TESTS")
+	end
 	dbi = DatabaseInterface::new($config, $is_test)
 
-	#$logger.imp("Dropping all tables, 'cause, you know, reasons...")
-	#dbi.drop_tables()
-	#$logger.info("Tables dropped")
+	# $logger.imp("Dropping all tables, 'cause, you know, reasons...")
+	# dbi.drop_tables()
+	# $logger.info("Tables dropped")
 
 	$logger.imp("Checking Database Existence")
 	table_nb = dbi.get_table_number()
@@ -413,37 +415,38 @@ begin #general exception catching block
 	else 
 		$logger.info("Tables already exist")
 	end
+		
+	# $logger.info("Cleansing all tables, 'cause, you know, heretics...")
+	# dbi.clean_tables()
+	# $logger.info("Tables cleansed")
 
+	if $is_test then 
+		$logger.imp("END TESTS")
 
-	#create a new empty TestSuite, giving it a name
-	#db_tests = Test::Unit::TestSuite.new("Database Interfacing Tests")
-	#db_tests << TestDatabaseInterface.new('test_insert_breeder')#calls TestDatabaseInterface#test_insert_breeder
-	#run the suite
-	#Test::Unit::UI::Console::TestRunner.run(db_tests)
-
-	$logger.imp("END TESTS")
-
-	$logger.imp("REAL STUFF")
-	# Creating real interface with database
-	dbi = DatabaseInterface::new($config, false)
+		$logger.imp("REAL STUFF")
+	end
+	
 	$logger.info("Loading reference values")
 	$ref_list_hash = dbi.load_all_refs()
+	
+	$logger.imp("CRAWLING TIME")
 
 	$logger.info("Preparing browser")
-	# preparing FF : adding Firebug 
-	profile = Selenium::WebDriver::Firefox::Profile.new
-	profile.add_extension("./Install/firebug-1.11.4-fx.xpi")
 	
+	# Proxy problem : see http://tech.danbarrese.com/2013/04/08/solved-use-watir-webdriver-behind-proxy/
+	# and http://code.google.com/p/selenium/issues/detail?id=4300
+	ENV['no_proxy'] = '127.0.0.1'
+	
+	# preparing FF : adding Firebug 
+	# see this page for version : https://getfirebug.com/downloads/
+	profile = Selenium::WebDriver::Firefox::Profile.new
 	PROXY = 'proxy-internet.societe.mma.fr:8080'
 	profile.proxy = Selenium::WebDriver::Proxy.new(
 	  :http     => PROXY,
 	  :ftp      => PROXY,
 	  :ssl      => PROXY
 	)
-	
-	# Proxy problem : see http://tech.danbarrese.com/2013/04/08/solved-use-watir-webdriver-behind-proxy/
-	# and http://code.google.com/p/selenium/issues/detail?id=4300
-	ENV['no_proxy'] = '127.0.0.1'
+	profile.add_extension("./Install/firebug-1.12.6.xpi")
 	
 	#Loading browser
 	$driver = Selenium::WebDriver.for(:firefox, :profile => profile)
@@ -464,7 +467,13 @@ begin #general exception catching block
 	date = Date::new(2013,11,15)
 	
 	#Fetching meetings
-	html_meeting_list = $driver.find_element(:class, "listReu")
+	html_meeting_list = $driver.find_element(:xpath, "//div[@id='timeline-view']/div[@class='course-line']")
+	# Crawling has to be redone :
+	# only races matter, ie. go to a race's page, fetch the whole meeting (including weather)
+	# then fetch the race. 
+	# Must find a way to have only 1 meeting between the races that should share one. Meeting list
+	# with keys (number or name) ?
+	#
 	meeting_list = fetch_meetings(html_meeting_list, date, current_job)
 	
 	$logger.info("Ending crawl")
@@ -478,9 +487,6 @@ begin #general exception catching block
 	$logger.debug(current_job)
 	$logger.imp("END REAL STUFF")
 	
-#rescue ArgumentError, NameError => err
-#	$logger.error(err)
-#	puts err
 rescue Exception => err
 	$logger.error(err.inspect)
 	$logger.error(err.backtrace)
