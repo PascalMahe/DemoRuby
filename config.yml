@@ -11,5 +11,5 @@
  :sql_select: 'sql.select.yml'
  :base_adress: 'file:///D:/Dev/RPP/Test-HTML/accueil.htm'
  :base_adress_test: 'file:///D:/Dev/RPP/Test-HTML/accueil.htm'
- 
+ :base_adress_test_fetching: 'https://www.pmu.fr/turf/#20022014'
  
