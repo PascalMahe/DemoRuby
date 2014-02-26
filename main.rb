@@ -471,8 +471,7 @@ begin #general exception catching block
 	# Crawling has to be redone :
 	# only races matter, ie. go to a race's page, fetch the whole meeting (including weather)
 	# then fetch the race. 
-	# Must find a way to have only 1 meeting between the races that should share one. Meeting list
-	# with keys (number or name) ?
+	# Create an empty Meeting per html_meeting_list element, populate it in the fetch_race function
 	#
 	meeting_list = fetch_meetings(html_meeting_list, date, current_job)
 	

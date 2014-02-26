@@ -1,4 +1,5 @@
 
+
 class Weather
 	attr_accessor :id
 	attr_accessor :wind_direction
