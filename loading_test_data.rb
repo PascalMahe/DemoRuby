@@ -44,17 +44,17 @@ begin #general exception catching block
 	
 	# Proxy problem : see http://tech.danbarrese.com/2013/04/08/solved-use-watir-webdriver-behind-proxy/
 	# and http://code.google.com/p/selenium/issues/detail?id=4300
-	ENV['no_proxy'] = '127.0.0.1'
+	 ENV['no_proxy'] = '127.0.0.1'
 	
 	# preparing FF : adding Firebug 
 	# see this page for version : https://getfirebug.com/downloads/
 	profile = Selenium::WebDriver::Firefox::Profile.new
-	PROXY = 'proxy-internet.societe.mma.fr:8080'
-	profile.proxy = Selenium::WebDriver::Proxy.new(
-	  :http     => PROXY,
-	  :ftp      => PROXY,
-	  :ssl      => PROXY
-	)
+	# PROXY = 'proxy-internet.societe.mma.fr:8080'
+	# profile.proxy = Selenium::WebDriver::Proxy.new(
+	  # :http     => PROXY,
+	  # :ftp      => PROXY,
+	  # :ssl      => PROXY
+	# )
 	profile.add_extension("./Install/firebug-1.12.6.xpi")
 	#Loading browser
 	$driver = Selenium::WebDriver.for(:firefox, :profile => profile)
@@ -62,8 +62,8 @@ begin #general exception catching block
 
 	$logger.info("Starting to crawl")
 
-	# base_adress = $config[:gen][:base_adress_test_fetching]
-	base_adress = $config[:gen][:base_adress_test]
+	base_adress = $config[:gen][:base_adress_test_fetching]
+	# base_adress = $config[:gen][:base_adress_test]
 	
 	# Getting main page
 	$driver.get(base_adress)
@@ -77,7 +77,9 @@ begin #general exception catching block
 		link_list = html_meeting.find_elements(:xpath, 'a')
 		link_list.each do |link|
 			url = link.attribute("href")
-			meeting_and_race_numbers = url.slice(-9, 5) # getting the RX_CX part of the filename
+			meeting_and_race_start_index = url.index(/R[1-9].C[1-9]/)
+			meeting_and_race_numbers = url.slice(meeting_and_race_start_index, 5) # getting the RX_CX part of the filename
+			meeting_and_race_numbers.gsub!('/', '_')
 			page_list[meeting_and_race_numbers] = url
 		end
 	end
@@ -113,7 +115,8 @@ begin #general exception catching block
 		runner_list = runner_first.concat(runner_list_odd.concat(runner_list_even))
 	
 		runner_list.each do |runner|
-			runner_link = runner.find_element(:xpath, 'td[3]/span')
+			runner_link = runner.find_element(:xpath, 'td[2]/span')
+			$logger.debug(runner_link.attribute("innerHTML"))
 			runner_name = runner_link.attribute("title")
 			runner_name.gsub!(' ', '_')
 			runner_link.click
