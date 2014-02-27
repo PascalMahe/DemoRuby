@@ -31,8 +31,7 @@ begin #general exception catching block
 	$is_test = true
 	
 	$logger.info("START TIME: " + start_time.strftime($config[:gen][:default_date_time_format]))
-	$logger.debug("Config : " + $config.to_s)
-
+	
 	loading_end_time = Time.now
 
 	# Creating job 
@@ -110,10 +109,12 @@ begin #general exception catching block
 		runner_first = $driver.find_elements(:xpath, '//tr[@class="ligne-participant favorite odd"]')
 		runner_list_odd = $driver.find_elements(:xpath, '//tr[@class="ligne-participant odd"]')
 		runner_list_even = $driver.find_elements(:xpath, '//tr[@class="ligne-participant even"]')
-		runner_list = runner_first.concat(runner_list_odd.concat(runner_list_even))
+		runner_list_odd_non = $driver.find_elements(:xpath, '//tr[@class="ligne-participant non-partant odd"]')
+		runner_list_even_non = $driver.find_elements(:xpath, '//tr[@class="ligne-participant non-partant even"]')
+		runner_list = runner_first.concat(runner_list_odd.concat(runner_list_even.concat(runner_list_odd_non.concat(runner_list_even_non))))
 	
 		runner_list.each do |runner|
-			runner_link = runner.find_element(:xpath, 'td[3]/span')
+			runner_link = runner.find_element(:xpath, 'td/span[@class="name unit"]')
 			runner_name = runner_link.attribute("title")
 			runner_name.gsub!(' ', '_')
 			runner_link.click
