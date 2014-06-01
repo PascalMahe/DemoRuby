@@ -1,6 +1,5 @@
 ﻿require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
-require './SimpleHtmlLogger.rb'
 require './DatabaseInterface.rb'
 
 def load_config()
@@ -14,7 +13,6 @@ def load_config()
 	sql_delete = YAML.load_file(config[:gen][:sql_delete])
 	sql_insert = YAML.load_file(config[:gen][:sql_insert])
 	sql_select = YAML.load_file(config[:gen][:sql_select])
-	#logger.debug("sql_select : " + sql_select.to_s)
 	sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select)))
 	
 	config[:sql] = sql

@@ -3,7 +3,7 @@ require 'yaml'
 require 'test/unit'
 require 'selenium-webdriver'
 require './common.rb'
-require './SimpleHtmllogger.rb'
+require './SimpleHtmlLogger.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'
@@ -379,7 +379,7 @@ begin #general exception catching block
 	start_time = Time.now
 	
 	# Initializing logger
-	$logger = SimpleHtmlLogger::new(SimpleHtmlLogger::Debug)
+	$logger = SimpleHtmlLogger::new('./', SimpleHtmlLogger::Debug)
 	
 	$logger.info("Loading config")
 	

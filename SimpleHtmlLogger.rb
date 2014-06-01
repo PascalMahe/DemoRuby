@@ -9,16 +9,18 @@ class SimpleHtmlLogger
 	File_ext = ".html"
 	
 	attr_accessor :file
+	attr_accessor :path
 	attr_accessor :level
 	
-	def initialize(level = :info)
+	def initialize(path, level = :info)
 		@level = level
+		@path = path
 		
 		#creating the HTML file where the logs are copied
 		filename = get_filename()	
 		
 		@file = File.new(filename, "w")
-		copy_html_to_log_file("log_html_header.htm")
+		copy_html_to_log_file(@path + "log_html_header.htm")
 	end
 	
 	def get_filename()
@@ -61,7 +63,7 @@ class SimpleHtmlLogger
 	end
 	
 	def end_log()
-		copy_html_to_log_file("log_html_footer.htm")
+		copy_html_to_log_file(@path + "log_html_footer.htm")
 		@file.close
 	end
 	
