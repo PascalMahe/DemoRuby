@@ -1,0 +1,22 @@
+pour trouver les liens vers les coureurs
+--------------------------------------------------------
+<span class="name unit" title="(.+)">\r\n(.+)\r\n(.+)
+
+ce avec quoi il faut les remplacer 
+/!\ R2_C1 : pour les coureurs du fichier R2_C1.htm
+/!\ laisse des espaces dans le nom de fichier (à remplacer avec des _)
+--------------------------------------------------------
+<span class="name unit" title="\1"><a href="file:///D:/Dev/workspace/RPP/Test-HTML/R2_C1_\1.htm">\r\n\2\r\n\t</a></span>
+
+à faire :
+ - dans _runners, _conditions et _NOMCHEVAL -> ajout des CSS
+ - dans RX_CX 	-> ajout des liens vers : _runners, _conditions, _NOMCHEVAL
+				-> corrections des liens vers _NOMCHEVAL : ôter les espaces dans les URLS
+				-> remplacer CSS : 
+						bloc 
+						"
+						<link rel="stylesheet" href="fichiers_commun/css_oZ4xQyWwFZML1aV6lHN4iz_HN2GRsAxRMDQWFMtd-T4.css">
+						<link rel="stylesheet" href="fichiers_commun/css_SbFrNCnL8JV8nQ1R8sBIDK-9ulla3agCg39ZZZPtYIo.css">
+						<link rel="stylesheet" href="fichiers_commun/css_ynuGQRFqNtxRu3Zh5UW0Egl6gMVNcZq2SxFXn3Cv2Wg.css">
+						"
+						par ligne : "<link type="text/css" rel="stylesheet" href="https://cache.pmu.fr/turf/css/1399905919652_styles-online.css" />"

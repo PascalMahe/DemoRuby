@@ -50,8 +50,8 @@ begin #general exception catching block
 				#([^\r\n]+) 	=> the horse's name
 				#([\s^\r\n]+) 	=> again, capturing the spaces, for the 3rd line this time
 				# <\/span>/ 	=> the final </span> tag
-				regex = /\<span class="name unit" title="([^\r\n]+)">([\s^\r\n]+)([^\r\n]+)([\s^\r\n]+)<\/span>/
-				group_captured = text.scan(regex)
+				runner_link_regex = /\<span class="name unit" title="([^\r\n]+)">([\s^\r\n]+)([^\r\n]+)([\s^\r\n]+)<\/span>/
+				group_captured = text.scan(runner_link_regex)
 				
 				$logger.debug("Text : ")
 				$logger.debug(text)
@@ -62,10 +62,14 @@ begin #general exception catching block
 					$logger.debug(group_captured)
 					original_title = group_captured[0][0]
 
+					# First pass : adding the links to the runners with spaces
+					new_file_content = text.gsub(runner_link_regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_\\1.htm\">\\2\\3\\4</a></span>")
 					
+					#Second pass : correcting those links by remonving spaces
+					space_regex = /R\\d_C\\d(.+)\.htm/
+					space_group_captured = text.scan(space_regex)
 					
-					#$logger.debug("After replacement : ")
-					new_file_content = text.gsub(regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_\\1.htm\">\\2\\3\\4</a></span>")
+					new_file_content = text.gsub(space_regex, "")
 					
 					#$logger.debug(new_file_content)
 					File.open(filename, "w") {|file| file.puts new_file_content}

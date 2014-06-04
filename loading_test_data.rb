@@ -23,7 +23,7 @@ begin #general exception catching block
 	start_time = Time.now
 	
 	# Initializing logger
-	$logger = SimpleHtmlLogger::new(SimpleHtmlLogger::Debug)
+	$logger = SimpleHtmlLogger::new('./', SimpleHtmlLogger::Debug)
 	
 	$logger.info("Loading config")
 	
@@ -130,10 +130,8 @@ begin #general exception catching block
 	end
 	
 	$logger.info("Ending crawl")
-	crawling_end_time = Time.now
-	current_job.crawling_end_time = crawling_end_time
-	
-	computing_end_time = Time.now
+	current_job.crawling_end_time = Time.now
+	current_job.computing_end_time = Time.now
 	
 	$logger.debug(current_job)
 	$logger.imp("END REAL STUFF")
