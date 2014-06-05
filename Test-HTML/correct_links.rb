@@ -53,8 +53,8 @@ begin #general exception catching block
 				runner_link_regex = /\<span class="name unit" title="([^\r\n]+)">([\s^\r\n]+)([^\r\n]+)([\s^\r\n]+)<\/span>/
 				group_captured = text.scan(runner_link_regex)
 				
-				$logger.debug("Text : ")
-				$logger.debug(text)
+				#$logger.debug("Text : ")
+				#$logger.debug(text)
 				
 				if group_captured[0] != nil then
 				
@@ -65,11 +65,32 @@ begin #general exception catching block
 					# First pass : adding the links to the runners with spaces
 					new_file_content = text.gsub(runner_link_regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_\\1.htm\">\\2\\3\\4</a></span>")
 					
-					#Second pass : correcting those links by remonving spaces
-					space_regex = /R\\d_C\\d(.+)\.htm/
-					space_group_captured = text.scan(space_regex)
+					#Second pass : correcting those links by removing spaces
+					space_regex = /R\d_C\d_(.+ .+)+\.htm/
+					space_group_captured = new_file_content.scan(space_regex)
 					
-					new_file_content = text.gsub(space_regex, "")
+					if space_group_captured[0] != nil then
+				
+						$logger.debug("Captured space groups : ")
+						$logger.debug(space_group_captured)
+					end
+					
+					# loop on the existence of "space in a filename"
+					while (regex_index = new_file_content.index(space_regex)) != nil do
+						# getting the string to modify : the filename
+						string_to_mod = new_file_content.slice(space_regex)
+						# editing the string : replacing spaces with underscores
+						modded_string = string_to_mod.gsub(" ", "_")
+						$logger.debug("#{string_to_mod} => #{modded_string}")
+						
+						# cutting out the string
+						new_file_content.slice!(space_regex)
+						
+						# sewing it all back together
+						new_file_content.insert(regex_index, modded_string)
+						
+					end
+
 					
 					#$logger.debug(new_file_content)
 					File.open(filename, "w") {|file| file.puts new_file_content}
