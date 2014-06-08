@@ -99,6 +99,10 @@ begin #general exception catching block
 					$logger.info("Replaced links to individual runners")
 					
 					# Third pass : runners links
+					runners_table_regex = /<a class="btn( btn-selected)?">Tableau des partants/
+					new_file_content = new_file_content.gsub(runners_table_regex, "<a class=\"btn\\1\" href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_runners.htm\">Tableau des partants")
+					$logger.info("Replaced runners link")
+					
 					
 
 					# Fourth pass : conditions links
