@@ -66,6 +66,13 @@ begin #general exception catching block
 					new_file_content = text.gsub(runner_link_regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_\\1.htm\">\\2\\3\\4</a></span>")
 					
 					#Second pass : correcting those links by removing spaces
+					# REGEX : 	R\d_ 		-> R followed by a digit (0-9) followed by _
+					# 			C\d_ 		-> C followed by a digit (0-9) followed by _
+					#			(.+ +.+)+ 	-> at least one caracter (any car.) 
+					#							followed by one or more spaces ' ' 
+					#							followed by at least one caracter (any car.)
+					#							and this whole group happens at least once
+					#			\.htm		-> a dot followed by htm
 					space_regex = /R\d_C\d_(.+ .+)+\.htm/
 					space_group_captured = new_file_content.scan(space_regex)
 					
@@ -88,9 +95,16 @@ begin #general exception catching block
 						
 						# sewing it all back together
 						new_file_content.insert(regex_index, modded_string)
-						
 					end
+					$logger.info("Replaced links to individual runners")
+					
+					# Third pass : runners links
+					
 
+					# Fourth pass : conditions links
+					conditions_regex = /<a class="btn conditions-show">/
+					new_file_content = new_file_content.gsub(conditions_regex, "<a class=\"btn conditions-show\" href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_conditions.htm\">")
+					$logger.info("Replaced conditions link")
 					
 					#$logger.debug(new_file_content)
 					File.open(filename, "w") {|file| file.puts new_file_content}
