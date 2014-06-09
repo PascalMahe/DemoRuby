@@ -35,7 +35,7 @@ begin #general exception catching block
 	# first loop : conditions
 	for i in 1..max_meeting_number do
 		for j in 1..max_race_number do
-			filename = "R#{i}_C#{j}_test.htm"
+			filename = "R#{i}_C#{j}.htm"
 			if File.exist?(filename) then
 				$logger.info("Opening file : " + filename)
 				text = File.read(filename)
