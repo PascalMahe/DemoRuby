@@ -927,7 +927,7 @@ button.ui-button::-moz-focus-inner {
   z-index: 11;
 }
 .popin .pointer {
-  background: url(https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png) no-repeat;
+  background: url(../fichiers_commun/sprite_common_pictos.png) no-repeat;
   position: absolute;
   z-index: 1;
 }
@@ -1146,7 +1146,7 @@ button.ui-button::-moz-focus-inner {
 }
 .layer-popin.wait,
 .detail-popin .content.wait {
-  background: url(https://cache.pmu.fr/turf/css/images/chargement.gif) no-repeat center center #ffffff;
+  background: url(../fichiers_commun/chargement.gif) no-repeat center center #ffffff;
   min-height: 80px;
 }
 /*** Layer Detail ***/
@@ -1524,7 +1524,7 @@ input.btn-collapse.btn-green.btn-active {
   color: #ccc;
 }
 #cboxLoadingGraphic {
-  background: url(https://cache.pmu.fr/turf/css/images/loading.gif) no-repeat center center;
+  background: url(../fichiers_commun/loading.gif) no-repeat center center;
 }
 /* these elements are buttons, and may need to have additional styles reset to avoid unwanted base styles */
 #cboxPrevious,
@@ -1556,7 +1556,7 @@ input.btn-collapse.btn-green.btn-active {
   top: 50%;
   left: 5px;
   margin-top: -32px;
-  background: url(https://cache.pmu.fr/turf/css/images/common/vendor/colorbox/controls.png) no-repeat top left;
+  background: url(../fichiers_commun/controls.png) no-repeat top left;
   width: 28px;
   height: 65px;
   text-indent: -9999px;
@@ -1569,7 +1569,7 @@ input.btn-collapse.btn-green.btn-active {
   top: 50%;
   right: 5px;
   margin-top: -32px;
-  background: url(https://cache.pmu.fr/turf/css/images/common/vendor/colorbox/controls.png) no-repeat top right;
+  background: url(../fichiers_commun/controls.png) no-repeat top right;
   width: 28px;
   height: 65px;
   text-indent: -9999px;
@@ -1582,7 +1582,7 @@ input.btn-collapse.btn-green.btn-active {
   top: 5px;
   right: 5px;
   display: block;
-  background: url(https://cache.pmu.fr/turf/css/images/common/vendor/colorbox/controls.png) no-repeat top center;
+  background: url(../fichiers_commun/controls.png) no-repeat top center;
   width: 38px;
   height: 19px;
   text-indent: -9999px;
@@ -1835,7 +1835,7 @@ input:disabled {
   color: #c4c4c4;
 }
 .input-loading {
-  background: #ffffff url("https://cache.pmu.fr/turf/css/images/chargementSmall.gif") right no-repeat;
+  background: #ffffff url("../fichiers_commun/chargementSmall.gif") right no-repeat;
 }
 .ui-menu.ui-autocomplete {
   display: inline-block;
@@ -1940,10 +1940,10 @@ input:disabled {
   min-height: 500px;
 }
 .background-hippique {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_hippique.png") repeat-x;
+  background: url("../fichiers_commun/background_hippique.png") repeat-x;
 }
 .background-compte {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_gestion_compte.png") repeat-x;
+  background: url("../fichiers_commun/background_gestion_compte.png") repeat-x;
 }
 #popin-centre-message {
   position: fixed;
@@ -1995,7 +1995,7 @@ html {
 }
 .logo {
   position: absolute;
-  background: url("https://cache.pmu.fr/turf/css/images/logo.png") no-repeat;
+  background: url("../fichiers_commun/logo.png") no-repeat;
   width: 162px;
   height: 42px;
   left: 75px;
@@ -2004,7 +2004,7 @@ html {
   top: 17px;
   left: 263px;
   list-style: none outside none;
-  background: transparent url("https://cache.pmu.fr/turf/css/images/navigation/navigation.png") 0 -216px no-repeat;
+  background: transparent url("../fichiers_commun/navigation.png") 0 -216px no-repeat;
   height: 35px;
   width: 557px;
   position: absolute;
@@ -2135,7 +2135,7 @@ html {
 }
 /* Offre de Paris */
 .picto-pari {
-  background: url("https://cache.pmu.fr/turf/css/images/paris/sprite_pictos_pari.png") no-repeat 500px 500px;
+  background: url("../fichiers_commun/sprite_pictos_pari.png") no-repeat 500px 500px;
   display: block;
 }
 .picto-pari.big {
@@ -2331,7 +2331,7 @@ html {
   background-position: 0 -1300px;
 }
 .picto-pari.flexi {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_guide_flexi.png") no-repeat 0px 0px;
+  background: url("../fichiers_commun/sprite_guide_flexi.png") no-repeat 0px 0px;
 }
 .picto-pari.flexi.big {
   width: 96px;
@@ -2575,7 +2575,7 @@ html {
   background-position: -200px -819px;
 }
 .picto-pari.mini {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png");
+  background-image: url("../fichiers_commun/sprite_homepage.png");
   height: 9px;
   width: 25px;
 }
@@ -2587,7 +2587,7 @@ html {
 }
 /* Oeilleres */
 .OEILLERES_CLASSIQUE {
-  background: url("https://cache.pmu.fr/turf/css/images/oeillere_classic.png") no-repeat;
+  background: url("../fichiers_commun/oeillere_classic.png") no-repeat;
   display: inline-block;
   height: 24px;
   width: 25px;
@@ -2597,7 +2597,7 @@ html {
   zoom: 1;
 }
 .OEILLERES_AUSTRALIENNES {
-  background: url("https://cache.pmu.fr/turf/css/images/oeillere_austral.png") no-repeat;
+  background: url("../fichiers_commun/oeillere_austral.png") no-repeat;
   display: inline-block;
   height: 19px;
   width: 11px;
@@ -2608,7 +2608,7 @@ html {
 }
 /* deferre */
 .DEFERRE_ANTERIEURS {
-  background: url("https://cache.pmu.fr/turf/css/images/DA.gif") no-repeat;
+  background: url("../fichiers_commun/DA.gif") no-repeat;
   display: inline-block;
   height: 16px;
   width: 26px;
@@ -2618,7 +2618,7 @@ html {
   zoom: 1;
 }
 .DEFERRE_POSTERIEURS {
-  background: url("https://cache.pmu.fr/turf/css/images/DP.gif") no-repeat;
+  background: url("../fichiers_commun/DP.gif") no-repeat;
   display: inline-block;
   height: 16px;
   width: 26px;
@@ -2628,7 +2628,7 @@ html {
   zoom: 1;
 }
 .DEFERRE_ANTERIEURS_POSTERIEURS {
-  background: url("https://cache.pmu.fr/turf/css/images/DT.gif") no-repeat;
+  background: url("../fichiers_commun/DT.gif") no-repeat;
   display: inline-block;
   height: 16px;
   width: 26px;
@@ -2638,7 +2638,7 @@ html {
   zoom: 1;
 }
 .icoJumentPleine {
-  background: url("https://cache.pmu.fr/turf/css/images/jument_pleine.gif") no-repeat;
+  background: url("../fichiers_commun/jument_pleine.gif") no-repeat;
   display: inline-block;
   height: 13px;
   width: 14px;
@@ -2662,7 +2662,7 @@ html {
 /* participant check */
 /* TODO: change this sprite for a sharper one */
 .pari-form-formule-select {
-  background: url("https://cache.pmu.fr/turf/css/images/formule.png") no-repeat 0 -16px;
+  background: url("../fichiers_commun/formule.png") no-repeat 0 -16px;
   display: inline-block;
   height: 16px;
   width: 16px;
@@ -2676,15 +2676,15 @@ html {
 }
 /* blocs avec trame de fond dégradée */
 .detail-pari .header {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_ticket_header.png") repeat-x;
+  background: url("../fichiers_commun/background_ticket_header.png") repeat-x;
 }
 .tri {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_losange.png");
+  background: url("../fichiers_commun/background_losange.png");
 }
 .ico-button-add,
 .ico-button-add-min,
 .ico-button-del {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png");
+  background-image: url("../fichiers_commun/sprite_gestion_compte_ui.png");
   background-repeat: no-repeat;
 }
 .ico-button-add {
@@ -2730,11 +2730,11 @@ html {
 }
 .timeline-handle:hover,
 .course-line:hover {
-  cursor: url("https://cache.pmu.fr/turf/css/images/pictos/cursor-grab-off.png"), move;
+  cursor: url("../fichiers_commun/cursor-grab-off.png"), move;
 }
 .timeline-handle:active,
 .course-line:active {
-  cursor: url("https://cache.pmu.fr/turf/css/images/pictos/cursor-grab-on.png"), move;
+  cursor: url("../fichiers_commun/cursor-grab-on.png"), move;
 }
 .timeline-handle,
 .timeline-hours {
@@ -3010,7 +3010,7 @@ html {
   }
 }
 .timeline-big .course.depart-imminent {
-  background-image: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png');
+  background-image: url('../fichiers_commun/sprite_homepage.png');
   background-position: 0 -466px;
   -webkit-animation: clignoteTL 3s step-start infinite;
   animation: clignoteTL 3s step-start infinite;
@@ -3044,7 +3044,7 @@ html {
   }
 }
 .timeline-small .course.depart-imminent {
-  background-image: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png');
+  background-image: url('../fichiers_commun/sprite_homepage.png');
   background-position: -157px 0;
   color: #ffffff;
   -webkit-animation: clignoteTLSmall 3s step-start infinite;
@@ -3181,7 +3181,7 @@ html {
 }
 .footer-legende li {
   float: left;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_pointille.png") repeat-y left;
+  background: url("../fichiers_commun/background_pointille.png") repeat-y left;
   padding: 0px 9px;
 }
 .footer-legende li:first-child,
@@ -3232,7 +3232,7 @@ html {
 .timeline-small .course.QUINTE_PLUS .course-evenement,
 .timeline-small .course.PICK5 .course-evenement,
 .timeline-small .course {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png");
+  background-image: url("../fichiers_commun/sprite_homepage.png");
 }
 #pari-box {
   overflow: hidden;
@@ -3310,7 +3310,7 @@ html {
   padding: 5px 0 5px 5px;
 }
 #mode-mixte .picto {
-  background-image: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png');
+  background-image: url('../fichiers_commun/sprite_module_pari_ui_0.1.png');
   background-repeat: no-repeat;
   background-position: -1px -326px;
   width: 11px;
@@ -3450,7 +3450,7 @@ html {
 #pari-box .depart-imminent {
   height: 30px;
   width: 100%;
-  background-image: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png');
+  background-image: url('../fichiers_commun/sprite_module_pari_ui_0.1.png');
   background-position: -50px -345px;
   display: inline-block;
 }
@@ -3472,7 +3472,7 @@ html {
   left: 73px;
 }
 #pari-confirm .wheel .picto-validation {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png') no-repeat -135px -104px;
+  background: url('../fichiers_commun/sprite_module_pari_ui_0.1.png') no-repeat -135px -104px;
   width: 94px;
   height: 92px;
   position: absolute;
@@ -3532,7 +3532,7 @@ html {
   font-weight: normal;
 }
 #pari-ticket .nav-button {
-  background-image: url('https://cache.pmu.fr/turf/css/images/pictos/picto_nav.png');
+  background-image: url('../fichiers_commun/picto_nav.png');
   background-repeat: no-repeat;
   /*background-color: #D6D6D6;*/
   width: 8px;
@@ -3871,7 +3871,7 @@ html {
   padding-right: 5px;
 }
 #pari-confirm .recapitulatif .nbr-paris-enregistre .picto {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png') no-repeat -88px -155px;
+  background: url('../fichiers_commun/sprite_module_pari_ui_0.1.png') no-repeat -88px -155px;
   width: 12px;
   height: 12px;
 }
@@ -3890,7 +3890,7 @@ html {
   display: inline-block;
   height: 53px;
   width: 60px;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png") no-repeat 0px -120px;
+  background: url("../fichiers_commun/sprite_module_pari_ui_0.1.png") no-repeat 0px -120px;
 }
 #pari-confirm .recapitulatif p.error {
   padding: 14px 11px;
@@ -4002,7 +4002,7 @@ html {
 }
 #pari-report-resume.toggled .header,
 #pari-resume.toggled .header {
-  background: #d5d5d5 url('https://cache.pmu.fr/turf/css/images/sprites/sprite_picto_triangle.png') no-repeat 4px -15px;
+  background: #d5d5d5 url('../fichiers_commun/sprite_picto_triangle.png') no-repeat 4px -15px;
   border-bottom-width: 0;
 }
 #pari-report-resume.toggled .content,
@@ -4175,7 +4175,7 @@ html {
 #pari-selection-tools div span,
 #selection-base li.next-selection,
 #pari-confirm .wheel {
-  background-image: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png');
+  background-image: url('../fichiers_commun/sprite_module_pari_ui_0.1.png');
   background-repeat: no-repeat;
 }
 /* Resume des paris report */
@@ -4225,13 +4225,13 @@ html {
   display: inline-block;
   width: 20px;
   height: 17px;
-  background: #2e2e30 url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png') no-repeat -1px -348px;
+  background: #2e2e30 url('../fichiers_commun/sprite_module_pari_ui_0.1.png') no-repeat -1px -348px;
 }
 #pari-report-resume .report-btn-remove {
   display: inline-block;
   width: 20px;
   height: 17px;
-  background: #2e2e30 url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_pari_ui_0.1.png') no-repeat -24px -348px;
+  background: #2e2e30 url('../fichiers_commun/sprite_module_pari_ui_0.1.png') no-repeat -24px -348px;
 }
 #pari-report-resume .report-pari {
   display: block;
@@ -4356,12 +4356,12 @@ html {
   height: 18px;
   width: 18px;
   float: left;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_course_ui.png") no-repeat -288px -7px;
+  background: url("../fichiers_commun/sprite_course_ui.png") no-repeat -288px -7px;
   margin: 0 0 0 5px;
 }
 .participants-view .checkbox,
 .tableau-chevaux .checkbox {
-  background: url(https://cache.pmu.fr/turf/css/images/checkbox.png);
+  background: url(../fichiers_commun/checkbox.png);
   display: inline-block;
   height: 15px;
   width: 19px;
@@ -4482,7 +4482,7 @@ html {
 .participants-view .participant-header th,
 .tableau-chevaux .participant-header th {
   height: 40px;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_th_participant_clair.png") repeat-x;
+  background: url("../fichiers_commun/background_th_participant_clair.png") repeat-x;
 }
 .participants-view .participant-header th.rapports,
 .tableau-chevaux .participant-header th.rapports {
@@ -4497,7 +4497,7 @@ html {
 .participants-view thead .info-poids,
 .tableau-chevaux thead .info-poids {
   height: 19px !important;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_th_participant_sombre.png") repeat-x;
+  background: url("../fichiers_commun/background_th_participant_sombre.png") repeat-x;
 }
 .participants-view thead .rapport-probable,
 .tableau-chevaux thead .rapport-probable,
@@ -4513,7 +4513,7 @@ html {
 }
 .participants-view .participant-check,
 .tableau-chevaux .participant-check {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_course_ui.png") no-repeat;
+  background: url("../fichiers_commun/sprite_course_ui.png") no-repeat;
   width: 17px;
   height: 19px;
   margin: 0 auto;
@@ -4549,7 +4549,7 @@ html {
 .tableau-chevaux .ligne-participant td {
   font-size: 10px;
   text-transform: capitalize;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_tr_participant_sombre.png");
+  background: url("../fichiers_commun/background_tr_participant_sombre.png");
 }
 .participants-view .ligne-participant td.lower-case,
 .tableau-chevaux .ligne-participant td.lower-case {
@@ -4566,15 +4566,15 @@ html {
 }
 .participants-view .ligne-participant.even td,
 .tableau-chevaux .ligne-participant.even td {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_tr_participant_clair.png");
+  background: url("../fichiers_commun/background_tr_participant_clair.png");
 }
 .participants-view .ligne-participant.even .rapport-probable,
 .tableau-chevaux .ligne-participant.even .rapport-probable {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_td_participant_clair.png");
+  background: url("../fichiers_commun/background_td_participant_clair.png");
 }
 .participants-view .ligne-participant .rapport-probable,
 .tableau-chevaux .ligne-participant .rapport-probable {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_td_participant_sombre.png");
+  background: url("../fichiers_commun/background_td_participant_sombre.png");
 }
 .participants-view .ligne-participant:hover td,
 .tableau-chevaux .ligne-participant:hover td,
@@ -4677,7 +4677,7 @@ html {
 .participants-view .tri .triable div,
 .tableau-chevaux .tri .triable div {
   height: 14px;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tri.png') no-repeat center;
+  background: url('../fichiers_commun/background_tri.png') no-repeat center;
 }
 .participants-view .tri .triable:hover,
 .tableau-chevaux .tri .triable:hover {
@@ -4885,7 +4885,7 @@ html {
   position: absolute;
   top: 0;
   z-index: 15;
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/footer.png") no-repeat scroll left bottom transparent;
+  background: url("../fichiers_commun/footer.png") no-repeat scroll left bottom transparent;
   font-family: Arial, sans-serif;
   height: auto;
   padding: 0 0 7px;
@@ -4895,7 +4895,7 @@ html {
   margin: 0;
 }
 #popin-pinpad .pinpad-header {
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/header.png") no-repeat scroll left top transparent;
+  background: url("../fichiers_commun/header.png") no-repeat scroll left top transparent;
   height: 40px;
 }
 #popin-pinpad .pinpad-header p {
@@ -4921,7 +4921,7 @@ html {
   padding: 0;
 }
 #popin-pinpad .grid {
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/grid.png") no-repeat scroll left top transparent;
+  background: url("../fichiers_commun/grid.png") no-repeat scroll left top transparent;
   float: left;
   height: 232px;
   margin: 10px 0;
@@ -4946,7 +4946,7 @@ html {
   margin-left: 10px;
 }
 #popin-pinpad .button {
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/btn_green.png") no-repeat scroll left top transparent;
+  background: url("../fichiers_commun/btn_green.png") no-repeat scroll left top transparent;
   color: #FFFFFF !important;
   display: block;
   font-size: 12px;
@@ -4970,7 +4970,7 @@ html {
   margin-top: 10px;
 }
 #popin-pinpad #button-confirm:disabled {
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/btn_grey.png") no-repeat scroll left top transparent;
+  background: url("../fichiers_commun/btn_grey.png") no-repeat scroll left top transparent;
   cursor: default;
 }
 .cx {
@@ -5034,7 +5034,7 @@ html {
   display: inline-block;
   margin-left: 5px;
   vertical-align: middle;
-  background-image: url('https://cache.pmu.fr/turf/css/images/common/session/picto_help_inscription.png');
+  background-image: url('../fichiers_commun/picto_help_inscription.png');
   width: 15px;
   height: 15px;
 }
@@ -5069,7 +5069,7 @@ html {
 #auth-view {
   width: 255px;
   height: 73px;
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/background_top_user_view.png") no-repeat;
+  background: url("../fichiers_commun/background_top_user_view.png") no-repeat;
   color: #fff;
   border-radius: 5px 5px 0 0;
 }
@@ -5088,7 +5088,7 @@ html {
 #auth-view .bottom a {
   color: #fff;
   padding: 0 6px 0 8px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat 0 -192px;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat 0 -192px;
   white-space: nowrap;
 }
 #auth-view .bottom a:hover {
@@ -5135,7 +5135,7 @@ html {
   position: relative;
   width: 255px;
   height: 82px;
-  background: url("https://cache.pmu.fr/turf/css/images/common/session/background_top_user_view.png") no-repeat;
+  background: url("../fichiers_commun/background_top_user_view.png") no-repeat;
   color: #fff;
   border-radius: 5px 5px 0 0;
 }
@@ -5198,7 +5198,7 @@ html {
   width: 27px;
   height: 26px;
   float: left;
-  background: url('https://cache.pmu.fr/turf/css/images/common/session/sprite_box_profil.png') no-repeat 0 -74px;
+  background: url('../fichiers_commun/sprite_box_profil.png') no-repeat 0 -74px;
 }
 .nav-button:hover,
 .nav-button.activated {
@@ -5355,7 +5355,7 @@ html {
 }
 .reunion-line .infos-reunion,
 .reunion-line .statut-box span {
-  background: url(https://cache.pmu.fr/turf/css/images/background/background_pointille.png) repeat-x 0 37px;
+  background: url(../fichiers_commun/background_pointille.png) repeat-x 0 37px;
 }
 .reunion-line .bottom {
   height: 30px;
@@ -5381,7 +5381,7 @@ html {
   width: 100%;
   margin: 7px 0 0 0;
   display: block;
-  background: url(https://cache.pmu.fr/turf/css/images/background/background_pointille.png) repeat-y right;
+  background: url(../fichiers_commun/background_pointille.png) repeat-y right;
 }
 .reunion-line .hippodrome {
   width: 131px;
@@ -5442,7 +5442,7 @@ html {
 }
 /*Discipline*/
 .picto-discipline {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png") no-repeat 100px 0;
+  background: url("../fichiers_commun/sprite_homepage.png") no-repeat 100px 0;
 }
 /*.monte { background-position:-104px -2px;}*/
 .obstacle {
@@ -5456,7 +5456,7 @@ html {
 }
 /* pictos infos */
 .CAMERA {
-  background: url("https://cache.pmu.fr/turf/css/images/camera.png") no-repeat;
+  background: url("../fichiers_commun/camera.png") no-repeat;
   height: 16px;
   width: 21px;
 }
@@ -5464,7 +5464,7 @@ html {
 .DIURNE,
 .NOCTURNE,
 .SEMINOCTURNE {
-  background: url("https://cache.pmu.fr/turf/css/images/natureReunion.png") left bottom no-repeat;
+  background: url("../fichiers_commun/natureReunion.png") left bottom no-repeat;
   height: 18px;
   width: 18px;
 }
@@ -5478,7 +5478,7 @@ html {
   background-position: -52px;
 }
 .WEATHER-CLOUD {
-  background: url("https://cache.pmu.fr/turf/css/images/cloud.png") center no-repeat;
+  background: url("../fichiers_commun/cloud.png") center no-repeat;
 }
 /*Utilise sprite timeline*/
 .reunion-line.course-en-cours .statut-box,
@@ -5488,7 +5488,7 @@ html {
 .reunion-line.reunion-terminee .num-reunion,
 .reunion-line .next-course-button,
 .reunion-line .num-reunion {
-  background-image: url(https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png);
+  background-image: url(../fichiers_commun/sprite_homepage.png);
   background-repeat: no-repeat;
 }
 .reunion-line .num-reunion {
@@ -5496,7 +5496,7 @@ html {
 }
 /* meteo */
 .reunions-infos-line .picto-meteo {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png");
+  background-image: url("../fichiers_commun/sprite_homepage.png");
   background-repeat: no-repeat;
   background-position: 100px 100px;
   /*pour ne rien afficher en background par defaut */
@@ -5622,7 +5622,7 @@ html {
   text-align: center;
   font-weight: bold;
   color: #FFFFFF;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_reunion_selector.png") repeat-x;
+  background: url("../fichiers_commun/background_reunion_selector.png") repeat-x;
 }
 .liste-courses-cell-reunion .separator {
   border-right: 1px solid #018531;
@@ -5925,7 +5925,7 @@ html {
   margin-right: 15px;
 }
 #reunion-course-selector .pointer {
-  background: url("https://cache.pmu.fr/turf/css/images/course_view_pointer.png") bottom center no-repeat;
+  background: url("../fichiers_commun/course_view_pointer.png") bottom center no-repeat;
   height: 12px;
   width: 48px;
   display: block;
@@ -5979,7 +5979,7 @@ html {
   height: 20px;
   margin: 3px 0 0 0;
   display: block;
-  background: url(https://cache.pmu.fr/turf/css/images/background/background_pointille.png) repeat-y right;
+  background: url(../fichiers_commun/background_pointille.png) repeat-y right;
 }
 #reunion-course-selector .picto-meteo {
   margin-top: 6px;
@@ -6083,7 +6083,7 @@ html {
 #info-detail a span,
 #stat-button li span,
 #reunion-course-selector .button-nav {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_course_ui.png");
+  background-image: url("../fichiers_commun/sprite_course_ui.png");
 }
 .rapports-definitifs ul {
   height: 45px;
@@ -6164,10 +6164,10 @@ html {
 }
 .rapports-definitifs table tbody tr {
   height: 27px;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tr_participant_sombre.png');
+  background: url('../fichiers_commun/background_tr_participant_sombre.png');
 }
 .rapports-definitifs table tbody tr.odd {
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tr_participant_clair.png');
+  background: url('../fichiers_commun/background_tr_participant_clair.png');
 }
 .rapports-definitifs table tbody tr td {
   border-right: 1px solid #ccc;
@@ -6176,7 +6176,7 @@ html {
   text-transform: capitalize;
 }
 .rapports-definitifs .alternative {
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tr_participant_sombre.png');
+  background: url('../fichiers_commun/background_tr_participant_sombre.png');
   color: #000;
   border: 1px solid #ccc;
   border-top: none;
@@ -6243,7 +6243,7 @@ html {
 #horloge-view .picto {
   height: 33px;
   width: 18px;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png") -46px -149px;
+  background: url("../fichiers_commun/sprite_common_pictos.png") -46px -149px;
 }
 /* TODO: implementer le statut actif lors de la user story sur la gestion du calendrier */
 #calendar-view {
@@ -6260,7 +6260,7 @@ html {
 }
 #calendar-today,
 #calendar-all-month {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png") left -276px;
+  background: url("../fichiers_commun/sprite_homepage.png") left -276px;
   float: left;
   line-height: 24px;
   padding-left: 5px;
@@ -6268,7 +6268,7 @@ html {
 }
 #calendar-today div,
 #calendar-all-month div {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png") right -276px;
+  background: url("../fichiers_commun/sprite_homepage.png") right -276px;
   padding: 0 8px 0 3px;
   float: left;
   font-weight: bold;
@@ -6278,7 +6278,7 @@ html {
 #calendar-view .button {
   height: 24px;
   width: 17px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png');
+  background: url('../fichiers_commun/sprite_homepage.png');
   display: block;
   float: left;
   cursor: pointer;
@@ -6298,7 +6298,7 @@ html {
 #calendar-widget,
 #calendar-widget .date,
 #calendar-widget .cal {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png');
+  background: url('../fichiers_commun/sprite_homepage.png');
 }
 #calendar-widget .date div {
   float: left;
@@ -6366,7 +6366,7 @@ html {
   width: 27px;
   height: 34px;
   cursor: pointer;
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_homepage.png");
+  background-image: url("../fichiers_commun/sprite_homepage.png");
 }
 .month-nav.back {
   position: absolute;
@@ -6531,7 +6531,7 @@ html {
   width: 12px;
   height: 8px;
   margin: 9px auto;
-  background: url('https://cache.pmu.fr/turf/css/images/fleche_bas_12x8.png') no-repeat center;
+  background: url('../fichiers_commun/fleche_bas_12x8.png') no-repeat center;
 }
 .calendrier-reunions .custom-select {
   border: 1px solid #e3e3e3;
@@ -6549,7 +6549,7 @@ html {
 }
 .sprite-flag {
   display: inline-block;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite-flag.png') no-repeat top left;
+  background: url('../fichiers_commun/sprite-flag.png') no-repeat top left;
   width: 24px;
   height: 16px;
   border: 1px solid #E0E0E0;
@@ -6958,7 +6958,7 @@ html {
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active,
 .ui-widget-header .ui-icon {
-  background-image: url(https://cache.pmu.fr/turf/css/images/sprites/sprite-calendar-widget.png);
+  background-image: url(../fichiers_commun/sprite-calendar-widget.png);
   background-repeat: no-repeat;
 }
 .hasDatepicker {
@@ -6980,7 +6980,7 @@ html {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  background: url('https://cache.pmu.fr/turf/css/images/chargement.gif') #ffffff center center no-repeat;
+  background: url('../fichiers_commun/chargement.gif') #ffffff center center no-repeat;
 }
 #bloc-erreur .bandeau {
   position: relative;
@@ -7092,7 +7092,7 @@ html {
 }
 .inline.main .bandeau .content .picto {
   margin: -10px auto;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat 0 -555px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat 0 -555px;
   width: 30px;
   float: left;
   height: 40px;
@@ -7192,7 +7192,7 @@ html {
   padding: 12px;
 }
 .compte-box .content .alerte {
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_content_box_gestion_compte.png') repeat-x;
+  background: url('../fichiers_commun/background_content_box_gestion_compte.png') repeat-x;
   color: white;
   line-height: 25px;
   border-radius: 3px;
@@ -7202,7 +7202,7 @@ html {
   clear: both;
 }
 .picto-confirmation {
-  background: url('https://cache.pmu.fr/turf/css/images/pictos/picto-confirmation.png') no-repeat;
+  background: url('../fichiers_commun/picto-confirmation.png') no-repeat;
   height: 18px;
   width: 23px;
   margin-left: 4px;
@@ -7306,7 +7306,7 @@ html {
   background: linear-gradient(to bottom, #dcdcdc, #f0f0f0);
 }
 .gerer-mon-compte li a {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat;
   display: block;
   font-size: 9px;
   color: #000;
@@ -7414,7 +7414,7 @@ html {
   display: inline-block;
   width: 23px;
   height: 23px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png') no-repeat -100px -39px;
+  background: url('../fichiers_commun/sprite_gestion_compte_ui.png') no-repeat -100px -39px;
   margin: 0 4px;
 }
 .ie7 .picto-aide {
@@ -7428,7 +7428,7 @@ html {
 }
 .content.expire-box .footer li span {
   display: block;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_pointille.png") repeat-y right;
+  background: url("../fichiers_commun/background_pointille.png") repeat-y right;
   margin-left: 5px;
 }
 .content.expire-box .footer li:last-child span {
@@ -7468,7 +7468,7 @@ html {
   background-position: -470px -2px;
 }
 .content.expire-box .footer li {
-  background-image: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_404.png");
+  background-image: url("../fichiers_commun/sprite_404.png");
   padding: 0 0 0 28px;
   font-size: 12px;
   color: #3e8258;
@@ -7529,11 +7529,11 @@ html {
   padding: 0;
   border-right: 1px solid #939393;
   border-top: 0;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_clair_th_gestion_compte.png') repeat-x;
+  background: url('../fichiers_commun/background_clair_th_gestion_compte.png') repeat-x;
 }
 .mes-paris th.enjeu,
 .mes-paris th.gain {
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_sombre_th_gestion_compte.png') repeat-x;
+  background: url('../fichiers_commun/background_sombre_th_gestion_compte.png') repeat-x;
 }
 .mes-paris tr.annule {
   opacity: 0.5;
@@ -7561,7 +7561,7 @@ html {
 }
 .mes-paris .tri .triable div {
   height: 14px;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tri.png') no-repeat center;
+  background: url('../fichiers_commun/background_tri.png') no-repeat center;
 }
 .mes-paris .tri .asc div {
   height: 7px;
@@ -7625,7 +7625,7 @@ html {
   width: 15px;
   height: 17px;
   margin: 0 auto;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png') no-repeat -78px -4px;
+  background: url('../fichiers_commun/sprite_gestion_compte_ui.png') no-repeat -78px -4px;
 }
 .mes-paris tbody .corbeille {
   cursor: pointer;
@@ -7672,7 +7672,7 @@ table.mouvements th {
   padding: 0;
   border-right: 1px solid #939393;
   border-top: 0;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_clair_th_gestion_compte.png') repeat-x;
+  background: url('../fichiers_commun/background_clair_th_gestion_compte.png') repeat-x;
 }
 table.mouvements tr.turf td {
   color: #00af86;
@@ -7694,7 +7694,7 @@ table.mouvements .corbeille {
   width: 15px;
   height: 17px;
   margin: 0 auto;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png') no-repeat -78px -4px;
+  background: url('../fichiers_commun/sprite_gestion_compte_ui.png') no-repeat -78px -4px;
 }
 table.mouvements tbody .corbeille {
   cursor: pointer;
@@ -7722,7 +7722,7 @@ table.mouvements .tri .triable {
 }
 table.mouvements .tri .triable div {
   height: 14px;
-  background: url('https://cache.pmu.fr/turf/css/images/background/background_tri.png') no-repeat center;
+  background: url('../fichiers_commun/background_tri.png') no-repeat center;
 }
 table.mouvements .tri .asc div {
   height: 7px;
@@ -7854,14 +7854,14 @@ table.mouvements tbody tr:nth-child(even) td.montant {
   background-color: #dadada;
 }
 table.mouvements thead th.montant {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_sombre_th_gestion_compte.png") repeat-x scroll 0 0 transparent;
+  background: url("../fichiers_commun/background_sombre_th_gestion_compte.png") repeat-x scroll 0 0 transparent;
 }
 table.mouvements td.detail.turf div,
 table.mouvements td.detail.sport div {
   width: 15px;
   height: 17px;
   margin: 0 auto;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png') no-repeat -178px -41px;
+  background: url('../fichiers_commun/sprite_gestion_compte_ui.png') no-repeat -178px -41px;
   cursor: pointer;
 }
 .data-mouvement-view table.mouvements {
@@ -7981,10 +7981,10 @@ table.mouvements td.detail.sport div {
   color: #005C23;
 }
 #gains .derniers-gains.hippique.error {
-  background-image: url('https://cache.pmu.fr/turf/css/images/compte/gains_hippiques.png');
+  background-image: url('../fichiers_commun/gains_hippiques.png');
 }
 #gains .derniers-gains.sportif.error {
-  background-image: url('https://cache.pmu.fr/turf/css/images/compte/gains_sportifs.png');
+  background-image: url('../fichiers_commun/gains_sportifs.png');
 }
 #gains .derniers-gains.separator {
   width: 0px;
@@ -8055,7 +8055,7 @@ table.mouvements td.detail.sport div {
   display: block;
   height: 34px;
   padding: 0 0 0 50px;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat -486px -400px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat -486px -400px;
   text-transform: uppercase;
 }
 .actions-box .selecteurs .item:hover span {
@@ -8217,7 +8217,7 @@ table.mouvements td.detail.sport div {
   font-size: 12px;
 }
 #approvisionnement .mentions-cb {
-  background: url("https://cache.pmu.fr/turf/css/images/pictos/picto_cb.png") no-repeat;
+  background: url("../fichiers_commun/picto_cb.png") no-repeat;
   height: 35px;
   line-height: 35px;
   margin-bottom: 20px;
@@ -8525,7 +8525,7 @@ table.mouvements td.detail.sport div {
   padding-bottom: 20px;
 }
 .icone-info {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat -140px -41px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat -140px -41px;
   display: inline-block;
   width: 18px;
   height: 18px;
@@ -8767,7 +8767,7 @@ h3.required:after {
   position: inherit;
 }
 .code-secret-view .jours {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_jours_mon_compte.png") repeat-x;
+  background: url("../fichiers_commun/background_jours_mon_compte.png") repeat-x;
   height: 44px;
   width: 73px;
   line-height: 44px;
@@ -8776,7 +8776,7 @@ h3.required:after {
   padding-left: 7px;
 }
 .code-secret-view .code-secret-back {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_code_secret_mon_compte.png") repeat-x;
+  background: url("../fichiers_commun/background_code_secret_mon_compte.png") repeat-x;
   margin: 10px -20px;
   color: white;
   overflow: hidden;
@@ -9290,7 +9290,7 @@ a.mini {
   max-width: 194px;
   line-height: 26px;
   padding: 0 10px;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat 0 -502px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat 0 -502px;
   text-align: center;
   color: black;
   overflow: hidden;
@@ -9302,7 +9302,7 @@ a.mini {
   float: left;
   min-height: 26px;
   width: 24px;
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat -228px -502px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat -228px -502px;
 }
 .custom-select.disabled select {
   cursor: default;
@@ -9312,11 +9312,11 @@ a.mini {
 }
 .custom-select:hover .custom-select-value,
 .custom-select.disabled .custom-select-value {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat -109px -545px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat -109px -545px;
 }
 .custom-select:hover .toggle-list,
 .custom-select.disabled .toggle-list {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png") no-repeat -336px -545px;
+  background: url("../fichiers_commun/sprite_gestion_compte_ui.png") no-repeat -336px -545px;
 }
 .custom-select select {
   position: absolute;
@@ -9381,7 +9381,7 @@ a.mini {
   width: 28px;
   height: 28px;
   margin-top: 7px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -9392,7 +9392,7 @@ a.mini {
   height: 11px;
   margin-top: 16px;
   margin-right: 3px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat;
 }
 #carousel-view .pager li.active,
 #carousel-view .pager li:hover {
@@ -9592,7 +9592,7 @@ a.mini {
   width: 28px;
   height: 28px;
   margin-top: 7px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat;
   cursor: pointer;
 }
 .carousel-button.next {
@@ -9611,7 +9611,7 @@ a.mini {
   height: 11px;
   margin-top: 16px;
   margin-right: 2px;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat;
   cursor: pointer;
 }
 .carousel-pager li:first-child {
@@ -9657,7 +9657,7 @@ a.mini {
   padding-bottom: 45px;
 }
 .footer-view .inner {
-  background: url("https://cache.pmu.fr/turf/css/images/common/footer/chevaux.png") no-repeat scroll right bottom transparent;
+  background: url("../fichiers_commun/chevaux.png") no-repeat scroll right bottom transparent;
   display: inline-block;
   padding-bottom: 30px;
 }
@@ -9980,7 +9980,7 @@ a.mini {
   font-size: 11px;
   font-weight: bold;
   border-bottom: 1px dotted #aaa;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat 244px -56px;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat 244px -56px;
 }
 .sidebar .links li a:hover {
   text-decoration: underline;
@@ -9995,7 +9995,7 @@ a.mini {
   color: #535353;
   font-size: 11px;
   font-weight: bold;
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_common_pictos.png') no-repeat 244px -56px;
+  background: url('../fichiers_commun/sprite_common_pictos.png') no-repeat 244px -56px;
   border-top: 1px dotted #aaa;
 }
 .sidebar .aide-box .aide-sub-title {
@@ -10010,13 +10010,13 @@ a.mini {
   float: left;
 }
 .sidebar .aide-box .aide-image.tel {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_pictos_assistance.png') no-repeat 0px -184px;
+  background: url('../fichiers_commun/sprite_pictos_assistance.png') no-repeat 0px -184px;
 }
 .sidebar .aide-box .aide-image.mail {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_pictos_assistance.png') no-repeat -118px -94px;
+  background: url('../fichiers_commun/sprite_pictos_assistance.png') no-repeat -118px -94px;
 }
 .sidebar .aide-box .aide-image.courrier {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_pictos_assistance.png') no-repeat -58px -140px;
+  background: url('../fichiers_commun/sprite_pictos_assistance.png') no-repeat -58px -140px;
 }
 .sidebar .aide-box .aide-infos,
 .sidebar .aide-box .aide-infos-big {
@@ -10150,7 +10150,7 @@ a.mini {
   text-decoration: none;
 }
 .live-chat .bloc-background {
-  background: url("https://cache.pmu.fr/turf/css/images/sprites/sprite_pictos_assistance.png") no-repeat scroll -158px -38px transparent;
+  background: url("../fichiers_commun/sprite_pictos_assistance.png") no-repeat scroll -158px -38px transparent;
   padding: 10px 20px 10px 82px;
 }
 #money-box {
@@ -10239,7 +10239,7 @@ a.mini {
   color: #fff;
 }
 #money-box .picto-quinte {
-  background-image: url("https://cache.pmu.fr/turf/css/images/paris/quinteplus.png");
+  background-image: url("../fichiers_commun/quinteplus.png");
   width: 63px;
   height: 24px;
   display: inline-block;
@@ -10264,16 +10264,16 @@ a.mini {
   display: block;
 }
 #money-box .apres a.prochain.jouer {
-  background: url('https://cache.pmu.fr/turf/css/images/prochain.png') no-repeat;
+  background: url('../fichiers_commun/prochain.png') no-repeat;
 }
 #money-box .apres a.prochain.voir-partants {
-  background: url('https://cache.pmu.fr/turf/css/images/prochain_voir_partants.png') no-repeat;
+  background: url('../fichiers_commun/prochain_voir_partants.png') no-repeat;
 }
 #money-box .apres a.prochain:hover {
   opacity: 0.8;
 }
 #money-box .header {
-  background: url('https://cache.pmu.fr/turf/css/images/tirelire.png') repeat-x;
+  background: url('../fichiers_commun/tirelire.png') repeat-x;
   font-size: 12px;
   color: #fff;
   padding: 5px 6px 0 5px;
@@ -10415,7 +10415,7 @@ a.mini {
   height: 222px;
   border-top: 1px solid #dadada;
   border-bottom: 1px solid #a6a6a6;
-  background: url("https://cache.pmu.fr/turf/css/images/edito/background_similar_article.png") repeat-x;
+  background: url("../fichiers_commun/background_similar_article.png") repeat-x;
 }
 #online-similar-article .inner {
   width: 1140px;
@@ -10758,7 +10758,7 @@ a.mini {
   display: block;
 }
 #infos-legales-view li.pdf {
-  background: url("https://cache.pmu.fr/turf/css/images/pictos/ic-pdf.png") no-repeat 0 4px;
+  background: url("../fichiers_commun/ic-pdf.png") no-repeat 0 4px;
   padding: 3px 0 3px 37px;
 }
 .detail-pari-hippique .content > div {
@@ -10856,7 +10856,7 @@ a.mini {
 }
 .news-hippiques-bloc .bloc-header {
   text-transform: uppercase;
-  background-image: url(https://cache.pmu.fr/turf/css/images/background/background-header-actus-hippiques.png);
+  background-image: url(../fichiers_commun/background-header-actus-hippiques.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
   height: 30px;
@@ -10894,10 +10894,10 @@ a.mini {
   background-repeat: repeat-y;
 }
 .news-hippiques-bloc .news-hippiques.odd .content {
-  background-image: url(https://cache.pmu.fr/turf/css/images/background/background-left-item-white-actus-hippiques.png);
+  background-image: url(../fichiers_commun/background-left-item-white-actus-hippiques.png);
 }
 .news-hippiques-bloc .news-hippiques.even .content {
-  background-image: url(https://cache.pmu.fr/turf/css/images/background/background-left-item-grey-actus-hippiques.png);
+  background-image: url(../fichiers_commun/background-left-item-grey-actus-hippiques.png);
 }
 .news-hippiques-bloc .news-hippiques.editorial p {
   padding: 10px 0 0 5px;
@@ -10950,7 +10950,7 @@ a.mini {
   color: #535353;
 }
 .paris-en-cours-liste li {
-  background-image: url(../css/https://cache.pmu.fr/turf/css/images/sprites/sprite_paris_en_cours.png);
+  background-image: url(../css/../fichiers_commun/sprite_paris_en_cours.png);
   background-repeat: no-repeat;
   border-bottom: 1px solid #fff;
   -webkit-box-shadow: inset 0 -1px 0 0 #d7d7d7;
@@ -11010,10 +11010,10 @@ a.mini {
   font-size: 14px;
 }
 .img-paris-en-cours {
-  background: url('../css/https://cache.pmu.fr/turf/css/images/compte/suivre-guide-paris.jpg') no-repeat center;
+  background: url('../css/../fichiers_commun/suivre-guide-paris.jpg') no-repeat center;
 }
 .img-paris-en-cours.big {
-  background: url('../css/https://cache.pmu.fr/turf/css/images/compte/suivre-guide-paris-big.jpg') no-repeat center;
+  background: url('../css/../fichiers_commun/suivre-guide-paris-big.jpg') no-repeat center;
 }
 .course-direct {
   width: 264px;
@@ -11042,7 +11042,7 @@ a.mini {
   height: 31px;
   width: 36px;
   float: right;
-  background-image: url('https://cache.pmu.fr/turf/css/images/pictos_audios.png');
+  background-image: url('../fichiers_commun/pictos_audios.png');
 }
 .course-direct .video-button {
   background-position: -1px -1182px;
@@ -11198,10 +11198,10 @@ dt.infos-arrivee-list {
   box-shadow: 0 1px 6px 0 #333333;
 }
 .img-course-annulee {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_course_annulee.png");
+  background: url("../fichiers_commun/background_course_annulee.png");
 }
 .img-course-en-cours {
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_course_en_cours.png");
+  background: url("../fichiers_commun/background_course_en_cours.png");
 }
 .rapports-probables-table thead th {
   background-color: #797979;
@@ -11548,7 +11548,7 @@ dt.infos-arrivee-list {
 .form button.brown {
   width: 111px;
   height: 35px;
-  background: url("https://cache.pmu.fr/turf/css/images/background/background_header_box_gestion_compte.png");
+  background: url("../fichiers_commun/background_header_box_gestion_compte.png");
   font-size: 12px;
   font-weight: bold;
   text-align: center;
@@ -11648,7 +11648,7 @@ dt.infos-arrivee-list {
   padding-left: 2.7% !important;
 }
 .contact-demande .demande-faq a {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_gestion_compte_ui.png') no-repeat 393px -82px;
+  background: url('../fichiers_commun/sprite_gestion_compte_ui.png') no-repeat 393px -82px;
   display: block;
   padding: 0 10px 0 0;
 }
@@ -11840,7 +11840,7 @@ body.pmu-offline .specific-online {
   display: block;
   height: 360px;
   box-shadow: 0 7px 11px -6px #000000;
-  background: transparent url(https://cache.pmu.fr/turf/css/images/background/background_guide_wheel.png) repeat left top;
+  background: transparent url(../fichiers_commun/background_guide_wheel.png) repeat left top;
 }
 .guide-des-paris-header .title {
   font-weight: normal;
@@ -11855,7 +11855,7 @@ body.pmu-offline .specific-online {
   left: 231px;
 }
 .guide-des-paris-liste {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/sprites/sprite_module_guide_ui.png) no-repeat left top;
+  background: transparent url(../fichiers_commun/sprite_module_guide_ui.png) no-repeat left top;
   width: 273px;
   height: 273px;
   display: block;
@@ -11916,7 +11916,7 @@ body.pmu-offline .specific-online {
   left: 134px;
 }
 .guide-des-paris-tabs {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/background/background_guide_onglets.png) repeat-x left top;
+  background: transparent url(../fichiers_commun/background_guide_onglets.png) repeat-x left top;
   height: 207px;
   display: block;
   position: absolute;
@@ -11956,16 +11956,16 @@ body.pmu-offline .specific-online {
   padding-left: 50px;
 }
 .guide-des-paris-tabs li a.current {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/background/background_guide_onglet_actif.png) repeat-x left top;
+  background: transparent url(../fichiers_commun/background_guide_onglet_actif.png) repeat-x left top;
   color: white;
   text-shadow: 1px 1px 1px #303030;
   cursor: default;
 }
 .guide-des-paris-tabs li a.not-current.actif {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/background/background_guide_onglet_inactif.png) repeat-x left top;
+  background: transparent url(../fichiers_commun/background_guide_onglet_inactif.png) repeat-x left top;
 }
 .guide-des-paris-tabs li a.not-current.not-actif.visible {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/background/background_guide_onglet_inactif.png) repeat-x left top;
+  background: transparent url(../fichiers_commun/background_guide_onglet_inactif.png) repeat-x left top;
   opacity: 0.5;
   cursor: default;
 }
@@ -11976,7 +11976,7 @@ body.pmu-offline .specific-online {
   display: none;
 }
 .guide-des-paris-tabs li .picto {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/sprites/sprite_module_guide_ui.png) no-repeat left top;
+  background: transparent url(../fichiers_commun/sprite_module_guide_ui.png) no-repeat left top;
 }
 .guide-des-paris-tabs li .tab-principe.not-current .picto {
   background-position: -279px 0px;
@@ -12333,11 +12333,11 @@ body.pmu-offline .specific-online {
 }
 .guide-des-paris-infos .help-header.actif .folding,
 .guide-des-paris-infos .help-header-text.actif .folding {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_guide_ui.png') no-repeat -368px -145px;
+  background: url('../fichiers_commun/sprite_module_guide_ui.png') no-repeat -368px -145px;
 }
 .guide-des-paris-infos .help-header .folding,
 .guide-des-paris-infos .help-header-text .folding {
-  background: url('https://cache.pmu.fr/turf/css/images/sprites/sprite_module_guide_ui.png') no-repeat -368px -160px;
+  background: url('../fichiers_commun/sprite_module_guide_ui.png') no-repeat -368px -160px;
   width: 10px;
   height: 7px;
   display: block;
@@ -12375,332 +12375,332 @@ body.pmu-offline .specific-online {
   height: 0;
 }
 .guide-des-paris-infos .small.simple-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_SI_simple.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_SI_simple.png") no-repeat;
 }
 .guide-des-paris-infos .small.simple-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_SIMPLE.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_SIMPLE.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_TR_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_TR_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_TR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_TR.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_TR_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_TR_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TR_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TR_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TR_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TR_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TR_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TR_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.trio-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-tarif-dtlo-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_UC_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_UC_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-tarif-dtlo-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_CR_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_CR_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-tarif-dtlo-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TR_CT_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TR_CT_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.trio-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_TRIO.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_TRIO.png") no-repeat;
 }
 .guide-des-paris-infos .small.tic3-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_T3_tic3.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_T3_tic3.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_Q5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_Q5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_Q5.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_Q5.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_Q5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_Q5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q5_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q5_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q5_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q5_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-dtlo-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_UC_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_UC_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-dtlo-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_CR_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_CR_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-tarif-dtlo-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q5_CT_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q5_CT_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quinte-plus-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_QUINTE.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_QUINTE.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-complement-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_CC.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_CC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quinte-plus-flexi-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_FLEXI_VALEUR.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_FLEXI_VALEUR.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_Q4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_Q4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_Q4.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_Q4.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_Q4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_Q4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q4_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q4_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_Q4_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_Q4_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-dtlo-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_UC_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_UC_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-dtlo-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_CR_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_CR_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-tarif-dtlo-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_Q4_CT_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_Q4_CT_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.quarte-plus-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_QUARTE.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_QUARTE.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_P5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_P5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_P5.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_P5.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_P5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_P5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_P5_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_P5_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_P5_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_P5_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_P5_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_P5_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.pick5-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_P5_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_P5_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.pick5-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_P5_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_P5_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.pick5-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_P5_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_P5_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.pick5-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_PICK5.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_PICK5.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_MI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_MI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_MI.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_MI.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_MI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_MI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MI_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MI_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MI_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MI_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.mini-multi-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MI_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MI_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.mini-multi-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MI_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MI_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.mini-multi-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MI_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MI_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.mini-multi-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_MM.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_MM.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_MU_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_MU_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_MU.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_MU.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_MU_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_MU_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MU_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MU_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MU_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MU_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_MU_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_MU_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.multi-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MU_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MU_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.multi-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MU_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MU_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.multi-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_MU_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_MU_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.multi-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_MULTI.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_MULTI.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_2S4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_2S4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_2S4.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_2S4.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_2S4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_2S4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_2S4_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_2S4_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_2S4_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_2S4_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_2S4_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_2S4_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_2S4_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_2S4_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_2S4_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_2S4_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_2S4_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_2S4_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.deux-sur-quatre-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_2_4.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_2_4.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_CO_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_CO_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_CO.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_CO.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_CO_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_CO_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_CO_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_CO_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_CO_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_CO_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_CO_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_CO_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.couple-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_CO_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_CO_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.couple-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_CO_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_CO_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.couple-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_CO_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_CO_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.couple-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_COUPLE.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_COUPLE.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-principe {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/principe/Small_OA_TI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OA_TI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-spot {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/spot/Small_S_spOt_TI.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_S_spOt_TI.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-complement {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/complement/Small_OC_TI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OC_TI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-formule-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TI_UC.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TI_UC.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-formule-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TI_CR.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TI_CR.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-formule-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/formule/Small_OD_TI_CT.png") no-repeat;
+  background: transparent url("../fichiers_commun/Small_OD_TI_CT.png") no-repeat;
 }
 .guide-des-paris-infos .small.tierce-tarif-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_UC_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_UC_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-tarif-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_CR_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_CR_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-tarif-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_CT_fs_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_CT_fs_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-tarif-dtlo-combine {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_UC_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_UC_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-tarif-dtlo-champ-reduit {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_CR_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_CR_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-tarif-dtlo-champ-total {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tarifs/Small_Tar_TI_CT_to_ill.png") no-repeat center;
+  background: transparent url("../fichiers_commun/Small_Tar_TI_CT_to_ill.png") no-repeat center;
 }
 .guide-des-paris-infos .small.tierce-ticket {
-  background: transparent url("https://cache.pmu.fr/turf/css/images/guide/small/tickets/small_T_TIERCE.png") no-repeat;
+  background: transparent url("../fichiers_commun/small_T_TIERCE.png") no-repeat;
 }
 .guide-des-paris-infos .small .zoom {
   display: none;
   float: right;
   width: 17%;
   height: 44px;
-  background: transparent url(https://cache.pmu.fr/turf/css/images/pictos/picto-guide-zoom.png) no-repeat;
+  background: transparent url(../fichiers_commun/picto-guide-zoom.png) no-repeat;
 }
 .guide-des-paris-infos .text-link {
   -webkit-transition-property: height;
@@ -12721,7 +12721,7 @@ body.pmu-offline .specific-online {
   overflow: hidden;
 }
 .guide-des-paris-infos .text-link .icon {
-  background: transparent url(https://cache.pmu.fr/turf/css/images/pdf.png) no-repeat;
+  background: transparent url(../fichiers_commun/pdf.png) no-repeat;
   width: 16px;
   height: 16px;
   display: block;
@@ -12773,7 +12773,7 @@ body.pmu-offline .specific-online {
   font-weight: normal;
   text-transform: uppercase;
   margin: 0 0 17px 0;
-  background: url(https://cache.pmu.fr/turf/css/images/pictos/picto-equidia.png) no-repeat;
+  background: url(../fichiers_commun/picto-equidia.png) no-repeat;
   background-position: 720px;
   height: 30px;
 }
@@ -12791,15 +12791,15 @@ body.pmu-offline .specific-online {
   position: relative;
 }
 .rediffusions-view .videos .video-item.dernier-quinte {
-  background: url(https://cache.pmu.fr/turf/css/images/rediffusions/dernier_quinte_button.jpg) no-repeat;
+  background: url(../fichiers_commun/dernier_quinte_button.jpg) no-repeat;
   background-position: 0;
 }
 .rediffusions-view .videos .video-item.live-national {
-  background: url(https://cache.pmu.fr/turf/css/images/rediffusions/live_national_button.jpg) no-repeat;
+  background: url(../fichiers_commun/live_national_button.jpg) no-repeat;
   background-position: 0;
 }
 .rediffusions-view .videos .video-item.live-etrangere {
-  background: url(https://cache.pmu.fr/turf/css/images/rediffusions/live_etrangere_bouton.jpg) no-repeat;
+  background: url(../fichiers_commun/live_etrangere_bouton.jpg) no-repeat;
   background-position: 0;
 }
 .rediffusions-view div {
