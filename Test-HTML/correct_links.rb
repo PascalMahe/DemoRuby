@@ -32,7 +32,6 @@ begin #general exception catching block
 	max_race_number = 9
 	total_file_count = 0
 	
-	# first loop : conditions
 	for i in 1..max_meeting_number do
 		for j in 1..max_race_number do
 			filename = "R#{i}_C#{j}.htm"
