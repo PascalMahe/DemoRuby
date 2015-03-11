@@ -46,13 +46,13 @@ class Meeting
 #		@weather = weather
 #	end
 	
-	def initialize(date, job, number, racetrack, race_list, url)
+	def initialize(date, job, number, racetrack, url, track_condition)
 		@date = date
 		@job = job
 		@number = number
 		@racetrack = racetrack
-		@race_list = race_list
 		@url = url
+		@track_condition = track_condition
 	end
 	
 	def to_s()
@@ -88,31 +88,53 @@ class Meeting
 end
 
 class Race
+	attr_accessor :bets
+	attr_accessor :country
+	attr_accessor :detailed_conditions
+	attr_accessor :distance
 	attr_accessor :id
 	attr_accessor :meeting
-	attr_accessor :race_type
-	attr_accessor :time
-	attr_accessor :number
 	attr_accessor :name
-	attr_accessor :country
+	attr_accessor :number
+	attr_accessor :race_type
 	attr_accessor :result
 	attr_accessor :result_insertion_time
-	attr_accessor :distance
-	attr_accessor :detailed_conditions
-	attr_accessor :bets
+	attr_accessor :runner_list
+	attr_accessor :time
 	attr_accessor :url
 	attr_accessor :value
-	attr_accessor :runner_list
-	
-	def initialize(meeting, name, number, url, time, value, distance, racetype)
+		
+	def initialize(	bets = nil,
+					country = nil,
+					detailed_conditions = nil,
+					distance = nil, 
+					id = nil, 
+					meeting = nil, 
+					name = nil, 
+					number = nil, 
+					race_type = nil,
+					result = nil,
+					result_insertion_time = nil,
+					runner_list = nil,
+					time = nil,
+					url = nil,  
+					value = nil
+					)
+		@bets = bets
+		@country = country
+		@detailed_conditions = detailed_conditions
+		@distance = distance
+		@id = id
 		@meeting = meeting
 		@name = name
 		@number = number
-		@url = url
+		@race_type = race_type
+		@result = result
+		@result_insertion_time = result_insertion_time
+		@runner_list = runner_list
 		@time = time
+		@url = url
 		@value = value
-		@distance = distance
-		@racetype = racetype
 	end
 	
 	def to_s()

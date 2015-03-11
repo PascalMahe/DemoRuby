@@ -39,12 +39,17 @@ class RefObjectContainer < Hash
 	def [](text)
 		if not self.has_key?(text) then
 			
-			$logger.debug("Looking for text = %s in :" % text)
-			$logger.debug(self)
+			$globalState.logger.debug("Looking for text = %s in :" % text)
+			$globalState.logger.debug(self)
 			
 			ref_to_add = @class.new(text)
 			ref_to_add.id = @database_interface.insert_ref_object(@class, ref_to_add)
 			self[text] = ref_to_add
+			
+			
+			$globalState.logger.debug("Added ref with text = %s in :" % text)
+			$globalState.logger.debug(self)
+			
 		else
 			ref_to_add = self.fetch(text)
 		end
@@ -58,8 +63,8 @@ class RefObjectContainer < Hash
 		# cf. http://www.ruby-doc.org/core-2.0.0/Hash.html#method-i-select
 		new_hash = self.select{|k,v| v.id == key}
 		
-		$logger.debug("Looking for id = %s in :" % key)
-		$logger.debug(self)
+		$globalState.logger.debug("Looking for id = %s in :" % key)
+		$globalState.logger.debug(self)
 		
 		# We only want the first element
 		return new_hash.shift()[1]

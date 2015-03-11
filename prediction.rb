@@ -90,8 +90,9 @@ class Origin
 	
 	def to_s()
 		return "Origin[id = " + id.to_s +
-		", name = " + start_time.to_s + 
-		", column_order = " + loading_end_time.to_s + 
+		", name = " + name + 
+		", column_order = " + column_order.to_s + 
+		", url = " + url.to_s + 
 		"]"
 	end
 	

@@ -66,19 +66,19 @@
  :meeting: 'INSERT INTO Meeting(
 				id_track_condition, 
 				id_job, 
+				id_weather,
 				date,
 				racetrack,
 				number, 
-				url,
-				weather
+				url				
 			) VALUES (
 				:track_condition, 
-				:job, 
+				:job,
+				:weather,
 				:date,
 				:racetrack,
 				:number, 
-				:url,
-				:weather
+				:url
 			)'
 
  :origin: 'INSERT INTO Origin(

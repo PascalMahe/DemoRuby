@@ -45,12 +45,17 @@ begin #general exception catching block
 				
 				# the regex looks like this :
 				# '\<span class="name unit" title="([^\r\n]+)">' => (ignoring the first spaces) the span and a group capturing the name (exluding any line jumps)
-				#([\s^\r\n]+) 	=> the spaces at the beginning of the 2nd line (capture in a group to put them back when replacing the characters)
+				#([\s^\r\n]+) 	=> the spaces at the beginning of the 2nd line (captured in a group to put them back when replacing the characters)
 				#([^\r\n]+) 	=> the horse's name
 				#([\s^\r\n]+) 	=> again, capturing the spaces, for the 3rd line this time
 				# <\/span>/ 	=> the final </span> tag
 				runner_link_regex = /\<span class="name unit" title="([^\r\n]+)">([\s^\r\n]+)([^\r\n]+)([\s^\r\n]+)<\/span>/
 				group_captured = text.scan(runner_link_regex)
+				
+				#TEMP : correcting an earlier mistake: forgetting the "_runner_" characters
+				#<a href="file:///D:/Dev/workspace/RPP/Test-HTML/R4_C2_ISPHAN.htm">
+				#runner_link_regex = /\<a href="file:\/\/\/D:\/Dev\/workspace\/RPP\/Test-HTML\/R(\d)_C(\d)_(.+).htm">/
+				#group_captured = text.scan(runner_link_regex)
 				
 				#$logger.debug("Text : ")
 				#$logger.debug(text)
@@ -62,7 +67,8 @@ begin #general exception catching block
 					original_title = group_captured[0][0]
 
 					# First pass : adding the links to the runners with spaces
-					new_file_content = text.gsub(runner_link_regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_\\1.htm\">\\2\\3\\4</a></span>")
+					new_file_content = text.gsub(runner_link_regex, "<span class=\"name unit\" title=\"\\1\"><a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_runner_\\1.htm\">\\2\\3\\4</a></span>")
+					#TEMP : new_file_content = text.gsub(runner_link_regex, "<a href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R\\1_C\\2_runner_\\3.htm\">")
 					
 					#Second pass : correcting those links by removing spaces
 					# REGEX : 	R\d_ 		-> R followed by a digit (0-9) followed by _
@@ -102,8 +108,6 @@ begin #general exception catching block
 					new_file_content = new_file_content.gsub(runners_table_regex, "<a class=\"btn\\1\" href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_runners.htm\">Tableau des partants")
 					$logger.info("Replaced runners link")
 					
-					
-
 					# Fourth pass : conditions links
 					conditions_regex = /<a class="btn conditions-show">/
 					new_file_content = new_file_content.gsub(conditions_regex, "<a class=\"btn conditions-show\" href=\"file:///D:/Dev/workspace/RPP/Test-HTML/R#{i}_C#{j}_conditions.htm\">")

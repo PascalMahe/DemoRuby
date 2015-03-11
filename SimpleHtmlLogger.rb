@@ -15,6 +15,8 @@ class SimpleHtmlLogger
 	def initialize(path, level = :info)
 		@level = level
 		@path = path
+		@mutex = Mutex.new 	# Mutex to synchronize the logging : 
+							# otherwise, the tests scramble the logs
 		
 		#creating the HTML file where the logs are copied
 		filename = get_filename()	
@@ -32,7 +34,6 @@ class SimpleHtmlLogger
 		puts @level
 		
 		if @level != Debug
-			puts "level != debug"
 			padding_number = 0
 			# check if files already exist
 			if File::exist?(filename) or File::exist?(build_filename(str_today, padding_number))
@@ -68,20 +69,22 @@ class SimpleHtmlLogger
 	end
 	
 	def log(level, message)
-		# if can_write_level?(level) then
-			timestamp = Time.now
-			#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
-			# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
-			str_now = timestamp.strftime("%H:%M:%S.%L")
-			color_code = get_color_code_from_level(level)
-			complete_log = terminal_pretty(message.to_s)
-			complete_log = colorize(str_now + " - " + level + " - " + complete_log, color_code)
-			puts(complete_log)
-			html_message = html_escape(message.to_s)
-			html_message = html_pretty(html_message)
-			#puts html_message
-			@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
-		# end
+		@mutex.synchronize do
+			if can_write_level?(level) then
+				timestamp = Time.now
+				#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
+				# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
+				str_now = timestamp.strftime("%H:%M:%S.%L")
+				color_code = get_color_code_from_level(level)
+				complete_log = terminal_pretty(message.to_s)
+				complete_log = colorize(str_now + " - " + level + " - " + complete_log, color_code)
+				puts(complete_log)
+				html_message = html_escape(message.to_s)
+				html_message = html_pretty(html_message)
+				#puts html_message
+				@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
+			end
+		end
  	end
 	
 	def get_color_code_from_level(level)
@@ -98,22 +101,49 @@ class SimpleHtmlLogger
 	end
 	
 	def can_write_level?(level_to_check)
-		if level_to_check == Important or level_to_check == Error then
-			return true
-		end
-		if level_to_check == Info then
-			if @level != Debug then
-				return true
-			else
-				return false
-			end
-		end
-		if @level == Debug then
-			return true
-		end
-		return false
+		level_as_number = convert_level_to_number(@level)
+		level_to_check_as_number = convert_level_to_number(level_to_check)
+		
+		# @level | level_to_check || returns
+		#	ERR	3		ERR	3			T
+		#	ERR	3		IMP	2			F
+		#	ERR	3		INF	1			F
+		#	ERR	3		DBG	0			F
+		#
+		#	IMP	2		ERR	3			T
+		#	IMP	2		IMP	2			T
+		#	IMP	2		INF	1			F
+		#	IMP	2		DBG	0			F
+		#
+		#	INF	1		ERR	3			T
+		#	INF	1		IMP	2			T
+		#	INF	1		INF	1			T
+		#	INF	1		DBG	0			F
+		#
+		#	DBG	0		ERR	3			T
+		#	DGB	0		IMP	2			T
+		#	DBG	0		INF	1			T
+		#	DBG	0		DBG	0			T
+		# => returns true if @level is less or equal to level_to_check
+		
+		return level_as_number <= level_to_check_as_number
 	end
 	
+	def convert_level_to_number(level)
+		# Error = 3
+		# Important = 2
+		# Info = 1
+		# Debug = 0
+		level_as_number = 3 #Error
+		if level == Important then
+			level_as_number = 2
+		elsif level == Info
+			level_as_number = 1
+		elsif level == Debug
+			level_as_number = 0
+		end
+		return level_as_number
+	end
 	
 	# see http://stackoverflow.com/a/2070405/2112089
 	def colorize(text, color_code)

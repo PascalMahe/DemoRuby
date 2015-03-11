@@ -28,7 +28,7 @@ def fetch_meetings(html_meeting_list, date, current_job)
 	
 	# Second loop : to get all the data on meetings
 	meeting_list.each do |meeting|
-		fetch_meeting(meeting)
+		meeting_list.push(fetch_meeting(meeting))
 	end
 	return meeting_list
 end

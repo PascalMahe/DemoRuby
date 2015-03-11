@@ -1,8 +1,10 @@
 require 'sqlite3'
+require './ref.rb'
 
 class DatabaseInterface
 	
-	def initialize(config, is_test)
+	
+	def initialize(config, is_test, logger)
 		
 		if is_test then
 			db_name = config[:gen][:test_database_name]
@@ -17,14 +19,15 @@ class DatabaseInterface
 		
 		@sql = config[:sql]
 		@config = config
+		@logger = logger
 	end
 	
 	def log_nicely(message_header, query, values_hash = nil)
 		log_message = message_header + query
 		if values_hash != nil and not values_hash.empty? then
-			log_message = log_message + ", with values : " + values_hash.to_s
+			log_message = log_message + "; with values : " + values_hash.to_s
 		end
-		$logger.debug(log_message)
+		@logger.debug(log_message)
 	end
 	
 	def transaction_active?
@@ -45,15 +48,15 @@ class DatabaseInterface
 			statement.execute()
 			if is_insertion then
 				id = @db.last_insert_row_id()
-				$logger.debug("Insertion Ok, got ID : " + id.to_s)
+				@logger.debug("Insertion Ok; got ID : " + id.to_s)
 				return id
 			end
 		rescue SQLite3::BusyException => e 
-			$logger.error "BusyException occured"
-			$logger.error e.to_s
+			@logger.error "BusyException occured in DatabaseInterface.execute_query"
+			@logger.error e.to_s
 		rescue SQLite3::LockedException => e 
-			$logger.error "LockedException occured"
-			$logger.error e.to_s
+			@logger.error "LockedException occured in DatabaseInterface.execute_query"
+			@logger.error e.to_s
 		end
 	end
 	
@@ -69,8 +72,8 @@ class DatabaseInterface
 			statement.bind_params(values_hash)
 			return statement.execute()			
 		rescue SQLite3::Exception => e 
-			$logger.error "Exception occured"
-			$logger.error e
+			@logger.error "Exception occured in DatabaseInterface.execute_select"
+			@logger.error e
 		end
 	end
 	
@@ -81,17 +84,23 @@ class DatabaseInterface
 			
 		if statement == nil then
 			statement = @db.prepare(query)
+			
 		end
+		
 		begin
-			statement.bind_params(values_hash)
+			if values_hash != nil then
+				statement.bind_params(values_hash)
+			end
 			result_set = statement.execute
-			# $logger.debug("Result_set : " + result_set.to_s)
+			
 			row = result_set.next
+			
 			result_set.close
+			
 			return row
 		rescue SQLite3::Exception => e 
-			$logger.error "Exception occured"
-			$logger.error e
+			@logger.error "Exception occured in DatabaseInterface.execute_select_w_one_result"
+			@logger.error e
 		end
 	end
 	
@@ -244,6 +253,7 @@ class DatabaseInterface
 	end
 	
 	def insert_meeting(meeting)
+		@logger.debug("Seeking to insert meeting : " + meeting.to_s)
 		values_hash = {
 			:track_condition => meeting.track_condition.id, 
 			:job => meeting.job.id,
@@ -285,6 +295,7 @@ class DatabaseInterface
 	end
 	
 	def insert_race_without_result(race)
+		@logger.debug("Seeking to insert race : " + race.to_s)
 		values_hash = {
 			:meeting => race.meeting.id, 
 			:race_type => race.race_type.id,
@@ -583,42 +594,42 @@ class DatabaseInterface
 	end
 	
 	def load_all_refs()
-		$logger.info("Loading all reference objects")
-		$logger.info("RefDirection")
+		@logger.info("Loading all reference objects")
+		# @logger.info("RefDirection")
 		ref_dir_list = load_ref_direction_list()
-		$logger.debug(ref_dir_list.to_s)
+		# @logger.debug(ref_dir_list.to_s)
 
-		$logger.info("RefTrackCondition")
+		# @logger.info("RefTrackCondition")
 		ref_track_condition_list = load_ref_track_condition_list()
-		$logger.debug(ref_track_condition_list)
+		# @logger.debug(ref_track_condition_list)
 
-		$logger.info("RefRaceType")
+		# @logger.info("RefRaceType")
 		ref_race_type_list = load_ref_race_type_list()
-		$logger.debug(ref_race_type_list)
+		# @logger.debug(ref_race_type_list)
 
-		$logger.info("RefColumn")
+		# @logger.info("RefColumn")
 		ref_column_list = load_ref_column_list()
-		$logger.debug(ref_column_list)
+		# @logger.debug(ref_column_list)
 
-		$logger.info("RefSex")
+		# @logger.info("RefSex")
 		ref_sex_list = load_ref_sex_list()
-		$logger.debug(ref_sex_list)
+		# @logger.debug(ref_sex_list)
 
-		$logger.info("RefBreed")
+		# @logger.info("RefBreed")
 		ref_breed_list = load_ref_breed_list()
-		$logger.debug(ref_breed_list)
+		# @logger.debug(ref_breed_list)
 
-		$logger.info("RefCoat")
+		# @logger.info("RefCoat")
 		ref_coat_list = load_ref_coat_list()
-		$logger.debug(ref_coat_list)
+		# @logger.debug(ref_coat_list)
 
-		$logger.info("RefBlinder")
+		# @logger.info("RefBlinder")
 		ref_blinder_list = load_ref_blinder_list()
-		$logger.debug(ref_blinder_list)
+		# @logger.debug(ref_blinder_list)
 
-		$logger.info("RefShoes")
+		# @logger.info("RefShoes")
 		ref_shoes_list = load_ref_shoes_list()
-		$logger.debug(ref_shoes_list)
+		# @logger.debug(ref_shoes_list)
 
 		@ref_list_hash = {
 			:ref_direction_list => ref_dir_list,
@@ -642,8 +653,12 @@ class DatabaseInterface
 			@sql[:select][:breeder_by_id], 
 			@stat_select_breeder_by_id, 
 			:id => id)
-		breeder.id = id
-		breeder.name = row["name"]
+		if row != nil then
+			breeder.id = id
+			breeder.name = row["name"]
+		else 
+			breeder = nil
+		end
 		return breeder
 	end
 	
@@ -653,21 +668,27 @@ class DatabaseInterface
 			@sql[:select][:forecast_by_id], 
 			@stat_select_forecast_by_id, 
 			:id => id)
-		forecast.id = id
-		forecast.expected_result = row["expected_result"]
-		forecast.result_match_rate = row["result_match_rate"]
-		forecast.normalised_result_match_rate = row["normalised_result_match_rate"]
+		@logger.debug(row)
 		
-		#race : loaded from database
-		race_id = row["id_race"]
-		race = load_race_by_id(race_id)
-		forecast.race = race
+		if row != nil then
 		
-		#origin : loaded from database
-		origin_id = row["id_origin"]
-		origin = load_origin_by_id(origin_id)
-		forecast.origin = origin
-		
+			forecast.id = id
+			forecast.expected_result = row["expected_result"]
+			forecast.result_match_rate = row["result_match_rate"]
+			forecast.normalised_result_match_rate = row["normalised_result_match_rate"]
+			
+			#race : loaded from database
+			race_id = row["id_race"]
+			race = load_race_by_id(race_id)
+			forecast.race = race
+			
+			#origin : loaded from database
+			origin_id = row["id_origin"]
+			origin = load_origin_by_id(origin_id)
+			forecast.origin = origin
+		else 
+			forecast = nil
+		end
 		return forecast
 	end
 	
@@ -677,22 +698,26 @@ class DatabaseInterface
 			@sql[:select][:horse_by_id], 
 			@stat_select_horse_by_id, 
 			:id => id)
-			
-		horse.id = id
-		$logger.debug(row)
-		horse.name = row["name"]
-		# sex : get from RefSex list
-		sex_id = row["id_sex"]
-		sex = @ref_list_hash[:ref_sex_list].get(sex_id, $logger)
-		horse.sex = sex
-		# coat : get from RefCoatlist
-		coat_id = row["id_coat"]
-		coat = @ref_list_hash[:ref_coat_list].get(coat_id)
-		horse.coat = coat
-		# breed : get from RefBreed list
-		breed_id = row["id_breed"]
-		breed = @ref_list_hash[:ref_breed_list].get(breed_id)
-		horse.breed = breed
+		if row != nil then
+			horse.id = id
+		
+			horse.name = row["name"]
+			# sex : get from RefSex list
+			sex_id = row["id_sex"]
+			sex = @ref_list_hash[:ref_sex_list].get(sex_id)
+			horse.sex = sex
+			# coat : get from RefCoatlist
+			coat_id = row["id_coat"]
+			coat = @ref_list_hash[:ref_coat_list].get(coat_id)
+			horse.coat = coat
+			# breed : get from RefBreed list
+			breed_id = row["id_breed"]
+			breed = @ref_list_hash[:ref_breed_list].get(breed_id)
+			horse.breed = breed
+		else 
+			horse = nil
+		end	
+		
 		return horse
 	end
 	
@@ -702,15 +727,19 @@ class DatabaseInterface
 			@sql[:select][:job_by_id], 
 			@stat_select_job_by_id, 
 			:id => id)
-		job.id = id
-		job.start_time = row["start_time"]
-			.strftime(@config[:gen][:default_date_time_format])
-		job.loading_end_time = row["loading_end_time"]
-			.strftime(@config[:gen][:default_date_time_format])
-		job.crawling_end_time = row["crawling_end_time"]
-			.strftime(@config[:gen][:default_date_time_format])
-		job.computing_end_time = row["computing_end_time"]
-			.strftime(@config[:gen][:default_date_time_format])
+		if row != nil then
+			job.id = id
+			job.start_time = row["start_time"]
+				.strftime(@config[:gen][:default_date_time_format])
+			job.loading_end_time = row["loading_end_time"]
+				.strftime(@config[:gen][:default_date_time_format])
+			job.crawling_end_time = row["crawling_end_time"]
+				.strftime(@config[:gen][:default_date_time_format])
+			job.computing_end_time = row["computing_end_time"]
+				.strftime(@config[:gen][:default_date_time_format])
+		else 
+			job = nil
+		end		
 		return job
 	end
 	
@@ -720,35 +749,44 @@ class DatabaseInterface
 			@sql[:select][:jockey_by_id], 
 			@stat_select_job_by_id, 
 			:id => id)
-		jockey.id = id
-		jockey.name = row["name"]
-		jockey.jacket = row["jacket"]
-
+		if row != nil then
+			jockey.id = id
+			jockey.name = row["name"]
+			jockey.jacket = row["jacket"]
+		else 
+			jockey = nil
+		end		
+		
 		return jockey
 	end
 
 	def load_meeting_by_id(id)
-		meeting = Meeting::new
+		
 		row = execute_select_w_one_result(
 			@sql[:select][:meeting_by_id], 
 			@stat_select_meeting_by_id, 
 			:id => id)
-		meeting.id = id
 		
-		meeting.date = row["date"]
-		meeting.racetrack = row["racetrack"]
-		meeting.number = row["number"]
-		meeting.url = row["url"]
-		# track_condition : get from RefTrackCondition list
-		track_condition_id = row["id_track_condition"]
-		track_condition = @ref_list_hash[:ref_track_condition_list].get(track_condition_id)
-		meeting.track_condition = track_condition
-		
-		# job : loaded from database
-		job_id = row["id_job"]
-		job = load_job_by_id(job_id)
-		meeting.job = job
-	
+		if row != nil then
+
+			date = row["date"]
+			racetrack = row["racetrack"]
+			number = row["number"]
+			url = row["url"]
+			
+			# job : loaded from database
+			job_id = row["id_job"]
+			job = load_job_by_id(job_id)
+			
+			# track_condition : get from RefTrackCondition list
+			track_condition_id = row["id_track_condition"]
+			track_condition = @ref_list_hash[:ref_track_condition_list].get(track_condition_id)
+			
+			meeting = Meeting::new(date, job, number, racetrack, url, track_condition)
+			meeting.id = id
+		else 
+			meeting = nil
+		end		
 		return meeting
 	end
 		
@@ -758,11 +796,15 @@ class DatabaseInterface
 			@sql[:select][:origin_by_id], 
 			@stat_select_origin_by_id, 
 			:id => id)
-		origin.id = id
-		origin.name = row["name"]
-		origin.column_order = row["column_order"]
-		origin.url = row["url"]
-		
+			
+		if row != nil then
+			origin.id = id
+			origin.name = row["name"]
+			origin.column_order = row["column_order"]
+			origin.url = row["url"]
+		else 
+			origin = nil
+		end	
 		return origin
 	end
 	
@@ -772,46 +814,64 @@ class DatabaseInterface
 			@sql[:select][:owner_by_id], 
 			@stat_select_owner_by_id, 
 			:id => id)
-		owner.id = id
-		owner.name = row["name"]		
+		if row != nil then
+			owner.id = id
+			owner.name = row["name"]
+		else 
+			owner = nil
+		end	
+			
 		return owner
 	end
 
 	
 	def load_race_by_id(id)
-		race = Race::new
+		
 		row = execute_select_w_one_result(
 			@sql[:select][:race_by_id], 
 			@stat_select_race_by_id, 
 			:id => id)
+		
+		if row != nil then
+			# simple values
+			bets = row["bets"]
+			country = row["country"]		
+			detailed_conditions = row["detailed_conditions"]		
+			distance = row["distance"]
+			name = row["name"]
+			number = row["number"]
+			result = row["result"]
+			result_insertion_time = row["result_insertion_time"]
+			time = row["time"]
+			url = row["url"]
+			value = row["value"]
 			
-		$logger.debug(row)
-		
-		race.id = id
-
-		# simple values
-		race.time = row["time"]
-		race.number = row["number"]
-		race.name = row["name"]
-		race.country = row["country"]		
-		race.result = row["result"]
-		race.result_insertion_time = row["result_insertion_time"]
-		race.distance = row["distance"]
-		race.detailed_conditions = row["detailed_conditions"]		
-		race.bets = row["bets"]
-		race.url = row["url"]
-		race.value = row["value"]
-		
-		# race_type : get from RefRaceType list
-		race_type_id = row["id_race_type"]
-		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id, $logger)
-		race.race_type = race_type
-		
-		# objects
-		meeting_id = row["id_meeting"]
-		meeting = load_meeting_by_id(meeting_id)
-		race.meeting = meeting
-
+			# race_type : get from RefRaceType list
+			race_type_id = row["id_race_type"]
+			race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id)
+			
+			# objects
+			meeting_id = row["id_meeting"]
+			meeting = load_meeting_by_id(meeting_id)
+			
+			race = Race::new(	bets = bets,
+								country = country,
+								detailed_conditions = detailed_conditions,
+								distance = distance, 
+								id = id,
+								meeting = meeting, 
+								name = name, 
+								number = number, 
+								race_type = race_type, 
+								result = result, 
+								result_insertion_time = result_insertion_time, 
+								time = time, 
+								url = url, 
+								value = value
+								)
+		else 
+			race = nil
+		end
 		return race
 	end
 	
@@ -821,59 +881,62 @@ class DatabaseInterface
 			@sql[:select][:runner_by_id], 
 			@stat_select_runner_by_id, 
 			:id => id)
+		
+			if row != nil then	
+			runner.id = id
+			runner.number = row["number"]
+			runner.draw = row["draw"]
+			runner.single_rating = row["single_rating"]
+			runner.non_runner = row["non_runner"]
+			runner.races_run = row["races_run"]
+			runner.victories = row["victories"]
+			runner.places = row["places"]
+			runner.earnings_career = row["earnings_career"]
+			runner.earnings_current_year = row["earnings_current_year"]
+			runner.earnings_last_year = row["earnings_last_year"]
+			runner.earnings_victory = row["earnings_victory"]
+			runner.description = row["description"]
+			runner.load = row["load"]
+			runner.history = row["history"]
+			runner.url = row["url"]
+			runner.distance = row["distance"]
 			
-		runner.id = id
-		runner.number = row["number"]
-		runner.draw = row["draw"]
-		runner.single_rating = row["single_rating"]
-		runner.non_runner = row["non_runner"]
-		runner.races_run = row["races_run"]
-		runner.victories = row["victories"]
-		runner.places = row["places"]
-		runner.earnings_career = row["earnings_career"]
-		runner.earnings_current_year = row["earnings_current_year"]
-		runner.earnings_last_year = row["earnings_last_year"]
-		runner.earnings_victory = row["earnings_victory"]
-		runner.description = row["description"]
-		runner.load = row["load"]
-		runner.history = row["history"]
-		runner.url = row["url"]
-		runner.distance = row["distance"]
-		
-		# Shoes : get from RefShoes list
-		shoes_id = row["id_shoes"]
-		shoes = @ref_list_hash[:ref_shoes_list].get(shoes_id)
-		runner.shoes = shoes
-		# Blinder : get from RefBlinder list
-		blinder_id = row["id_blinder"]
-		blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
-		runner.blinder = blinder
-		
-		# Race
-		race_id = row["id_race"]
-		race = load_race_by_id(race_id)
-		runner.race = race
-		# Horse
-		horse_id = row["id_horse"]
-		horse = load_horse_by_id(horse_id)
-		runner.horse = horse
-		# Jockey
-		jockey_id = row["id_jockey"]
-		jockey = load_jockey_by_id(jockey_id)
-		runner.jockey = jockey
-		# Trainer
-		trainer_id = row["id_trainer"]
-		trainer = load_trainer_by_id(trainer_id)
-		runner.trainer = trainer
-		# Owner
-		owner_id = row["id_owner"]
-		owner = load_owner_by_id(owner_id)
-		runner.owner = owner
-		# Breeder
-		breeder_id = row["id_breeder"]
-		breeder = load_breeder_by_id(breeder_id)
-		runner.breeder = breeder
-		
+			# Shoes : get from RefShoes list
+			shoes_id = row["id_shoes"]
+			shoes = @ref_list_hash[:ref_shoes_list].get(shoes_id)
+			runner.shoes = shoes
+			# Blinder : get from RefBlinder list
+			blinder_id = row["id_blinder"]
+			blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
+			runner.blinder = blinder
+			
+			# Race
+			race_id = row["id_race"]
+			race = load_race_by_id(race_id)
+			runner.race = race
+			# Horse
+			horse_id = row["id_horse"]
+			horse = load_horse_by_id(horse_id)
+			runner.horse = horse
+			# Jockey
+			jockey_id = row["id_jockey"]
+			jockey = load_jockey_by_id(jockey_id)
+			runner.jockey = jockey
+			# Trainer
+			trainer_id = row["id_trainer"]
+			trainer = load_trainer_by_id(trainer_id)
+			runner.trainer = trainer
+			# Owner
+			owner_id = row["id_owner"]
+			owner = load_owner_by_id(owner_id)
+			runner.owner = owner
+			# Breeder
+			breeder_id = row["id_breeder"]
+			breeder = load_breeder_by_id(breeder_id)
+			runner.breeder = breeder
+		else 
+			runner = nil
+		end
 		return runner
 	end
 	
@@ -884,28 +947,35 @@ class DatabaseInterface
 			@stat_select_trainer_by_id, 
 			:id => id)
 			
-		trainer.id = id
-		trainer.name = row["name"]
-
+		if row != nil then
+			trainer.id = id
+			trainer.name = row["name"]
+		else
+			trainer = nil
+		end
 		return trainer
 	end
 	
 	def load_weather_by_id(id)
-		weather = Weather::new
+		
 		row = execute_select_w_one_result(
 			@sql[:select][:weather_by_id], 
 			@stat_select_weather_by_id, 
 			:id => id)
-			
-		weather.id = id
-		weather.temperature = row["temperature"]
-		weather.wind_speed = row["wind_speed"]
-		weather.insolation = row["insolation"]
-		# Wind_direction : get from RefDirection list
-		wind_direction_id = row["id_wind_direction"]
-		wind_direction = @ref_list_hash[:ref_direction_list].get(wind_direction_id)
-		weather.wind_direction = wind_direction
 		
+		if row != nil then
+			temperature = row["temperature"]
+			wind_speed = row["wind_speed"]
+			insolation = row["insolation"]
+			# Wind_direction : get from RefDirection list
+			wind_direction_id = row["id_wind_direction"]
+			wind_direction = @ref_list_hash[:ref_direction_list].get(wind_direction_id)
+			
+			weather = Weather::new(insolation, temperature, wind_direction, wind_speed)
+			weather.id = id
+		else
+			weather = nil
+		end
 		return weather
 	end
 	
@@ -916,15 +986,44 @@ class DatabaseInterface
 			@stat_select_weight_by_id, 
 			:id => id)
 			
-		weight.id = id
-		weight.name = row["name"]
-		weight.value = row["value"]
-		
-		# Forecast
-		forecast_id = row["id_forecast"]
-		forecast = load_forecast_by_id(forecast_id)
-		weight.forecast = forecast
-		
+		if row != nil then
+			weight.id = id
+			weight.name = row["name"]
+			weight.value = row["value"]
+			
+			# Forecast
+			forecast_id = row["id_forecast"]
+			forecast = load_forecast_by_id(forecast_id)
+			weight.forecast = forecast
+		else
+			weight = nil
+		end
 		return weight
+	end
+	
+	# GENERAL QUERIES
+	
+	# Select count(*) from one table
+	def select_count_from_table(table)
+		
+		query = @sql[:gen][:count_all]
+		
+		# Replace :table parameter in query with table
+		# For security reasons, checking if table is in the table list
+		if @config[:gen][:table_names].has_value?(table) then
+			query = query.gsub(':table', table)
+		end
+		
+		# Note : the statement is not a attribute of the DatabaseInterface object
+		# (not @) because the query can change (query for RefSex, Breeder...)
+		stat_select_count = @db.prepare(query)
+				
+		row = execute_select_w_one_result(
+			query, 
+			stat_select_count, 
+			nil
+		)
+		
+		return row["COUNT (*)"]
 	end
 end
