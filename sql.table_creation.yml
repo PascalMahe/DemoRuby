@@ -109,7 +109,7 @@
 			id_race INTEGER PRIMARY KEY,
 			id_meeting INTEGER, /* FK to Meeting */
 			id_race_type INTEGER, /* FK to RefRaceType */
-			time TEXT,
+			time TEXT, /* 11h45 */
 			number INTEGER,
 			name TEXT,
 			country TEXT,

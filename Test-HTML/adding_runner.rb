@@ -15,7 +15,7 @@ begin #general exception catching block
 	start_time = Time.now
 	
 	# Initializing logger
-	$logger = SimpleHtmlLogger::new('./../', SimpleHtmlLogger::Debug)
+	$logger = SimpleHtmlLogger::new('./../', SimpleHtmlLogger::DEBUG)
 	
 	$logger.info("Loading config")
 	$config = []

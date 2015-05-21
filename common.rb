@@ -19,8 +19,9 @@ class GlobalState
 		sql_delete = YAML.load_file(config[:gen][:sql_delete])
 		sql_insert = YAML.load_file(config[:gen][:sql_insert])
 		sql_select = YAML.load_file(config[:gen][:sql_select])
+		sql_update = YAML.load_file(config[:gen][:sql_update])
 		sql_gen = YAML.load_file(config[:gen][:sql_gen])
-		sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select.merge!(sql_gen))))
+		sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select.merge!(sql_update.merge!(sql_gen)))))
 		
 		config[:sql] = sql
 		return config

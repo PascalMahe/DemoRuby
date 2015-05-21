@@ -1,29 +1,3 @@
-
-
-class Weather
-	attr_accessor :id
-	attr_accessor :wind_direction
-	attr_accessor :temperature
-	attr_accessor :wind_speed
-	attr_accessor :insolation
-	
-	def initialize(insolation, temperature, wind_direction, wind_speed)
-		@insolation = insolation
-		@temperature = temperature
-		@wind_direction = wind_direction
-		@wind_speed = wind_speed
-	end
-	
-	def to_s()
-		return "Weather[id = " + id.to_s +
-		", insolation = " + insolation.to_s + 
-		", temperature = " + temperature.to_s +
-		", wind_direction = " + wind_direction.to_s + 
-		", wind_speed = " + wind_speed.to_s +
-		"]"
-	end
-end
-
 class Meeting
 	attr_accessor :date
 	attr_accessor :id
@@ -35,35 +9,25 @@ class Meeting
 	attr_accessor :url
 	attr_accessor :weather
 	
-#	def initialize(date, job, number, racetrack, race_list, track_condition, url, weather)
-#		@date = date
-#		@job = job
-#		@number = number
-#		@racetrack = racetrack
-#		@race_list = race_list
-#		@track_condition = track_condition
-#		@url = url
-#		@weather = weather
-#	end
-	
-	def initialize(date, job, number, racetrack, url, track_condition)
+	def initialize(date: nil, job: nil, number: nil, racetrack: nil, url: nil, track_condition: nil, weather: nil)
 		@date = date
 		@job = job
 		@number = number
 		@racetrack = racetrack
 		@url = url
 		@track_condition = track_condition
+		@weather = weather
 	end
 	
 	def to_s()
-		return "Meeting[id = " + id.to_s +
-		", date = " + date.to_s +
-		", job = " + job.to_s +
-		", number = " + number.to_s +
-		", racetrack = " + racetrack.to_s +
-		", track_condition = " + track_condition.to_s + 
-		", url = " + url.to_s + 
-		", weather = " + weather.to_s + 
+		return "Meeting[id = " + @id.to_s +
+		", date = " + @date.to_s +
+		", job = " + @job.to_s +
+		", number = " + @number.to_s +
+		", racetrack = " + @racetrack.to_s +
+		", track_condition = " + @track_condition.to_s + 
+		", url = " + @url.to_s + 
+		", weather = " + @weather.to_s + 
 		"]"
 	end
 	
@@ -104,21 +68,21 @@ class Race
 	attr_accessor :url
 	attr_accessor :value
 		
-	def initialize(	bets = nil,
-					country = nil,
-					detailed_conditions = nil,
-					distance = nil, 
-					id = nil, 
-					meeting = nil, 
-					name = nil, 
-					number = nil, 
-					race_type = nil,
-					result = nil,
-					result_insertion_time = nil,
-					runner_list = nil,
-					time = nil,
-					url = nil,  
-					value = nil
+	def initialize(	bets: nil,
+					country: nil,
+					detailed_conditions: nil,
+					distance: nil, 
+					id: nil, 
+					meeting: nil, 
+					name: nil, 
+					number: nil, 
+					race_type: nil,
+					result: nil,
+					result_insertion_time: nil,
+					runner_list: nil,
+					time: nil,
+					url: nil,  
+					value: nil
 					)
 		@bets = bets
 		@country = country
@@ -138,21 +102,21 @@ class Race
 	end
 	
 	def to_s()
-		return "Race[id = " + id.to_s +
-		", meeting = " + meeting.to_s + 
-		", race_type = " + race_type.to_s +
-		", time = " + time.to_s +
-		", number = " + number.to_s +
-		", name = " + name.to_s +
-		", country = " + country.to_s + 
-		", result = " + result.to_s +
-		", result_insertion_time = " + result_insertion_time.to_s +
-		", distance = " + distance.to_s +
-		", detailed_conditions = " + detailed_conditions.to_s +
-		", bets = " + bets.to_s + 
-		", url = " + url.to_s +
-		", value = " + value.to_s +
-		", runner_list = " + runner_list.to_s + 
+		return "Race[id = " + @id.to_s +
+		", meeting = " + @meeting.to_s + 
+		", race_type = " + @race_type.to_s +
+		", time = " + @time.to_s +
+		", number = " + @number.to_s +
+		", name = " + @name.to_s +
+		", country = " + @country.to_s + 
+		", result = " + @result.to_s +
+		", result_insertion_time = " + @result_insertion_time.to_s +
+		", distance = " + @distance.to_s +
+		", detailed_conditions = " + @detailed_conditions.to_s +
+		", bets = " + @bets.to_s + 
+		", url = " + @url.to_s +
+		", value = " + @value.to_s +
+		", runner_list = " + @runner_list.to_s + 
 		"]"
 	end
 	
@@ -174,6 +138,45 @@ class Race
 		other_object.bets == self.bets and
 		other_object.url == self.url and
 		other_object.value == self.value then
+			return true
+		else 
+			return false
+		end
+	end
+end
+
+class Weather
+	attr_accessor :id
+	attr_accessor :wind_direction
+	attr_accessor :temperature
+	attr_accessor :wind_speed
+	attr_accessor :insolation
+	
+	def initialize(insolation: nil, temperature: nil, wind_direction: nil, wind_speed: nil)
+		@insolation = insolation
+		@temperature = temperature
+		@wind_direction = wind_direction
+		@wind_speed = wind_speed
+	end
+	
+	def to_s()
+		return "Weather[id = " + id.to_s +
+		", insolation = " + insolation.to_s + 
+		", temperature = " + temperature.to_s +
+		", wind_direction = " + wind_direction.to_s + 
+		", wind_speed = " + wind_speed.to_s +
+		"]"
+	end
+	
+	def ==(other_object)
+		if not other_object.is_a? Weather then
+			return false
+		end
+		if other_object.id == self.id and
+		other_object.wind_direction == self.wind_direction and
+		other_object.temperature == self.temperature and
+		other_object.wind_speed == self.wind_speed and
+		other_object.insolation == self.insolation then
 			return true
 		else 
 			return false

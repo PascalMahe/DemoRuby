@@ -44,8 +44,8 @@ class DatabaseInterface
 		begin
 			if values_hash != nil then
 				statement.bind_params(values_hash)
-			end		
-			statement.execute()
+			end
+			statement.execute() 
 			if is_insertion then
 				id = @db.last_insert_row_id()
 				@logger.debug("Insertion Ok; got ID : " + id.to_s)
@@ -83,8 +83,7 @@ class DatabaseInterface
 		log_nicely("Fetching first result of query : ", query, values_hash)
 			
 		if statement == nil then
-			statement = @db.prepare(query)
-			
+			statement = @db.prepare(query)			
 		end
 		
 		begin
@@ -222,16 +221,28 @@ class DatabaseInterface
 	end
 	
 	#BUSINESS
-	def insert_weather(weather)
+	def insert_breeder(breeder)
 		values_hash = {
-			:wind_direction => weather.wind_direction.id, 
-			:temperature => weather.temperature,
-			:wind_speed => weather.wind_speed,
-			:insolation => weather.insolation
+			:name => breeder.name
 		}
-		weather.id = execute_query(
-			@sql[:insert][:weather], 
-			@stat_insert_weather, 
+		breeder.id = execute_query(
+			@sql[:insert][:breeder], 
+			@stat_insert_breeder, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_horse(horse)
+		values_hash = {
+			:sex => horse.sex.id, 
+			:breed => horse.breed.id,
+			:coat => horse.coat.id,
+			:name => horse.name
+		}
+		horse.id = execute_query(
+			@sql[:insert][:horse], 
+			@stat_insert_horse, 
 			values_hash, 
 			true
 		)
@@ -239,14 +250,57 @@ class DatabaseInterface
 	
 	def insert_job(job)
 		values_hash = {
-			:start_time => job.start_time, 
-			:loading_end_time => job.loading_end_time,
-			:crawling_end_time => job.crawling_end_time,
-			:computing_end_time => job.computing_end_time
+			:start_time => 			job.start_time.strftime(@config[:gen][:database_date_time_format]), 
+			:loading_end_time => 	job.loading_end_time.strftime(@config[:gen][:database_date_time_format]),
+			:crawling_end_time => 	job.crawling_end_time.strftime(@config[:gen][:database_date_time_format]),
+			:computing_end_time => 	job.computing_end_time.strftime(@config[:gen][:database_date_time_format])
 		}
 		job.id = execute_query(
 			@sql[:insert][:job], 
 			@stat_insert_job, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_forecast_with_matchrate(forecast)
+		values_hash = {
+			:race => forecast.race.id, 
+			:origin => forecast.origin.id,
+			:expected_result => forecast.expected_result,
+			:result_match_rate => forecast.result_match_rate,
+			:normalised_result_match_rate => forecast.normalised_result_match_rate
+		}
+		forecast.id = execute_query(
+			@sql[:insert][:forecast_with_matchrate], 
+			@stat_insert_forecast, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_forecast_without_matchrate(forecast)
+		values_hash = {
+			:race => forecast.race.id, 
+			:origin => forecast.origin.id,
+			:expected_result => forecast.expected_result
+		}
+		forecast.id = execute_query(
+			@sql[:insert][:forecast_without_matchrate], 
+			@stat_insert_forecast, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_jockey(jockey)
+		values_hash = {
+			:name => jockey.name, 
+			:jacket => jockey.jacket
+		}
+		jockey.id = execute_query(
+			@sql[:insert][:jockey], 
+			@stat_insert_jockey, 
 			values_hash, 
 			true
 		)
@@ -265,6 +319,32 @@ class DatabaseInterface
 		meeting.id = execute_query(
 			@sql[:insert][:meeting], 
 			@stat_insert_meeting, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_origin(origin)
+		values_hash = {
+			:name => origin.name, 
+			:column_order => origin.column_order,
+			:url => origin.url
+		}
+		origin.id = execute_query(
+			@sql[:insert][:origin], 
+			@stat_insert_origin, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_owner(owner)
+		values_hash = {
+			:name => owner.name
+		}
+		owner.id = execute_query(
+			@sql[:insert][:owner], 
+			@stat_insert_owner, 
 			values_hash, 
 			true
 		)
@@ -295,7 +375,6 @@ class DatabaseInterface
 	end
 	
 	def insert_race_without_result(race)
-		@logger.debug("Seeking to insert race : " + race.to_s)
 		values_hash = {
 			:meeting => race.meeting.id, 
 			:race_type => race.race_type.id,
@@ -317,115 +396,43 @@ class DatabaseInterface
 		)
 	end
 	
-	def insert_forecast(forecast)
+	def insert_runner_with_final_place(runner)
 		values_hash = {
-			:race => forecast.race.id, 
-			:origin => forecast.origin.id,
-			:expected_result => forecast.expected_result,
-			:result_match_rate => forecast.result_match_rate,
-			:normalised_result_match_rate => forecast.normalised_result_match_rate
+			:race => runner.race.id, 
+			:horse => runner.horse.id,
+			:jockey => runner.jockey.id,
+			:trainer => runner.trainer.id, 
+			:owner => runner.owner.id,
+			:breeder => runner.breeder.id,
+			:blinder => runner.blinder.id, 
+			:shoes => runner.shoes.id,
+			:number => runner.number,
+			:draw => runner.draw, 
+			:single_rating => runner.single_rating,
+			:final_place => runner.final_place,
+			:non_runner => runner.non_runner,
+			:races_run => runner.races_run, 
+			:victories => runner.victories,
+			:places => runner.places,
+			:earnings_career => runner.earnings_career, 
+			:earnings_current_year => runner.earnings_current_year,
+			:earnings_last_year => runner.earnings_last_year,
+			:earnings_victory => runner.earnings_victory, 
+			:description => runner.description,
+			:distance => runner.distance,
+			:load => runner.load, 
+			:history => runner.history,
+			:url => runner.url
 		}
-		forecast.id = execute_query(
-			@sql[:insert][:forecast], 
-			@stat_insert_forecast, 
+		runner.id = execute_query(
+			@sql[:insert][:runner_with_final_place], 
+			@stat_insert_runner, 
 			values_hash, 
 			true
 		)
 	end
-	
-	def insert_weight(weight)
-		values_hash = {
-			:forecast => weight.forecast.id, 
-			:name => weight.name,
-			:value => weight.value
-		}
-		weight.id = execute_query(
-			@sql[:insert][:weight], 
-			@stat_insert_weight, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_origin(origin)
-		values_hash = {
-			:name => origin.name, 
-			:column_order => origin.column_order,
-			:url => origin.url
-		}
-		origin.id = execute_query(
-			@sql[:insert][:origin], 
-			@stat_insert_origin, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_jockey(jockey)
-		values_hash = {
-			:name => jockey.name, 
-			:jacket => jockey.jacket
-		}
-		jockey.id = execute_query(
-			@sql[:insert][:jockey], 
-			@stat_insert_jockey, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_trainer(trainer)
-		values_hash = {
-			:name => trainer.name
-		}
-		trainer.id = execute_query(
-			@sql[:insert][:trainer], 
-			@stat_insert_trainer, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_owner(owner)
-		values_hash = {
-			:name => owner.name
-		}
-		owner.id = execute_query(
-			@sql[:insert][:owner], 
-			@stat_insert_owner, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_breeder(breeder)
-		values_hash = {
-			:name => breeder.name
-		}
-		breeder.id = execute_query(
-			@sql[:insert][:breeder], 
-			@stat_insert_breeder, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_horse(horse)
-		values_hash = {
-			:sex => horse.sex.id, 
-			:breed => horse.breed.id,
-			:coat => horse.coat.id,
-			:name => horse.name
-		}
-		horse.id = execute_query(
-			@sql[:insert][:horse], 
-			@stat_insert_horse, 
-			values_hash, 
-			true
-		)
-	end
-	
-	def insert_runner(runner)
+
+	def insert_runner_without_final_place(runner)
 		values_hash = {
 			:race => runner.race.id, 
 			:horse => runner.horse.id,
@@ -453,19 +460,79 @@ class DatabaseInterface
 			:url => runner.url
 		}
 		runner.id = execute_query(
-			@sql[:insert][:runner], 
+			@sql[:insert][:runner_without_final_place], 
 			@stat_insert_runner, 
 			values_hash, 
 			true
 		)
 	end
 	
+	def insert_trainer(trainer)
+		values_hash = {
+			:name => trainer.name
+		}
+		trainer.id = execute_query(
+			@sql[:insert][:trainer], 
+			@stat_insert_trainer, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_weather(weather)
+		values_hash = {
+			:wind_direction => weather.wind_direction.id, 
+			:temperature => weather.temperature,
+			:wind_speed => weather.wind_speed,
+			:insolation => weather.insolation
+		}
+		weather.id = execute_query(
+			@sql[:insert][:weather], 
+			@stat_insert_weather, 
+			values_hash, 
+			true
+		)
+	end
+	
+	def insert_weight(weight)
+		values_hash = {
+			:forecast => weight.forecast.id, 
+			:name => weight.name,
+			:value => weight.value
+		}
+		weight.id = execute_query(
+			@sql[:insert][:weight], 
+			@stat_insert_weight, 
+			values_hash, 
+			true
+		)
+	end
+	
 	#UPDATE
+	#forecast : result_match_rate & normalised_result_match_rate
+	def update_forecast_with_match_rate(forecast)
+		values_hash = {
+			:result_match_rate => forecast.result_match_rate,
+			:normalised_result_match_rate => forecast.normalised_result_match_rate,
+			:id => forecast.id
+		}
+		execute_query(
+			@sql[:update][:forecast], 
+			@stat_update_forecast, 
+			values_hash, 
+			false
+		)
+	end
+	
 	#race : update result & result_insertion_time
 	def update_race_with_result(race)
 		values_hash = {
 			:result => race.result,
-			:result_insertion_time => 'now',
+			# NB: calling the SQLite function datetime directly in the request fails
+			# so we have to trust the race object to have the right times -> no date
+			# in the SQL
+			# :result_insertion_time => "datetime('now', 'localtime')",
+			 :result_insertion_time => race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]),
 			:id => race.id
 		}
 		execute_query(
@@ -485,21 +552,6 @@ class DatabaseInterface
 		execute_query(
 			@sql[:update][:runner], 
 			@stat_update_runner, 
-			values_hash, 
-			false
-		)
-	end
-	
-	#forecast : result_match_rate & normalised_result_match_rate
-	def update_runner_with_match_rate(forecast)
-		values_hash = {
-			:result_match_rate => forecast.result_match_rate,
-			:normalised_result_match_rate => forecast.normalised_result_match_rate,
-			:id => forecast.id
-		}
-		execute_query(
-			@sql[:update][:forecast], 
-			@stat_update_forecast, 
 			values_hash, 
 			false
 		)
@@ -645,7 +697,6 @@ class DatabaseInterface
 		return @ref_list_hash
 	end
 	
-	
 	#BUSINESS
 	def load_breeder_by_id(id)
 		breeder = Breeder::new
@@ -729,14 +780,10 @@ class DatabaseInterface
 			:id => id)
 		if row != nil then
 			job.id = id
-			job.start_time = row["start_time"]
-				.strftime(@config[:gen][:default_date_time_format])
-			job.loading_end_time = row["loading_end_time"]
-				.strftime(@config[:gen][:default_date_time_format])
-			job.crawling_end_time = row["crawling_end_time"]
-				.strftime(@config[:gen][:default_date_time_format])
-			job.computing_end_time = row["computing_end_time"]
-				.strftime(@config[:gen][:default_date_time_format])
+			job.start_time = Datetime.parse(row["start_time"], @config[:gen][:database_date_time_format])
+			job.loading_end_time = Datetime.parse(row["loading_end_time"], @config[:gen][:database_date_time_format])
+			job.crawling_end_time = Datetime.parse(row["crawling_end_time"], @config[:gen][:database_date_time_format])
+			job.computing_end_time = Datetime.parse(row["computing_end_time"], @config[:gen][:database_date_time_format])
 		else 
 			job = nil
 		end		
@@ -778,11 +825,22 @@ class DatabaseInterface
 			job_id = row["id_job"]
 			job = load_job_by_id(job_id)
 			
+			# weather : loaded from database
+			weather_id = row["id_weather"]
+			weather = load_weather_by_id(weather_id)
+			
 			# track_condition : get from RefTrackCondition list
 			track_condition_id = row["id_track_condition"]
 			track_condition = @ref_list_hash[:ref_track_condition_list].get(track_condition_id)
 			
-			meeting = Meeting::new(date, job, number, racetrack, url, track_condition)
+			meeting = Meeting::new(
+						date: date, 
+						job: job, 
+						number: number, 
+						racetrack: racetrack, 
+						url: url, 
+						track_condition: track_condition,
+						weather: weather)
 			meeting.id = id
 		else 
 			meeting = nil
@@ -854,20 +912,20 @@ class DatabaseInterface
 			meeting_id = row["id_meeting"]
 			meeting = load_meeting_by_id(meeting_id)
 			
-			race = Race::new(	bets = bets,
-								country = country,
-								detailed_conditions = detailed_conditions,
-								distance = distance, 
-								id = id,
-								meeting = meeting, 
-								name = name, 
-								number = number, 
-								race_type = race_type, 
-								result = result, 
-								result_insertion_time = result_insertion_time, 
-								time = time, 
-								url = url, 
-								value = value
+			race = Race::new(	bets: bets,
+								country: country,
+								detailed_conditions: detailed_conditions,
+								distance: distance, 
+								id: id,
+								meeting: meeting, 
+								name: name, 
+								number: number, 
+								race_type: race_type, 
+								result: result, 
+								result_insertion_time: result_insertion_time, 
+								time: time, 
+								url: url, 
+								value: value
 								)
 		else 
 			race = nil
@@ -876,64 +934,74 @@ class DatabaseInterface
 	end
 	
 	def load_runner_by_id(id)
-		runner = Runner::new
+		runner = nil
 		row = execute_select_w_one_result(
 			@sql[:select][:runner_by_id], 
 			@stat_select_runner_by_id, 
 			:id => id)
 		
-			if row != nil then	
-			runner.id = id
-			runner.number = row["number"]
-			runner.draw = row["draw"]
-			runner.single_rating = row["single_rating"]
-			runner.non_runner = row["non_runner"]
-			runner.races_run = row["races_run"]
-			runner.victories = row["victories"]
-			runner.places = row["places"]
-			runner.earnings_career = row["earnings_career"]
-			runner.earnings_current_year = row["earnings_current_year"]
-			runner.earnings_last_year = row["earnings_last_year"]
-			runner.earnings_victory = row["earnings_victory"]
-			runner.description = row["description"]
-			runner.load = row["load"]
-			runner.history = row["history"]
-			runner.url = row["url"]
-			runner.distance = row["distance"]
+		if row != nil then
 			
 			# Shoes : get from RefShoes list
 			shoes_id = row["id_shoes"]
 			shoes = @ref_list_hash[:ref_shoes_list].get(shoes_id)
-			runner.shoes = shoes
+			
 			# Blinder : get from RefBlinder list
 			blinder_id = row["id_blinder"]
 			blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
-			runner.blinder = blinder
 			
 			# Race
 			race_id = row["id_race"]
 			race = load_race_by_id(race_id)
-			runner.race = race
+			
 			# Horse
 			horse_id = row["id_horse"]
 			horse = load_horse_by_id(horse_id)
-			runner.horse = horse
+			
 			# Jockey
 			jockey_id = row["id_jockey"]
 			jockey = load_jockey_by_id(jockey_id)
-			runner.jockey = jockey
+			
 			# Trainer
 			trainer_id = row["id_trainer"]
 			trainer = load_trainer_by_id(trainer_id)
-			runner.trainer = trainer
+			
 			# Owner
 			owner_id = row["id_owner"]
 			owner = load_owner_by_id(owner_id)
-			runner.owner = owner
+			
 			# Breeder
 			breeder_id = row["id_breeder"]
 			breeder = load_breeder_by_id(breeder_id)
-			runner.breeder = breeder
+			
+			runner = Runner::new(
+				blinder: blinder,
+				breeder: breeder,
+				description: row["description"],
+				distance: row["distance"],
+				draw: row["draw"],
+				earnings_career: row["earnings_career"],
+				earnings_current_year: row["earnings_current_year"],
+				earnings_last_year: row["earnings_last_year"],
+				earnings_victory: row["earnings_victory"],
+				final_place: row["final_place"],
+				history: row["history"],
+				horse: horse,
+				id: id,
+				jockey: jockey,
+				load: row["load"],
+				non_runner: row["non_runner"],
+				number: row["number"],
+				owner: owner,
+				places: row["places"],
+				race: race,
+				races_run: row["races_run"],
+				shoes: shoes,
+				single_rating: row["single_rating"],
+				trainer: trainer,
+				url: row["url"],
+				victories: row["victories"]
+			)
 		else 
 			runner = nil
 		end
@@ -971,7 +1039,7 @@ class DatabaseInterface
 			wind_direction_id = row["id_wind_direction"]
 			wind_direction = @ref_list_hash[:ref_direction_list].get(wind_direction_id)
 			
-			weather = Weather::new(insolation, temperature, wind_direction, wind_speed)
+			weather = Weather::new(insolation: insolation, temperature: temperature, wind_direction: wind_direction, wind_speed: wind_speed)
 			weather.id = id
 		else
 			weather = nil

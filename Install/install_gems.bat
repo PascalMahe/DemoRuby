@@ -6,12 +6,12 @@
 :: SET PORT=80
 
 :: Conf MMA
-SET USER=sp35514
-SET PASSWORD=Motdepasseintranetmma1
-SET SERVER=proxy-internet.societe.mma.fr
-SET PORT=8080
+::SET USER=sp35514
+::SET PASSWORD=Motdepasseintranetmma1
+::SET SERVER=proxy-internet.societe.mma.fr
+::SET PORT=8080
 
-SET HTTP_PROXY=http://%USER%:%PASSWORD%@%SERVER%:%PORT%
+::SET HTTP_PROXY=http://%USER%:%PASSWORD%@%SERVER%:%PORT%
 call gem install selenium-webdriver
 call gem install sqlite3
 

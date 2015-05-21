@@ -13,15 +13,15 @@ class TestSuite < MiniTest::Test
 	##########################
 	path_to_log = ""
 	# Starting in debug to erase old test file
-	log_level = SimpleHtmlLogger::Debug
+	log_level = SimpleHtmlLogger::DEBUG
 	is_test = true
 	$globalState = GlobalState::new(is_test, log_level, path_to_log)
 	
 	# LEGACY
 	# Starting in debug to erase old test file
-	#logger = SimpleHtmlLogger::new("", SimpleHtmlLogger::Debug)
+	#logger = SimpleHtmlLogger::new("", SimpleHtmlLogger::DEBUG)
 	# Loggin at INFO level to avoid unnecesary logging about test data insertion
-	#logger.level = SimpleHtmlLogger::Info
+	#logger.level = SimpleHtmlLogger::INFO
 	#logger.imp("TEST SUITE")
 	#logger.info("First setup")
 	#@config = load_config()
@@ -31,7 +31,7 @@ class TestSuite < MiniTest::Test
 	config = $globalState.config
 	dbi = $globalState.dbi
 	# Loggin at INFO level to avoid unnecesary logging about test data insertion
-	logger.level = SimpleHtmlLogger::Info
+	logger.level = SimpleHtmlLogger::INFO
 	logger.imp("TEST SUITE")
 	logger.info("First setup")
 	
@@ -48,15 +48,24 @@ class TestSuite < MiniTest::Test
 	@sql_test = []
 	@sql_test = YAML.load_file(config[:gen][:sql_test])
 
-	#setting up the test values
+	#setting up the test values for insert and select
 	@sql_test[:test][:insert].keys.each do |table|
-		logger.info("Inserting test values into " + table.to_s)
+		logger.info("Inserting test values for select and insert queries into " + table.to_s)
 		current_query = @sql_test[:test][:insert][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
+	
+	#setting up the test values for update
+	@sql_test[:test][:insert_for_update].keys.each do |table|
+		logger.info("Inserting test values for update queries into " + table.to_s)
+		current_query = @sql_test[:test][:insert_for_update][table]
+		dummy_statement = nil
+		dbi.execute_query(current_query, dummy_statement, nil, true)
+	end
+	
 	logger.info("End of setup")
-	logger.level = SimpleHtmlLogger::Debug
+	
 	##########################
 	#      End of setup      #
 	##########################
@@ -66,7 +75,7 @@ class TestSuite < MiniTest::Test
 	############################
 	Minitest.after_run {
 		# Loggin at INFO level to avoid unnecesary logging about test data deletion
-		logger.level = SimpleHtmlLogger::Info
+		logger.level = SimpleHtmlLogger::INFO
 		logger.info("Teardown")
 		# deleting values in database
 		logger.debug(@sql_test[:test][:delete].keys)

@@ -18,7 +18,7 @@
 				:name
 			)'
 
- :forecast: 'INSERT INTO Forecast(
+ :forecast_with_matchrate: 'INSERT INTO Forecast(
 				id_race, 
 				id_origin, 
 				expected_result,
@@ -32,6 +32,15 @@
 				:normalised_result_match_rate
 			)'
 
+ :forecast_without_matchrate: 'INSERT INTO Forecast(
+				id_race, 
+				id_origin, 
+				expected_result
+			) VALUES (
+				:race, 
+				:origin, 
+				:expected_result
+			)'
  :horse: 'INSERT INTO Horse(
 				id_sex, 
 				id_breed, 
@@ -153,7 +162,7 @@
 			:value
 		)'
 
- :runner: 'INSERT INTO Runner(
+ :runner_with_final_place: 'INSERT INTO Runner(
 				id_race, 
 				id_horse, 
 				id_jockey, 
@@ -164,7 +173,61 @@
 				id_shoes, 
 				number,
 				draw,
-				single_rating,  
+				single_rating, 
+				final_place,
+				non_runner, 
+				races_run,
+				victories,
+				places,
+				earnings_career, 
+				earnings_current_year, 
+				earnings_last_year, 
+				earnings_victory, 
+				description,
+				distance,
+				load,
+				history,
+				url
+			) VALUES (
+				:race, 
+				:horse, 
+				:jockey, 
+				:trainer, 
+				:owner, 
+				:breeder, 
+				:blinder, 
+				:shoes, 
+				:number,
+				:draw,
+				:single_rating,
+				:final_place,
+				:non_runner, 
+				:races_run,
+				:victories,
+				:places,
+				:earnings_career, 
+				:earnings_current_year, 
+				:earnings_last_year, 
+				:earnings_victory, 
+				:description,
+				:distance,
+				:load,
+				:history,
+				:url
+			)'
+
+ :runner_without_final_place: 'INSERT INTO Runner(
+				id_race, 
+				id_horse, 
+				id_jockey, 
+				id_trainer, 
+				id_owner, 
+				id_breeder, 
+				id_blinder, 
+				id_shoes, 
+				number,
+				draw,
+				single_rating, 
 				non_runner, 
 				races_run,
 				victories,

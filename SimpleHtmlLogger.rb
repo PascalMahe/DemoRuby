@@ -1,9 +1,9 @@
 class SimpleHtmlLogger
 
-	Important = "IMP"
-	Error = "ERR"
-	Info = "INF"
-	Debug = "DBG"
+	IMPORTANT = "IMP"
+	ERROR = "ERR"
+	INFO = "INF"
+	DEBUG = "DBG"
 	
 	File_prefix = "RPP_job-"
 	File_ext = ".html"
@@ -33,7 +33,7 @@ class SimpleHtmlLogger
 		filename = File_prefix + str_today + File_ext
 		puts @level
 		
-		if @level != Debug
+		if @level != DEBUG
 			padding_number = 0
 			# check if files already exist
 			if File::exist?(filename) or File::exist?(build_filename(str_today, padding_number))
@@ -88,11 +88,11 @@ class SimpleHtmlLogger
  	end
 	
 	def get_color_code_from_level(level)
-		if level == Important then 
+		if level == IMPORTANT then 
 			color_code = 34
-		elsif level == Error then 
+		elsif level == ERROR then 
 			color_code = 31
-		elsif level == Debug then 
+		elsif level == DEBUG then 
 			color_code = 35
 		else 
 			color_code = 37
@@ -130,16 +130,16 @@ class SimpleHtmlLogger
 	end
 	
 	def convert_level_to_number(level)
-		# Error = 3
-		# Important = 2
-		# Info = 1
-		# Debug = 0
-		level_as_number = 3 #Error
-		if level == Important then
+		# ERROR = 3
+		# IMPORTANT = 2
+		# INFO = 1
+		# DEBUG = 0
+		level_as_number = 3 #ERROR
+		if level == IMPORTANT then
 			level_as_number = 2
-		elsif level == Info
+		elsif level == INFO
 			level_as_number = 1
-		elsif level == Debug
+		elsif level == DEBUG
 			level_as_number = 0
 		end
 		return level_as_number
@@ -151,19 +151,19 @@ class SimpleHtmlLogger
 	end
 	
 	def info(message)
-		log(Info, message)
+		log(INFO, message)
 	end
 	
 	def debug(message)
-		log(Debug, message)
+		log(DEBUG, message)
 	end
 	
 	def error(message)
-		log(Error, message)
+		log(ERROR, message)
 	end
 	
 	def imp(message)
-		log(Important, message)
+		log(IMPORTANT, message)
 	end
 	
 	def copy_html_to_log_file(html_filename)

@@ -12,7 +12,7 @@ INSERT INTO Breeder(id_breeder, name) VALUES (-1, "Test Breeder 1 Name");
 INSERT INTO Forecast(id_forecast, id_race, id_origin, expected_result, result_match_rate, normalised_result_match_rate) VALUES (-1, -1, -1, "Test Forecast 1 Expected result", -1.1, -1.1);
 INSERT INTO Horse(id_horse, id_sex, id_breed, id_coat, name) VALUES (-1, -1, -1, -1, "Test Horse 1 name");
 INSERT INTO Job(id_job, start_time, loading_end_time, crawling_end_time, computing_end_time) VALUES (-1, "27/01/2015 17:35:00.250", "27/01/2015 18:36:01.500", "27/01/2015 19:37:02.750", "27/01/2015 20:38:03.999");
-INSERT INTO Jockey(id_jockey, name, jacket) VALUES (-1, "Test Jockey 1 name", "Test Jockey 1 name");
+INSERT INTO Jockey(id_jockey, name, jacket) VALUES (-1, "Test Jockey 1 name", "Test Jockey 1 jacket");
 INSERT INTO Meeting(id_meeting, id_track_condition, id_job, id_weather, date, racetrack, number, url, weather) VALUES (-1, -1, -1, -1, "01/01/2015", "Test Meeting 1 racetrack", -1, "Test Meeting 1 URL");
 INSERT INTO Origin(id_origin, name, column_order, url) VALUES (-1, "Test Origin 1 name", "Test Origin 1 column order", "Test Origin 1 URL");
 INSERT INTO Owner(id_owner, name) VALUES (-1, "Test Owner 1 name");
@@ -22,6 +22,31 @@ INSERT INTO Runner(id_runner, id_race, id_horse, id_jockey, id_trainer, id_owner
 INSERT INTO Trainer(id_trainer, name) VALUES (-1, "Test Trainer 1 name");
 INSERT INTO Weather (id_weather, id_wind_direction, temperature, wind_speed, insolation) VALUES (-1, -1, -1, -1, "Test Weather 1 insolation");
 INSERT INTO Weight(id_weight, id_forecast, name, value) VALUES (-1, -1, "Test Weight 1 name", -1.1);
+
+/* Values for deletion tests */
+INSERT INTO RefBlinder (id, text) VALUES (-2, "Test Blinder delete");
+INSERT INTO RefBreed (id, text) VALUES (-2, "Test Breed delete");
+INSERT INTO RefCoat(id, text) VALUES (-2, "Test Coat delete");
+INSERT INTO RefColumn (id, text) VALUES (-2, "Test Column delete");
+INSERT INTO RefDirection (id, text) VALUES (-2, "Test Direction delete");
+INSERT INTO RefRaceType (id, text) VALUES (-2, "Test Race Type delete");
+INSERT INTO RefSex (id, text) VALUES (-2, "Test Sex delete");
+INSERT INTO RefShoes (id, text) VALUES (-2, "Test Shoes delete");
+INSERT INTO RefTrackCondition (id, text) VALUES (-2, "Test Track Condition delete");
+INSERT INTO Breeder(id_breeder, name) VALUES (-2, "Test Breeder 1 delete delete Name");
+INSERT INTO Forecast(id_forecast, id_race, id_origin, expected_result, result_match_rate, normalised_result_match_rate) VALUES (-2, -2, -2, "Test Forecast 1 delete Expected result", -2.1, -2.1);
+INSERT INTO Horse(id_horse, id_sex, id_breed, id_coat, name) VALUES (-2, -2, -2, -2, "Test Horse 1 delete name");
+INSERT INTO Job(id_job, start_time, loading_end_time, crawling_end_time, computing_end_time) VALUES (-2, "27/01/2015 17:35:00.250", "27/01/2015 18:36:01.500", "27/01/2015 19:37:02.750", "27/01/2015 20:38:03.999");
+INSERT INTO Jockey(id_jockey, name, jacket) VALUES (-2, "Test Jockey 1 delete name", "Test Jockey 1 delete jacket");
+INSERT INTO Meeting(id_meeting, id_track_condition, id_job, id_weather, date, racetrack, number, url, weather) VALUES (-2, -2, -2, -2, "01/01/2015", "Test Meeting 1 delete racetrack", -2, "Test Meeting 1 delete URL");
+INSERT INTO Origin(id_origin, name, column_order, url) VALUES (-2, "Test Origin 1 delete name", "Test Origin 1 delete column order", "Test Origin 1 delete URL");
+INSERT INTO Owner(id_owner, name) VALUES (-2, "Test Owner 1 delete name");
+INSERT INTO Race(id_race, id_meeting, id_race_type, time, number, name, country, result, result_insertion_time, distance, detailed_conditions, bets, url, value) VALUES (-2, -2, -2, "Test Race 1 delete time", -2, "Test Race 1 delete name", "Test Race 1 delete country", "Test Race 1 delete result", "01/01/2015 00:00", -2, "Test Race 1 delete detailed conditions", -2, "Test Race 1 delete URL", 1);
+INSERT INTO Race(id_race, id_meeting, id_race_type, time, number, name, country, distance, detailed_conditions, bets, url, value) VALUES (id_race, meeting, race_type, time, number, name, country, distance, detailed_conditions, bets, url, value);
+INSERT INTO Runner(id_runner, id_race, id_horse, id_jockey, id_trainer, id_owner, id_breeder, id_blinder, id_shoes, number, draw, single_rating, non_runner, races_run, victories, places, earnings_career, earnings_current_year, earnings_last_year, earnings_victory, description, distance, load, history, url) VALUES (-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, ,-2.1, -2, -2, -2, -2, -2, -2, -2, -2, -2, "Test Runner 1 delete description", -2, -2.1, "Test Runner 1 delete history", "Test Runner 1 delete url");
+INSERT INTO Trainer(id_trainer, name) VALUES (-2, "Test Trainer 1 delete name");
+INSERT INTO Weather (id_weather, id_wind_direction, temperature, wind_speed, insolation) VALUES (-2, -2, -2, -2, "Test Weather 1 delete insolation");
+INSERT INTO Weight(id_weight, id_forecast, name, value) VALUES (-2, -2, "Test Weight 1 delete name", -2.1);
 
 /* ************** DELETE ****************** */
 DELETE FROM RefBlinder where id < 0;
@@ -47,7 +72,7 @@ DELETE FROM Trainer where id_trainer < 0;
 DELETE FROM Weather  where id_weather < 0;
 DELETE FROM Weight where id_weight < 0;
 
-/* ************** TRUCATE ****************** */
+/* ************** TRUNCATE ****************** */
 DELETE FROM RefBlinder;
 DELETE FROM RefBreed;
 DELETE FROM RefCoat;
