@@ -98,7 +98,9 @@ class TestDatabaseInterfaceDelete < TestSuite
 			assert_equal(selected_race.value, 					updated_race.value)
 			
 			assert_equal(selected_race.result, 					updated_race.result)
-			assert_equal(selected_race.result_insertion_time, 	updated_race.result_insertion_time)
+			assert_equal(
+				selected_race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]), 	
+				updated_race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]))
 			
 		rescue Exception => err
 			@logger.error(err.inspect)
@@ -110,8 +112,9 @@ class TestDatabaseInterfaceDelete < TestSuite
 	def test_update_runner_with_final_place
 		
 		@logger.info("Testing update of Runner with final place")
+		selected_runner = @dbi.load_runner_by_id(test_id)
 		begin
-
+			test_id = -10 # runner without final place
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)

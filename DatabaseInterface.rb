@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'date'
 require './ref.rb'
 
 class DatabaseInterface
@@ -359,7 +360,7 @@ class DatabaseInterface
 			:name => race.name,
 			:country => race.country,
 			:result => race.result, 
-			:result_insertion_time => race.result_insertion_time, 
+			:result_insertion_time => race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]), 
 			:distance => race.distance,
 			:detailed_conditions => race.detailed_conditions,
 			:bets => race.bets,
@@ -780,10 +781,11 @@ class DatabaseInterface
 			:id => id)
 		if row != nil then
 			job.id = id
-			job.start_time = Datetime.parse(row["start_time"], @config[:gen][:database_date_time_format])
-			job.loading_end_time = Datetime.parse(row["loading_end_time"], @config[:gen][:database_date_time_format])
-			job.crawling_end_time = Datetime.parse(row["crawling_end_time"], @config[:gen][:database_date_time_format])
-			job.computing_end_time = Datetime.parse(row["computing_end_time"], @config[:gen][:database_date_time_format])
+			job.start_time = row["start_time"]
+			# job.start_time = DateTime.parse(row["start_time"], @config[:gen][:database_date_time_format])
+			job.loading_end_time = row["loading_end_time"]
+			job.crawling_end_time = row["crawling_end_time"]
+			job.computing_end_time = row["computing_end_time"]
 		else 
 			job = nil
 		end		

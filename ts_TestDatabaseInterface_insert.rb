@@ -172,10 +172,18 @@ class TestDatabaseInterfaceInsert < TestSuite
 			@logger.debug("Fetched job's start time : " + selected_job.start_time.to_s + ", it's a : " + selected_job.start_time.class.name)
 			# selected_job.start_time.class.name = DateTime
 			
-			assert_equal(job.start_time, selected_job.start_time)
-			assert_equal(job.loading_end_time, selected_job.loading_end_time)
-			assert_equal(job.crawling_end_time, selected_job.crawling_end_time)
-			assert_equal(job.computing_end_time, selected_job.computing_end_time)
+			assert_equal(
+				job.start_time.strftime(@config[:gen][:default_date_time_format]), 
+				selected_job.start_time.strftime(@config[:gen][:default_date_time_format]))
+			assert_equal(
+				job.loading_end_time.strftime(@config[:gen][:default_date_time_format]), 
+				selected_job.loading_end_time.strftime(@config[:gen][:default_date_time_format]))
+			assert_equal(
+				job.crawling_end_time.strftime(@config[:gen][:default_date_time_format]), 
+				selected_job.crawling_end_time.strftime(@config[:gen][:default_date_time_format]))
+			assert_equal(
+				job.computing_end_time.strftime(@config[:gen][:default_date_time_format]), 
+				selected_job.computing_end_time.strftime(@config[:gen][:default_date_time_format]))
 			
 			# Counting number of RefDirection after test
 			new_job_num = @dbi.select_count_from_table(@config[:gen][:table_names][:job])
@@ -329,7 +337,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			number = 2
 			race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions"]
 			result = "1 - 2 - 3 - 4 - 5"
-			result_insertion_time = Time.now
+			result_insertion_time = DateTime.now
 			time = "11h45"
 			url = "http://www.pmu.fr/turf/15102013/reunion-4-MONS__28GHLIN_29/index.html#/turf/15102013/reunion-4-MONS__28GHLIN_29/course-2-SECF.html"
 			value = 7200
@@ -366,8 +374,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.result, 				selected_race.result)
 
 			assert_equal(
-				race.result_insertion_time, 
-				selected_race.result_insertion_time
+				race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]), 
+				selected_race.result_insertion_time.strftime(@config[:gen][:default_date_time_format])
 			)
 			assert_equal(race.time, 	selected_race.time)
 			assert_equal(race.url,		selected_race.url)
