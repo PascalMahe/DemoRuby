@@ -6,17 +6,18 @@ class Meeting
 	attr_accessor :racetrack
 	attr_accessor :race_list
 	attr_accessor :track_condition
-	attr_accessor :url
+	attr_accessor :urls_of_races_array
 	attr_accessor :weather
 	
-	def initialize(date: nil, job: nil, number: nil, racetrack: nil, url: nil, track_condition: nil, weather: nil)
+	def initialize(date: nil, job: nil, number: nil, racetrack: nil, urls_of_races_array: nil, track_condition: nil, weather: nil)
 		@date = date
 		@job = job
 		@number = number
 		@racetrack = racetrack
-		@url = url
+		@urls_of_races_array = urls_of_races_array
 		@track_condition = track_condition
 		@weather = weather
+		@race_list = []
 	end
 	
 	def to_s()
@@ -26,8 +27,9 @@ class Meeting
 		", number = " + @number.to_s +
 		", racetrack = " + @racetrack.to_s +
 		", track_condition = " + @track_condition.to_s + 
-		", url = " + @url.to_s + 
+		", urls_of_races_array = " + @urls_of_races_array.to_s + 
 		", weather = " + @weather.to_s + 
+		", race_list = " + @race_list.to_s + 
 		"]"
 	end
 	
@@ -41,7 +43,7 @@ class Meeting
 		other_object.date == self.date and
 		other_object.racetrack == self.racetrack and
 		other_object.number == self.number and
-		other_object.url == self.url and
+		other_object.urls_of_races_array == self.urls_of_races_array and
 		other_object.weather == self.weather and
 		other_object.race_list == self.race_list then
 			return true

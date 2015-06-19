@@ -1,4 +1,4 @@
-﻿require './ts_TestSuite.rb'
+﻿require './TestSuite.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'
@@ -79,7 +79,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			)
 			assert_equal("Test Meeting 1 racetrack", selected_forecast.race.meeting.racetrack)
 			assert_equal(-1, selected_forecast.race.meeting.number)
-			assert_equal("Test Meeting 1 URL", selected_forecast.race.meeting.url)
+			assert_equal(nil, selected_forecast.race.meeting.urls_of_races_array)
 			
 			# Nested value (3rd level) : track_condition
 			assert_equal(-1, selected_forecast.race.meeting.track_condition.id)
@@ -229,7 +229,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(Date.new(2015, 01, 01),		selected_meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_meeting.racetrack)
 			assert_equal(-1, 							selected_meeting.number)
-			assert_equal("Test Meeting 1 URL", 			selected_meeting.url)
+			assert_equal(nil, 							selected_meeting.urls_of_races_array)
 			
 			# Nested value : track_condition
 			assert_equal(-1,							selected_meeting.track_condition.id)
@@ -345,7 +345,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(Date.new(2015, 01, 01), 		selected_race.meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_race.meeting.racetrack)
 			assert_equal(-1, 							selected_race.meeting.number)
-			assert_equal("Test Meeting 1 URL", 			selected_race.meeting.url)
+			assert_equal(nil, 							selected_race.meeting.urls_of_races_array)
 			
 			# Nested value : track_condition
 			assert_equal(-1,						selected_race.meeting.track_condition.id)
@@ -526,7 +526,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(Date.new(2015, 01, 01), 		selected_runner.race.meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_runner.race.meeting.racetrack)
 			assert_equal(-1, 							selected_runner.race.meeting.number)
-			assert_equal("Test Meeting 1 URL", 			selected_runner.race.meeting.url)
+			assert_equal(nil, 							selected_runner.race.meeting.urls_of_races_array)
 			
 			# Nested value (2nd level) : track_condition
 			assert_equal(-1,						selected_runner.race.meeting.track_condition.id)
@@ -705,7 +705,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			)
 			assert_equal("Test Meeting 1 racetrack", selected_weight.forecast.race.meeting.racetrack)
 			assert_equal(-1, selected_weight.forecast.race.meeting.number)
-			assert_equal("Test Meeting 1 URL", selected_weight.forecast.race.meeting.url)
+			assert_equal(nil, selected_weight.forecast.race.meeting.urls_of_races_array)
 			
 			# Nested value (4th level) : track_condition
 			assert_equal(-1, 						selected_weight.forecast.race.meeting.track_condition.id)

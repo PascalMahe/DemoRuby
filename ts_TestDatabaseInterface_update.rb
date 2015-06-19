@@ -1,4 +1,4 @@
-﻿require './ts_TestSuite.rb'
+﻿require './TestSuite.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'

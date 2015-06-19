@@ -314,8 +314,7 @@ class DatabaseInterface
 			:job => meeting.job.id,
 			:date => meeting.date.strftime(@config[:gen][:default_date_format]),
 			:racetrack => meeting.racetrack,
-			:number => meeting.number,
-			:url => meeting.url
+			:number => meeting.number
 		}
 		meeting.id = execute_query(
 			@sql[:insert][:meeting], 
@@ -821,7 +820,6 @@ class DatabaseInterface
 			date = row["date"]
 			racetrack = row["racetrack"]
 			number = row["number"]
-			url = row["url"]
 			
 			# job : loaded from database
 			job_id = row["id_job"]
@@ -840,7 +838,7 @@ class DatabaseInterface
 						job: job, 
 						number: number, 
 						racetrack: racetrack, 
-						url: url, 
+						urls_of_races_array: nil, 
 						track_condition: track_condition,
 						weather: weather)
 			meeting.id = id

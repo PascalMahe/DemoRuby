@@ -1,5 +1,5 @@
 ﻿require 'date'
-require './ts_TestSuite.rb'
+require './TestSuite.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'
@@ -235,9 +235,9 @@ class TestDatabaseInterfaceInsert < TestSuite
 			date = Time.now
 			racetrack = "Auteuil"
 			number = 11
-			url = "http://www.test.com"
+			urls_of_races_array = []
 			
-			meeting = Meeting::new(date: date, job: job, number: number, racetrack: racetrack, url: url, track_condition: track_condition)
+			meeting = Meeting::new(date: date, job: job, number: number, racetrack: racetrack, urls_of_races_array: urls_of_races_array, track_condition: track_condition)
 
 			@dbi.insert_meeting(meeting)
 
@@ -252,7 +252,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			)
 			assert_equal(meeting.racetrack, selected_meeting.racetrack)
 			assert_equal(meeting.number, selected_meeting.number)
-			assert_equal(meeting.url, selected_meeting.url)
+			assert_equal(meeting.urls_of_races_array, [])
 			
 			# Counting number of RefDirection after test
 			new_meeting_num = @dbi.select_count_from_table(@config[:gen][:table_names][:meeting])
