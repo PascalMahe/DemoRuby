@@ -312,6 +312,7 @@ class DatabaseInterface
 		values_hash = {
 			:track_condition => meeting.track_condition.id, 
 			:job => meeting.job.id,
+			:country => meeting.country,
 			:date => meeting.date.strftime(@config[:gen][:default_date_format]),
 			:racetrack => meeting.racetrack,
 			:number => meeting.number
@@ -357,7 +358,6 @@ class DatabaseInterface
 			:time => race.time,
 			:number => race.number, 
 			:name => race.name,
-			:country => race.country,
 			:result => race.result, 
 			:result_insertion_time => race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]), 
 			:distance => race.distance,
@@ -381,7 +381,6 @@ class DatabaseInterface
 			:time => race.time,
 			:number => race.number, 
 			:name => race.name,
-			:country => race.country, 
 			:distance => race.distance,
 			:detailed_conditions => race.detailed_conditions,
 			:bets => race.bets,
@@ -816,7 +815,7 @@ class DatabaseInterface
 			:id => id)
 		
 		if row != nil then
-
+			country = row["country"]
 			date = row["date"]
 			racetrack = row["racetrack"]
 			number = row["number"]
@@ -834,6 +833,7 @@ class DatabaseInterface
 			track_condition = @ref_list_hash[:ref_track_condition_list].get(track_condition_id)
 			
 			meeting = Meeting::new(
+						country: country, 
 						date: date, 
 						job: job, 
 						number: number, 
@@ -893,8 +893,7 @@ class DatabaseInterface
 		if row != nil then
 			# simple values
 			bets = row["bets"]
-			country = row["country"]		
-			detailed_conditions = row["detailed_conditions"]		
+			detailed_conditions = row["detailed_conditions"]
 			distance = row["distance"]
 			name = row["name"]
 			number = row["number"]
@@ -913,7 +912,6 @@ class DatabaseInterface
 			meeting = load_meeting_by_id(meeting_id)
 			
 			race = Race::new(	bets: bets,
-								country: country,
 								detailed_conditions: detailed_conditions,
 								distance: distance, 
 								id: id,

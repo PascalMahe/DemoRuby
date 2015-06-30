@@ -48,6 +48,15 @@ class TestSuite < MiniTest::Test
 	@sql_test = []
 	@sql_test = YAML.load_file(config[:gen][:sql_test])
 
+	# cleaning database, just in case a test failed before it could do it itself
+	logger.debug(@sql_test[:test][:delete].keys)
+	@sql_test[:test][:delete].keys.each do |table|
+		logger.info("Deleting test values from " + table.to_s)
+		current_query = @sql_test[:test][:delete][table]
+		dummy_statement = nil
+		dbi.execute_query(current_query, dummy_statement, nil, true)
+	end
+	
 	#setting up the test values for insert and select
 	@sql_test[:test][:insert].keys.each do |table|
 		logger.info("Inserting test values for select and insert queries into " + table.to_s)
@@ -77,18 +86,15 @@ class TestSuite < MiniTest::Test
 		# Loggin at INFO level to avoid unnecesary logging about test data deletion
 		logger.level = SimpleHtmlLogger::INFO
 		logger.info("Teardown")
-		# deleting values in database
-		logger.debug(@sql_test[:test][:delete].keys)
-		@sql_test[:test][:delete].keys.each do |table|
-			logger.info("Deleting test values from " + table.to_s)
-			current_query = @sql_test[:test][:delete][table]
-			dummy_statement = nil
-			dbi.execute_query(current_query, dummy_statement, nil, true)
-		end
+		
+		# Data deletion went here until it was moved to before the data inseriton
+		
 		logger.info("End of teardown")
 		logger.imp("END TEST SUITE")
 	}
 	############################
 	#      End of teardown     #
 	############################
+
+	
 end

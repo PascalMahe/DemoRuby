@@ -53,7 +53,6 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Race 1 time", 		selected_forecast.race.time)
 			assert_equal(-1, 						selected_forecast.race.number)
 			assert_equal("Test Race 1 name", 		selected_forecast.race.name)
-			assert_equal("Test Race 1 country", 	selected_forecast.race.country)
 			assert_equal("Test Race 1 result", 		selected_forecast.race.result)
 			default_time = Date.new(2015, 01, 01)
 			
@@ -77,7 +76,8 @@ class TestDatabaseInterfaceSelect < TestSuite
 				default_time,
 				selected_forecast.race.meeting.date
 			)
-			assert_equal("Test Meeting 1 racetrack", selected_forecast.race.meeting.racetrack)
+			assert_equal("Test Meeting 1 country", 		selected_forecast.race.meeting.country)
+			assert_equal("Test Meeting 1 racetrack", 	selected_forecast.race.meeting.racetrack)
 			assert_equal(-1, selected_forecast.race.meeting.number)
 			assert_equal(nil, selected_forecast.race.meeting.urls_of_races_array)
 			
@@ -226,6 +226,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			# Checking value
 			assert_equal(test_id, 						selected_meeting.id)
+			assert_equal("Test Meeting 1 country", 		selected_meeting.country)
 			assert_equal(Date.new(2015, 01, 01),		selected_meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_meeting.racetrack)
 			assert_equal(-1, 							selected_meeting.number)
@@ -326,7 +327,6 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Race 1 time", 				selected_race.time)
 			assert_equal(-1, 								selected_race.number)
 			assert_equal("Test Race 1 name", 				selected_race.name)
-			assert_equal("Test Race 1 country", 			selected_race.country)
 			assert_equal("Test Race 1 result", 				selected_race.result)
 			assert_equal(-1, 								selected_race.distance)
 			assert_equal("Test Race 1 detailed conditions", selected_race.detailed_conditions)
@@ -342,6 +342,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			# Nested value : meeting
 			assert_equal(test_id, 						selected_race.meeting.id)
+			assert_equal("Test Meeting 1 country", 		selected_race.meeting.country)
 			assert_equal(Date.new(2015, 01, 01), 		selected_race.meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_race.meeting.racetrack)
 			assert_equal(-1, 							selected_race.meeting.number)
@@ -507,7 +508,6 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Race 1 time", 				selected_runner.race.time)
 			assert_equal(-1, 								selected_runner.race.number)
 			assert_equal("Test Race 1 name", 				selected_runner.race.name)
-			assert_equal("Test Race 1 country", 			selected_runner.race.country)
 			assert_equal("Test Race 1 result", 				selected_runner.race.result)
 			assert_equal(-1, 								selected_runner.race.distance)
 			assert_equal("Test Race 1 detailed conditions", selected_runner.race.detailed_conditions)
@@ -523,6 +523,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			# Nested value (2nd level) : meeting
 			assert_equal(test_id, 						selected_runner.race.meeting.id)
+			assert_equal("Test Meeting 1 country", 		selected_runner.race.meeting.country)
 			assert_equal(Date.new(2015, 01, 01), 		selected_runner.race.meeting.date)
 			assert_equal("Test Meeting 1 racetrack", 	selected_runner.race.meeting.racetrack)
 			assert_equal(-1, 							selected_runner.race.meeting.number)
@@ -679,7 +680,6 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Race 1 time", 		selected_weight.forecast.race.time)
 			assert_equal(-1, 						selected_weight.forecast.race.number)
 			assert_equal("Test Race 1 name", 		selected_weight.forecast.race.name)
-			assert_equal("Test Race 1 country", 	selected_weight.forecast.race.country)
 			assert_equal("Test Race 1 result", 		selected_weight.forecast.race.result)
 			default_time = Date.new(2015, 01, 01)
 			str_default_time = default_time.strftime(@config[:gen][:default_date_format])
@@ -703,7 +703,8 @@ class TestDatabaseInterfaceSelect < TestSuite
 				str_default_time,
 				selected_weight.forecast.race.meeting.date.strftime(@config[:gen][:default_date_format])
 			)
-			assert_equal("Test Meeting 1 racetrack", selected_weight.forecast.race.meeting.racetrack)
+			assert_equal("Test Meeting 1 country", 		selected_weight.forecast.race.meeting.country)
+			assert_equal("Test Meeting 1 racetrack", 	selected_weight.forecast.race.meeting.racetrack)
 			assert_equal(-1, selected_weight.forecast.race.meeting.number)
 			assert_equal(nil, selected_weight.forecast.race.meeting.urls_of_races_array)
 			

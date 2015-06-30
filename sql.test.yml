@@ -79,6 +79,7 @@
 				id_track_condition,
 				id_job,
 				id_weather,
+				country,				
 				date,
 				racetrack,
 				number,
@@ -88,6 +89,7 @@
 				-1, /* track_condition */
 				-1, /* job */
 				-1, /* weather */
+				"Test Meeting 1 country", /* country */
 				"01/01/2015", /* date */
 				"Test Meeting 1 racetrack",
 				-1, /* number */
@@ -121,7 +123,6 @@
 			time,
 			number,
 			name,
-			country,
 			result,
 			result_insertion_time,
 			distance,
@@ -136,7 +137,6 @@
 			"Test Race 1 time",
 			-1, /* number */
 			"Test Race 1 name",
-			"Test Race 1 country",
 			"Test Race 1 result",
 			"01/01/2015 00:00", /* result_insertion_time */
 			-1, /* distance */
@@ -153,7 +153,6 @@
 			time,
 			number,
 			name,
-			country,
 			distance,
 			detailed_conditions,
 			bets,
@@ -166,7 +165,6 @@
 			"Test Race 2 time",
 			-2, /* number */
 			"Test Race 2 name",
-			"Test Race 2 country",
 			-2, /* distance */
 			"Test Race 2 detailed conditions",
 			-2, /* bets */ 
@@ -335,26 +333,24 @@
 			id_race,
 			id_meeting,
 			id_race_type,
-			time,
-			number,
-			name,
-			country,
+			bets,
 			distance,
 			detailed_conditions,
-			bets,
+			name,
+			number,
+			time,
 			url,
 			value
 		) VALUES (
 			-10, /* id_race */
-			-1,/* meeting */
-			-1, /* race_type */
-			"Test Race 10 update time",
-			-10, /* number */
-			"Test Race 10 update name",
-			"Test Race 10 update country",
+			-1, /* id_race_type */
+			-1,/* id_meeting */
+			-10, /* bets */ 
 			-10, /* distance */
 			"Test Race 10 update detailed conditions",
-			-10, /* bets */ 
+			"Test Race 10 update name",
+			-10, /* number */
+			"Test Race 10 update time",
 			"Test Race 10 update URL",
 			-10 /* value */ 
 		)'
@@ -369,22 +365,22 @@
 				id_breeder,
 				id_blinder,
 				id_shoes,
-				number,
+				description,
+				distance,
 				draw,
-				single_rating,
-				non_runner,
-				races_run,
-				victories,
-				places,
 				earnings_career,
 				earnings_current_year,
 				earnings_last_year,
 				earnings_victory,
-				description,
-				distance,
-				load,
 				history,
-				url
+				load,
+				non_runner,
+				number,
+				places,
+				races_run,
+				single_rating,
+				url,
+				victories
 			) VALUES (
 				-10, /* id_runner */
 				-1, /* id_race */
@@ -395,22 +391,22 @@
 				-1, /* id_breeder */
 				-1, /* id_blinder */
 				-1, /* id_shoes */
-				-10, /* number */
+				"Test Runner 10 update description",
+				-10, /* distance */
 				-10, /* draw */
-				-10.1, /* single_rating */
-				-10, /* non_runner, boolean */
-				-10, /* races_run */
-				-10, /* victories */
-				-10, /* places */
 				-10, /* earnings_career */
 				-10, /* earnings_current_year */
 				-10, /* earnings_last_year */
 				-10, /* earnings_victory */
-				"Test Runner 10 update description",
-				-10, /* distance */
-				-10.1, /* load */
 				"Test Runner 10 update history",
-				"Test Runner 10 update url"
+				-10.1, /* load */
+				-10, /* non_runner, boolean */
+				-10, /* number */
+				-10, /* places */
+				-10, /* races_run */
+				-10.1, /* single_rating */
+				"Test Runner 10 update url",
+				-10 /* victories */
 			)'
 
  :delete:

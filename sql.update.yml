@@ -12,5 +12,5 @@
 			WHERE id_forecast = :id'
 
  :runner: 'UPDATE Runner
-			SET final_place = :final_place,
+			SET final_place = :final_place
 			WHERE id_runner = :id'

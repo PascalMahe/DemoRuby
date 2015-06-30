@@ -1,3 +1,5 @@
 :gen:
  # ALL TABLES
  :count_all: 'SELECT COUNT (*) FROM :table'
+ 
+ 

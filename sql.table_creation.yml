@@ -84,6 +84,7 @@
 				id_track_condition INTEGER, /* FK to RefTrackCondition */
 				id_job INTEGER, /* FK to Job */
 				id_weather INTEGER, /* FK to Weather */
+				country TEXT,
 				date DATE,
 				racetrack TEXT,
 				number INTEGER, 
@@ -111,7 +112,6 @@
 			time TEXT, /* 11h45 */
 			number INTEGER,
 			name TEXT,
-			country TEXT,
 			result TEXT,
 			result_insertion_time DATETIME,
 			distance INTEGER, /* in meters */

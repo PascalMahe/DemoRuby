@@ -232,18 +232,25 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			job = @dbi.load_job_by_id(-1)
 			track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
+			country = "BEL"
 			date = Time.now
 			racetrack = "Auteuil"
 			number = 11
 			urls_of_races_array = []
 			
-			meeting = Meeting::new(date: date, job: job, number: number, racetrack: racetrack, urls_of_races_array: urls_of_races_array, track_condition: track_condition)
+			meeting = Meeting::new(country: country, 
+						date: date, 
+						job: job, 
+						number: number, 
+						racetrack: racetrack, 
+						urls_of_races_array: urls_of_races_array, 
+						track_condition: track_condition)
 
 			@dbi.insert_meeting(meeting)
 
 			# Checking insert by value
 			selected_meeting = @dbi.load_meeting_by_id(meeting.id)
-
+			assert_equal(meeting.country, selected_meeting.country)
 			assert_equal(meeting.job, selected_meeting.job)
 			assert_equal(meeting.track_condition, selected_meeting.track_condition)
 			assert_equal(
@@ -329,7 +336,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			
 			bets = 143010
-			country = "BEL"
+			
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			meeting = @dbi.load_meeting_by_id(-1)
@@ -344,7 +351,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			race = Race::new(
 					bets: bets,
-					country: country,
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
 					meeting: meeting, 
@@ -364,7 +370,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			selected_race = @dbi.load_race_by_id(race.id)
 
 			assert_equal(race.bets, 				selected_race.bets)
-			assert_equal(race.country, 				selected_race.country)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
 			assert_equal(race.distance, 			selected_race.distance)
 			assert_equal(race.meeting, 				selected_race.meeting)
@@ -400,7 +405,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			
 			bets = 143010
-			country = "BEL"
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			meeting = @dbi.load_meeting_by_id(-1)
@@ -413,7 +417,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			race = Race::new(
 					bets: bets,
-					country: country,
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
 					meeting: meeting, 
@@ -430,7 +433,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			selected_race = @dbi.load_race_by_id(race.id)
 			
 			assert_equal(race.bets, 				selected_race.bets)
-			assert_equal(race.country, 				selected_race.country)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
 			assert_equal(race.distance, 			selected_race.distance)
 			assert_equal(race.meeting, 				selected_race.meeting)
@@ -671,35 +673,36 @@ class TestDatabaseInterfaceInsert < TestSuite
 
 			# Checking by value
 			selected_runner = @dbi.load_runner_by_id(runner.id)
-
-			assert_equal(runner.race, selected_runner.race)
-			assert_equal(runner.horse, selected_runner.horse)
-			assert_equal(runner.jockey, selected_runner.jockey)
-			assert_equal(runner.trainer, selected_runner.trainer)
-			assert_equal(runner.owner, selected_runner.owner)
-			assert_equal(runner.breeder, selected_runner.breeder)
-			assert_equal(runner.blinder, selected_runner.blinder)
-			assert_equal(runner.shoes, selected_runner.shoes)
-			assert_equal(runner.number, selected_runner.number)
-			assert_equal(runner.draw, selected_runner.draw)
-			assert_equal(runner.single_rating, selected_runner.single_rating)
-			assert_equal(runner.non_runner, selected_runner.non_runner)
-			assert_equal(runner.races_run, selected_runner.races_run)
-			assert_equal(runner.victories, selected_runner.victories)
-			assert_equal(runner.places, selected_runner.places)
-			assert_equal(runner.earnings_career, selected_runner.earnings_career)
-			assert_equal(runner.earnings_current_year, selected_runner.earnings_current_year)
-			assert_equal(runner.earnings_last_year, selected_runner.earnings_last_year)
-			assert_equal(runner.earnings_victory, selected_runner.earnings_victory)
-			assert_equal(runner.description, selected_runner.description)
-			assert_equal(runner.distance, selected_runner.distance)
-			assert_equal(runner.load, selected_runner.load)
-			assert_equal(runner.history, selected_runner.history)
-			assert_equal(runner.url, selected_runner.url)
+			
+			assert_equal(runner.blinder, 				selected_runner.blinder)
+			assert_equal(runner.breeder, 				selected_runner.breeder)
+			assert_equal(runner.description, 			selected_runner.description)
+			assert_equal(runner.distance, 				selected_runner.distance)
+			assert_equal(runner.draw, 					selected_runner.draw)
+			assert_equal(runner.earnings_career, 		selected_runner.earnings_career)
+			assert_equal(runner.earnings_current_year, 	selected_runner.earnings_current_year)
+			assert_equal(runner.earnings_last_year, 	selected_runner.earnings_last_year)
+			assert_equal(runner.earnings_victory, 		selected_runner.earnings_victory)
+			assert_equal(runner.history, 				selected_runner.history)
+			assert_equal(runner.horse, 					selected_runner.horse)
+			assert_equal(runner.jockey, 				selected_runner.jockey)
+			assert_equal(runner.load, 					selected_runner.load)
+			assert_equal(runner.non_runner, 			selected_runner.non_runner)
+			assert_equal(runner.number, 				selected_runner.number)
+			assert_equal(runner.owner, 					selected_runner.owner)
+			assert_equal(runner.places, 				selected_runner.places)
+			assert_equal(runner.race, 					selected_runner.race)
+			assert_equal(runner.races_run, 				selected_runner.races_run)
+			assert_equal(runner.shoes, 					selected_runner.shoes)
+			assert_equal(runner.single_rating, 			selected_runner.single_rating)
+			assert_equal(runner.trainer, 				selected_runner.trainer)
+			assert_equal(runner.url, 					selected_runner.url)
+			assert_equal(runner.victories, 				selected_runner.victories)
 			
 			# Counting the number of weights after insertion
 			new_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
 			assert_equal(old_runner_num + 1, new_runner_num)
+			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)

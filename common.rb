@@ -7,6 +7,7 @@ class GlobalState
 	attr_accessor :config
 	attr_accessor :logger
 	attr_accessor :dbi
+	attr_accessor :is_test
 
 	def load_config()
 		
@@ -30,6 +31,7 @@ class GlobalState
 	def initialize(is_test, log_level, path_to_log)
 		@config = load_config()
 		@logger = SimpleHtmlLogger::new(path_to_log, log_level)
+		@is_test = is_test
 		@dbi = DatabaseInterface::new(@config, is_test, @logger)
 	end
 	

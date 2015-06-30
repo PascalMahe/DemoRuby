@@ -1,5 +1,6 @@
 class Meeting
 	attr_accessor :date
+	attr_accessor :country
 	attr_accessor :id
 	attr_accessor :job
 	attr_accessor :number
@@ -9,8 +10,9 @@ class Meeting
 	attr_accessor :urls_of_races_array
 	attr_accessor :weather
 	
-	def initialize(date: nil, job: nil, number: nil, racetrack: nil, urls_of_races_array: nil, track_condition: nil, weather: nil)
+	def initialize(country: nil, date: nil, job: nil, number: nil, racetrack: nil, urls_of_races_array: nil, track_condition: nil, weather: nil)
 		@date = date
+		@country = country
 		@job = job
 		@number = number
 		@racetrack = racetrack
@@ -22,6 +24,7 @@ class Meeting
 	
 	def to_s()
 		return "Meeting[id = " + @id.to_s +
+		", country = " + @country.to_s +
 		", date = " + @date.to_s +
 		", job = " + @job.to_s +
 		", number = " + @number.to_s +
@@ -38,6 +41,7 @@ class Meeting
 			return false
 		end
 		if other_object.id == self.id and
+		other_object.country == self.country and
 		other_object.track_condition == self.track_condition and
 		other_object.job == self.job and
 		other_object.date == self.date and
@@ -55,11 +59,11 @@ end
 
 class Race
 	attr_accessor :bets
-	attr_accessor :country
 	attr_accessor :detailed_conditions
 	attr_accessor :distance
 	attr_accessor :id
 	attr_accessor :meeting
+	attr_accessor :general_conditions
 	attr_accessor :name
 	attr_accessor :number
 	attr_accessor :race_type
@@ -71,10 +75,10 @@ class Race
 	attr_accessor :value
 		
 	def initialize(	bets: nil,
-					country: nil,
 					detailed_conditions: nil,
 					distance: nil, 
 					id: nil, 
+					general_conditions: nil,
 					meeting: nil, 
 					name: nil, 
 					number: nil, 
@@ -87,10 +91,10 @@ class Race
 					value: nil
 					)
 		@bets = bets
-		@country = country
 		@detailed_conditions = detailed_conditions
 		@distance = distance
 		@id = id
+		@general_conditions = general_conditions
 		@meeting = meeting
 		@name = name
 		@number = number
@@ -110,7 +114,7 @@ class Race
 		", time = " + @time.to_s +
 		", number = " + @number.to_s +
 		", name = " + @name.to_s +
-		", country = " + @country.to_s + 
+		", general_conditions = " + @general_conditions + 
 		", result = " + @result.to_s +
 		", result_insertion_time = " + @result_insertion_time.to_s +
 		", distance = " + @distance.to_s +
@@ -132,7 +136,7 @@ class Race
 		other_object.time == self.time and
 		other_object.number == self.number and
 		other_object.name == self.name and
-		other_object.country == self.country and
+		other_object.general_conditions == self.general_conditions and
 		other_object.result == self.result and
 		other_object.result_insertion_time == self.result_insertion_time and
 		other_object.distance == self.distance and
