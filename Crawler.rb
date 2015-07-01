@@ -92,7 +92,7 @@ class Crawler
 		date = Date::new(2013,11,15)
 		
 		#Fetching meetings
-		html_meeting_list = @driver.find_element(:xpath, "//div[@id='reunions-view']")
+		html_meeting_list = @driver.find_element(:id, "reunions-view")
 		
 		meeting_list = fetch_meetings(html_meeting_list, date, current_job)
 		return meeting_list
@@ -145,17 +145,29 @@ class Crawler
 		strong_tag_for_racetrack = html_meeting.
 					find_element(:css, "strong")
 		racetrack = strong_tag_for_racetrack.attribute("title")
+		country = nil
+		if racetrack.index("(") != nil then
+			racetrackArray = racetrack.split("(")
+			racetrack = racetrackArray[0].strip()
+			country = racetrackArray[1]
+			country = country.gsub(")", "").strip
+			@logger.debug("Country : " + country)
+		end
 		@logger.debug("Racetrack : " + racetrack)
+		
 		
 		# track_condition
 		track_condition = nil
-		span_tag_for_track_condition = html_meeting.
-				find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
-		if span_tag_for_track_condition != nil then
+		begin # try/catch block for NoSuchElementError if not track_condition
+			span_tag_for_track_condition = html_meeting.
+					find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
+		
 			track_condition_text = span_tag_for_track_condition.text
 			@logger.debug("Track condition text : " + track_condition_text)
 			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_text]
 			@logger.debug("Track condition : " + track_condition.to_s)
+		rescue
+			@logger.debug("Track condition : nil")
 		end
 		
 		# weather
@@ -199,7 +211,8 @@ class Crawler
 		
 		@logger.debug("Meeting_date : " + meeting_date.to_s)
 		
-		meeting = Meeting::new(date: meeting_date, 
+		meeting = Meeting::new(country: country,
+								date: meeting_date, 
 								job: job, 
 								number: number, 
 								racetrack: racetrack, 
@@ -273,22 +286,6 @@ class Crawler
 			wind_speed: wind_speed)
 		return weather
 	end
-
-	# def fetch_races(race_table, meeting)
-		## Parameter: a WebElement wrapping a <tbody> tag, containing the races
-		
-		# race_list = []
-		# html_race_list = race_table.find_elements(:xpath, "tr")
-		# html_race_list.each do |html_race|
-			# business_race = fetch_race_shallow(html_race, meeting)
-			# race_list.push(business_race)
-		# end
-		
-		# race_list.each do |race|
-			# fetch_race(race)
-		# end
-		# return race_list
-	# end
 
 	# def fetch_race_shallow(html_race, meeting)
 		## Parameter: a WebElement wrapping a <tr> tag, containing the shallow data about the race
@@ -364,10 +361,6 @@ class Crawler
 		betsStrRaw = betsTextArray[1]
 		bets = betsStrRaw.gsub("€", "").strip()
 		
-		# country
-		# ???
-		country = nil
-		
 		# detailed conditions
 		# a.conditions-show -> btn to click
 		# div.popin-detail (visible after the click)
@@ -390,7 +383,7 @@ class Crawler
 		# distance
 		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
 		# split#2
-		generalCondTag = @driver.find_element(:css, "div#conditions")
+		generalCondTag = @driver.find_element(:id, "conditions")
 		generalCondStrRaw = generalCondTag.text
 		
 		generalCondArray = generalCondStrRaw.split("-")

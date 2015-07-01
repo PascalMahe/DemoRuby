@@ -129,6 +129,16 @@ class TestCrawler < TestSuite
 								
 			assert_equal(verification_meeting, meeting)
 			
+			# 2nd test: country
+			html_meeting_to_test = html_meeting_list[3]
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
+			verif_country = "Af Sud"
+			verif_racetrack = "HIPPODROME DE VAAL"
+			
+			assert_equal(verif_country, meeting.country)
+			assert_equal(verif_racetrack, meeting.racetrack)
+			
+			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
