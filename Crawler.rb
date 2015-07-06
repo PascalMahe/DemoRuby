@@ -181,8 +181,7 @@ class Crawler
 		
 		# getting second tag
 		secondary_id = "numOfficiel-" + number
-		secondary_div_tag = @driver
-					.find_element(:css, "div#" + secondary_id)
+		secondary_div_tag = @driver.find_element(:id, secondary_id)
 		
 		# urls_of_races_array
 		link_to_races_tags = secondary_div_tag.find_elements(:css, "a.course")
@@ -196,7 +195,8 @@ class Crawler
 		if $globalState.is_test then
 			first_race_href = "#12062015/R8/C1"
 		else
-			first_race_href = urls_of_races_array[0] # should be like this : '#12062015/R8/C1'
+			first_race_href = urls_of_races_array[0]
+			 # should be like this : '#12062015/R8/C1'
 		end
 		str_meeting_date = first_race_href.split("/")[0] # => '#12062015'
 		str_meeting_date = str_meeting_date.gsub("#", "") # => '12062015'
@@ -287,62 +287,6 @@ class Crawler
 		return weather
 	end
 
-	# def fetch_race_shallow(html_race, meeting)
-		## Parameter: a WebElement wrapping a <tr> tag, containing the shallow data about the race
-		
-		# number = html_race.find_element(:class, "TRHcol1")
-		# number = number.text
-		
-		# race_link = html_race.find_element(:xpath, "td/a")
-		# url = race_link.attribute("href")
-		
-		# name = race_link.text
-		
-		# time = html_race.find_element(:class, "TRHcol4")
-		# time = time.text
-		
-		## getting the data in the text below the link (in the second column)
-		# text_below = html_race.find_element(:class, "TRHcol2")
-		# text_below = text_below.find_element(:xpath, "div")
-		# text_below = text_below.text
-		# text_below = text_below.split(" - ")
-		# if text_below.length == 3 then
-			## if the size is 3, it means there's another ' - ' sequence
-			## -> it's because racetype can have a ' - ' sequence in it (eg 'Attelé Européenne - Autostart')
-			## => agregate 0 & 1 and put 2 in 1
-			# text_below[0] = text_below[0] + ' - ' + text_below[1]
-			# text_below[1] = text_below[2]
-			# text_below.pop #removing last element
-		# end
-		# value = text_below[1]
-		## value: 'X.XXX €'
-		# str_value = value.sub('.', '')
-		# str_value = value.sub('€', '')
-		# str_value = value.sub(' ', '')
-		# str_value.strip!
-		# int_value = str_value.to_i
-		
-		# str_distance_and_racetype = text_below[0]
-		## distance: numbers to the end (minus the 'm')
-		# int_distance_starting_index = str_distance_and_racetype.index(/[1-9]/)
-		
-		# str_distance = str_distance_and_racetype.slice(int_distance_starting_index..str_distance_and_racetype.length)
-		## erasing the 'm'
-		# str_distance = str_distance.sub('m', '')
-		
-		# int_distance = str_distance.to_i
-		
-		
-		## racetype: everything that's not distance
-		# str_racetype_name = str_distance_and_racetype.slice(0..int_distance_starting_index)
-		# str_racetype_name.strip!
-		# racetype = $ref_list_hash[:ref_race_type_list][str_racetype_name]
-		
-		# race = Race::new(meeting, name, number, url, time, int_value, int_distance, racetype)
-		## @logger.debug(race)
-		# return race
-	# end
-
 	def fetch_race(url_of_race, meeting)
 		# Parameter: the URL of the page where the data is to be gathered
 		# and the Meeting containing this race
@@ -355,89 +299,112 @@ class Crawler
 		
 		# bets
 		# div#masses-enjeu/div[1]/div => Placé : XXX,XX €
-		massesEnjeuTag = @driver.find_element(:xpath, "div[id='masses-enjeu']/div[1]/div")
-		bets = betTag.text
-		betsTextArray = bets.split(":")
-		betsStrRaw = betsTextArray[1]
-		bets = betsStrRaw.gsub("€", "").strip()
+		bet_tag = @driver.find_element(:xpath, "//div[@id='masses-enjeu']/div[1]")
+		bets_text = bet_tag.text
+		bets_text_array = bets_text.split(":")
+		bets_str_raw = bets_text_array[1]
+		bets_str = bets_str_raw.gsub("€", "").gsub(" ", "").gsub(",", ".").strip()
+		bets = bets_str.to_f
+		@logger.debug("bets : " + bets.to_s)
 		
 		# detailed conditions
 		# a.conditions-show -> btn to click
 		# div.popin-detail (visible after the click)
 		# -> div[1]/div.content
 		# closed by clicking on div.popin-close
-		btnToDetailedConditions = @driver.find_element(:css, "a.conditions-show")
-		btnToDetailedConditions.clickAndWait
-		divDetailedCondTag = @driver.
-			find_element(:xpath, "div[@class='popin-detail']/div[1]/div.content")
-		detailedCond = detailedCondTag.text.strip()
+		btn_detailed_conditions = @driver.find_element(:css, "a.conditions-show")
+		btn_detailed_conditions.click
+		div_detailed_cond_tag = @driver.
+			# find_element(:xpath, "//div[@class='detail-popin']")
+			find_element(:css, "div.detail-popin")
+		detailed_cond = div_detailed_cond_tag.text.strip()
+		@logger.debug("detailed_cond : " + detailed_cond)
 		
 		# close popin
+		btn_close_popin = @driver.find_element(:css, "div.popin-close")
+		btn_close_popin.click
 		if $globalState.is_test then
-			btnToClosePopin = @driver.find_element(:css, "div.popin-close")
-			btnToClosePopin.clickAndWait
-		else
-			@driver.back()
+			@driver.navigate.back
 		end
 		
 		# distance
 		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
 		# split#2
-		generalCondTag = @driver.find_element(:id, "conditions")
-		generalCondStrRaw = generalCondTag.text
+		general_cond_tag = @driver.find_element(:id, "conditions")
+		general_cond_str_raw = general_cond_tag.text
 		
-		generalCondArray = generalCondStrRaw.split("-")
-		distance = generalCondArray[2].strip()
+		general_cond_array = general_cond_str_raw.split("-")
+		distance_str = general_cond_array[2].gsub("m", "").strip()
+		distance = distance_str.to_i
+		@logger.debug("distance : " + distance.to_s)
 		
 		# general_conditions
 		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
-		# split#4
-		general_conditions = generalCondArray[4].strip()
+		# group from split#4 to end of array
+		general_conditions = general_cond_array[4].strip()
+		@logger.debug("general_conditions : " + general_conditions)
 		
 		# name
 		# inside h2.course-title/b[1] => VAAL - JOBURG'S PRAWN FEST HANDICAP
 		# split#1
-		raceTitleTag = @driver.find_element(:xpath, "//h2[class='course-title']/b[1]")
-		raceTitleStr = raceTitleTag.text
-		raceTitleArray = raceTitleStr.split("-")
-		name = raceTitleArray[1].strip()
+		race_title_tag = @driver.find_element(:xpath, "//h2[@class='course-title']")
+		race_title_str = race_title_tag.text
+		@logger.debug("race_title_str : " + race_title_str)
+		race_title_array = race_title_str.split("-")
+		name = race_title_array[2].strip()
+		@logger.debug("name : " + name)
 		
 		# number
 		# li.current
 		# attribute data-courseid
-		currentRaceTag = @driver.find_element(:css, "li.current")
-		number = currentRaceTag.attribute("data-courseid")
+		current_racer_tag = @driver.find_element(:css, "li.current")
+		number = current_racer_tag.attribute("data-courseid")
+		@logger.debug("number : " + number)
 		
 		# race_type
 		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
 		# split#0
-		race_type = generalCondArray[0].strip()
+		race_type_raw = general_cond_array[0].strip()
+		race_type = @ref_list_hash[:ref_race_type_list][race_type_raw]
+		@logger.debug("race_type : " + race_type.to_s)
 		
 		# result
 		# dd.infos-arrivee-list
-		resultTag = @driver.find_element(:css, "dd.infos-arrivee-list")
-		result = resultTag.text.strip
+		result_tag = @driver.find_element(:css, "dd.infos-arrivee-list")
+		result = result_tag.text.strip
+		@logger.debug("result : " + result)
 		
 		# result_insertion_time
 		if result != '' then
 			result_insertion_time = Time::new
+			@logger.debug("result_insertion_time : " + 
+				result_insertion_time.strftime(@config[:gen][:default_date_time_format])
+			)
 		else 
 			result_insertion_time = nil
+			@logger.debug("result_insertion_time : nil")
 		end
-		
-		# runner_list
-		runner_list = fetch_runners(race)
-		
+						
 		# time
 		# h2.course-title => 20 Février 2014 • R4C3 - 12h15• VAAL - JOBURG'S PRAWN FEST HANDICAP
 		# split(-)#1.split(•)#0
-		raceLongTitleTag = @driver.find_element(:xpath, "h2.course-title")
-		raceLongTitleText = raceLongTitleTag.text
-		raceLongTitleArray = raceLongTitleText.split("-")
-		raceTitleAndDateText = raceLongTitleArray[1]
-		raceTitleAndDateArray = raceTitleAndDateText.split("•")
-		dateStr = raceTitleAndDateArray[0].strip()
-		time = Time::new(dateStr)
+		race_long_title_tag = @driver.find_element(:css, "h2.course-title")
+		race_long_title_text = race_long_title_tag.text 
+		race_long_title_array = race_long_title_text.split("-") # => ["20 Février 2014 • R4C3 ", " 12h15• VAAL ", " JOBURG'S PRAWN FEST HANDICAP"]
+		race_title_and_date_text = race_long_title_array[1] # => " 12h15• VAAL "
+		race_title_and_date_array = race_title_and_date_text.split("•") # => ["12h15", " VAAL "]
+		date_str = race_title_and_date_array[0].strip() #=> "12h15"
+		date_str_array = date_str.split("h") # => ["12", "15"]
+		date_hours_i = date_str_array[0].to_i # => 12
+		date_min_i = date_str_array[1].to_i # => 15
+		
+		@logger.debug("date_hours_i : " + date_hours_i.to_s)
+		@logger.debug("date_min_i : " + date_min_i.to_s)
+
+		time = Time::new(1, 1, 1, date_hours_i, date_min_i)
+		@logger.debug("time : " + 
+			time.strftime(@config[:gen][:default_time_format])
+		)
 
 		# url
 		url = url_of_race
@@ -445,11 +412,30 @@ class Crawler
 		# value
 		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
 		# split#1
-		value = generalCondArray[1].strip().gsub("€" , "")
+		value_str = general_cond_array[1].strip().gsub("€" , "")
+		value = value_str.to_i
 		
-		#@logger.debug(race)
+		race = Race::new(bets: bets,
+					detailed_conditions: detailed_cond,
+					distance: distance,  
+					general_conditions: general_conditions,
+					meeting: meeting, 
+					name: name, 
+					number: number, 
+					race_type: race_type,
+					result: result,
+					result_insertion_time: result_insertion_time,
+					time: time,
+					url: url,  
+					value: value
+		)
 		
-		#runner
+		@logger.debug(race)
+		
+				
+		# runner_list
+		runner_list = fetch_runners(race)
+		@logger.debug("runner_list : " + runner_list.to_s)
 		
 	end
 
@@ -458,14 +444,14 @@ class Crawler
 		# Returns a list of (completed) Runners
 		
 		list_runners = []
-		runner_rows = @driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
-		runner_rows.each do |runner_row|
-			runner = fetch_runner_shallow(runner_row, race)
-			list_runners.push(runner)
-		end
-		list_runners.each do |runner|
-			fetch_runner(runner)
-		end
+		# runner_rows = @driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
+		# runner_rows.each do |runner_row|
+			# runner = fetch_runner_shallow(runner_row, race)
+			# list_runners.push(runner)
+		# end
+		# list_runners.each do |runner|
+			# fetch_runner(runner)
+		# end
 			
 		return list_runners
 	end
