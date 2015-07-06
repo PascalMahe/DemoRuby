@@ -229,7 +229,7 @@ class Crawler
 		# => Fetch the list with a loop on the urls_of_races_array
 		
 		meeting.urls_of_races_array.each do |url_of_race|
-			race = fetch_race(meeting, url_of_race)
+			race = fetch_race(url_of_race, meeting)
 			meeting.race_list.push(race)
 		end
 	end
@@ -295,6 +295,7 @@ class Crawler
 		# runner_list, time, url and value
 			
 		#Fetching page
+		@logger.info("Fetching race: " + url_of_race)
 		@driver.get(url_of_race)
 		
 		# bets
@@ -328,7 +329,9 @@ class Crawler
 		end
 		
 		# distance
-		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
+		# inside div#conditions => 	Plat - 		7759 € - 	1200m - 8 partants  - Handicap Corde à droite 
+		# 							Monté - 	65000 € - 	2700m - 10 partants Corde à gauche 
+		#							Attelé - 	20000 € - 	2100m - 12 partants  - Internationale - Autostart Corde à gauche 
 		# split#2
 		general_cond_tag = @driver.find_element(:id, "conditions")
 		general_cond_str_raw = general_cond_tag.text
@@ -339,9 +342,17 @@ class Crawler
 		@logger.debug("distance : " + distance.to_s)
 		
 		# general_conditions
-		# inside div#conditions => Plat - 7759 € - 1200m - 8 partants  - Handicap Corde à droite 
-		# group from split#4 to end of array
-		general_conditions = general_cond_array[4].strip()
+		# inside div#conditions => 	Plat - 		7759 € - 	1200m - 8 partants  - Handicap Corde à droite 
+		# 							Monté - 	65000 € - 	2700m - 10 partants Corde à gauche 
+		#							Attelé - 	20000 € - 	2100m - 12 partants  - Internationale - Autostart Corde à gauche 
+		# group from split("partants")#1
+		general_conditions_partants_array = general_cond_str_raw.split("partants")
+		general_conditions_raw = general_conditions_partants_array[1]
+		general_conditions = general_conditions_raw.strip()
+		if general_conditions.index("-") then
+			general_conditions = general_conditions.slice(1, general_conditions.length - 1)
+			general_conditions = general_conditions.strip()
+		end
 		@logger.debug("general_conditions : " + general_conditions)
 		
 		# name
