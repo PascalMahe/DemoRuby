@@ -37,31 +37,39 @@ class TestCrawler < TestSuite
 #		end
 #	end
 	
-	def test_fetch_meeting
+	# def test_fetch_meetings
 		
-		@logger.info("Testing fetch meetings")
-		begin
-			job = Job::new
-			date = Date::new(2013,11,15)
-			@logger.debug("Logger outputs debug messages")
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
-			html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
+		# @logger.info("Testing fetch meetings")
+		# begin
+			# job = Job::new
+			# date = Date::new(2013,11,15)
+			# @logger.debug("Logger outputs debug messages")
+			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			# html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
 		
 			
-			if html_meeting_list == nil then
-				flunk("html_meeting_list is nil.")
-			end
+			# if html_meeting_list == nil then
+				# flunk("html_meeting_list is nil.")
+			# end
 		
-			meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
+			# meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
 			
-			assert_equal(5, meeting_list.size)
+			## Checking the list has meetings in it and that those meetings
+			## have races
+			# assert_equal(5, meeting_list.size)
+			# assert_equal(9, meeting_list[0].race_list.size)
+			# assert_equal(8, meeting_list[1].race_list.size)
+			# assert_equal(8, meeting_list[2].race_list.size)
+			# assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
+															  ## but the main page only has 2 to 5
+			# assert_equal(6, meeting_list[4].race_list.size)
 			
-		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
-		end
-	end
+		# rescue Exception => err
+			# @logger.error(err.inspect)
+			# @logger.error(err.backtrace)
+			# flunk(err.inspect)
+		# end
+	# end
 	
 	# def test_fetch_meeting_shallow
 		
@@ -144,17 +152,35 @@ class TestCrawler < TestSuite
 		# end
 	# end
 	
-#	def test_fetch_meetings
-#		
-#		@logger.info("Testing fetch meetings")
-#		begin
-#
-#		rescue Exception => err
-#			@logger.error(err.inspect)
-#			@logger.error(err.backtrace)
-#			flunk(err.inspect)
-#		end
-#	end
+	# def test_fetch_meeting
+		
+		# @logger.info("Testing fetch meeting")
+		# begin
+			
+			# urls_of_races_array = 
+				# ["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
+				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
+			
+			# html_meeting_to_test = Meeting::new(urls_of_races_array: urls_of_races_array)
+			
+			# assert_equal(0, html_meeting_to_test.race_list.size)
+			
+			## The function to test
+			# meeting = @crawler.fetch_meeting(html_meeting_to_test)
+			
+			# assert_equal(8, meeting.race_list.size)
+		# rescue Exception => err
+			# @logger.error(err.inspect)
+			# @logger.error(err.backtrace)
+			# flunk(err.inspect)
+		# end
+	# end
 	
 	# def test_fetch_race
 		# @logger.info("Testing fetch race")
@@ -279,4 +305,271 @@ class TestCrawler < TestSuite
 		# end
 	# end
 
+	# def test_fetch_runners
+		
+		# @logger.info("Testing fetch runners")
+		# begin
+			## Setting up 
+			## -> Getting the race
+			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5.htm")
+			
+			## -> Getting the meeting list
+			# race_to_test = Race::new() # R4_C5
+			## Checking the list is empty beforehand
+			# assert_equal(nil, race_to_test.runner_list)
+			
+			## the function to test
+			# runner_list = @crawler.fetch_runners(race_to_test)
+			
+			## Checking we did get a list and the right one
+			# assert_equal(17, runner_list.size)
+			
+			
+		# rescue Exception => err
+			# @logger.error(err.inspect)
+			# @logger.error(err.backtrace)
+			# flunk(err.inspect)
+		# end
+	# end
+	
+	def test_fetch_runners_shallow
+		
+		@logger.info("Testing fetch runners shallow")
+		begin
+			# Setting up 
+			# -> Getting the first race (with distance)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3_runners.htm")
+			
+			race_to_test = Race::new() # R4_C3
+			runner = nil
+			
+			# the function to test
+			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			
+			# Checking we did get a list and the right one
+			assert("Runner list is nil", runner_hash != nil)
+			assert_equal(8, runner_hash.size, "Wrong number of runners fetched")
+			
+			# Checking the fetched results
+			
+			# Without blinder
+			runner_to_check = runner_hash[1]
+
+			assert_equal(7, 				runner_to_check.age, 			"Wrong age while checking runner without blinder")
+			assert_equal("SANS_OEILLERES", 	runner_to_check.blinder, 		"Wrong blinder while checking runner without blinder")
+			assert_equal(8, 				runner_to_check.draw, 			"Wrong draw while checking runner without blinder")
+			assert_equal("1p2p(13)7p9p", 	runner_to_check.history, 		"Wrong history while checking runner without blinder")			
+			assert_equal("Mythical Palace", runner_to_check.horse.name, 	"Wrong horse.name while checking runner without blinder")
+			assert_equal("H", 				runner_to_check.horse.sex, 		"Wrong sex while checking runner without blinder")
+			assert_equal(false, 			runner_to_check.is_favorite, 	"Wrong is_favorite while checking runner without blinder")
+			assert_equal("G Lerena", 		runner_to_check.jockey.name, 	"Wrong jockey.name while checking runner without blinder")
+			assert_equal(60.5, 				runner_to_check.load_handicap, 	"Wrong load_handicap while checking runner without blinder")
+			assert_equal(0, 				runner_to_check.load_ride, 		"Wrong load_ride while checking runner without blinder")
+			assert_equal(false, 			runner_to_check.non_runner, 	"Wrong non_runner while checking runner without blinder")
+			assert_equal(1, 				runner_to_check.number, 		"Wrong number while checking runner without blinder")
+			assert_equal(race_to_test, 		runner_to_check.race, 			"Wrong race while checking runner without blinder")
+			assert_equal(0.0, 				runner_to_check.single_rating, 	"Wrong single_rating while checking runner without blinder")
+			assert_equal("S G Tarry", 		runner_to_check.trainer.name, 	"Wrong trainer.name while checking runner without blinder")
+			assert_equal("", 				runner_to_check.url, 			"Wrong url while checking runner without blinder")
+			
+			# Non runner
+			runner_to_check = runner_hash[8]
+			assert_equal(nil, 			runner_to_check.age, 			"Wrong age while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.blinder, 		"Wrong blinder while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.draw, 			"Wrong draw while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.history, 		"Wrong history while checking runner with blinder")
+			assert_equal("Phenomenal", 	runner_to_check.horse.name, 	"Wrong horse.name while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.horse.sex, 		"Wrong sex while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.is_favorite, 	"Wrong is_favorite while checking runner without blinder")
+			assert_equal(nil, 			runner_to_check.jockey, 		"Wrong jockey while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.load_handicap, 	"Wrong load_handicap while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.load_ride, 		"Wrong load_ride while checking runner with blinder")
+			assert_equal(true, 			runner_to_check.non_runner, 	"Wrong is_favorite while checking runner without blinder")
+			assert_equal(8, 			runner_to_check.number, 		"Wrong number while checking runner with blinder")			
+			assert_equal(race_to_test, 	runner_to_check.race, 			"Wrong race while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.single_rating, 	"Wrong single_rating while checking runner with blinder")
+			assert_equal(nil, 			runner_to_check.trainer, 		"Wrong trainer while checking runner with blinder")
+			assert_equal("", 			runner_to_check.url, 			"Wrong url while checking runner with blinder")
+			
+			
+			# -> Getting the second race (with time)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runners.htm")
+			
+			race_to_test = Race::new() # R3_C1
+			
+			# the function to test
+			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			
+			# Checking we did get a list and the right one
+			assert_equal(14, runner_hash.size, "Wrong number of runners fetched")
+			
+			# Checking the feteched results
+			runner_to_check = runner_hash[9]
+			assert_equal(7, 				runner_to_check.age, 				"Wrong age while checking runner with shoes and earnings")
+			assert_equal("", 				runner_to_check.blinder, 			"Wrong blinder while checking runner with shoes and earnings")
+			assert_equal(nil, 				runner_to_check.draw, 				"Wrong draw while checking runner with blinder")
+			assert_equal("3aDa2a(13)", 		runner_to_check.history, 			"Wrong history while checking runner with shoes and earnings")
+			assert_equal("Jaervso Ole", 	runner_to_check.horse.name, 		"Wrong horse.name while checking runner with shoes and earnings")
+			assert_equal("M", 				runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner with shoes and earnings")
+			assert_equal(false, 			runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner without blinder")
+			assert_equal("F. Nivard", 		runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner with shoes and earnings")
+			assert_equal(nil, 				runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner with blinder")
+			assert_equal(nil, 				runner_to_check.load_ride, 			"Wrong load_ride while checking runner with blinder")
+			assert_equal(false, 			runner_to_check.non_runner, 		"Wrong is_favorite while checking runner without blinder")
+			assert_equal("", 				runner_to_check.number, 			"Wrong number while checking runner with shoes and earnings")
+			assert_equal(race_to_test, 		runner_to_check.race, 				"Wrong race while checking runner with shoes and earnings")
+			assert_equal(0.0, 				runner_to_check.single_rating, 		"Wrong single_rating while checking runner with shoes and earnings")
+			assert_equal("", 				runner_to_check.url, 				"Wrong url while checking runner with shoes and earnings")
+			
+			# TODO
+			assert_equal("O. Tjomsland", 	runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner with shoes and earnings")
+			assert_equal(2100, 				runner_to_check.distance, 			"Wrong distance while checking runner with shoes and earnings")
+			assert_equal(100566.00, 		runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner with shoes and earnings")
+			assert_equal("", 				runner_to_check.shoes, 				"Wrong shoes while checking runner with shoes and earnings")
+			
+
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
+	
+	def test_fetch_race_results
+		
+		@logger.info("Testing fetch race results")
+		begin
+			# Setting up 
+			# -> Getting the first race (with distance)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1.htm")
+			
+			race_to_test = Race::new() # R4_C1
+			runner = nil
+			
+			# the function to test
+			runner_hash = @crawler.fetch_race_results(race_to_test)
+			
+			# Checking we did get a list and the right one
+			assert("Runner list is nil", runner_hash != nil)
+			assert_equal(12, runner_hash.size)
+			
+			# Checking the fetched results
+			# First arrived (distance == "")
+			runner_to_check = runner_hash[2]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_BRAVE_VISION.htm", runner_to_check.url, "Wrong url while checking first arrived")
+			assert_equal("", runner_to_check.commentary, "Wrong commentary while checking first arrived")
+			assert_equal("", runner_to_check.distance, "Wrong distance while checking first arrived")
+			assert_equal(1, runner_to_check.final_place, "Wrong final_place while checking first arrived")
+			assert_equal(2, runner_to_check.number, "Wrong number while checking first arrived")
+			assert_equal(29.9, runner_to_check.single_rating, "Wrong single_rating while checking first arrived")
+			assert_equal("", runner_to_check.time, "Wrong time while checking first arrived")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong is_favorite while checking first arrived")
+			assert_equal(false, runner_to_check.non_runner, "Wrong non_runner while checking first arrived")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking first arrived")
+			
+			# After 10th place (final_place == nil)
+			runner_to_check = runner_hash[10]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_LONG_SHOT.htm", runner_to_check.url, "Wrong url while checking runner arrived after 10th place")
+			assert_equal("", runner_to_check.commentary, "Wrong commentary while checking runner arrived after 10th place")
+			assert_equal("", runner_to_check.distance, "Wrong distance while checking runner arrived after 10th place")
+			assert_equal(nil, runner_to_check.final_place, "Wrong final_place while checking runner arrived after 10th place")
+			assert_equal(10, runner_to_check.number, "Wrong number while checking runner arrived after 10th place")
+			assert_equal(23.9, runner_to_check.single_rating, "Wrong single_rating while checking runner arrived after 10th place")
+			assert_equal("", runner_to_check.time, "Wrong time while checking runner arrived after 10th place")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong is_favorite while checking runner arrived after 10th place")
+			assert_equal(false, runner_to_check.non_runner, "Wrong non_runner while checking runner arrived after 10th place")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking runner arrived after 10th place")
+			
+			# Non-runner (non_runner == true, final_place == nil, single_rating == nil)
+			runner_to_check = runner_hash[11]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_OUT_MY_WAY.htm", runner_to_check.url, "Wrong url while checking non-runner")
+			assert_equal("", runner_to_check.commentary, "Wrong commentary while checking non-runner")
+			assert_equal("", runner_to_check.distance, "Wrong disqualified while checking non-runner")
+			assert_equal(nil, runner_to_check.final_place, "Wrong disqualified while checking non-runner")
+			assert_equal(11, runner_to_check.number, "Wrong disqualified while checking non-runner")
+			assert_equal(nil, runner_to_check.single_rating, "Wrong disqualified while checking non-runner")
+			assert_equal("", runner_to_check.time, "Wrong disqualified while checking non-runner")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong disqualified while checking non-runner")
+			assert_equal(true, runner_to_check.non_runner, "Wrong disqualified while checking non-runner")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking non-runner")
+			
+			# Normal
+			runner_to_check = runner_hash[1]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_AMERICAN_TIGER.htm", runner_to_check.url, "Wrong disqualified while checking first arrived")
+			assert_equal("", runner_to_check.commentary, "Wrong disqualified while checking normal runner")
+			assert_equal("5 Longueurs 1/2", runner_to_check.distance, "Wrong disqualified while checking normal runner")
+			assert_equal(3, runner_to_check.final_place, "Wrong disqualified while checking normal runner")
+			assert_equal(1, runner_to_check.number, "Wrong disqualified while checking normal runner")
+			assert_equal(4.8, runner_to_check.single_rating, "Wrong disqualified while checking normal runner")
+			assert_equal("", runner_to_check.time, "Wrong disqualified while checking normal runner")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong disqualified while checking normal runner")
+			assert_equal(false, runner_to_check.non_runner, "Wrong disqualified while checking normal runner")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking normal runner")
+			
+			# Favorite (is_favorite == true)
+			runner_to_check = runner_hash[6]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_ISPHAN.htm", runner_to_check.url, "Wrong disqualified while checking first arrived")
+			assert_equal("", runner_to_check.commentary, "Wrong disqualified while checking favorite")
+			assert_equal("1/2 Longueur", runner_to_check.distance, "Wrong disqualified while checking favorite")
+			assert_equal(2, runner_to_check.final_place, "Wrong disqualified while checking favorite")
+			assert_equal(6, runner_to_check.number, "Wrong disqualified while checking favorite")
+			assert_equal(4.7, runner_to_check.single_rating, "Wrong disqualified while checking favorite")
+			assert_equal("", runner_to_check.time, "Wrong disqualified while checking favorite")
+			assert_equal(true, runner_to_check.is_favorite, "Wrong disqualified while checking favorite")
+			assert_equal(false, runner_to_check.non_runner, "Wrong disqualified while checking favorite")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking favorite")
+			
+			# -> Getting the second race (with time)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm")
+			
+			race_to_test = Race::new() # R3_C1
+			
+			# the function to test
+			runner_hash = @crawler.fetch_race_results(race_to_test)
+			
+			# Checking we did get a list and the right one
+			assert_equal(14, runner_hash.size)
+			
+			# Checking the fetched results
+			runner_to_check = runner_hash[11]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1_runner_QUASAR_DE_KACY.htm", runner_to_check.url, "Wrong url while checking with commentary and time")
+			assert_equal("Dans le dernier tiers du peloton, à la corde, a vite été sollicité et n'a jamais pu se rapprocher.", runner_to_check.commentary, "Wrong commentary while checking with commentary and time")
+			assert_equal("", runner_to_check.distance, "Wrong distance while checking with commentary and time")
+			assert_equal(10, runner_to_check.final_place, "Wrong final_place while checking with commentary and time")
+			assert_equal(11, runner_to_check.number, "Wrong number while checking with commentary and time")
+			assert_equal(100.9, runner_to_check.single_rating, "Wrong single_rating while checking with commentary and time")
+			assert_equal("1'16\"90", runner_to_check.time, "Wrong time while checking with commentary and time")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong is_favorite while checking with commentary and time")
+			assert_equal(false, runner_to_check.non_runner, "Wrong non_runner while checking with commentary and time")
+			assert_equal(false, runner_to_check.disqualified, "Wrong disqualified while checking with commentary and time")
+
+			runner_to_check = runner_hash[10]
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1_runner_ROC_BERRY.htm", runner_to_check.url, "Wrong url while checking with commentary and 0 time")
+			assert_equal("S'est vite enlevé.", runner_to_check.commentary, "Wrong commentary while checking with commentary and 0 time")
+			assert_equal("", runner_to_check.distance, "Wrong distance while checking with commentary and 0 time")
+			assert_equal(nil, runner_to_check.final_place, "Wrong final_place while checking with commentary and 0 time")
+			assert_equal(10, runner_to_check.number, "Wrong number while checking with commentary and 0 time")
+			assert_equal(45.2, runner_to_check.single_rating, "Wrong single_rating while checking with commentary and 0 time")
+			assert_equal("0'00\"00", runner_to_check.time, "Wrong time while checking with commentary and 0 time")
+			assert_equal(false, runner_to_check.is_favorite, "Wrong is_favorite while checking with commentary and 0 time")
+			assert_equal(false, runner_to_check.non_runner, "Wrong non_runner while checking with commentary and 0 time")
+			assert_equal(true, runner_to_check.disqualified, "Wrong disqualified while checking with commentary and 0 time")
+
+			# checking that there is a favorite
+			favorite_runner = nil
+			runner_hash.each_value do |runner|
+				if runner.is_favorite then
+					favorite_runner = runner
+					break
+				end
+			end
+			assert("No favorite found in race!", favorite_runner != nil)
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
+	
 end

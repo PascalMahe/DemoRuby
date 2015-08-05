@@ -4,6 +4,12 @@ class Jockey
 	attr_accessor :name
 	attr_accessor :jacket
 	
+	def initialize(
+			name: nil
+		)
+		@name = name
+	end
+	
 	def to_s()
 		return "Jockey[id = " + id.to_s +
 		", name = " + name.to_s + 
@@ -29,6 +35,12 @@ class Trainer
 	attr_accessor :id
 	attr_accessor :name
 	
+	def initialize(
+			name: nil
+		)
+		@name = name
+	end
+	
 	def to_s()
 		return "Trainer[id = " + id.to_s +
 		", name = " + name.to_s + 
@@ -51,6 +63,12 @@ end
 class Owner
 	attr_accessor :id
 	attr_accessor :name
+	
+	def initialize(
+			name: nil
+		)
+		@name = name
+	end
 	
 	def to_s()
 		return "Owner[id = " + id.to_s +
@@ -75,6 +93,12 @@ class Breeder
 	attr_accessor :id
 	attr_accessor :name
 	
+	def initialize(
+			name: nil
+		)
+		@name = name
+	end
+	
 	def to_s()
 		return "Breeder[id = " + id.to_s +
 		", name = " + name.to_s + 
@@ -96,10 +120,22 @@ end
 
 class Horse
 	attr_accessor :id
-	attr_accessor :name
-	attr_accessor :sex
 	attr_accessor :breed
 	attr_accessor :coat
+	attr_accessor :name
+	attr_accessor :sex
+
+	def initialize(
+			name: nil,
+			sex: nil,
+			breed: nil,
+			coat: nil
+		)
+		@name = name
+		@sex = sex
+		@breed = breed
+		@coat = coat
+	end
 	
 	def to_s()
 		return "Horse[id = " + id.to_s +

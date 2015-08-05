@@ -23,16 +23,16 @@ class Meeting
 	end
 	
 	def to_s()
-		return "Meeting[id = " + @id.to_s +
-		", country = " + @country.to_s +
-		", date = " + @date.to_s +
-		", job = " + @job.to_s +
-		", number = " + @number.to_s +
-		", racetrack = " + @racetrack.to_s +
-		", track_condition = " + @track_condition.to_s + 
-		", urls_of_races_array = " + @urls_of_races_array.to_s + 
-		", weather = " + @weather.to_s + 
-		", race_list = " + @race_list.to_s + 
+		return "Meeting[id = " + nil_safe_to_s(@id) +
+		", country = " + nil_safe_to_s(@country) +
+		", date = " + nil_safe_to_s(@date) +
+		", job = " + nil_safe_to_s(@job) +
+		", number = " + nil_safe_to_s(@number) +
+		", racetrack = " + nil_safe_to_s(@racetrack) +
+		", track_condition = " + nil_safe_to_s(@track_condition) + 
+		", urls_of_races_array = " + nil_safe_to_s(@urls_of_races_array) + 
+		", weather = " + nil_safe_to_s(@weather) + 
+		", race_list = " + nil_safe_to_s(@race_list) + 
 		"]"
 	end
 	
@@ -107,22 +107,26 @@ class Race
 		@value = value
 	end
 	
+	def is_finished?()
+	
+	end
+	
 	def to_s()
-		return "Race[id = " + @id.to_s +
-		", meeting = " + @meeting.to_s + 
-		", race_type = " + @race_type.to_s +
-		", time = " + @time.to_s +
-		", number = " + @number.to_s +
-		", name = " + @name.to_s +
-		", general_conditions = " + @general_conditions + 
-		", result = " + @result.to_s +
-		", result_insertion_time = " + @result_insertion_time.to_s +
-		", distance = " + @distance.to_s +
-		", detailed_conditions = " + @detailed_conditions.to_s +
-		", bets = " + @bets.to_s + 
-		", url = " + @url.to_s +
-		", value = " + @value.to_s +
-		", runner_list = " + @runner_list.to_s + 
+		return "Race[id = " + nil_safe_to_s(@id) +
+		", meeting = " + nil_safe_to_s(@meeting) + 
+		", race_type = " + nil_safe_to_s(@race_type) +
+		", time = " + nil_safe_to_s(@time) +
+		", number = " + nil_safe_to_s(@number) +
+		", name = " + nil_safe_to_s(@name) +
+		", general_conditions = " + nil_safe_to_s(@general_conditions) + 
+		", result = " + nil_safe_to_s(@result) +
+		", result_insertion_time = " + nil_safe_to_s(@result_insertion_time) +
+		", distance = " + nil_safe_to_s(@distance) +
+		", detailed_conditions = " + nil_safe_to_s(@detailed_conditions) +
+		", bets = " + nil_safe_to_s(@bets) + 
+		", url = " + nil_safe_to_s(@url) +
+		", value = " + nil_safe_to_s(@value) +
+		", runner_list = " + nil_safe_to_s(@runner_list) + 
 		"]"
 	end
 	
@@ -166,11 +170,11 @@ class Weather
 	end
 	
 	def to_s()
-		return "Weather[id = " + id.to_s +
-		", insolation = " + insolation.to_s + 
-		", temperature = " + temperature.to_s +
-		", wind_direction = " + wind_direction.to_s + 
-		", wind_speed = " + wind_speed.to_s +
+		return "Weather[id = " + nil_safe_to_s(@id) +
+		", insolation = " + nil_safe_to_s(@insolation) + 
+		", temperature = " + nil_safe_to_s(@temperature) +
+		", wind_direction = " + nil_safe_to_s(@wind_direction) + 
+		", wind_speed = " + nil_safe_to_s(@wind_speed) +
 		"]"
 	end
 	

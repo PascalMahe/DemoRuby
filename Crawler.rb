@@ -121,12 +121,39 @@ class Crawler
 			business_meeting = 
 				fetch_meeting_shallow(meeting, date, current_job)
 			meeting_list.push(business_meeting)
+			@logger.debug("current business_meeting is a(n) " + business_meeting.class.to_s)
+			if business_meeting.is_a?(Meeting) then
+				@logger.debug("business_meeting: " + business_meeting.date.to_s + ":" + business_meeting.number)
+			end
+		end
+		
+		@logger.imp("Fetched meetings (shallow) all " + meeting_list.length.to_s + " of 'em. Fetching deep meetings.")
+		# Check types (not very Ruby, I know)
+		meeting_list.each do |shallow_meeting|
+			@logger.debug("current meeting is a(n) " + shallow_meeting.class.to_s)
+			
+			@logger.debug("shallow_meeting: " +
+				shallow_meeting.date.to_s + ":" + shallow_meeting.number +
+				" (" + shallow_meeting.race_list.length.to_s + " races)")
+		
 		end
 		
 		# Second loop: to get all the data on meetings
-		meeting_list.each do |meeting|
-			meeting_list.push(fetch_meeting(meeting))
+		meeting_list.each do |shallow_meeting|
+			
+			@logger.debug("shallow_meeting: " +
+				shallow_meeting.date.to_s + ":" + shallow_meeting.number +
+				" (" + shallow_meeting.race_list.length.to_s + " races)")
+			deep_meeting = fetch_meeting(shallow_meeting)
 		end
+		
+		# Check deep data was fetched
+		meeting_list.each do |deep_meeting|
+			@logger.debug("deep_meeting: " +
+				deep_meeting.date.to_s + ":" + deep_meeting.number +
+				" (" + deep_meeting.race_list.length.to_s + " races)")
+		end
+		
 		return meeting_list
 	end
 
@@ -232,6 +259,7 @@ class Crawler
 			race = fetch_race(url_of_race, meeting)
 			meeting.race_list.push(race)
 		end
+		return meeting
 	end
 
 	def fetch_weather(div_tag_for_weather)
@@ -315,18 +343,24 @@ class Crawler
 		# closed by clicking on div.popin-close
 		btn_detailed_conditions = @driver.find_element(:css, "a.conditions-show")
 		btn_detailed_conditions.click
-		div_detailed_cond_tag = @driver.
+		div_detailed_cond_tag_array = @driver.
 			# find_element(:xpath, "//div[@class='detail-popin']")
-			find_element(:css, "div.detail-popin")
-		detailed_cond = div_detailed_cond_tag.text.strip()
-		@logger.debug("detailed_cond : " + detailed_cond)
-		
-		# close popin
-		btn_close_popin = @driver.find_element(:css, "div.popin-close")
-		btn_close_popin.click
-		if $globalState.is_test then
-			@driver.navigate.back
+			find_elements(:css, "div.detail-popin")
+		if div_detailed_cond_tag_array.length > 0 then
+			div_detailed_cond_tag = div_detailed_cond_tag_array[0]
+			detailed_cond = div_detailed_cond_tag.text.strip()
+			
+			# close popin
+			btn_close_popin = @driver.find_element(:css, "div.popin-close")
+			btn_close_popin.click
+			if $globalState.is_test then
+				@driver.navigate.back
+			end
+		else 
+			detailed_cond = "" #if there's no detail element
 		end
+		
+		@logger.debug("detailed_cond : " + detailed_cond)
 		
 		# distance
 		# inside div#conditions => 	Plat - 		7759 € - 	1200m - 8 partants  - Handicap Corde à droite 
@@ -443,7 +477,6 @@ class Crawler
 		
 		@logger.debug(race)
 		
-				
 		# runner_list
 		runner_list = fetch_runners(race)
 		@logger.debug("runner_list : " + runner_list.to_s)
@@ -454,142 +487,456 @@ class Crawler
 		# Parameter: a Race
 		# Returns a list of (completed) Runners
 		
+		# Go to race page
+		if driver.current_url != race.url then
+			@driver.get(race.url)
+		end
+		
+		# if the race is finished, the driver lands on the results page
+		# otherwise it goes to the runner's table
+		
+		# if the race is over, its results are fetched
+		# (in a separate loop because it involves going to a different page)
+		result_list = Hash.new
+		html_info_arrivee = @driver.find_elements(:id, "infos-arrivee")
+		if html_info_arrivee.length > 0 then
+			result_list = fetch_race_results(race)
+		end
+		
 		list_runners = []
-		# runner_rows = @driver.find_elements(:id, "//tr[@class='tableauPariBody']/tr")
-		# runner_rows.each do |runner_row|
-			# runner = fetch_runner_shallow(runner_row, race)
-			# list_runners.push(runner)
-		# end
-		# list_runners.each do |runner|
-			# fetch_runner(runner)
-		# end
-			
+		runner_rows = @driver.find_elements(:css, ".ligne-participant")
+		runner_rows.each do |runner_row|
+			result_list = fetch_runners_shallow(race)
+		end
+		
+		list_runners.each do |runner|
+			fetch_runner(runner)
+		end
+		
+		if not result_list.empty? then
+			join_runner_list_and_result_list(list_runners, result_list)
+		end
+		
 		return list_runners
 	end
 
-	def fetch_runner_shallow(html_runner, race)
-		# Parameter: a WebElement wrapping around a <tr> containing all data on the runner
+	def fetch_runners_shallow(race)
+		# Parameter: a race
 		# Fields to fill:
-		# - race
-		# - horse
+		# - race (runner)
+		# - url (runner)
+		# - number (runner)
+		# - name (horse)
+		# - shirt (?) -> nobody cares...
+		# - blinder (runner)
+		# - sex (horse)
+		# - age (horse)
 		# - jockey
+		# - draw (runner)
+		# - load_handicap (runner)
+		# - load_ride (runner)
 		# - trainer
-		# - owner
-		# - breeder
-		# - blinder
-		# - shoes
-		# - number
-		# - draw
-		# - single_rating
-		# - final_place
-		# - non_runner
-		# - load
-		# - distance
-		# - history
-		# - url
-		
-		# final_place => see fetch_race_results
+		# - history (shortened history) (runner)
+		# - single_rating (runner)
+
+		# see fetch_race_results for :
+		# - final_place (runner)
+		# - diff. with precedent -> distance (runner)
+		# - single_rating (rapports) (runner)
+		# - time (runner)
+		# - commentary (runner)
+		# - is_favorite (runner)
 		
 		# see fetch_runner for:
-		# - races_run
-		# - victories
-		# - places
-		# - earnings_career
-		# - earnings_current_year
-		# - earnings_last_year
-		# - earnings_victory
-		# - description
-
+		# - races_run (runner)
+		# - victories (runner)
+		# - places (runner)
+		# - earnings_career (runner)
+		# - earnings_current_year (runner)
+		# - earnings_last_year (runner)
+		# - earnings_victory (runner)
+		# - description (runner)
+		# - breed (pur-sang...) (horse)
+		# - owner
+		# - breeder
+		# - father (runner)
+		# - mother (runner)
+		# - mother's father (runner)
 		
-		# horse
-		horse = fetch_horse(html_runner)
+		result = Hash.new
 		
-		# jockey
-		jockey = fetch_jockey(html_runner)
-		
-		# trainer
-		trainer = fetch_trainer(html_runner)
-		
-		# owner
-		owner = fetch_owner(html_runner)
-		
-		# breeder
-		breeder = fetch_breeder(html_runner)
-		
-		# blinder
-		blinder_li_element = @driver.find_element(:xpath, "/td[@class='tableauPariBodyList']/div/ul/li[@class='eye']")
-		# if blinder_li_web_element doesn't have any children, no blinder
-		blinder_img_element = blinder_li_element.find_element(:xpath, "/img")
-		str_blinder = ""
-		if blinder_img_element != null
-			str_blinder = blinder_img_element.attribute("src")
+		html_runner_list = @driver.find_elements(:css, ".ligne-participant")
+		html_runner_list.each do | html_runner |
+			
+			# url (runner)
+			# not available yet, suspected to be a failure of the 
+			# process for saving test pages
+			url = ""
+			
+			# number (runner)
+			number_elmt = html_runner.find_element(:xpath, "td[1]")
+			number_raw = number_elmt.text.strip
+			number = number_raw.to_i
+			
+			# name (horse)
+			horse_name_elmt = html_runner.find_element(:xpath, "td[2]")
+			horse_name_raw = horse_name_elmt.text.strip
+			horse_name = horse_name_raw
+			
+			runner_class_raw = html_runner.attribute("class")
+			runner_class = runner_class_raw.strip
+			if runner_class.index("non-partant") != nil then
+				# non partant
+				non_runner = true
+				
+				age = nil
+				blinder = nil
+				draw = nil
+				history = nil
+				horse = Horse::new(name: horse_name)
+				is_favorite = nil
+				jockey = nil
+				load_handicap = nil
+				load_ride = nil
+				non_runner = nil
+				single_rating = nil
+				trainer = nil
+			else
+				# partant
+				non_runner = false
+				
+				# sex (horse)
+				sex_elmt = html_runner.find_element(:xpath, "td[5]")
+				sex_raw = sex_elmt.text.strip
+				sex = sex_raw
+				
+				# age (horse)
+				age_elmt = html_runner.find_element(:xpath, "td[6]")
+				age_raw = age_elmt.text.strip
+				age = age_raw.to_i
+				
+				# jockey
+				jockey_name_elmt = html_runner.find_element(:xpath, "td[7]")
+				jockey_name_raw = jockey_name_elmt.text.strip
+				jockey_name = jockey_name_raw
+				
+				# here, 2 possibilities : the one with the draw (as in R4_C3)
+				# and another one with the trainer (as in R1_C7)
+				unknown_elmt = html_runner.find_element(:xpath, "td[8]")
+				unknown_raw = unknown_elmt.text.strip
+				unknown = unknown_raw.to_i 
+				# returns 0 if no parseable string -> 0 indicates a trainer
+				
+				distance = nil
+				blinder = nil
+				shoes = nil
+				shoes = nil
+				earnings_career = nil
+				draw = nil
+				load_handicap = nil
+				load_ride = nil
+				
+				if unknown == 0 then
+					# trainer case
+					
+					trainer_name = unknown_raw
+					
+					# shoes
+					shoes_elmt = html_runner.find_element(:xpath, "td[4]")
+					shoes_raw = shoes_elmt.attribute("class")
+					shoes = shoes_raw
+					
+					# distance
+					distance_elmt = html_runner.find_element(:xpath, "td[9]")
+					distance_raw = distance_elmt.text.strip
+					distance = distance_raw.to_i
+					
+					# history
+					history_xpath = "td[10]"
+					
+					# earnings_career
+					earnings_career_elmt = html_runner.find_element(:xpath, "td[11]")
+					earnings_career_raw = earnings_career_elmt.text
+					earnings_career_raw = earnings_career_raw.gsub(",", ".")
+					earnings_career_raw = earnings_career_raw.gsub("€", "")
+					earnings_career_raw = earnings_career_raw.strip
+					earnings_career = earnings_career_raw.to_f
+					
+					# single_rating
+					single_rating_xpath = "td[12]"
+				else
+					# draw case
+					
+					draw = unknown
+					
+					# blinder (runner)
+					blinder_elmt = html_runner.find_element(:xpath, "td[4]/b")
+					blinder_raw = blinder_elmt.attribute("class")
+					blinder = blinder_raw
+					
+					# load_handicap (runner)
+					load_handicap_elmt = html_runner.find_element(:xpath, "td[9]")
+					load_handicap_raw = load_handicap_elmt.text
+					load_handicap_raw = load_handicap_raw.gsub(",", ".")
+					load_handicap_raw = load_handicap_raw.strip
+					load_handicap = load_handicap_raw.to_f 
+					# returns 0.0 if string not parseable -> ie '-' will return 0.0
+					
+					# load_ride (runner)
+					load_ride_elmt = html_runner.find_element(:xpath, "td[10]")
+					load_ride_raw = load_ride_elmt.text
+					load_ride_raw = load_ride_raw.gsub(",", ".")
+					load_ride_raw = load_ride_raw.strip
+					load_ride = load_ride_raw.to_f 
+					# returns 0.0 if string not parseable -> ie '-' will return 0.0
+					
+					# trainer_name
+					trainer_name_elmt = html_runner.find_element(:xpath, "td[11]")
+					trainer_name_raw = trainer_name_elmt.text.strip
+					trainer_name = trainer_name_raw
+					
+					# history
+					history_xpath = "td[12]"
+					
+					# single_rating
+					single_rating_xpath = "td[13]"
+				end	
+				
+				# history
+				history_elmt = html_runner.find_element(:xpath, history_xpath)
+				history_raw = history_elmt.text.strip
+				history = history_raw
+				
+				# single_rating
+				single_rating_elmt = html_runner.find_element(:xpath, "td[10]")
+				single_rating_raw = single_rating_elmt.text
+				single_rating_raw = single_rating_raw.gsub(",", ".")
+				single_rating_raw = single_rating_raw.strip
+				single_rating = single_rating_raw.to_f 
+				
+				horse = Horse::new(name: horse_name, sex: sex)
+				
+				jockey = Jockey::new(name: jockey_name)
+				
+				trainer = Trainer::new(name: trainer_name)
+			end
+			
+			runner = Runner::new(
+				age: age,
+				blinder: blinder,
+				draw: draw,
+				history: history,
+				horse: horse,
+				is_favorite: race,
+				jockey: jockey,
+				load_handicap: load_handicap,
+				load_ride: load_ride,
+				non_runner: non_runner,
+				number: number,
+				race: race,
+				single_rating: single_rating,
+				trainer: trainer,
+				url: url
+			)
+			
+			@logger.debug("Fetched runner: " + runner.to_s)
+			
+			result[number] = runner
 		end
 		
-		# shoes & draw are in the same column
-		# difference is: shoe's an <img>, draw's a number
-		shoes_or_draw_element = @driver.find_element(:xpath, "/td[@class='tableauPariBodyList']/div/ul/li[@class='eye']")
-		# if shoes_or_draw_element doesn't have any children, no shoes
-		shoes_or_draw_element = blinder_li_element.find_element(:xpath, "/img")
-		str_shoes = ""
-		str_draw = ""
-		int_draw = 0
-		if shoes_or_draw_element != null
-			str_shoes = shoes_or_draw_element.attribute("src")
-		else 
-			str_draw = shoes_or_draw_element.text
-			int_draw = str_draw.to_i # to_i returns 0 if str_draw is a NaN (cf. http://www.ruby-doc.org/core-2.1.0/String.html#method-i-to_i)
+		
+		return result
+	end
+
+	def fetch_race_results(race)
+		# Parameter: a Race
+		# Fields to fill:
+		# - final_place (runner)
+		# - diff. with precedent -> distance (runner)
+		# - single_rating (rapports) (runner)
+		# - time (runner)
+		# - commentary (runner)
+		# - is_favorite (runner)
+		
+		# see fetch_runner_shallow for :
+		# - race (runner)
+		# - url (runner)
+		# - number (runner)
+		# - name (horse)
+		# - shirt (?) -> nobody cares...
+		# - blinder (runner)
+		# - sex (horse)
+		# - age (horse)
+		# - jockey
+		# - draw (runner)
+		# - load_handicap (runner)
+		# - load_ride (runner)
+		# - trainer
+		# - history (shortened history) (runner)
+		# - single_rating (runner)
+		
+		# see fetch_runner for:
+		# - races_run (runner)
+		# - victories (runner)
+		# - places (runner)
+		# - earnings_career (runner)
+		# - earnings_current_year (runner)
+		# - earnings_last_year (runner)
+		# - earnings_victory (runner)
+		# - description (runner)
+		# - breed (pur-sang...) (horse)
+		# - owner
+		# - breeder
+		# - father (runner)
+		# - mother (runner)
+		# - mother's father (runner)
+		
+		result = Hash.new
+		
+		html_runner_list = @driver.find_elements(:css, ".ligne-participant")
+		html_runner_list.each do |html_runner|
+		
+			td_list = html_runner.find_elements(:xpath, "td")
+			
+			disqualified = false
+			is_favorite = false
+			non_runner = false
+			
+			if td_list.size < 7 then
+				# non-runner
+				non_runner = true
+				commentary = ""
+				time = ""
+				distance = ""
+				final_place = nil
+				single_rating = nil
+				
+			else
+				# commentary
+				commentary_html = html_runner.find_element(:xpath, "td[8]")
+				commentary = commentary_html.text.strip
+				
+				# time
+				time = ""
+				
+				# distance
+				distance = ""
+				
+				distance_or_time_html = html_runner.find_element(:xpath, "td[6]")
+				distance_or_time = distance_or_time_html.text.strip
+				if (distance_or_time.index("\"") != nil) or (distance_or_time.index("'") != nil) then
+					time = distance_or_time
+				else
+					distance = distance_or_time
+				end
+				
+				# final_place & disqualified
+				final_place_html = html_runner.find_element(:xpath, "td[1]")
+				final_place_raw = final_place_html.text.strip
+				
+				if final_place_raw.index("DAI") == nil then
+					if final_place_raw.index("-") == nil then
+						# '1er', '2è', '3è'... to '10è'
+						final_place_raw = final_place_raw.gsub("è", "")
+						final_place_raw = final_place_raw.gsub("er", "")
+						final_place_raw = final_place_raw.strip
+						final_place_raw = final_place_raw.to_i
+					else 
+						# '-'
+						final_place_raw = nil
+					end
+				else 
+					# 'DAI'
+					final_place_raw = nil
+					disqualified = true
+				end
+				final_place = final_place_raw
+				
+				# single_rating
+				single_rating_html = html_runner.find_element(:xpath, "td[7]")
+				single_rating_raw = single_rating_html.text.strip
+				single_rating_raw = single_rating_raw.gsub(",", ".")
+				single_rating = single_rating_raw.to_f
+				
+			end
+			
+			# is_favorite
+			complete_class = html_runner.attribute("class")
+			if complete_class.index("favorite") != nil then
+				is_favorite = true
+			end
+			
+			# url 
+			html_link_to_runner = html_runner.find_element(:xpath, "td[3]/span/a[1]")
+			url = html_link_to_runner.attribute("href")
+
+			# number (== hash key)
+			number_html = html_runner.find_element(:xpath, "td[2]")
+			number = number_html.text.strip.to_i
+			
+			runner = Runner::new(
+				commentary: commentary,
+				disqualified: disqualified,
+				distance: distance,
+				final_place: final_place,
+				is_favorite: is_favorite,
+				non_runner: non_runner,
+				number: number,
+				single_rating: single_rating,
+				time: time,
+				url: url
+			)
+			
+			# @logger.debug(runner.to_s)
+			
+			result[number] = runner
 		end
 		
-		# number
-		number_element = @driver.find_element(:xpath, "/td[@class='tableauPariColNCheval']")
-		str_number = number_element.text
-		int_number = str_number.to_i
-		
-		# single_rating
-		single_rating_element = @driver.find_element(:xpath, "/td[@class='tableauPariColCote']")
-		str_single_rating = single_rating_element.text
-		fl_single_rating = str_single_rating.to_f
-		
-		# non_runner
-		# non_runner = true if the jockey column contains "Non Partant"
-		non_runner_element = @driver.find_element(:xpath, "/td/div[@class='detailCourseCarrousselBody']/ul/li[@class='monte']")
-		str_non_runner = non_runner_element.text
-		b_non_runner = str_non_runner.eql?("Non Partant")
-		
-		# load
-		# distance
-		# history
-		# url
-		
-		
-		@logger.debug(race)
-		
-		#runner
-		race.runner_list = fetch_runners(race)
-	end
-
-	def fetch_horse(html_element_runner)
-		# Parameter: a WebElement wrapping a <tr> containing the data to fetch to create a horse
-	end
-
-	def fetch_jockey(html_element_runner)
-		# Parameter: a WebElement wrapping a <tr> containing the data to fetch to create a jockey
-	end
-
-	def fetch_trainer(html_element_runner)
-		# Parameter: a WebElement wrapping a <tr> containing the data to fetch to create a trainer
-	end
-
-	def fetch_owner(html_element_runner)
-		# Parameter: a WebElement wrapping a <tr> containing the data to fetch to create an owner
-	end
-
-	def fetch_breeder(html_element_runner)
-		# Parameter: a WebElement wrapping a <tr> containing the data to fetch to create a breeder
+		return result
 	end
 
 	def fetch_runner(runner)
-		# Parameter: a Runner, including the URL of the page in which to look for deeper data
+		# Parameter: a WebElement wrapping around a <tr> containing all data on the runner
+		# Fields to fill:
+		# - races_run (runner)
+		# - victories (runner)
+		# - places (runner)
+		# - earnings_career (runner)
+		# - earnings_current_year (runner)
+		# - earnings_last_year (runner)
+		# - earnings_victory (runner)
+		# - description (runner)
+		# - breed (pur-sang...) (horse)
+		# - owner
+		# - breeder
+		# - father (runner)
+		# - mother (runner)
+		# - mother's father (runner)
+		
+		# see fetch_runner_shallow for:
+		# - race (runner)
+		# - url (runner)
+		# - number (runner)
+		# - name (horse)
+		# - shirt (?) -> nobody cares...
+		# - blinder (runner)
+		# - sex (horse)
+		# - age (horse)
+		# - jockey
+		# - draw (runner)
+		# - load_handicap (runner)
+		# - load_ride (runner)
+		# - trainer
+		# - history (shortened history) (runner)
+		# - single_rating (runner)
+
+		# see fetch_race_results for :
+		# - final_place (runner)
+		# - diff. with precedent -> distance (runner)
+		# - single_rating (rapports) (runner)
+		# - time (runner)
+		# - commentary (runner)
+		# - is_favorite (runner)
 	end
 
 end

@@ -3,6 +3,16 @@ require 'yaml'
 require './DatabaseInterface.rb'
 require './SimpleHtmlLogger.rb'
 
+	
+def nil_safe_to_s(attr)
+	if attr == nil
+		attr_as_string = "nil"
+	else
+		attr_as_string = attr.to_s
+	end
+	return attr_as_string
+end
+
 class GlobalState
 	attr_accessor :config
 	attr_accessor :logger

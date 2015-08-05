@@ -59,7 +59,7 @@ class TestSuite < MiniTest::Test
 	
 	#setting up the test values for insert and select
 	@sql_test[:test][:insert].keys.each do |table|
-		logger.info("Inserting test values for select and insert queries into " + table.to_s)
+		logger.info("Inserting S&I test data into " + table.to_s + ".")
 		current_query = @sql_test[:test][:insert][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
@@ -67,7 +67,7 @@ class TestSuite < MiniTest::Test
 	
 	#setting up the test values for update
 	@sql_test[:test][:insert_for_update].keys.each do |table|
-		logger.info("Inserting test values for update queries into " + table.to_s)
+		logger.info("Inserting U test data into " + table.to_s + ".")
 		current_query = @sql_test[:test][:insert_for_update][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
