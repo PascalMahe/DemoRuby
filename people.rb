@@ -13,6 +13,12 @@ class Jockey
 	def to_s()
 		return "Jockey[id = " + id.to_s +
 		", name = " + name.to_s + 
+		"]"
+	end
+	
+	def to_long_s()
+		return "Jockey[id = " + id.to_s +
+		", name = " + name.to_s + 
 		", jacket = " + jacket.to_s + 
 		"]"
 	end
@@ -122,27 +128,36 @@ class Horse
 	attr_accessor :id
 	attr_accessor :breed
 	attr_accessor :coat
+	attr_accessor :father
+	attr_accessor :mother
 	attr_accessor :name
 	attr_accessor :sex
 
 	def initialize(
-			name: nil,
-			sex: nil,
 			breed: nil,
-			coat: nil
+			father: nil,
+			mother: nil,
+			coat: nil,
+			name: nil,
+			sex: nil
+			
 		)
-		@name = name
-		@sex = sex
 		@breed = breed
 		@coat = coat
+		@father = father
+		@mother = mother
+		@name = name
+		@sex = sex
 	end
 	
 	def to_s()
 		return "Horse[id = " + id.to_s +
-		", name = " + name.to_s + 
-		", sex = " + sex.to_s + 
 		", breed = " + breed.to_s + 
 		", coat = " + coat.to_s + 
+		", father = " + father.to_s + 
+		", mother = " + mother.to_s + 
+		", name = " + name.to_s + 
+		", sex = " + sex.to_s + 
 		"]"
 	end
 	
@@ -151,10 +166,12 @@ class Horse
 			return false
 		end
 		if other_object.id == self.id and
-		other_object.name == self.name and
-		other_object.sex == self.sex and
 		other_object.breed == self.breed and
-		other_object.coat == self.coat then
+		other_object.coat == self.coat and
+		other_object.father == self.father and
+		other_object.mother == self.mother and
+		other_object.name == self.name and
+		other_object.sex == self.sex then
 			return true
 		else 
 			return false
