@@ -4390,7 +4390,7 @@ html {
 }
 .participants-view th,
 .tableau-chevaux th {
-  color: #ffffff;
+  /* P.MAHE : mise en commentaire pour pouvoir lire les tableaux color: #ffffff; */
   font-weight: bold;
   padding: 0 4px;
   border-right: 1px solid #36744b;
