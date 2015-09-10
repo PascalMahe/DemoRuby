@@ -129,85 +129,77 @@ class Runner
 	end
 	
 	def join!(other_runner)
-		if @age == nil then 
-			@age = other_runner.age
-		end
+		# int
+		@age = choose_good_int(@age, other_runner.age)
+		# object
 		if @blinder == nil then 
 			@blinder = other_runner.blinder 
 		end
+		# object
 		if @breeder == nil then 
 			@breeder = other_runner.breeder 
 		end
-		if @commentary == nil then 
-			@commentary = other_runner.commentary 
-		end
-		if @description == nil then 
-			@description = other_runner.description 
-		end
+		# string
+		@commentary = choose_good_string(@commentary, other_runner.commentary)
+		# string
+		@description = choose_good_string(@description, other_runner.description)
+		# boolean
 		if @disqualified == nil then 
 			@disqualified = other_runner.disqualified 
 		end
-		if @distance == nil then 
-			@distance = other_runner.distance 
-		end
-		if @draw == nil then 
-			@draw = other_runner.draw 
-		end
-		if @earnings_career == nil then 
-			@earnings_career = other_runner.earnings_career 
-		end
-		if @earnings_current_year == nil then 
-			@earnings_current_year = other_runner.earnings_current_year 
-		end
-		if @earnings_last_year == nil then 
-			@earnings_last_year = other_runner.earnings_last_year 
-		end
-		if @earnings_victory == nil then 
-			@earnings_victory = other_runner.earnings_victory 
-		end
-		if @final_place == nil then 
-			@final_place = other_runner.final_place 
-		end
-		if @history == nil then 
-			@history = other_runner.history 
-		end
+		# string
+		@distance = choose_good_string(@distance, other_runner.distance)
+		# int
+		@draw = choose_good_int(@draw, other_runner.draw)
+		# float
+		@earnings_career = choose_good_float(@earnings_career, other_runner.earnings_career)
+		# float
+		@earnings_current_year = choose_good_float(@earnings_current_year, other_runner.earnings_current_year)
+		# float
+		@earnings_last_year = choose_good_float(@earnings_last_year, other_runner.earnings_last_year)
+		# float
+		@earnings_victory = choose_good_float(@earnings_victory, other_runner.earnings_victory)
+		# int
+		@final_place = choose_good_int(@final_place, other_runner.final_place)
+		# string
+		@history = choose_good_string(@history, other_runner.history)
+		# object
 		if @horse == nil then 
 			@horse = other_runner.horse 
 		end
-		if @id == nil then 
-			@id = other_runner.id 
-		end
+		# string
+		@id = choose_good_string(@id, other_runner.id)
+		# boolean
 		if @is_favorite == nil then 
 			@is_favorite = other_runner.is_favorite 
 		end
-		
+		# object
 		if @jockey == nil then 
 			@jockey = other_runner.jockey 
 		end
-		if @load_handicap == nil then 
-			@load_handicap = other_runner.load_handicap 
-		end
-		if @load_ride == nil then 
-			@load_ride = other_runner.load_ride 
-		end
+		# float
+		@load_handicap = choose_good_float(@load_handicap, other_runner.load_handicap)
+		# float
+		@load_ride = choose_good_float(@load_ride, other_runner.load_ride)
+		# boolean
 		if @non_runner == nil then 
 			@non_runner = other_runner.non_runner 
 		end
-		if @number == nil then 
-			@number = other_runner.number 
-		end
+		# int
+		@number = choose_good_int(@number, other_runner.number)
+		# object
 		if @owner == nil then 
 			@owner = other_runner.owner 
 		end
-		if @places == nil then 
-			@places = other_runner.places 
-		end
+		# int
+		@places = choose_good_int(@places, other_runner.places)
+		# object
 		if @race == nil then 
 			@race = other_runner.race 
 		end
-		if @races_run == nil then 
-			@races_run = other_runner.races_run 
-		end
+		# int
+		@races_run = choose_good_int(@races_run, other_runner.races_run)
+		
 		if @score_breeder == nil then 
 			@score_breeder = other_runner.score_breeder 
 		end
@@ -223,30 +215,54 @@ class Runner
 		if @score_trainer == nil then 
 			@score_trainer = other_runner.score_trainer 
 		end
+		# object
 		if @shoes == nil then 
 			@shoes = other_runner.shoes 
 		end
-		# $globalState.logger.debug("Runner.join - horse.name = " + @horse.name + ", is_favorite (before): " + pretty(@single_rating) + " other_runner.single_rating: " + pretty(other_runner.single_rating))
-		if @single_rating_after_race == nil then 
-			@single_rating_after_race = other_runner.single_rating_after_race 
-		end
-		if @single_rating_before_race == nil then 
-			@single_rating_before_race = other_runner.single_rating_before_race 
-		end
-		# $globalState.logger.debug("Runner.join - single_rating (after): " + pretty(@single_rating))
-		
-		if @time == nil then 
-			@time = other_runner.time 
-		end
+		# float
+		@single_rating_after_race = choose_good_float(@single_rating_after_race, other_runner.single_rating_after_race)
+		# float
+		@single_rating_before_race = choose_good_float(@single_rating_before_race, other_runner.single_rating_before_race)
+		# string
+		@time = choose_good_string(@time, other_runner.time)
+		# object
 		if @trainer == nil then 
 			@trainer = other_runner.trainer 
 		end
-		if @url == nil then 
-			@url = other_runner.url 
+		# string
+		# $globalState.logger.debug("Runner.join! - horse.name = " + @horse.name + ", url (before): " + pretty(@url) + " other_runner.url: " + pretty(other_runner.url))
+		@url = choose_good_string(@url, other_runner.url)
+		# $globalState.logger.debug("Runner.join! - url (after): " + pretty(@url))
+		# int
+		@victories = choose_good_int(@victories, other_runner.victories)
+	end
+	
+	def choose_good_int(first_int, other_int)
+		int_to_return = first_int
+		if (first_int == nil and other_int != nil) or 
+			(first_int == 0 and (other_int != nil and other_int > 0)) then
+			int_to_return = other_int
 		end
-		if @victories == nil then 
-			@victories = other_runner.victories 
+		return int_to_return
+	end
+	
+	def choose_good_float(first_float, other_float)
+		float_to_return = first_float
+		if (first_float == nil and other_float != nil) or 
+			(first_float == 0.0 and (other_float != nil and other_float > 0.0)) then
+			float_to_return = other_float
 		end
+		return float_to_return
+	end
+	
+	def choose_good_string(first_string, other_string)
+		string_to_return = first_string
+		if (first_string == nil and other_string != nil) or 
+			(first_string == "" and 
+				(other_string != nil and other_string != "")) then
+			string_to_return = other_string
+		end
+		return string_to_return
 	end
 	
 	def to_s()

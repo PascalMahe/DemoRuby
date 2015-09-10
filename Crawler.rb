@@ -695,6 +695,7 @@ class Crawler
 			load_handicap = 0.0
 			load_ride = 0.0
 			single_rating = 0.0
+			shoes_text = ""
 			
 			if runner_class.index("non-partant") != nil then
 				# non partant
@@ -712,7 +713,8 @@ class Crawler
 				# sex (horse)
 				sex_elmt = html_runner.find_element(:xpath, "td[5]")
 				sex_raw = sex_elmt.text.strip
-				sex = sex_raw
+				sex_text = sex_raw
+				sex = @ref_list_hash[:ref_sex_list][sex_text]
 				
 				# age (horse)
 				age_elmt = html_runner.find_element(:xpath, "td[6]")
@@ -740,9 +742,9 @@ class Crawler
 					if shoes_elmt_potential.length > 0 then
 						shoes_elmt = shoes_elmt_potential[0]
 						shoes_raw = shoes_elmt.attribute("class")
-						shoes = shoes_raw
-						if shoes == nil then
-							shoes = "" # because nil and "" represent different information
+						shoes_text = shoes_raw
+						if shoes_text == nil then
+							shoes_text = "" # because nil and "" represent different information
 									   # nil means draw branch (ie no shoe information)
 									   # "" means trainer branch and no shoes off
 						end
@@ -776,7 +778,8 @@ class Crawler
 					# blinder (runner)
 					blinder_elmt = html_runner.find_element(:xpath, "td[4]/b")
 					blinder_raw = blinder_elmt.attribute("class")
-					blinder = blinder_raw
+					blinder_text = blinder_raw
+					blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
 					
 					# here, again, 2 possible cases :
 					# with or without draw
@@ -841,6 +844,7 @@ class Crawler
 				jockey = Jockey::new(name: jockey_name)
 			end
 			# @logger.trace("fetch_runners_shallow - back to main branch ")
+			shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
 			
 			runner = Runner::new(
 				age: age,
@@ -989,20 +993,19 @@ class Crawler
 				single_rating_after_race_raw = single_rating_after_race_raw.gsub(",", ".")
 				# @logger.debug("fetch_race_results - single_rating_raw = " + single_rating_after_race_raw)
 				single_rating_after_race = single_rating_after_race_raw.to_f
-				
 			end
 			
 			# is_favorite
-			
 			complete_class = html_runner.attribute("class")
 			if complete_class.index("favorite") != nil then
 				is_favorite = true
 			end
 			
 			# url //*[@id="participants-view"]/div[1]/table/tbody/tr[3]/td[3]/span[1]
+			
 			html_link_to_runner = html_runner.find_element(:xpath, "td[3]/span[1]/a")
 			url = html_link_to_runner.attribute("href")
-
+			
 			# number (== hash key)
 			number = get_runner_number_from_result_page(html_runner)
 			
@@ -1019,7 +1022,7 @@ class Crawler
 				url: url
 			)
 			
-			# @logger.debug(runner.to_s)
+			# @logger.debug("fetch_race_results - runner.URL : " + runner.url)
 			
 			result[number] = runner
 		end
@@ -1180,14 +1183,18 @@ class Crawler
 		content_array = content.split(",")
 		# @logger.debug("fetch_runner - content_array : " + content_array.to_s)
 		breed_raw = content_array[0]
-		breed = breed_raw.strip
+		breed_text = breed_raw.strip
+		breed = @ref_list_hash[:ref_breed_list][breed_text]
 		
-		coat = ""
+		
+		coat_text = ""
 		if content_array.size >= 4 then
 			coat_raw = content_array[3]
 			# @logger.debug("fetch_runner - coat_raw : " + coat_raw)
-			coat = coat_raw.strip
+			coat_text = coat_raw.strip
 		end
+		coat = @ref_list_hash[:ref_coat_list][coat_text]
+		
 		
 		runner.horse.breed = breed
 		runner.breeder = breeder
