@@ -687,14 +687,15 @@ class Crawler
 			
 			non_runner = false
 			age = 0
-			blinder = nil
+			blinder_text = ""
 			draw = 0
-			history = nil
+			history = ""
 			horse = nil
-			jockey = nil
+			jockey = Jockey::new(name: "")
 			load_handicap = 0.0
 			load_ride = 0.0
-			single_rating = 0.0
+			sex_text = ""
+			single_rating_before_race = 0.0
 			shoes_text = ""
 			
 			if runner_class.index("non-partant") != nil then
@@ -714,7 +715,6 @@ class Crawler
 				sex_elmt = html_runner.find_element(:xpath, "td[5]")
 				sex_raw = sex_elmt.text.strip
 				sex_text = sex_raw
-				sex = @ref_list_hash[:ref_sex_list][sex_text]
 				
 				# age (horse)
 				age_elmt = html_runner.find_element(:xpath, "td[6]")
@@ -779,7 +779,6 @@ class Crawler
 					blinder_elmt = html_runner.find_element(:xpath, "td[4]/b")
 					blinder_raw = blinder_elmt.attribute("class")
 					blinder_text = blinder_raw
-					blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
 					
 					# here, again, 2 possible cases :
 					# with or without draw
@@ -839,12 +838,15 @@ class Crawler
 				# @logger.debug("fetch_runners_shallow - single_rating_before_race_raw = " + single_rating_before_race_raw)
 				single_rating_before_race = single_rating_before_race_raw.to_f 
 				
-				horse = Horse::new(name: horse_name, sex: sex)
+				horse = Horse::new(name: horse_name)
 				
 				jockey = Jockey::new(name: jockey_name)
 			end
 			# @logger.trace("fetch_runners_shallow - back to main branch ")
+			sex = @ref_list_hash[:ref_sex_list][sex_text]
+			horse.sex = sex
 			shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+			blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
 			
 			runner = Runner::new(
 				age: age,
@@ -943,8 +945,8 @@ class Crawler
 				commentary = ""
 				time = ""
 				distance = ""
-				final_place = nil
-				single_rating = nil
+				final_place = 0
+				single_rating_after_race = 0.0
 				
 			else
 				# commentary
