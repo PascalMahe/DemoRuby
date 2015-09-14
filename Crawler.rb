@@ -978,11 +978,11 @@ class Crawler
 						final_place_raw = final_place_raw.to_i
 					else 
 						# '-'
-						final_place_raw = nil
+						final_place_raw = 0
 					end
 				else 
 					# 'DAI'
-					final_place_raw = nil
+					final_place_raw = 0
 					disqualified = true
 				end
 				final_place = final_place_raw

@@ -473,6 +473,76 @@ class TestCrawler < TestSuite
 			@logger.info("All tests (before: runner) for runner (10th place, with distance) OK.")
 			
 			
+			# No Place (and no distance)
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list][""]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "black minnaloushe")
+			grand_father = Horse::new(name: "cordoba")
+			mother = Horse::new(name: "light fandango", father: grand_father)
+			
+			runner_from_result_list = result_list[4]
+			assert_equal("", 				runner_from_result_list.commentary, 				"Wrong commentary while checking runner no place (and no distance)")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking runner no place (and no distance)")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking runner no place (and no distance)")
+			assert_equal(0, 				runner_from_result_list.final_place, 				"Wrong final_place while checking runner no place (and no distance)")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking runner no place (and no distance)")
+			assert_equal(4, 				runner_from_result_list.number, 					"Wrong number while checking runner no place (and no distance)")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_CAT'S_GAME.htm",
+											runner_from_result_list.url, 						"Wrong url while checking runner no place (and no distance)")
+			assert_equal(13.9, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking runner no place (and no distance)")
+			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking runner no place (and no distance)")
+			@logger.info("All tests (before: results) for runner no place (and no distance) OK.")
+			
+			runner_from_list_runners = list_runners[4]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking runner no place (and no distance)")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.distance, 				"Wrong distance while checking runner no place (and no distance)")
+			assert_equal(8, 			runner_from_list_runners.draw, 					"Wrong draw while checking runner no place (and no distance)")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking runner no place (and no distance)")
+			assert_equal(11334.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking runner no place (and no distance)")
+			assert_equal(5117.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking runner no place (and no distance)")
+			assert_equal(6921.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking runner no place (and no distance)")
+			assert_equal("5p8p2p6p",	runner_from_list_runners.history, 				"Wrong history while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(59.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking runner no place (and no distance)")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking runner no place (and no distance)")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking runner no place (and no distance)")
+			assert_equal(4, 			runner_from_list_runners.number, 				"Wrong number while checking runner no place (and no distance)")
+			assert_equal(5, 			runner_from_list_runners.places, 				"Wrong places while checking runner no place (and no distance)")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking runner no place (and no distance)")
+			assert_equal(12, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking runner no place (and no distance)")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking runner no place (and no distance)")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking runner no place (and no distance)")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking runner no place (and no distance)")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking runner no place (and no distance)")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_CAT'S_GAME.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking first place")
+			assert_equal(2, 			runner_from_list_runners.victories, 			"Wrong victories while checking runner no place (and no distance)")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking runner no place (and no distance)")
+			assert_equal("M V'rensburg",runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking runner no place (and no distance)")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking runner no place (and no distance)")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking runner no place (and no distance)")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking runner no place (and no distance)")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking runner no place (and no distance)")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking runner no place (and no distance)")
+			assert_equal("Cat's Game", 	runner_from_list_runners.horse.name, 			"Wrong horse.name while checking runner no place (and no distance)")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking runner no place (and no distance)")
+			assert_equal("MRS L C A BOUWER", 		
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking runner no place (and no distance)")
+			assert_equal("S M FERREIRA",runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking runner no place (and no distance)")
+			@logger.info("All tests (before: runner) for runner no place (and no distance) OK.")
+			
+			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
 			
@@ -602,6 +672,68 @@ class TestCrawler < TestSuite
 												runner_to_check.owner.name, 			"Wrong owner.name while checking runner 10th place (with distance)")
 			assert_equal("L J ERASMUS", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner 10th place (with distance)")
 			@logger.info("All tests (after joining) for runner (10th place, with distance) OK.")
+			
+			# no place (and no distance)
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list][""]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "black minnaloushe")
+			grand_father = Horse::new(name: "cordoba")
+			mother = Horse::new(name: "light fandango", father: grand_father)
+			
+			runner_to_check = joint_list[4]
+						
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner no place (and no distance)")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner no place (and no distance)")
+			assert_equal("", 					runner_to_check.commentary, 			"Wrong commentary while checking runner no place (and no distance)")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner no place (and no distance)")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner no place (and no distance)")
+			assert_equal("", 					runner_to_check.distance, 				"Wrong distance while checking runner no place (and no distance)")
+			assert_equal(8, 					runner_to_check.draw, 					"Wrong draw while checking runner no place (and no distance)")
+			assert_equal(11334.00,  			runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner no place (and no distance)")
+			assert_equal(0.00,					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner no place (and no distance)")
+			assert_equal(5117.00,				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner no place (and no distance)")
+			assert_equal(6921.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner no place (and no distance)")
+			assert_equal(0, 					runner_to_check.final_place, 			"Wrong final_place while checking runner no place (and no distance)")
+			assert_equal("5p8p2p6p", 			runner_to_check.history, 				"Wrong history while checking runner no place (and no distance)")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(59.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner no place (and no distance)")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner no place (and no distance)")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner no place (and no distance)")
+			assert_equal(4, 					runner_to_check.number, 				"Wrong number while checking runner no place (and no distance)")
+			assert_equal(5, 					runner_to_check.places, 				"Wrong places while checking runner no place (and no distance)")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner no place (and no distance)")
+			assert_equal(12, 					runner_to_check.races_run, 				"Wrong races_run while checking runner no place (and no distance)")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner no place (and no distance)")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner no place (and no distance)")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner no place (and no distance)")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner no place (and no distance)")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner no place (and no distance)")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner no place (and no distance)")
+			assert_equal(13.9, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner no place (and no distance)")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner no place (and no distance)")
+			assert_equal("", 					runner_to_check.time, 					"Wrong time while checking runner no place (and no distance)")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_CAT'S_GAME.htm", 		
+												runner_to_check.url, 					"Wrong url while checking runner no place (and no distance)")
+			assert_equal(2, 					runner_to_check.victories, 				"Wrong victories while checking runner no place (and no distance)")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner no place (and no distance)")
+			assert_equal("M V'rensburg", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner no place (and no distance)")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner no place (and no distance)")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner no place (and no distance)")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner no place (and no distance)")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner no place (and no distance)")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner no place (and no distance)")
+			assert_equal("Cat's Game", 			runner_to_check.horse.name, 			"Wrong horse.name while checking runner no place (and no distance)")
+			assert_equal(sex, 					runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner no place (and no distance)")
+			assert_equal("MRS L C A BOUWER", 	runner_to_check.owner.name, 			"Wrong owner.name while checking runner no place (and no distance)")
+			assert_equal("S M FERREIRA", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner no place (and no distance)")
+			@logger.info("All tests (after joining) for runner no place (and no distance) OK.")
 			
 			
 		rescue Exception => err
