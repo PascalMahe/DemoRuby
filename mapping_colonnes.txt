@@ -1,0 +1,43 @@
+	PAGE	8			9				10				11			12			13					
+1	R1_C1	Poids (kg) 	Entraîneur 		Dist (mètres) 	Musique 	Gains 		Rapports
+2	R2_C1	Corde 		Poids (kg) 		Poids monte		Entraineur 	Musique 	Rapports
+3	R2_C7	Poids (kg) 	Poids monte		Entraîneur 		Musique 	Rapports
+
+	HEAD	8			9				10				11			12			13
+1			Poids (kg) 	Entraîneur 		Dist (mètres) 	Musique 	Gains 		Rapports
+2			Corde 		Poids			Entraineur 		Musique 	Rapports
+3			Poids 		Entraîneur 		Musique 		Rapports
+
+		Entraîneur	Dist (mètres)	Musique	Gains	Rapports	Poids (kg)	Corde	Poids (monte)
+1		9			10				11		12		13			8					
+2		11							12				13			9			8		10
+3		10							11				12			8					9
+
+	
+1		2		3		4		?
+R1_C1	R2_C1	R2_C7	R1_C2	R4_C1
+R1_C6   R2_C2   R2_C8   R1_C3
+R1_C9   R2_C3           R1_C4
+R3_C1   R2_C4           R1_C5
+		R2_C5   		R1_C7
+		R2_C6           R1_C8
+		R4_C2			R3_C2
+		R4_C3           R3_C3
+		R4_C4           R3_C4
+		R4_C5           R3_C5
+		R5_C1           R3_C6
+		R5_C2           R3_C7
+		R5_C3           R3_C8
+		R5_C4
+		R5_C5
+		R5_C6
+		
+		
+		
+   
+		
+		
+
+		
+
+	

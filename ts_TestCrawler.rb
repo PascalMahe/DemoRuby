@@ -64,7 +64,7 @@ class TestCrawler < TestSuite
 															 ##  but the main page only has 2 to 5
 			# assert_equal(6, meeting_list[4].race_list.size)
 			
-			# @logger.info("All tests for test_fetch_meetings OK.")
+			# @logger.info("Tests for test_fetch_meetings OK.")
 		# rescue Exception => err
 			# @logger.error(err.inspect)
 			# @logger.error(err.backtrace)
@@ -145,7 +145,7 @@ class TestCrawler < TestSuite
 			# assert_equal(verif_country, meeting.country)
 			# assert_equal(verif_racetrack, meeting.racetrack)
 			
-			# @logger.info("All tests for test_fetch_meeting_shallow OK.")
+			# @logger.info("Tests for test_fetch_meeting_shallow OK.")
 		# rescue Exception => err
 			# @logger.error(err.inspect)
 			# @logger.error(err.backtrace)
@@ -252,7 +252,7 @@ class TestCrawler < TestSuite
 			# )
 			
 			# assert_equal(verif_race, fetched_race)
-			# @logger.info("All tests for test_fetch_race OK.")
+			# @logger.info("Tests for test_fetch_race OK.")
 		# rescue Exception => err
 			# @logger.error(err.inspect)
 			# @logger.error(err.backtrace)
@@ -300,7 +300,7 @@ class TestCrawler < TestSuite
 			# )
 			
 			# assert_equal(verification_weather, weather)
-			# @logger.info("All tests for test_fetch_weather OK.")
+			# @logger.info("Tests for test_fetch_weather OK.")
 		# rescue Exception => err
 			# @logger.error(err.inspect)
 			# @logger.error(err.backtrace)
@@ -350,13 +350,14 @@ class TestCrawler < TestSuite
 			assert_equal(false, runner_from_result_list.disqualified, 				"Wrong disqualified while checking first place is_favorite")
 			assert_equal(1, 	runner_from_result_list.final_place, 				"Wrong final_place while checking first place is_favorite")
 			assert_equal(true, 	runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking first place is_favorite")
+			assert_equal(nil, 	runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking first place is_favorite")
 			assert_equal(false, runner_from_result_list.non_runner, 				"Wrong non_runner while checking first place is_favorite")
 			assert_equal(2, 	runner_from_result_list.number, 					"Wrong number while checking first place is_favorite")
 			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_NEGEV.htm", 
 								runner_from_result_list.url, 						"Wrong url while checking first place is_favorite")
 			assert_equal(2.9, 	runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking first place is_favorite")
 			assert_equal("", 	runner_from_result_list.time, 						"Wrong time while checking first place is_favorite")
-			@logger.info("All tests (before: results) for runner first place is_favorite OK.")
+			@logger.info("Tests (from: results) for runner 1st place is_fav OK.")
 			
 			runner_from_list_runners = list_runners[2]
 			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking runner first place is_favorite")
@@ -372,6 +373,7 @@ class TestCrawler < TestSuite
 			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking first place")
 			assert_equal("2p2p3p6p", 	runner_from_list_runners.history, 				"Wrong history while checking runner first place is_favorite")
 			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking first place")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking first place")
 			assert_equal(60.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking runner first place is_favorite")
 			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking runner first place is_favorite")
 			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking first place")
@@ -400,7 +402,7 @@ class TestCrawler < TestSuite
 			assert_equal("MESSRS C M COMAROFF & B K PARKER", 		
 										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking runner first place is_favorite")
 			assert_equal("L W GOOSEN", 	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking runner first place is_favorite")
-			@logger.info("All tests (before: runner) for runner first place is_favorite OK.")
+			@logger.info("Tests (from: runner) for runner 1st place is_fav OK.")
 
 			# 10th Place (and  distance)
 			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
@@ -419,13 +421,14 @@ class TestCrawler < TestSuite
 			assert_equal("3/4 De Longueur", runner_from_result_list.distance, 					"Wrong distance while checking runner 10th place (with distance)")
 			assert_equal(10, 				runner_from_result_list.final_place, 				"Wrong final_place while checking runner 10th place (with distance)")
 			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking runner 10th place (with distance)")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking runner 10th place (with distance)")
 			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking runner 10th place (with distance)")
 			assert_equal(5, 				runner_from_result_list.number, 					"Wrong number while checking runner 10th place (with distance)")
 			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_AIM_OF_THE_GAME.htm",
 											runner_from_result_list.url, 						"Wrong url while checking runner 10th place (with distance)")
 			assert_equal(9.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking runner 10th place (with distance)")
 			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking runner 10th place (with distance)")
-			@logger.info("All tests (before: results) for runner 10th place (with distance) OK.")
+			@logger.info("Tests (from: results) for runner 10th place with dist OK.")
 			
 			runner_from_list_runners = list_runners[5]
 			assert_equal(6, 			runner_from_list_runners.age, 					"Wrong age while checking runner 10th place (with distance)")
@@ -441,6 +444,7 @@ class TestCrawler < TestSuite
 			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking runner 10th place (with distance)")
 			assert_equal("1p7p(13)9p8p",runner_from_list_runners.history, 				"Wrong history while checking runner 10th place (with distance)")
 			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking runner 10th place (with distance)")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking runner 10th place (with distance)")
 			assert_equal(58.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking runner 10th place (with distance)")
 			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking runner 10th place (with distance)")
 			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking runner 10th place (with distance)")
@@ -470,7 +474,7 @@ class TestCrawler < TestSuite
 			assert_equal("MR L J & MRS M J ERASMUS", 		
 										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking runner 10th place (with distance)")
 			assert_equal("L J ERASMUS", runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking runner 10th place (with distance)")
-			@logger.info("All tests (before: runner) for runner (10th place, with distance) OK.")
+			@logger.info("Tests (from: runner) for runner 10th place with dist OK.")
 			
 			# No Place (and no distance)
 			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
@@ -489,13 +493,14 @@ class TestCrawler < TestSuite
 			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking runner no place (and no distance)")
 			assert_equal(0, 				runner_from_result_list.final_place, 				"Wrong final_place while checking runner no place (and no distance)")
 			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking runner no place (and no distance)")
 			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking runner no place (and no distance)")
 			assert_equal(4, 				runner_from_result_list.number, 					"Wrong number while checking runner no place (and no distance)")
 			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_CAT'S_GAME.htm",
 											runner_from_result_list.url, 						"Wrong url while checking runner no place (and no distance)")
 			assert_equal(13.9, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking runner no place (and no distance)")
 			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking runner no place (and no distance)")
-			@logger.info("All tests (before: results) for runner no place (and no distance) OK.")
+			@logger.info("Tests (from: results) for runner no place and no dist OK.")
 			
 			runner_from_list_runners = list_runners[4]
 			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking runner no place (and no distance)")
@@ -511,6 +516,7 @@ class TestCrawler < TestSuite
 			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking runner no place (and no distance)")
 			assert_equal("5p8p2p6p",	runner_from_list_runners.history, 				"Wrong history while checking runner no place (and no distance)")
 			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking runner no place (and no distance)")
 			assert_equal(59.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking runner no place (and no distance)")
 			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking runner no place (and no distance)")
 			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking runner no place (and no distance)")
@@ -539,7 +545,7 @@ class TestCrawler < TestSuite
 			assert_equal("MRS L C A BOUWER", 		
 										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking runner no place (and no distance)")
 			assert_equal("S M FERREIRA",runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking runner no place (and no distance)")
-			@logger.info("All tests (before: runner) for runner no place (and no distance) OK.")
+			@logger.info("Tests (from: runner) for runner no place no dist OK.")
 			
 			
 			# Non runner
@@ -559,13 +565,14 @@ class TestCrawler < TestSuite
 			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking non runner")
 			assert_equal(0, 				runner_from_result_list.final_place, 				"Wrong final_place while checking non runner")
 			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking non runner")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking non runner")
 			assert_equal(true, 				runner_from_result_list.non_runner, 				"Wrong non_runner while checking non runner")
 			assert_equal(17, 				runner_from_result_list.number, 					"Wrong number while checking non runner")
 			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_LIZZY_GREY.htm",
 											runner_from_result_list.url, 						"Wrong url while checking non runner")
 			assert_equal(0.0, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking non runner")
 			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking non runner")
-			@logger.info("All tests (before: results) for non runner OK.")
+			@logger.info("Tests (from: results) for non runner OK.")
 			
 			runner_from_list_runners = list_runners[17]
 			assert_equal(0, 			runner_from_list_runners.age, 					"Wrong age while checking non runner")
@@ -581,6 +588,7 @@ class TestCrawler < TestSuite
 			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking non runner")
 			assert_equal("",			runner_from_list_runners.history, 				"Wrong history while checking non runner")
 			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking non runner")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 			"Wrong is_substitute while checking non runner")
 			assert_equal(0.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking non runner")
 			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking non runner")
 			assert_equal(true, 			runner_from_list_runners.non_runner, 			"Wrong non_runner while checking non runner")
@@ -609,7 +617,7 @@ class TestCrawler < TestSuite
 			assert_equal("MR A D C A FERNANDES", 		
 										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking non runner")
 			assert_equal("G H VAN ZYL",runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking non runner")
-			@logger.info("All tests (before: runner) for non runner OK.")
+			@logger.info("Tests (from: runner) for non runner OK.")
 			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
@@ -642,6 +650,7 @@ class TestCrawler < TestSuite
 			assert_equal(1, 					runner_to_check.final_place, 			"Wrong final_place while checking runner first place is_favorite")
 			assert_equal("2p2p3p6p", 			runner_to_check.history, 				"Wrong history while checking runner first place is_favorite")
 			assert_equal(true, 					runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner first place is_favorite")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner first place is_favorite")
 			assert_equal(60.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner first place is_favorite")
 			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner first place is_favorite")
 			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner first place is_favorite")
@@ -676,7 +685,7 @@ class TestCrawler < TestSuite
 			assert_equal("MESSRS C M COMAROFF & B K PARKER", 		
 												runner_to_check.owner.name, 			"Wrong owner.name while checking runner first place is_favorite")
 			assert_equal("L W GOOSEN", 			runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner first place is_favorite")
-			@logger.info("All tests (after joining) for runner first place is_favorite OK.")
+			@logger.info("Tests (after joining) for runner 1st place is_fav OK.")
 			
 			# 10th place (with distance)
 			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
@@ -704,6 +713,7 @@ class TestCrawler < TestSuite
 			assert_equal(10, 					runner_to_check.final_place, 			"Wrong final_place while checking runner 10th place (with distance)")
 			assert_equal("1p7p(13)9p8p", 		runner_to_check.history, 				"Wrong history while checking runner 10th place (with distance)")
 			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner 10th place (with distance)")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner 10th place (with distance)")
 			assert_equal(58.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner 10th place (with distance)")
 			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner 10th place (with distance)")
 			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner 10th place (with distance)")
@@ -738,7 +748,7 @@ class TestCrawler < TestSuite
 			assert_equal("MR L J & MRS M J ERASMUS", 		
 												runner_to_check.owner.name, 			"Wrong owner.name while checking runner 10th place (with distance)")
 			assert_equal("L J ERASMUS", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner 10th place (with distance)")
-			@logger.info("All tests (after joining) for runner (10th place, with distance) OK.")
+			@logger.info("Tests (after joining) for runner 10th place with dist OK.")
 			
 			# no place (and no distance)
 			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
@@ -767,6 +777,7 @@ class TestCrawler < TestSuite
 			assert_equal(0, 					runner_to_check.final_place, 			"Wrong final_place while checking runner no place (and no distance)")
 			assert_equal("5p8p2p6p", 			runner_to_check.history, 				"Wrong history while checking runner no place (and no distance)")
 			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner no place (and no distance)")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner no place (and no distance)")
 			assert_equal(59.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner no place (and no distance)")
 			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner no place (and no distance)")
 			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner no place (and no distance)")
@@ -800,7 +811,7 @@ class TestCrawler < TestSuite
 			assert_equal(sex, 					runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner no place (and no distance)")
 			assert_equal("MRS L C A BOUWER", 	runner_to_check.owner.name, 			"Wrong owner.name while checking runner no place (and no distance)")
 			assert_equal("S M FERREIRA", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner no place (and no distance)")
-			@logger.info("All tests (after joining) for runner no place (and no distance) OK.")
+			@logger.info("Tests (after joining) for runner no place and no dist OK.")
 			
 			
 			# non runner
@@ -830,6 +841,7 @@ class TestCrawler < TestSuite
 			assert_equal(0, 					runner_to_check.final_place, 			"Wrong final_place while checking non runner")
 			assert_equal("", 					runner_to_check.history, 				"Wrong history while checking non runner")
 			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking non runner")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking non runner")
 			assert_equal(0.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking non runner")
 			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking non runner")
 			assert_equal(true, 					runner_to_check.non_runner, 			"Wrong non_runner while checking non runner")
@@ -863,8 +875,1518 @@ class TestCrawler < TestSuite
 			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking non runner")
 			assert_equal("MR A D C A FERNANDES",runner_to_check.owner.name, 			"Wrong owner.name while checking non runner")
 			assert_equal("G H VAN ZYL", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking non runner")
-			@logger.info("All tests (after joining) for non runner OK.")
+			@logger.info("Tests (after joining) for non runner OK.")
 			
+			# Getting the second page
+			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1.htm"
+			@crawler.driver.get(url)
+			
+			# -> Getting the meeting list
+			race_to_test = Race::new() # R1_C1
+			# Checking the list is empty beforehand
+			assert_equal(nil, race_to_test.runner_list)
+			race_to_test.url = url
+			
+			# getting the runner_list 
+			result_list = @crawler.fetch_race_results(race_to_test)
+			
+			# go to runners' page
+			@crawler.go_to_runners_page()
+			
+			# getting the runner_list
+			list_runners = @crawler.fetch_list_runners(race_to_test)
+			
+			# First
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "prodigious")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "pocket edition", father: grand_father)
+			
+			runner_from_result_list = result_list[5]
+			assert_equal("Installé au commandement en bas de la descente, a repoussé jusqu'au bout la bonne attaque de Valroy (9).", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking first place")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking first place")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking first place")
+			assert_equal(1, 				runner_from_result_list.final_place, 				"Wrong final_place while checking first place")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking first place")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking first place")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking first place")
+			assert_equal(5, 				runner_from_result_list.number, 					"Wrong number while checking first place")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm",
+											runner_from_result_list.url, 						"Wrong url while checking first place")
+			assert_equal(8.4, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking first place")
+			assert_equal("1'13\"80", 		runner_from_result_list.time, 						"Wrong time while checking first place")
+			@logger.info("Tests (from: results) for first place OK.")
+			
+			runner_from_list_runners = list_runners[5]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking first place")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking first place")
+			assert_equal(2700, 			runner_from_list_runners.distance, 				"Wrong distance while checking first place")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking first place")
+			assert_equal(85060.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking first place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking first place")			
+			assert_equal(69400.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking first place")
+			assert_equal(67600.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking first place")
+			assert_equal("DmDa(13)1m",	runner_from_list_runners.history, 				"Wrong history while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking first place")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking first place")
+			assert_equal(67.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking first place")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking first place")
+			assert_equal(5, 			runner_from_list_runners.number, 				"Wrong number while checking first place")
+			assert_equal(6, 			runner_from_list_runners.places, 				"Wrong places while checking first place")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking first place")
+			assert_equal(16, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking first place")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking first place")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking first place")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking first place")
+			assert_equal(5, 			runner_from_list_runners.victories, 			"Wrong victories while checking first place")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking first place")
+			assert_equal("D. Bonne",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking first place")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking first place")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking first place")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking first place")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking first place")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking first place")
+			assert_equal("Virgious Du Maza", 	
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking first place")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking first place")
+			assert_equal("Ecurie du MAZA", 		
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking first place")
+			assert_equal("S. ERNAULT",	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking first place")
+			@logger.info("Tests (from: runner) for 1st place OK.")
+			
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "first de retz")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "leda d'occagnes", father: grand_father)
+			
+			runner_from_result_list = result_list[9]
+			assert_equal("Vite en troisième position, a donné un bon coup de reins dans les 100 derniers mètres sans pouvoir remonter totalement Virgious du Maza (5).", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking is favorite")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking is favorite")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking is favorite")
+			assert_equal(2, 				runner_from_result_list.final_place, 				"Wrong final_place while checking is favorite")
+			assert_equal(true, 				runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking is favorite")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking is favorite")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking is favorite")
+			assert_equal(9, 				runner_from_result_list.number, 					"Wrong number while checking is favorite")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm",
+											runner_from_result_list.url, 						"Wrong url while checking is favorite")
+			assert_equal(2.5, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking is favorite")
+			assert_equal("1'13\"80", 		runner_from_result_list.time, 						"Wrong time while checking is favorite")
+			@logger.info("Tests (from: results) for is favorite OK.")
+			
+			runner_from_list_runners = list_runners[9]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking is favorite")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking is favorite")
+			assert_equal(2700, 			runner_from_list_runners.distance, 				"Wrong distance while checking is favorite")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking is favorite")
+			assert_equal(105130.00, 	runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking is favorite")
+			assert_equal(9520.00, 		runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking is favorite")			
+			assert_equal(53550.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking is favorite")
+			assert_equal(37500.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking is favorite")
+			assert_equal("3m(13)2mDm",	runner_from_list_runners.history, 				"Wrong history while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking is favorite")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking is favorite")
+			assert_equal(67.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking is favorite")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking is favorite")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking is favorite")
+			assert_equal(9, 			runner_from_list_runners.number, 				"Wrong number while checking is favorite")
+			assert_equal(11, 			runner_from_list_runners.places, 				"Wrong places while checking is favorite")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking is favorite")
+			assert_equal(28, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking is favorite")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking is favorite")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking is favorite")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking is favorite")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking is favorite")
+			assert_equal(4, 			runner_from_list_runners.victories, 			"Wrong victories while checking is favorite")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking is favorite")
+			assert_equal("A. Abrivard",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking is favorite")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking is favorite")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking is favorite")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking is favorite")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking is favorite")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking is favorite")
+			assert_equal("Valroy", 		runner_from_list_runners.horse.name, 			"Wrong horse.name while checking is favorite")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking is favorite")
+			assert_equal("Ecurie des CHARMES", 		
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking is favorite")
+			assert_equal("J.M. BAZIRE",	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking is favorite")
+			@logger.info("Tests (from: runner) for is_fav OK.")
+			
+			
+			# Disqualified
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "nijinski blue")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "nectarine turgot", father: grand_father)
+			
+			runner_from_result_list = result_list[4]
+			assert_equal("Vite en tête, puis relayé par Virgious du Maza (5) en bas de la descente, venait visiblement dominer son rival lorsqu'il s'est montré fautif à mi-ligne droite.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking disqualified")
+			assert_equal(true, 				runner_from_result_list.disqualified, 				"Wrong disqualified while checking disqualified")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking disqualified")
+			assert_equal(0, 				runner_from_result_list.final_place, 				"Wrong final_place while checking disqualified")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking disqualified")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking disqualified")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking disqualified")
+			assert_equal(4, 				runner_from_result_list.number, 					"Wrong number while checking disqualified")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm",
+											runner_from_result_list.url, 						"Wrong url while checking disqualified")
+			assert_equal(4.2, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking disqualified")
+			assert_equal("0'00\"00", 		runner_from_result_list.time, 						"Wrong time while checking disqualified")
+			@logger.info("Tests (from: results) for disqualified OK.")
+			
+			runner_from_list_runners = list_runners[4]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking disqualified")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking disqualified")
+			assert_equal(2700, 			runner_from_list_runners.distance, 				"Wrong distance while checking disqualified")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking disqualified")
+			assert_equal(84980.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking disqualified")
+			assert_equal(27900.00, 		runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking disqualified")			
+			assert_equal(54060.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking disqualified")
+			assert_equal(72900.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking disqualified")
+			assert_equal("1m3m(13)1m",	runner_from_list_runners.history, 				"Wrong history while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking disqualified")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking disqualified")
+			assert_equal(67.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking disqualified")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking disqualified")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking disqualified")
+			assert_equal(4, 			runner_from_list_runners.number, 				"Wrong number while checking disqualified")
+			assert_equal(8, 			runner_from_list_runners.places, 				"Wrong places while checking disqualified")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking disqualified")
+			assert_equal(23, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking disqualified")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking disqualified")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking disqualified")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking disqualified")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking disqualified")
+			assert_equal(6, 			runner_from_list_runners.victories, 			"Wrong victories while checking disqualified")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking disqualified")
+			assert_equal("M. Abrivard",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking disqualified")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking disqualified")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking disqualified")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking disqualified")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking disqualified")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking disqualified")
+			assert_equal("Valdez Turgot", 	
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking disqualified")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking disqualified")
+			assert_equal("P. COIGNARD", runner_from_list_runners.owner.name, 			"Wrong owner.name while checking disqualified")
+			assert_equal("P. COIGNARD",	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking disqualified")
+			@logger.info("Tests (from: runner) for disqualified OK.")
+			
+			
+			# Joining the lists
+			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
+			
+			# Checking the data aftwerward
+			
+			# First place
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "prodigious")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "pocket edition", father: grand_father)
+			
+			runner_to_check = joint_list[5]
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner first place")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner first place")
+			assert_equal("Installé au commandement en bas de la descente, a repoussé jusqu'au bout la bonne attaque de Valroy (9).", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner first place")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner first place")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner first place")
+			assert_equal(2700, 					runner_to_check.distance, 				"Wrong distance while checking runner first place")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner first place")
+			assert_equal(85060.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner first place")
+			assert_equal(69400.00,				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner first place")
+			assert_equal(67600.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner first place")
+			assert_equal(1, 					runner_to_check.final_place, 			"Wrong final_place while checking runner first place")
+			assert_equal("DmDa(13)1m", 			runner_to_check.history, 				"Wrong history while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner first place")
+			assert_equal(67.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner first place")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner first place")
+			assert_equal(5, 					runner_to_check.number, 				"Wrong number while checking runner first place")
+			assert_equal(6, 					runner_to_check.places, 				"Wrong places while checking runner first place")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner first place")
+			assert_equal(16, 					runner_to_check.races_run, 				"Wrong races_run while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner first place")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner first place")
+			assert_equal(8.4, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal("1'13\"80", 			runner_to_check.time, 					"Wrong time while checking runner first place")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner first place")
+			assert_equal(5, 					runner_to_check.victories, 				"Wrong victories while checking runner first place")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner first place")
+			assert_equal("D. Bonne", 			runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner first place")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner first place")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner first place")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner first place")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner first place")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner first place")
+			assert_equal("Virgious Du Maza", 	runner_to_check.horse.name, 			"Wrong horse.name while checking runner first place")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner first place")
+			assert_equal("Ecurie du MAZA", 		runner_to_check.owner.name, 			"Wrong owner.name while checking runner first place")
+			assert_equal("S. ERNAULT", 			runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner first place")
+			@logger.info("Tests (after joining) for runner 1st place OK.")
+			
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "first de retz")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "leda d'occagnes", father: grand_father)
+			
+			runner_to_check = joint_list[9]
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner is favorite")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner is favorite")
+			assert_equal("Vite en troisième position, a donné un bon coup de reins dans les 100 derniers mètres sans pouvoir remonter totalement Virgious du Maza (5).", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner is favorite")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner is favorite")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner is favorite")
+			assert_equal(2700, 					runner_to_check.distance, 				"Wrong distance while checking runner is favorite")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner is favorite")
+			assert_equal(105130.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner is favorite")
+			assert_equal(9520.00, 				runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner is favorite")
+			assert_equal(53550.00, 				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner is favorite")
+			assert_equal(37500.00, 				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner is favorite")
+			assert_equal(2, 					runner_to_check.final_place, 			"Wrong final_place while checking runner is favorite")
+			assert_equal("3m(13)2mDm", 			runner_to_check.history, 				"Wrong history while checking runner is favorite")
+			assert_equal(true,	 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner is favorite")
+			assert_equal(false,	 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner is favorite")
+			assert_equal(67.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner is favorite")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner is favorite")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner is favorite")
+			assert_equal(9, 					runner_to_check.number, 				"Wrong number while checking runner is favorite")
+			assert_equal(11, 					runner_to_check.places, 				"Wrong places while checking runner is favorite")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner is favorite")
+			assert_equal(28, 					runner_to_check.races_run, 				"Wrong races_run while checking runner is favorite")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner is favorite")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner is favorite")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner is favorite")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner is favorite")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner is favorite")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner is favorite")
+			assert_equal(2.5, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner is favorite")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner is favorite")
+			assert_equal("1'13\"80", 			runner_to_check.time, 					"Wrong time while checking runner is favorite")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner is favorite")
+			assert_equal(4, 					runner_to_check.victories, 				"Wrong victories while checking runner is favorite")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner is favorite")
+			assert_equal("A. Abrivard", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner is favorite")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner is favorite")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner is favorite")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner is favorite")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner is favorite")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner is favorite")
+			assert_equal("Valroy", 				runner_to_check.horse.name, 			"Wrong horse.name while checking runner is favorite")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner is favorite")
+			assert_equal("Ecurie des CHARMES", 	runner_to_check.owner.name, 			"Wrong owner.name while checking runner is favorite")
+			assert_equal("J.M. BAZIRE", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner is favorite")
+			@logger.info("Tests (after joining) for runner is_fav OK.")
+			
+			# Disqualified
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "nijinski blue")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "nectarine turgot", father: grand_father)
+			
+			runner_to_check = joint_list[4]
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner disqualified")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner disqualified")
+			assert_equal("Vite en tête, puis relayé par Virgious du Maza (5) en bas de la descente, venait visiblement dominer son rival lorsqu'il s'est montré fautif à mi-ligne droite.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner disqualified")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner disqualified")
+			assert_equal(true, 					runner_to_check.disqualified, 			"Wrong disqualified while checking runner disqualified")
+			assert_equal(2700, 					runner_to_check.distance, 				"Wrong distance while checking runner disqualified")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner disqualified")
+			assert_equal(84980.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner disqualified")
+			assert_equal(27900.00,				runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner disqualified")
+			assert_equal(54060.00,				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner disqualified")
+			assert_equal(72900.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner disqualified")
+			assert_equal(0, 					runner_to_check.final_place, 			"Wrong final_place while checking runner disqualified")
+			assert_equal("1m3m(13)1m", 			runner_to_check.history, 				"Wrong history while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner disqualified")
+			assert_equal(67.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner disqualified")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner disqualified")
+			assert_equal(4, 					runner_to_check.number, 				"Wrong number while checking runner disqualified")
+			assert_equal(8, 					runner_to_check.places, 				"Wrong places while checking runner disqualified")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner disqualified")
+			assert_equal(23, 					runner_to_check.races_run, 				"Wrong races_run while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner disqualified")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner disqualified")
+			assert_equal(4.2, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner disqualified")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner disqualified")
+			assert_equal("0'00\"00", 			runner_to_check.time, 					"Wrong time while checking runner disqualified")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner disqualified")
+			assert_equal(6, 					runner_to_check.victories, 				"Wrong victories while checking runner disqualified")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner disqualified")
+			assert_equal("M. Abrivard", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner disqualified")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner disqualified")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner disqualified")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner disqualified")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner disqualified")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner disqualified")
+			assert_equal("Valdez Turgot", 		runner_to_check.horse.name, 			"Wrong horse.name while checking runner disqualified")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner disqualified")
+			assert_equal("P. COIGNARD", 		runner_to_check.owner.name, 			"Wrong owner.name while checking runner disqualified")
+			assert_equal("P. COIGNARD", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner disqualified")
+			@logger.info("Tests (after joining) for runner disqualified OK.")
+			
+			# Third page : R2_C7 (no draw)
+			
+			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7.htm"
+			@crawler.driver.get(url)
+			
+			# -> Getting the meeting list
+			race_to_test = Race::new() # R2_C7
+			# Checking the list is empty beforehand
+			assert_equal(nil, race_to_test.runner_list)
+			race_to_test.url = url
+			
+			# getting the runner_list 
+			result_list = @crawler.fetch_race_results(race_to_test)
+			
+			# go to runners' page
+			@crawler.go_to_runners_page()
+			
+			# getting the runner_list
+			list_runners = @crawler.fetch_list_runners(race_to_test)
+			
+			# First
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "assessor")
+			grand_father = Horse::new(name: "garde royale")
+			mother = Horse::new(name: "notting hill", father: grand_father)
+			
+			runner_from_result_list = result_list[11]
+			assert_equal("Après avoir patienté en quatrième ou cinquième position, s'est rapprochée entre les deux dernières haies, puis a bien accéléré sur le plat, créant la décision aux abords du poteau.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking first place")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking first place")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking first place")
+			assert_equal(1, 				runner_from_result_list.final_place, 				"Wrong final_place while checking first place")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking first place")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking first place")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking first place")
+			assert_equal(11, 				runner_from_result_list.number, 					"Wrong number while checking first place")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_VIVA_VOCE_SIVOLA.htm",
+											runner_from_result_list.url, 						"Wrong url while checking first place")
+			assert_equal(93.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking first place")
+			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking first place")
+			@logger.info("Tests (from: results) for first place OK.")
+			
+			runner_from_list_runners = list_runners[11]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking first place")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.distance, 				"Wrong distance while checking first place")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking first place")
+			assert_equal(9970.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking first place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking first place")			
+			assert_equal(3825.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking first place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking first place")
+			assert_equal("3aThAh5s5s3h",runner_from_list_runners.history, 				"Wrong history while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking first place")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking first place")
+			assert_equal(64.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking first place")
+			assert_equal(61.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking first place")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking first place")
+			assert_equal(11, 			runner_from_list_runners.number, 				"Wrong number while checking first place")
+			assert_equal(6, 			runner_from_list_runners.places, 				"Wrong places while checking first place")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking first place")
+			assert_equal(19, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking first place")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking first place")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking first place")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_VIVA_VOCE_SIVOLA.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking first place")
+			assert_equal(0, 			runner_from_list_runners.victories, 			"Wrong victories while checking first place")
+			assert_equal("MR GILLES TRAPENARD", 			
+										runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking first place")
+			assert_equal("C.abou",		runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking first place")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking first place")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking first place")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking first place")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking first place")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking first place")
+			assert_equal("Viva Voce Sivola", 	
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking first place")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking first place")
+			assert_equal("MME F.GIMMI PELLEGRINO", 		
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking first place")
+			assert_equal("MME F.GIMMI PELLEGRINO",	
+										runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking first place")
+			@logger.info("Tests (from: runner) for 1st place OK.")
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "martaline")
+			grand_father = Horse::new(name: "sanglamore")
+			mother = Horse::new(name: "la haie blanche", father: grand_father)
+			
+			runner_from_result_list = result_list[1]
+			assert_equal("Vite en tête, n'a été dominé que dans les derniers mètres.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking favorite")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking favorite")
+			assert_equal("1 Tête", 			runner_from_result_list.distance, 					"Wrong distance while checking favorite")
+			assert_equal(3, 				runner_from_result_list.final_place, 				"Wrong final_place while checking favorite")
+			assert_equal(true, 				runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking favorite")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking favorite")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking favorite")
+			assert_equal(1, 				runner_from_result_list.number, 					"Wrong number while checking favorite")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_FRANZ_QUERCUS.htm",
+											runner_from_result_list.url, 						"Wrong url while checking favorite")
+			assert_equal(2.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking favorite")
+			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking favorite")
+			@logger.info("Tests (from: results) for favorite OK.")
+			
+			runner_from_list_runners = list_runners[1]
+			assert_equal(7, 			runner_from_list_runners.age, 					"Wrong age while checking favorite")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.distance, 				"Wrong distance while checking favorite")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking favorite")
+			assert_equal(60330.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking favorite")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking favorite")			
+			assert_equal(0.00, 			runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking favorite")
+			assert_equal(48960.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking favorite")
+			assert_equal("1s1h3h(11)1s",runner_from_list_runners.history, 				"Wrong history while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking favorite")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking favorite")
+			assert_equal(72.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking favorite")
+			assert_equal(68.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking favorite")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking favorite")
+			assert_equal(1, 			runner_from_list_runners.number, 				"Wrong number while checking favorite")
+			assert_equal(3, 			runner_from_list_runners.places, 				"Wrong places while checking favorite")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking favorite")
+			assert_equal(9, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking favorite")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking favorite")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking favorite")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking favorite")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking favorite")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_FRANZ_QUERCUS.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking favorite")
+			assert_equal(5, 			runner_from_list_runners.victories, 			"Wrong victories while checking favorite")
+			assert_equal("MR DANIEL CHASSAGNEUX", 			
+										runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking favorite")
+			assert_equal("J.rougier",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking favorite")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking favorite")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking favorite")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking favorite")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking favorite")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking favorite")
+			assert_equal("Franz Quercus", 	
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking favorite")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking favorite")
+			assert_equal("JD.COTTON", 	runner_from_list_runners.owner.name, 			"Wrong owner.name while checking favorite")
+			assert_equal("MACAIRE (S)",	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking favorite")
+			@logger.info("Tests (from: runner) for favorite OK.")
+			
+			# Substitute
+			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_AUSTRALIENNES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "bonbon rose")
+			grand_father = Horse::new(name: "saint preuil")
+			mother = Horse::new(name: "sainte kash", father: grand_father)
+			
+			runner_from_result_list = result_list[12]
+			assert_equal("Venue de l'arrière-garde, a progressé entre les deux dernières haies et a conclu correctement.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking substitute")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking substitute")
+			assert_equal("1 Longueur 1/2", 	runner_from_result_list.distance, 					"Wrong distance while checking substitute")
+			assert_equal(6, 				runner_from_result_list.final_place, 				"Wrong final_place while checking substitute")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking substitute")
+			assert_equal(nil, 			runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking substitute")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking substitute")
+			assert_equal(12, 				runner_from_result_list.number, 					"Wrong number while checking substitute")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_TWEETY_KASH.htm",
+											runner_from_result_list.url, 						"Wrong url while checking substitute")
+			assert_equal(22.3, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking substitute")
+			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking substitute")
+			@logger.info("Tests (from: results) for substitute OK.")
+			
+			runner_from_list_runners = list_runners[12]
+			assert_equal(5, 			runner_from_list_runners.age, 					"Wrong age while checking substitute")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.distance, 				"Wrong distance while checking substitute")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking substitute")
+			assert_equal(17775.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking substitute")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking substitute")			
+			assert_equal(17775.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking substitute")
+			assert_equal(10560.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking substitute")
+			assert_equal("AhAsTs6h(13)",runner_from_list_runners.history, 				"Wrong history while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking substitute")
+			assert_equal(true, 			runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking substitute")
+			assert_equal(64.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking substitute")
+			assert_equal(65.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking substitute")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking substitute")
+			assert_equal(12, 			runner_from_list_runners.number, 				"Wrong number while checking substitute")
+			assert_equal(4, 			runner_from_list_runners.places, 				"Wrong places while checking substitute")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking substitute")
+			assert_equal(13, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking substitute")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking substitute")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking substitute")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking substitute")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking substitute")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_TWEETY_KASH.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking substitute")
+			assert_equal(2, 			runner_from_list_runners.victories, 			"Wrong victories while checking substitute")
+			assert_equal("MR ARNAUD CHAILLE-CHAILLE", 			
+										runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking substitute")
+			assert_equal("B.lestrade",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking substitute")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking substitute")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking substitute")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking substitute")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking substitute")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking substitute")
+			assert_equal("Tweety Kash", 	
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking substitute")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking substitute")
+			assert_equal("S.HOFFMEISTER",
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking substitute")
+			assert_equal("M.SEROR",		runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking substitute")
+			@logger.info("Tests (from: runner) for substitute OK.")
+			
+			# 12th place
+			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["ALEZAN"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "medicean")
+			grand_father = Horse::new(name: "trempolino")
+			mother = Horse::new(name: "vivacity", father: grand_father)
+			
+			runner_from_result_list = result_list[4]
+			assert_equal("Rapproché à la sortie du tournant final, faisant alors illusion pour la troisième ou quatrième place, a marqué le pas sur le plat.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking 12th place")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking 12th place")
+			assert_equal("4 Longueurs", 	runner_from_result_list.distance, 					"Wrong distance while checking 12th place")
+			assert_equal(12, 				runner_from_result_list.final_place, 				"Wrong final_place while checking 12th place")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking 12th place")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking 12th place")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking 12th place")
+			assert_equal(4, 				runner_from_result_list.number, 					"Wrong number while checking 12th place")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_GRYPAS.htm",
+											runner_from_result_list.url, 						"Wrong url while checking 12th place")
+			assert_equal(17.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking 12th place")
+			assert_equal("", 				runner_from_result_list.time, 						"Wrong time while checking 12th place")
+			@logger.info("Tests (from: results) for 12th place OK.")
+			
+			runner_from_list_runners = list_runners[4]
+			assert_equal(7, 			runner_from_list_runners.age, 					"Wrong age while checking 12th place")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.distance, 				"Wrong distance while checking 12th place")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking 12th place")
+			assert_equal(21175.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking 12th place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking 12th place")			
+			assert_equal(21175.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking 12th place")
+			assert_equal(14400.00, 		runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking 12th place")
+			assert_equal("9hAh1h4h5h5h",runner_from_list_runners.history, 				"Wrong history while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking 12th place")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking 12th place")
+			assert_equal(68.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking 12th place")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking 12th place")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking 12th place")
+			assert_equal(4, 			runner_from_list_runners.number, 				"Wrong number while checking 12th place")
+			assert_equal(4, 			runner_from_list_runners.places, 				"Wrong places while checking 12th place")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking 12th place")
+			assert_equal(13, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking 12th place")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking 12th place")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking 12th place")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking 12th place")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking 12th place")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_GRYPAS.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking 12th place")
+			assert_equal(2, 			runner_from_list_runners.victories, 			"Wrong victories while checking 12th place")
+			assert_equal("STILVI COMPANIA FINANCIERA S.A.", 			
+										runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking 12th place")
+			assert_equal("A.lecordier",	runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking 12th place")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking 12th place")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking 12th place")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking 12th place")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking 12th place")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking 12th place")
+			assert_equal("Grypas", 		runner_from_list_runners.horse.name, 			"Wrong horse.name while checking 12th place")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking 12th place")
+			assert_equal("A.CANAVERO", 	runner_from_list_runners.owner.name, 			"Wrong owner.name while checking 12th place")
+			assert_equal("C.SCANDELLA",	runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking 12th place")
+			@logger.info("Tests (from: runner) for 12th place OK.")
+			
+			# Joining the lists
+			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
+			
+			# Checking the data aftwerward
+			
+			# First place
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "assessor")
+			grand_father = Horse::new(name: "garde royale")
+			mother = Horse::new(name: "notting hill", father: grand_father)
+			
+			runner_to_check = joint_list[11]
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner first place")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner first place")
+			assert_equal("Après avoir patienté en quatrième ou cinquième position, s'est rapprochée entre les deux dernières haies, puis a bien accéléré sur le plat, créant la décision aux abords du poteau.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner first place")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner first place")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner first place")
+			assert_equal("", 					runner_to_check.distance, 				"Wrong distance while checking runner first place")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner first place")
+			assert_equal(9970.00, 				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner first place")
+			assert_equal(3825.00, 				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner first place")
+			assert_equal(1, 					runner_to_check.final_place, 			"Wrong final_place while checking runner first place")
+			assert_equal("3aThAh5s5s3h", 		runner_to_check.history, 				"Wrong history while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner first place")
+			assert_equal(64.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner first place")
+			assert_equal(61.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner first place")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner first place")
+			assert_equal(11, 					runner_to_check.number, 				"Wrong number while checking runner first place")
+			assert_equal(6, 					runner_to_check.places, 				"Wrong places while checking runner first place")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner first place")
+			assert_equal(19, 					runner_to_check.races_run, 				"Wrong races_run while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner first place")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner first place")
+			assert_equal(93.6, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal("", 					runner_to_check.time, 					"Wrong time while checking runner first place")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_VIVA_VOCE_SIVOLA.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner first place")
+			assert_equal(0, 					runner_to_check.victories, 				"Wrong victories while checking runner first place")
+			assert_equal("MR GILLES TRAPENARD", runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner first place")
+			assert_equal("C.abou", 				runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner first place")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner first place")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner first place")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner first place")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner first place")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner first place")
+			assert_equal("Viva Voce Sivola", 	runner_to_check.horse.name, 			"Wrong horse.name while checking runner first place")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner first place")
+			assert_equal("MME F.GIMMI PELLEGRINO", 		
+												runner_to_check.owner.name, 			"Wrong owner.name while checking runner first place")
+			assert_equal("MME F.GIMMI PELLEGRINO", 			
+												runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner first place")
+			@logger.info("Tests (after joining) for runner 1st place OK.")
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "martaline")
+			grand_father = Horse::new(name: "sanglamore")
+			mother = Horse::new(name: "la haie blanche", father: grand_father)
+			
+			runner_to_check = joint_list[1]
+			assert_equal(7, 					runner_to_check.age, 					"Wrong age while checking runner favorite")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner favorite")
+			assert_equal("Vite en tête, n'a été dominé que dans les derniers mètres.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner favorite")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner favorite")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner favorite")
+			assert_equal("1 Tête", 				runner_to_check.distance, 				"Wrong distance while checking runner favorite")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner favorite")
+			assert_equal(60330.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner favorite")
+			assert_equal(48960.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner favorite")
+			assert_equal(3, 					runner_to_check.final_place, 			"Wrong final_place while checking runner favorite")
+			assert_equal("1s1h3h(11)1s", 		runner_to_check.history, 				"Wrong history while checking runner favorite")
+			assert_equal(true, 					runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner favorite")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner favorite")
+			assert_equal(72.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner favorite")
+			assert_equal(68.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner favorite")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner favorite")
+			assert_equal(1, 					runner_to_check.number, 				"Wrong number while checking runner favorite")
+			assert_equal(3, 					runner_to_check.places, 				"Wrong places while checking runner favorite")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner favorite")
+			assert_equal(9, 					runner_to_check.races_run, 				"Wrong races_run while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner favorite")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner favorite")
+			assert_equal(2.6, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal("", 					runner_to_check.time, 					"Wrong time while checking runner favorite")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_FRANZ_QUERCUS.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner favorite")
+			assert_equal(5, 					runner_to_check.victories, 				"Wrong victories while checking runner favorite")
+			assert_equal("MR DANIEL CHASSAGNEUX", 					
+												runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner favorite")
+			assert_equal("J.rougier", 			runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner favorite")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner favorite")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner favorite")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner favorite")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner favorite")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner favorite")
+			assert_equal("Franz Quercus", 		runner_to_check.horse.name, 			"Wrong horse.name while checking runner favorite")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner favorite")
+			assert_equal("JD.COTTON", 			runner_to_check.owner.name, 			"Wrong owner.name while checking runner favorite")
+			assert_equal("MACAIRE (S)", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner favorite")
+			@logger.info("Tests (after joining) for runner favorite OK.")
+			
+			# Substitute
+			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_AUSTRALIENNES"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI"]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
+			
+			father = Horse::new(name: "bonbon rose")
+			grand_father = Horse::new(name: "saint preuil")
+			mother = Horse::new(name: "sainte kash", father: grand_father)
+			
+			runner_to_check = joint_list[12]
+			assert_equal(5, 					runner_to_check.age, 					"Wrong age while checking runner favorite")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner favorite")
+			assert_equal("Venue de l'arrière-garde, a progressé entre les deux dernières haies et a conclu correctement.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner favorite")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner favorite")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner favorite")
+			assert_equal("1 Longueur 1/2", 		runner_to_check.distance, 				"Wrong distance while checking runner favorite")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner favorite")
+			assert_equal(17775.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner favorite")
+			assert_equal(17775.00,				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner favorite")
+			assert_equal(10560.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner favorite")
+			assert_equal(6, 					runner_to_check.final_place, 			"Wrong final_place while checking runner favorite")
+			assert_equal("AhAsTs6h(13)", 		runner_to_check.history, 				"Wrong history while checking runner favorite")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner favorite")
+			assert_equal(true, 					runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner favorite")
+			assert_equal(64.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner favorite")
+			assert_equal(65.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner favorite")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner favorite")
+			assert_equal(12, 					runner_to_check.number, 				"Wrong number while checking runner favorite")
+			assert_equal(4, 					runner_to_check.places, 				"Wrong places while checking runner favorite")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner favorite")
+			assert_equal(13, 					runner_to_check.races_run, 				"Wrong races_run while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner favorite")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner favorite")
+			assert_equal(22.3, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal("", 					runner_to_check.time, 					"Wrong time while checking runner favorite")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_TWEETY_KASH.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner favorite")
+			assert_equal(2, 					runner_to_check.victories, 				"Wrong victories while checking runner favorite")
+			assert_equal("MR ARNAUD CHAILLE-CHAILLE", 					
+												runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner favorite")
+			assert_equal("B.lestrade", 			runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner favorite")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner favorite")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner favorite")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner favorite")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner favorite")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner favorite")
+			assert_equal("Tweety Kash", 		runner_to_check.horse.name, 			"Wrong horse.name while checking runner favorite")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner favorite")
+			assert_equal("S.HOFFMEISTER", 		runner_to_check.owner.name, 			"Wrong owner.name while checking runner favorite")
+			assert_equal("M.SEROR", 			runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner favorite")
+			@logger.info("Tests (after joining) for runner favorite OK.")
+			
+			# 12th place
+			blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["ALEZAN"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
+			
+			father = Horse::new(name: "medicean")
+			grand_father = Horse::new(name: "trempolino")
+			mother = Horse::new(name: "vivacity", father: grand_father)
+			
+			runner_to_check = joint_list[4]
+			assert_equal(7, 					runner_to_check.age, 					"Wrong age while checking runner 12th place")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner 12th place")
+			assert_equal("Rapproché à la sortie du tournant final, faisant alors illusion pour la troisième ou quatrième place, a marqué le pas sur le plat.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner 12th place")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner 12th place")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner 12th place")
+			assert_equal("4 Longueurs", 		runner_to_check.distance, 				"Wrong distance while checking runner 12th place")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner 12th place")
+			assert_equal(21175.00,				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner 12th place")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner 12th place")
+			assert_equal(21175.00,				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner 12th place")
+			assert_equal(14400.00,				runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner 12th place")
+			assert_equal(12, 					runner_to_check.final_place, 			"Wrong final_place while checking runner 12th place")
+			assert_equal("9hAh1h4h5h5h", 		runner_to_check.history, 				"Wrong history while checking runner 12th place")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner 12th place")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner 12th place")
+			assert_equal(68.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner 12th place")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner 12th place")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner 12th place")
+			assert_equal(4, 					runner_to_check.number, 				"Wrong number while checking runner 12th place")
+			assert_equal(4, 					runner_to_check.places, 				"Wrong places while checking runner 12th place")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner 12th place")
+			assert_equal(13, 					runner_to_check.races_run, 				"Wrong races_run while checking runner 12th place")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner 12th place")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner 12th place")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner 12th place")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner 12th place")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner 12th place")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner 12th place")
+			assert_equal(17.6, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner 12th place")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner 12th place")
+			assert_equal("", 					runner_to_check.time, 					"Wrong time while checking runner 12th place")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_GRYPAS.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner 12th place")
+			assert_equal(2, 					runner_to_check.victories, 				"Wrong victories while checking runner 12th place")
+			assert_equal("STILVI COMPANIA FINANCIERA S.A.", 					
+												runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner 12th place")
+			assert_equal("A.lecordier", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner 12th place")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner 12th place")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner 12th place")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner 12th place")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner 12th place")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner 12th place")
+			assert_equal("Grypas", 				runner_to_check.horse.name, 			"Wrong horse.name while checking runner 12th place")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner 12th place")
+			assert_equal("A.CANAVERO", 			runner_to_check.owner.name, 			"Wrong owner.name while checking runner 12th place")
+			assert_equal("C.SCANDELLA", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner 12th place")
+			@logger.info("Tests (after joining) for runner 12th place OK.")
+			
+			# Fourth page : R1_C7 (attelé, with driver rather than jockey)
+			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
+			@crawler.driver.get(url)
+			
+			# -> Getting the meeting list
+			race_to_test = Race::new() # R1_C7
+			# Checking the list is empty beforehand
+			assert_equal(nil, race_to_test.runner_list)
+			race_to_test.url = url
+			
+			# getting the runner_list 
+			result_list = @crawler.fetch_race_results(race_to_test)
+			
+			# go to runners' page
+			@crawler.go_to_runners_page()
+			
+			# getting the runner_list
+			list_runners = @crawler.fetch_list_runners(race_to_test)
+			
+			
+			# First place
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["NOIR"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "mortvedt jerkeld")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "faks perla", father: grand_father)
+			
+			runner_from_result_list = result_list[3]
+			assert_equal("Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking first place")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking first place")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking first place")
+			assert_equal(1, 				runner_from_result_list.final_place, 				"Wrong final_place while checking first place")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking first place")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking first place")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking first place")
+			assert_equal(3, 				runner_from_result_list.number, 					"Wrong number while checking first place")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_DOKTOR_JAROS.htm",
+											runner_from_result_list.url, 						"Wrong url while checking first place")
+			assert_equal(11.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking first place")
+			assert_equal("1'24\"70", 		runner_from_result_list.time, 						"Wrong time while checking first place")
+			@logger.info("Tests (from: results) for first place OK.")
+			
+			runner_from_list_runners = list_runners[3]
+			assert_equal(7, 			runner_from_list_runners.age, 					"Wrong age while checking first place")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking first place")
+			assert_equal(2100, 			runner_from_list_runners.distance, 				"Wrong distance while checking first place")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking first place")
+			assert_equal(87843.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking first place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking first place")			
+			assert_equal(0.00, 			runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking first place")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking first place")
+			assert_equal("0a2a1a1a(1",	runner_from_list_runners.history, 				"Wrong history while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking first place")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking first place")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking first place")
+			assert_equal(3, 			runner_from_list_runners.number, 				"Wrong number while checking first place")
+			assert_equal(0, 			runner_from_list_runners.places, 				"Wrong places while checking first place")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking first place")
+			assert_equal(0, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking first place")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking first place")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking first place")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking first place")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking first place")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_GRYPAS.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking first place")
+			assert_equal(0, 			runner_from_list_runners.victories, 			"Wrong victories while checking first place")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking first place")
+			assert_equal("G. Gudmestad",runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking first place")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking first place")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking first place")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking first place")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking first place")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking first place")
+			assert_equal("Doktor Jaros",runner_from_list_runners.horse.name, 			"Wrong horse.name while checking first place")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking first place")
+			assert_equal("Ecurie JAROS (NOR)", 	
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking first place")
+			assert_equal("G. GUDMESTAD",runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking first place")
+			@logger.info("Tests (from: runner) for first place OK.")
+			
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI FONCE"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "jarvsofaks")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "norheim elle", father: grand_father)
+			
+			runner_from_result_list = result_list[1]
+			assert_equal("Longtemps en dehors de l'animateur Juni Kongen (7), a conservé la quatrième place en léger retrait.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking is favorite")
+			assert_equal(false, 			runner_from_result_list.disqualified, 				"Wrong disqualified while checking is favorite")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking is favorite")
+			assert_equal(3, 				runner_from_result_list.final_place, 				"Wrong final_place while checking is favorite")
+			assert_equal(true, 				runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking is favorite")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking is favorite")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking is favorite")
+			assert_equal(1, 				runner_from_result_list.number, 					"Wrong number while checking is favorite")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_NORHEIM_JAERV.htm",
+											runner_from_result_list.url, 						"Wrong url while checking is favorite")
+			assert_equal(3.5, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking is favorite")
+			assert_equal("1'25\"30", 		runner_from_result_list.time, 						"Wrong time while checking is favorite")
+			@logger.info("Tests (from: results) for is favorite OK.")
+			
+			runner_from_list_runners = list_runners[1]
+			assert_equal(6, 			runner_from_list_runners.age, 					"Wrong age while checking is favorite")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking is favorite")
+			assert_equal(2100, 			runner_from_list_runners.distance, 				"Wrong distance while checking is favorite")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking is favorite")
+			assert_equal(120946.00, 	runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking is favorite")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking is favorite")			
+			assert_equal(0.00, 			runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking is favorite")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking is favorite")
+			assert_equal("6a1a(13)3a",	runner_from_list_runners.history, 				"Wrong history while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking is favorite")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking is favorite")
+			assert_equal(0.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking is favorite")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking is favorite")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking is favorite")
+			assert_equal(1, 			runner_from_list_runners.number, 				"Wrong number while checking is favorite")
+			assert_equal(0, 			runner_from_list_runners.places, 				"Wrong places while checking is favorite")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking is favorite")
+			assert_equal(0, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking is favorite")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking is favorite")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking is favorite")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking is favorite")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking is favorite")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_NORHEIM_JAERV.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking is favorite")
+			assert_equal(0, 			runner_from_list_runners.victories, 			"Wrong victories while checking is favorite")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking is favorite")
+			assert_equal("T.e. Solberg",runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking is favorite")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking is favorite")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking is favorite")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking is favorite")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking is favorite")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking is favorite")
+			assert_equal("Norheim Jaerv",
+										runner_from_list_runners.horse.name, 			"Wrong horse.name while checking is favorite")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking is favorite")
+			assert_equal("Georg William SVERDRUP (NOR)", 	
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking is favorite")
+			assert_equal("Georg William SVERDRUP",	
+										runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking is favorite")
+			@logger.info("Tests (from: runner) for is favorite OK.")
+			
+			# Disqualified
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["ALEZAN BRULE"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "liptus")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "mikun metka", father: grand_father)
+			
+			runner_from_result_list = result_list[11]
+			assert_equal("S'est montré fautif peu après le départ.", 				
+											runner_from_result_list.commentary, 				"Wrong commentary while checking disqualified")
+			assert_equal(true, 				runner_from_result_list.disqualified, 				"Wrong disqualified while checking disqualified")
+			assert_equal("", 				runner_from_result_list.distance, 					"Wrong distance while checking disqualified")
+			assert_equal(0, 				runner_from_result_list.final_place, 				"Wrong final_place while checking disqualified")
+			assert_equal(false, 			runner_from_result_list.is_favorite, 				"Wrong is_favorite while checking disqualified")
+			assert_equal(nil, 				runner_from_result_list.is_substitute, 				"Wrong is_substitute while checking disqualified")
+			assert_equal(false, 			runner_from_result_list.non_runner, 				"Wrong non_runner while checking disqualified")
+			assert_equal(11, 				runner_from_result_list.number, 					"Wrong number while checking disqualified")
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_METKUTUS.htm",
+											runner_from_result_list.url, 						"Wrong url while checking disqualified")
+			assert_equal(32.6, 				runner_from_result_list.single_rating_after_race, 	"Wrong single_rating_after_race while checking disqualified")
+			assert_equal("0'00\"00", 		runner_from_result_list.time, 						"Wrong time while checking disqualified")
+			@logger.info("Tests (from: results) for disqualified OK.")
+			
+			runner_from_list_runners = list_runners[11]
+			assert_equal(10, 			runner_from_list_runners.age, 					"Wrong age while checking disqualified")
+			assert_equal(blinder, 		runner_from_list_runners.blinder, 				"Wrong blinder while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.commentary, 			"Wrong commentary while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.disqualified, 			"Wrong disqualified while checking disqualified")
+			assert_equal(2100, 			runner_from_list_runners.distance, 				"Wrong distance while checking disqualified")
+			assert_equal(0, 			runner_from_list_runners.draw, 					"Wrong draw while checking disqualified")
+			assert_equal(86140.00, 		runner_from_list_runners.earnings_career, 		"Wrong earnings_career while checking disqualified")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_current_year,	"Wrong earnings_current_year while checking disqualified")			
+			assert_equal(200.00, 		runner_from_list_runners.earnings_last_year, 	"Wrong earnings_last_year while checking disqualified")
+			assert_equal(0.00, 			runner_from_list_runners.earnings_victory, 		"Wrong earnings_victory while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.final_place, 			"Wrong final_place while checking disqualified")
+			assert_equal("4a0a6a5a(1",	runner_from_list_runners.history, 				"Wrong history while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.is_favorite, 			"Wrong is_favorite while checking disqualified")
+			assert_equal(false, 		runner_from_list_runners.is_substitute, 		"Wrong is_substitute while checking disqualified")
+			assert_equal(0.0, 			runner_from_list_runners.load_handicap, 		"Wrong load_handicap while checking disqualified")
+			assert_equal(0.0, 			runner_from_list_runners.load_ride, 			"Wrong load_ride while checking disqualified")
+			assert_equal(false, 		runner_from_list_runners.non_runner, 			"Wrong non_runner while checking disqualified")
+			assert_equal(11, 			runner_from_list_runners.number, 				"Wrong number while checking disqualified")
+			assert_equal(1, 			runner_from_list_runners.places, 				"Wrong places while checking disqualified")
+			assert_equal(race_to_test, 	runner_from_list_runners.race, 					"Wrong race while checking disqualified")
+			assert_equal(2, 			runner_from_list_runners.races_run, 			"Wrong races_run while checking disqualified")
+			assert_equal(shoes, 		runner_from_list_runners.shoes, 				"Wrong shoes while checking disqualified")
+			assert_equal(0.0, 			runner_from_list_runners.single_rating_before_race,
+																						"Wrong single_rating_before_race while checking disqualified")
+			assert_equal(nil, 			runner_from_list_runners.time, 					"Wrong time while checking disqualified")
+			assert_equal("", 			runner_from_list_runners.url, 					"Wrong url while checking disqualified")
+			# FIXME If real website does have a URL per runner
+			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_METKUTUS.htm", 
+			# 							runner_from_list_runners.url, 					"Wrong url while checking disqualified")
+			assert_equal(0, 			runner_from_list_runners.victories, 			"Wrong victories while checking disqualified")
+			assert_equal("", 			runner_from_list_runners.breeder.name, 			"Wrong breeder.name while checking disqualified")
+			assert_equal("J.m. Paavola",runner_from_list_runners.jockey.name, 			"Wrong jockey.name while checking disqualified")
+			assert_equal(breed, 		runner_from_list_runners.horse.breed, 			"Wrong horse.breed while checking disqualified")
+			assert_equal(coat, 			runner_from_list_runners.horse.coat, 			"Wrong horse.coat while checking disqualified")
+			assert_equal(father, 		runner_from_list_runners.horse.father, 			"Wrong horse.father while checking disqualified")
+			assert_equal(mother, 		runner_from_list_runners.horse.mother, 			"Wrong horse.mother while checking disqualified")
+			assert_equal(grand_father, 	runner_from_list_runners.horse.mother.father, 	"Wrong horse.mother.father while checking disqualified")
+			assert_equal("Metkutus", 	runner_from_list_runners.horse.name, 			"Wrong horse.name while checking disqualified")
+			assert_equal(sex, 			runner_from_list_runners.horse.sex, 			"Wrong horse.sex while checking disqualified")
+			assert_equal("J.M. PAAVOLA (FIN)", 	
+										runner_from_list_runners.owner.name, 			"Wrong owner.name while checking disqualified")
+			assert_equal("J.M. PAAVOLA",runner_from_list_runners.trainer.name, 			"Wrong trainer.name while checking disqualified")
+			@logger.info("Tests (from: runner) for disqualified OK.")
+			
+			
+			# Joining the lists
+			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
+			
+			# Checking the data aftwerward
+			
+			# First place
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["NOIR"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "mortvedt jerkeld")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "faks perla", father: grand_father)
+			
+			runner_to_check = joint_list[3]
+			assert_equal(7, 					runner_to_check.age, 					"Wrong age while checking runner first place")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner first place")
+			assert_equal("Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner first place")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner first place")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner first place")
+			assert_equal(2100, 					runner_to_check.distance, 				"Wrong distance while checking runner first place")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner first place")
+			assert_equal(87843.00, 				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner first place")
+			assert_equal(0.00, 					runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner first place")
+			assert_equal(1, 					runner_to_check.final_place, 			"Wrong final_place while checking runner first place")
+			assert_equal("0a2a1a1a(1", 			runner_to_check.history, 				"Wrong history while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner first place")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner first place")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner first place")
+			assert_equal(3, 					runner_to_check.number, 				"Wrong number while checking runner first place")
+			assert_equal(0, 					runner_to_check.places, 				"Wrong places while checking runner first place")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner first place")
+			assert_equal(0, 					runner_to_check.races_run, 				"Wrong races_run while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner first place")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner first place")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner first place")
+			assert_equal(11.6, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner first place")
+			assert_equal("1'24\"70", 					runner_to_check.time, 					"Wrong time while checking runner first place")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_DOKTOR_JAROS.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner first place")
+			assert_equal(0, 					runner_to_check.victories, 				"Wrong victories while checking runner first place")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner first place")
+			assert_equal("G. Gudmestad", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner first place")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner first place")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner first place")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner first place")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner first place")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner first place")
+			assert_equal("Doktor Jaros", 		runner_to_check.horse.name, 			"Wrong horse.name while checking runner first place")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner first place")
+			assert_equal("Ecurie JAROS (NOR)", 	runner_to_check.owner.name, 			"Wrong owner.name while checking runner first place")
+			assert_equal("G. GUDMESTAD", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner first place")
+			@logger.info("Tests (after joining) for runner 1st place OK.")
+			
+			# Favorite
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list][""]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["BAI FONCE"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "jarvsofaks")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "norheim elle", father: grand_father)
+			
+			runner_to_check = joint_list[1]
+			assert_equal(6, 					runner_to_check.age, 					"Wrong age while checking runner favorite")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner favorite")
+			assert_equal("Longtemps en dehors de l'animateur Juni Kongen (7), a conservé la quatrième place en léger retrait.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner favorite")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner favorite")
+			assert_equal(false, 				runner_to_check.disqualified, 			"Wrong disqualified while checking runner favorite")
+			assert_equal(2100, 					runner_to_check.distance, 				"Wrong distance while checking runner favorite")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner favorite")
+			assert_equal(120946.00, 			runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner favorite")
+			assert_equal(0.00, 					runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner favorite")
+			assert_equal(3, 					runner_to_check.final_place, 			"Wrong final_place while checking runner favorite")
+			assert_equal("6a1a(13)3a", 			runner_to_check.history, 				"Wrong history while checking runner favorite")
+			assert_equal(true, 					runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner favorite")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner favorite")
+			assert_equal(0.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner favorite")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner favorite")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner favorite")
+			assert_equal(1, 					runner_to_check.number, 				"Wrong number while checking runner favorite")
+			assert_equal(0, 					runner_to_check.places, 				"Wrong places while checking runner favorite")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner favorite")
+			assert_equal(0, 					runner_to_check.races_run, 				"Wrong races_run while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner favorite")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner favorite")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner favorite")
+			assert_equal(3.5, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner favorite")
+			assert_equal("1'25\"30", 			runner_to_check.time, 					"Wrong time while checking runner favorite")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_NORHEIM_JAERV.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner favorite")
+			assert_equal(0, 					runner_to_check.victories, 				"Wrong victories while checking runner favorite")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner favorite")
+			assert_equal("T.e. Solberg", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner favorite")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner favorite")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner favorite")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner favorite")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner favorite")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner favorite")
+			assert_equal("Norheim Jaerv", 		runner_to_check.horse.name, 			"Wrong horse.name while checking runner favorite")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner favorite")
+			assert_equal("Georg William SVERDRUP (NOR)", 		
+												runner_to_check.owner.name, 			"Wrong owner.name while checking runner favorite")
+			assert_equal("Georg William SVERDRUP", 			
+												runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner favorite")
+			@logger.info("Tests (after joining) for runner is_fav OK.")
+			
+			# Disqualified
+			blinder = @ref_list_hash[:ref_blinder_list][""]
+			shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
+			breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
+			coat = @ref_list_hash[:ref_coat_list]["ALEZAN BRULE"]
+			sex = @ref_list_hash[:ref_sex_list]["M"]
+			
+			father = Horse::new(name: "liptus")
+			grand_father = Horse::new(name: "-")
+			mother = Horse::new(name: "mikun metka", father: grand_father)
+			
+			runner_to_check = joint_list[11]
+			assert_equal(10, 					runner_to_check.age, 					"Wrong age while checking runner disqualified")
+			assert_equal(blinder, 				runner_to_check.blinder, 				"Wrong blinder while checking runner disqualified")
+			assert_equal("S'est montré fautif peu après le départ.", 					
+												runner_to_check.commentary, 			"Wrong commentary while checking runner disqualified")		
+			assert_equal("", 					runner_to_check.description, 			"Wrong description while checking runner disqualified")
+			assert_equal(true, 					runner_to_check.disqualified, 			"Wrong disqualified while checking runner disqualified")
+			assert_equal(2100, 					runner_to_check.distance, 				"Wrong distance while checking runner disqualified")
+			assert_equal(0, 					runner_to_check.draw, 					"Wrong draw while checking runner disqualified")
+			assert_equal(86140.00, 				runner_to_check.earnings_career, 		"Wrong earnings_career while checking runner disqualified")
+			assert_equal(0.00, 					runner_to_check.earnings_current_year,	"Wrong earnings_current_year while checking runner disqualified")
+			assert_equal(200.00, 				runner_to_check.earnings_last_year, 	"Wrong earnings_last_year while checking runner disqualified")
+			assert_equal(0.00, 					runner_to_check.earnings_victory, 		"Wrong earnings_victory while checking runner disqualified")
+			assert_equal(0, 					runner_to_check.final_place, 			"Wrong final_place while checking runner disqualified")
+			assert_equal("4a0a6a5a(1", 			runner_to_check.history, 				"Wrong history while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.is_favorite, 			"Wrong is_favorite while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.is_substitute, 			"Wrong is_substitute while checking runner disqualified")
+			assert_equal(0.0, 					runner_to_check.load_handicap, 			"Wrong load_handicap while checking runner disqualified")
+			assert_equal(0.0, 					runner_to_check.load_ride, 				"Wrong load_ride while checking runner disqualified")
+			assert_equal(false, 				runner_to_check.non_runner, 			"Wrong non_runner while checking runner disqualified")
+			assert_equal(11, 					runner_to_check.number, 				"Wrong number while checking runner disqualified")
+			assert_equal(1, 					runner_to_check.places, 				"Wrong places while checking runner disqualified")
+			assert_equal(race_to_test, 			runner_to_check.race, 					"Wrong race while checking runner disqualified")
+			assert_equal(2, 					runner_to_check.races_run, 				"Wrong races_run while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_horse, 			"Wrong score_horse while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_jockey, 			"Wrong score_jockey while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_owner, 			"Wrong score_owner while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_trainer, 			"Wrong score_trainer while checking runner disqualified")
+			assert_equal(nil, 					runner_to_check.score_breeder, 			"Wrong score_breeder while checking runner disqualified")
+			assert_equal(shoes, 				runner_to_check.shoes, 					"Wrong shoes while checking runner disqualified")
+			assert_equal(32.6, 					runner_to_check.single_rating_after_race, 			
+																						"Wrong single_rating while checking runner disqualified")
+			assert_equal(0.0, 					runner_to_check.single_rating_before_race, 			
+																						"Wrong single_rating while checking runner disqualified")
+			assert_equal("0'00\"00", 			runner_to_check.time, 					"Wrong time while checking runner disqualified")
+			# FIXME If real website does have a URL per runner
+			assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_METKUTUS.htm", 	
+												runner_to_check.url, 					"Wrong url while checking runner disqualified")
+			assert_equal(0, 					runner_to_check.victories, 				"Wrong victories while checking runner disqualified")
+			assert_equal("", 					runner_to_check.breeder.name, 			"Wrong breeder.name while checking runner disqualified")
+			assert_equal("J.m. Paavola", 		runner_to_check.jockey.name, 			"Wrong jockey.name while checking runner disqualified")
+			assert_equal(breed, 				runner_to_check.horse.breed, 			"Wrong horse.breed while checking runner disqualified")
+			assert_equal(coat, 					runner_to_check.horse.coat, 			"Wrong horse.coat while checking runner disqualified")
+			assert_equal(father, 				runner_to_check.horse.father, 			"Wrong horse.father while checking runner disqualified")
+			assert_equal(mother, 				runner_to_check.horse.mother, 			"Wrong horse.mother while checking runner disqualified")
+			assert_equal(grand_father, 			runner_to_check.horse.mother.father, 	"Wrong horse.mother.father while checking runner disqualified")
+			assert_equal("Metkutus", 			runner_to_check.horse.name, 			"Wrong horse.name while checking runner disqualified")
+			assert_equal(sex, 					runner_to_check.horse.sex, 				"Wrong horse.sex while checking runner disqualified")
+			assert_equal("J.M. PAAVOLA (FIN)", 	runner_to_check.owner.name, 			"Wrong owner.name while checking runner disqualified")
+			assert_equal("J.M. PAAVOLA", 		runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner disqualified")
+			@logger.info("Tests (after joining) for runner disqualified OK.")
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
+	
+	def test_get_column_map()
+		
+		@logger.info("Testing getting the right column map")
+		begin
+			# Setting up 
+			# -> Getting the first race
+			url_race_dict = Hash::new
+			url_race_dict["R1_C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R1_C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C6".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R1_C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1_C9".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R3_C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R3_C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C6".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3_C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R2_C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5_C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2_C7".to_s] = Crawler::COLUMN_MAP_TYPE_3
+			url_race_dict["R2_C8".to_s] = Crawler::COLUMN_MAP_TYPE_3
+			
+			url_race_dict.each do |race_ID, expected_column_map|
+				
+				url = "file:///D:/Dev/workspace/RPP/Test-HTML/" +
+						race_ID + "_runners.htm"
+				
+				@crawler.driver.get(url)
+				actual_column_map = @crawler.get_column_map()
+				
+				assert_equal(expected_column_map, actual_column_map,
+							"Wrong column map while testing " + 
+							"get_column_map for race: " + race_ID)
+			end
+			
+			@logger.info("Tests for get_column_map OK.")
 			
 		rescue Exception => err
 			@logger.error(err.inspect)
@@ -944,7 +2466,7 @@ class TestCrawler < TestSuite
 												# runner_to_check.owner.name, 			"Wrong owner.name while checking runner first place is_favorite")
 			# assert_equal("L W GOOSEN", 			runner_to_check.trainer.name, 			"Wrong trainer.name while checking runner first place is_favorite")
 			
-			# @logger.info("All tests for runner first place is_favorite OK.")
+			# @logger.info("Tests for runner 1st place is_fav OK.")
 			
 			## is between 1 and 10
 			
@@ -997,7 +2519,7 @@ class TestCrawler < TestSuite
 			# assert_equal(0.0, 				runner_to_check.single_rating, 	"Wrong single_rating while checking runner without blinder")
 			# assert_equal("S G Tarry", 		runner_to_check.trainer.name, 	"Wrong trainer.name while checking runner without blinder")
 			# assert_equal("", 				runner_to_check.url, 			"Wrong url while checking runner without blinder")
-			# @logger.info("All tests for runner (with draw) without blinder OK.")
+			# @logger.info("Tests for runner (with draw) without blinder OK.")
 			
 			## Non runner
 			# runner_to_check = runner_hash[8]
@@ -1017,7 +2539,7 @@ class TestCrawler < TestSuite
 			# assert_equal(nil, 			runner_to_check.single_rating, 	"Wrong single_rating while checking non runner")
 			# assert_equal(nil, 			runner_to_check.trainer, 		"Wrong trainer while checking non runner")
 			# assert_equal("", 			runner_to_check.url, 			"Wrong url while checking non runner")
-			# @logger.info("All tests for non runner (with draw) OK.")
+			# @logger.info("Tests for non runner (with draw) OK.")
 			
 			## -> Getting the second race (with time)
 			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runners.htm")
@@ -1051,7 +2573,7 @@ class TestCrawler < TestSuite
 			# assert_equal(2100, 				runner_to_check.distance, 			"Wrong distance while checking runner without shoes and with earnings")
 			# assert_equal(100566.00, 		runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without shoes and with earnings")
 			# assert_equal("", 				runner_to_check.shoes, 				"Wrong shoes while checking runner without shoes and with earnings")
-			# @logger.info("All tests for runner without shoes and with earnings OK.")
+			# @logger.info("Tests for runner without shoes and with earnings OK.")
 
 			# runner_to_check = runner_hash[3]
 			# assert_equal(7, 					runner_to_check.age, 				"Wrong age while checking runner with shoes (front) and earnings")
@@ -1073,7 +2595,7 @@ class TestCrawler < TestSuite
 			# assert_equal(2100, 					runner_to_check.distance, 			"Wrong distance while checking runner with shoes (front) and earnings")
 			# assert_equal(87843.00, 				runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner with shoes (front) and earnings")
 			# assert_equal("DEFERRE_ANTERIEURS", 	runner_to_check.shoes, 				"Wrong shoes while checking runner with shoes (front) and earnings")
-			# @logger.info("All tests for runner with shoes (front) and earnings OK.")
+			# @logger.info("Tests for runner with shoes (front) and earnings OK.")
 
 			# runner_to_check = runner_hash[11]
 			# assert_equal(10, 								runner_to_check.age, 				"Wrong age while checking runner with shoes (front & back) off and earnings")
@@ -1095,7 +2617,7 @@ class TestCrawler < TestSuite
 			# assert_equal(2100, 								runner_to_check.distance, 			"Wrong distance while checking runner with shoes (front & back) off and earnings")
 			# assert_equal(86140.00, 							runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner with shoes (front & back) off and earnings")
 			# assert_equal("DEFERRE_ANTERIEURS_POSTERIEURS",	runner_to_check.shoes, 				"Wrong shoes while checking runner with shoes (front & back) off and earnings")
-			# @logger.info("All tests for runner (with trainer) with front and back shoes off OK.")
+			# @logger.info("Tests for runner (with trainer) with front and back shoes off OK.")
 
 			
 			## -> Getting the third race (without draw)
@@ -1130,7 +2652,7 @@ class TestCrawler < TestSuite
 			# assert_equal(nil, 					runner_to_check.distance, 			"Wrong distance while checking runner without draw")
 			# assert_equal(nil, 					runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw")
 			# assert_equal(nil, 					runner_to_check.shoes, 				"Wrong shoes while checking runner without draw")
-			# @logger.info("All tests for runner without draw OK.")
+			# @logger.info("Tests for runner without draw OK.")
 			
 			# runner_to_check = runner_hash[9]
 			# assert_equal(5, 					runner_to_check.age, 				"Wrong age while checking runner without draw or history but with load_ride")
@@ -1152,7 +2674,7 @@ class TestCrawler < TestSuite
 			# assert_equal(nil, 					runner_to_check.distance, 			"Wrong distance while checking runner without draw or history but with load_ride")
 			# assert_equal(nil, 					runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw or history but with load_ride")
 			# assert_equal(nil, 					runner_to_check.shoes, 				"Wrong shoes while checking runner without draw or history but with load_ride")
-			# @logger.info("All tests for runner without draw or history but with load_ride OK.")
+			# @logger.info("Tests for runner without draw or history but with load_ride OK.")
 			
 			
 			## Checking the fetched results
@@ -1176,7 +2698,7 @@ class TestCrawler < TestSuite
 			# assert_equal(nil, 						runner_to_check.distance, 			"Wrong distance while checking runner without draw but with load_ride and history")
 			# assert_equal(nil, 						runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw but with load_ride and history")
 			# assert_equal(nil, 						runner_to_check.shoes, 				"Wrong shoes while checking runner without draw but with load_ride and history")
-			# @logger.info("All tests for runner without draw but with load_ride and history OK.")
+			# @logger.info("Tests for runner without draw but with load_ride and history OK.")
 			
 			
 		# rescue Exception => err
@@ -1218,7 +2740,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, runner_to_check.is_favorite, 	"Wrong is_favorite while checking first place")
 			# assert_equal(false, runner_to_check.non_runner, 	"Wrong non_runner while checking first place")
 			# assert_equal(false, runner_to_check.disqualified, 	"Wrong disqualified while checking first place")
-			# @logger.info("All tests for runner (first place) OK.")
+			# @logger.info("Tests for runner (first place) OK.")
 			
 			## After 10th place (final_place == nil)
 			# runner_to_check = runner_hash[10]
@@ -1233,7 +2755,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, 	runner_to_check.is_favorite, 	"Wrong is_favorite while checking runner arrived after 10th place")
 			# assert_equal(false, 	runner_to_check.non_runner, 	"Wrong non_runner while checking runner arrived after 10th place")
 			# assert_equal(false, 	runner_to_check.disqualified, 	"Wrong disqualified while checking runner arrived after 10th place")
-			# @logger.info("All tests for runner (After 10th place) OK.")
+			# @logger.info("Tests for runner (After 10th place) OK.")
 			
 			## Non-runner (non_runner == true, final_place == nil, single_rating == nil)
 			# runner_to_check = runner_hash[11]
@@ -1248,7 +2770,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, runner_to_check.is_favorite, 	"Wrong disqualified while checking non-runner")
 			# assert_equal(true, 	runner_to_check.non_runner, 	"Wrong disqualified while checking non-runner")
 			# assert_equal(false, runner_to_check.disqualified, 	"Wrong disqualified while checking non-runner")
-			# @logger.info("All tests for Non-runner OK.")
+			# @logger.info("Tests for Non-runner OK.")
 			
 			## Normal
 			# runner_to_check = runner_hash[1]
@@ -1263,7 +2785,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, 				runner_to_check.is_favorite, 	"Wrong disqualified while checking normal runner")
 			# assert_equal(false, 				runner_to_check.non_runner, 	"Wrong disqualified while checking normal runner")
 			# assert_equal(false, 				runner_to_check.disqualified, 	"Wrong disqualified while checking normal runner")
-			# @logger.info("All tests for normal runner OK.")
+			# @logger.info("Tests for normal runner OK.")
 			
 			## Favorite (is_favorite == true)
 			# runner_to_check = runner_hash[6]
@@ -1278,8 +2800,8 @@ class TestCrawler < TestSuite
 			# assert_equal(true, 				runner_to_check.is_favorite, 	"Wrong disqualified while checking favorite")
 			# assert_equal(false, 			runner_to_check.non_runner, 	"Wrong disqualified while checking favorite")
 			# assert_equal(false, 			runner_to_check.disqualified, 	"Wrong disqualified while checking favorite")
-			# @logger.info("All tests for Favorite runner OK.")
-			# @logger.info("All tests for race with distance OK.")
+			# @logger.info("Tests for Favorite runner OK.")
+			# @logger.info("Tests for race with distance OK.")
 			
 			## -> Getting the second race (with time)
 			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm")
@@ -1306,7 +2828,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, 		runner_to_check.is_favorite, 	"Wrong is_favorite while checking with commentary and time")
 			# assert_equal(false, 		runner_to_check.non_runner, 	"Wrong non_runner while checking with commentary and time")
 			# assert_equal(false, 		runner_to_check.disqualified, 	"Wrong disqualified while checking with commentary and time")
-			# @logger.info("All tests for runner with commentary and time OK.")
+			# @logger.info("Tests for runner with commentary and time OK.")
 			
 			# runner_to_check = runner_hash[10]
 			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1_runner_ROC_BERRY.htm", 
@@ -1321,7 +2843,7 @@ class TestCrawler < TestSuite
 			# assert_equal(false, 		runner_to_check.is_favorite, 	"Wrong is_favorite while checking with commentary and 0 time")
 			# assert_equal(false, 		runner_to_check.non_runner, 	"Wrong non_runner while checking with commentary and 0 time")
 			# assert_equal(true, 			runner_to_check.disqualified, 	"Wrong disqualified while checking with commentary and 0 time")
-			# @logger.info("All tests for runner with commentary and 0 time OK.")
+			# @logger.info("Tests for runner with commentary and 0 time OK.")
 			
 			
 			## checking that there is a favorite
@@ -1334,7 +2856,7 @@ class TestCrawler < TestSuite
 			# end
 			# assert("No favorite found in race!", favorite_runner != nil)
 			
-			# @logger.info("All tests for race with time OK.")
+			# @logger.info("Tests for race with time OK.")
 			
 		# rescue Exception => err
 			# @logger.error(err.inspect)
@@ -1406,7 +2928,7 @@ class TestCrawler < TestSuite
 			# assert_equal("goldkeeper", 					runner_to_check.horse.mother.father.name, 	"Wrong horse.mother.father.name while checking runner without victories or breeder")
 			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_ANTONIA_MAJOR.htm", 				
 														# runner_to_check.url, 						"Wrong url while checking runner without victories or breeder")
-			# @logger.info("All tests for runner (without victories or breeder) OK.")
+			# @logger.info("Tests for runner (without victories or breeder) OK.")
 			
 			## runner without earnings, victories or places
 			# runner_to_check = runner_shallow_hash[7]
@@ -1429,7 +2951,7 @@ class TestCrawler < TestSuite
 			# assert_equal("dahar", 			runner_to_check.horse.mother.father.name, 	"Wrong horse.mother.father.name while checking runner without earnings, victories or places")
 			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_DAHLIA%27S_DESTINY.htm", 				
 											# runner_to_check.url, 						"Wrong url while checking runner without earnings, victories or places")
-			# @logger.info("All tests for runner (without earnings, victories or places) OK.")
+			# @logger.info("Tests for runner (without earnings, victories or places) OK.")
 			
 			
 			## -> Getting the second race (with time)
@@ -1481,7 +3003,7 @@ class TestCrawler < TestSuite
 			# assert_equal("saint cyrien", 		runner_to_check.horse.mother.father.name, 	"Wrong horse.mother.father.name while checking runner without without earnings_current_year")
 			# assert_equal("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runner_VOTEZ_POUR_MOI.htm", 				
 												# runner_to_check.url, 					"Wrong url while checking runner without without earnings_current_year")
-			# @logger.info("All tests for runner (without earnings_current_year) OK.")
+			# @logger.info("Tests for runner (without earnings_current_year) OK.")
 			
 		# rescue Exception => err
 			# @logger.error(err.inspect)

@@ -17,6 +17,7 @@ class Runner
 	attr_accessor :horse
 	attr_accessor :id
 	attr_accessor :is_favorite
+	attr_accessor :is_substitute
 	attr_accessor :jockey
 	attr_accessor :load_handicap
 	attr_accessor :load_ride
@@ -57,6 +58,7 @@ class Runner
 			horse: nil,
 			id: nil,
 			is_favorite: nil,
+			is_substitute: nil,
 			jockey: nil,
 			load_handicap: nil,
 			load_ride: nil,
@@ -96,6 +98,7 @@ class Runner
 		@horse = horse
 		@id = id
 		@is_favorite = is_favorite
+		@is_substitute = is_substitute
 		@jockey = jockey
 		@load_handicap = load_handicap
 		@load_ride = load_ride
@@ -172,6 +175,10 @@ class Runner
 		# boolean
 		if @is_favorite == nil then 
 			@is_favorite = other_runner.is_favorite 
+		end
+		# boolean
+		if @is_substitute == nil then 
+			@is_substitute = other_runner.is_substitute 
 		end
 		# object
 		if @jockey == nil then 
@@ -290,6 +297,7 @@ class Runner
 		", earnings_victory = " + nil_safe_to_s(earnings_victory) +
 		", final_place = " + nil_safe_to_s(final_place) +
 		", is_favorite = " + nil_safe_to_s(is_favorite) +
+		", is_substitute = " + nil_safe_to_s(is_substitute) +
 		", history = " + nil_safe_to_s(history) +
 		", jockey = " + nil_safe_to_s(jockey) +
 		", load_handicap = " + nil_safe_to_s(load_handicap) +
