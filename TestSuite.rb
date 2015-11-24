@@ -3,6 +3,7 @@ require 'minitest/autorun'
 
 require './common.rb'
 require './SimpleHtmlLogger.rb'
+require './Crawler.rb'
  
 class TestSuite < MiniTest::Test
 	attr_accessor :sql_test
@@ -87,7 +88,7 @@ class TestSuite < MiniTest::Test
 		logger.level = SimpleHtmlLogger::INFO
 		logger.info("Teardown")
 		
-		# Data deletion went here until it was moved to before the data inseriton
+		# Data deletion went here until it was moved to before the data insertion
 		
 		logger.info("End of teardown")
 		logger.imp("END TEST SUITE")

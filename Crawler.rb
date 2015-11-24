@@ -85,7 +85,7 @@ class Crawler
 		  #:ftp      => PROXY,
 		  #:ssl      => PROXY
 		# )
-		profile.add_extension("./Install/firebug-1.12.6.xpi") # NB : FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
+		# profile.add_extension("./Install/firebug-1.12.6.xpi") # NB : FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
 		profile["general.useragent.override"] = "Selenium UA"
 		profile["nglayout.initialpaint.delay"] = 0
 		profile["browser.tabs.animated"] = false
@@ -532,11 +532,11 @@ class Crawler
 			go_to_runners_page()
 		end
 		
-		@logger.info("fetch_runners - Fetching runners (shallow).")
+		@logger.info("fetch_runners - Fetching runners (shallow & deep).")
 		list_runners = fetch_list_runners(race)
 		
 		if not result_list.empty? then
-			@logger.info("fetch_runners - joining deep and shallow runners.")
+			@logger.info("fetch_runners - joining before and after race runners.")
 			list_runners = join_runner_list_and_result_list(list_runners, result_list)
 		end
 		
