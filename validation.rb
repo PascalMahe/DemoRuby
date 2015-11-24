@@ -385,6 +385,243 @@ def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
 	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "non runner")
 end
 
+def validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
+	blinder = @ref_list_hash[:ref_blinder_list][""]
+	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
+	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+	coat = @ref_list_hash[:ref_coat_list]["BAI"]
+	sex = @ref_list_hash[:ref_sex_list]["M"]
+	
+	father = Horse::new(name: "first de retz")
+	grand_father = Horse::new(name: "-")
+	mother = Horse::new(name: "leda d'occagnes", father: grand_father)
+	
+	
+	breeder = Breeder::new(name: "")
+	jockey = Jockey::new(name: "A. Abrivard")
+	trainer = Trainer::new(name: "J.M. BAZIRE")
+	owner = Owner::new(name: "Ecurie des CHARMES")
+	horse = Horse::new(breed: breed,
+						coat: coat,
+						father: father,
+						mother: mother,
+						name: "Valroy",
+						sex: sex)
+	expected_runner = Runner::new(
+				age: 5,
+				blinder: blinder,
+				commentary: nil,
+				disqualified: nil,
+				distance: 2700,
+				description: "",
+				draw: 0,
+				earnings_career: 105130.00,
+				earnings_current_year: 9520.00,			
+				earnings_last_year: 53550.00,
+				earnings_victory: 37500.00,
+				final_place: nil,
+				history: "3m(13)2mDm",
+				is_favorite: nil,
+				is_substitute: false,
+				load_handicap: 67.0,
+				load_ride: 0.0,
+				non_runner: false,
+				number: 9,
+				places: 11,
+				race: race_to_test,
+				races_run: 28,
+				shoes: shoes,
+				single_rating_before_race: 0.0,
+				time: nil,
+				url: "",
+				# FIXME If real website does have a URL per runner
+				# "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm"
+				victories: 4,
+				breeder: breeder,
+				horse: horse,
+				jockey: jockey,
+				owner: owner,
+				trainer: trainer)
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "is_fav")
+end
+
+def validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
+	blinder = @ref_list_hash[:ref_blinder_list][""]
+	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_POSTERIEURS"]
+	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+	coat = @ref_list_hash[:ref_coat_list]["BAI"]
+	sex = @ref_list_hash[:ref_sex_list]["H"]
+	
+	father = Horse::new(name: "prodigious")
+	grand_father = Horse::new(name: "-")
+	mother = Horse::new(name: "pocket edition", father: grand_father)
+	
+	breeder = Breeder::new(name: "")
+	jockey = Jockey::new(name: "")
+	trainer = Trainer::new(name: "G H VAN ZYL")
+	owner = Owner::new(name: "MR A D C A FERNANDES")
+	horse = Horse::new(breed: breed,
+						coat: coat,
+						father: father,
+						mother: mother,
+						name: "Lizzy Grey",
+						sex: sex)
+	
+	breeder = Breeder::new(name: "")
+	jockey = Jockey::new(name: "D. Bonne")
+	trainer = Trainer::new(name: "S. ERNAULT")
+	owner = Owner::new(name: "Ecurie du MAZA")
+	horse = Horse::new(breed: breed,
+						coat: coat,
+						father: father,
+						mother: mother,
+						name: "Virgious Du Maza",
+						sex: sex)
+	expected_runner = Runner::new(
+				age: 5,
+				blinder: blinder,
+				commentary: nil,
+				disqualified: nil,
+				distance: 2700,
+				description: "",
+				draw: 0,
+				earnings_career: 85060.00,
+				earnings_current_year: 0.00,			
+				earnings_last_year: 69400.00,
+				earnings_victory: 67600.00,
+				final_place: nil,
+				history: "DmDa(13)1m",
+				is_favorite: nil,
+				is_substitute: false,
+				load_handicap: 67.0,
+				load_ride: 0.0,
+				non_runner: false,
+				number: 5,
+				places: 6,
+				race: race_to_test,
+				races_run: 16,
+				shoes: shoes,
+				single_rating_before_race: 0.0,
+				time: nil,
+				url: "",
+				# FIXME If real website does have a URL per runner
+				# "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm"
+				victories: 5,
+				breeder: breeder,
+				horse: horse,
+				jockey: jockey,
+				owner: owner,
+				trainer: trainer)
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "1st place")
+end
+
+def validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
+	blinder = @ref_list_hash[:ref_blinder_list][""]
+	shoes = @ref_list_hash[:ref_shoes_list][""]
+	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
+	coat = @ref_list_hash[:ref_coat_list]["BAI"]
+	sex = @ref_list_hash[:ref_sex_list]["H"]
+	
+	father = Horse::new(name: "nijinski blue")
+	grand_father = Horse::new(name: "-")
+	mother = Horse::new(name: "nectarine turgot", father: grand_father)
+	
+	breeder = Breeder::new(name: "")
+	jockey = Jockey::new(name: "M. Abrivard")
+	trainer = Trainer::new(name: "P. COIGNARD")
+	owner = Owner::new(name: "P. COIGNARD")
+	horse = Horse::new(breed: breed,
+						coat: coat,
+						father: father,
+						mother: mother,
+						name: "Valdez Turgot",
+						sex: sex)
+	expected_runner = Runner::new(
+				age: 5,
+				blinder: blinder,
+				commentary: nil,
+				disqualified: nil,
+				distance: 2700,
+				description: "",
+				draw: 0,
+				earnings_career: 84980.00,
+				earnings_current_year: 27900.00,			
+				earnings_last_year: 54060.00,
+				earnings_victory: 72900.00,
+				final_place: nil,
+				history: "1m3m(13)1m",
+				is_favorite: nil,
+				is_substitute: false,
+				load_handicap: 67.0,
+				load_ride: 0.0,
+				non_runner: false,
+				number: 4,
+				places: 8,
+				race: race_to_test,
+				races_run: 23,
+				shoes: shoes,
+				single_rating_before_race: 0.0,
+				time: nil,
+				url: "",
+				# FIXME If real website does have a URL per runner
+				# "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm"
+				victories: 6,
+				breeder: breeder,
+				horse: horse,
+				jockey: jockey,
+				owner: owner,
+				trainer: trainer)
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "disqualified")
+end
+
+def validate_result_R1_C1_N4(runner_from_result_list)
+	expected_runner = Runner::new(
+				commentary: "Vite en troisième position, a donné un bon coup de reins dans les 100 derniers mètres sans pouvoir remonter totalement Virgious du Maza (5).",
+				disqualified: false,
+				distance: "",
+				final_place: 2,
+				is_favorite: true,
+				is_substitute: nil,
+				non_runner: false,
+				number: 9,
+				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm",
+				single_rating_after_race: 2.5,
+				time: "1'13\"80")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "is favorite")
+end
+
+def validate_result_R1_C1_N5(runner_from_result_list)
+	expected_runner = Runner::new(
+				commentary: "Installé au commandement en bas de la descente, a repoussé jusqu'au bout la bonne attaque de Valroy (9).",
+				disqualified: false,
+				distance: "",
+				final_place: 1,
+				is_favorite: false,
+				is_substitute: nil,
+				non_runner: false,
+				number: 5,
+				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm",
+				single_rating_after_race: 8.4,
+				time: "1'13\"80")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "first place")
+end
+
+def validate_result_R1_C1_N9(runner_from_result_list)
+	expected_runner = Runner::new(
+				commentary: "Vite en tête, puis relayé par Virgious du Maza (5) en bas de la descente, venait visiblement dominer son rival lorsqu'il s'est montré fautif à mi-ligne droite.",
+				disqualified: true,
+				distance: "",
+				final_place: 0,
+				is_favorite: false,
+				is_substitute: nil,
+				non_runner: false,
+				number: 4,
+				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm",
+				single_rating_after_race: 4.2,
+				time: "0'00\"00")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "disqualified")
+end
+
 def validate_result_R4_C5_N2(runner_from_result_list)
 	expected_runner = Runner::new(
 			commentary: "",
