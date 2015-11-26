@@ -1,154 +1,189 @@
 ﻿require 'minitest'
 
+def validate_weather(expected_weather, actual_weather, str_weather_identifier)
+	assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier + ".")
+	assert_equal(expected_weather.temperature,	actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier + ".")
+	assert_equal(expected_weather.wind_speed,	actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier + ".")
+	assert_equal(expected_weather.insolation,	actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier + ".")
+	
+	@logger.ok("Tests for weather " + str_weather_identifier + " OK.")
+end
+
+def  validate_job(expected_job, actual_job, str_job_identifier)
+	assert_equal(expected_job.start_time,			actual_job.start_time,			"Wrong start_time for " + str_job_identifier + ".")
+	assert_equal(expected_job.loading_end_time,		actual_job.loading_end_time,	"Wrong loading_end_time for " + str_job_identifier + ".")
+	assert_equal(expected_job.crawling_end_time,	actual_job.crawling_end_time,	"Wrong crawling_end_time for " + str_job_identifier + ".")
+	assert_equal(expected_job.computing_end_time,	actual_job.computing_end_time,	"Wrong computing_end_time for " + str_job_identifier + ".")
+	
+	@logger.ok("Tests for job " + str_job_identifier + " OK.")
+end
+
+def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
+	# simple values
+	assert_equal(expected_meeting.date,					actual_meeting.date, 				"Wrong date for " + str_meeting_identifier + ".")
+	assert_equal(expected_meeting.country, 				actual_meeting.country, 			"Wrong country for " + str_meeting_identifier + ".")
+	
+	assert_equal(expected_meeting.number, 				actual_meeting.number, 				"Wrong number for " + str_meeting_identifier + ".")
+	assert_equal(expected_meeting.racetrack, 			actual_meeting.racetrack, 			"Wrong racetrack for " + str_meeting_identifier + ".")
+	assert_equal(expected_meeting.race_list, 			actual_meeting.race_list,			"Wrong race_list for " + str_meeting_identifier + ".")
+	assert_equal(expected_meeting.track_condition,		actual_meeting.track_condition, 	"Wrong track_condition for " + str_meeting_identifier + ".")
+	assert_equal(expected_meeting.urls_of_races_array,	actual_meeting.urls_of_races_array,	"Wrong urls_of_races_array for " + str_meeting_identifier + ".")
+
+	validate_job(expected_meeting.job, actual_meeting.job, " job from " + str_meeting_identifier)
+	validate_weather(expected_meeting.weather, actual_meeting.weather, " weather from " + str_meeting_identifier)
+	
+	@logger.ok("Tests for meeting " + str_meeting_identifier + " OK.")
+end
+
 def validate_runner_from_runner_list(expected_runner, actual_runner, str_runner_identifier)
 	# not nil values
-	assert_equal(expected_runner.age, 					actual_runner.age, 					"Wrong age while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.blinder, 				actual_runner.blinder, 				"Wrong blinder while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.commentary, 			actual_runner.commentary, 			"Wrong commentary while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.description, 			actual_runner.description, 			"Wrong description while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.disqualified, 			actual_runner.disqualified, 		"Wrong disqualified while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.distance, 				actual_runner.distance, 			"Wrong distance while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.draw, 					actual_runner.draw, 				"Wrong draw while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.earnings_career, 		actual_runner.earnings_career, 		"Wrong earnings_career while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.earnings_current_year,	actual_runner.earnings_current_year,"Wrong earnings_current_year while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.earnings_last_year, 	actual_runner.earnings_last_year, 	"Wrong earnings_last_year while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.earnings_victory, 		actual_runner.earnings_victory, 	"Wrong earnings_victory while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.final_place, 			actual_runner.final_place, 			"Wrong final_place while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.history, 				actual_runner.history, 				"Wrong history while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.is_favorite, 			actual_runner.is_favorite, 			"Wrong is_favorite while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.is_substitute, 		actual_runner.is_substitute, 		"Wrong is_substitute while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.load_handicap, 		actual_runner.load_handicap, 		"Wrong load_handicap while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.load_ride, 			actual_runner.load_ride, 			"Wrong load_ride while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.non_runner, 			actual_runner.non_runner, 			"Wrong non_runner while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.number, 				actual_runner.number, 				"Wrong number while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.places, 				actual_runner.places, 				"Wrong places while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.race, 					actual_runner.race, 				"Wrong race while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.races_run, 			actual_runner.races_run, 			"Wrong races_run while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.shoes, 				actual_runner.shoes, 				"Wrong shoes while checking " + str_runner_identifier + ".")
+	assert_equal(expected_runner.age, 					actual_runner.age, 					"Wrong age for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.blinder, 				actual_runner.blinder, 				"Wrong blinder for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.commentary, 			actual_runner.commentary, 			"Wrong commentary for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.description, 			actual_runner.description, 			"Wrong description for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.disqualified, 			actual_runner.disqualified, 		"Wrong disqualified for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.distance, 				actual_runner.distance, 			"Wrong distance for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.draw, 					actual_runner.draw, 				"Wrong draw for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.earnings_career, 		actual_runner.earnings_career, 		"Wrong earnings_career for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.earnings_current_year,	actual_runner.earnings_current_year,"Wrong earnings_current_year for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.earnings_last_year, 	actual_runner.earnings_last_year, 	"Wrong earnings_last_year for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.earnings_victory, 		actual_runner.earnings_victory, 	"Wrong earnings_victory for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.final_place, 			actual_runner.final_place, 			"Wrong final_place for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.history, 				actual_runner.history, 				"Wrong history for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.is_favorite, 			actual_runner.is_favorite, 			"Wrong is_favorite for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.is_substitute, 		actual_runner.is_substitute, 		"Wrong is_substitute for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.load_handicap, 		actual_runner.load_handicap, 		"Wrong load_handicap for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.load_ride, 			actual_runner.load_ride, 			"Wrong load_ride for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.non_runner, 			actual_runner.non_runner, 			"Wrong non_runner for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.number, 				actual_runner.number, 				"Wrong number for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.places, 				actual_runner.places, 				"Wrong places for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.race, 					actual_runner.race, 				"Wrong race for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.races_run, 			actual_runner.races_run, 			"Wrong races_run for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.shoes, 				actual_runner.shoes, 				"Wrong shoes for " + str_runner_identifier + ".")
 	assert_equal(expected_runner.single_rating_before_race, 			
 				actual_runner.single_rating_before_race,
-				"Wrong single_rating_before_race while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.time, 					actual_runner.time, 				"Wrong time while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.url, 					actual_runner.url, 					"Wrong url while checking " + str_runner_identifier + ".")
+				"Wrong single_rating_before_race for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.time, 					actual_runner.time, 				"Wrong time for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.url, 					actual_runner.url, 					"Wrong url for " + str_runner_identifier + ".")
 	# FIXME If real website does have a URL per runner
-	# assert_equal(expected_runner.disqualified, 		actual_runner.url, 					"Wrong url while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.victories, 			actual_runner.victories, 			"Wrong victories while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.breeder.name, 			actual_runner.breeder.name, 		"Wrong breeder.name while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.jockey.name, 			actual_runner.jockey.name, 			"Wrong jockey.name while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.breed, 			actual_runner.horse.breed, 			"Wrong horse.breed while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.coat, 			actual_runner.horse.coat, 			"Wrong horse.coat while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.father, 			actual_runner.horse.father, 		"Wrong horse.father while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.mother, 			actual_runner.horse.mother, 		"Wrong horse.mother while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.mother.father, 	actual_runner.horse.mother.father, 	"Wrong horse.mother.father while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.name, 			actual_runner.horse.name, 			"Wrong horse.name while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.horse.sex, 			actual_runner.horse.sex, 			"Wrong horse.sex while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.owner.name, 			actual_runner.owner.name, 			"Wrong owner.name while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.trainer.name,			actual_runner.trainer.name, 			"Wrong trainer.name while checking " + str_runner_identifier + ".")
+	# assert_equal(expected_runner.disqualified, 		actual_runner.url, 					"Wrong url for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.victories, 			actual_runner.victories, 			"Wrong victories for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.breeder.name, 			actual_runner.breeder.name, 		"Wrong breeder.name for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.jockey.name, 			actual_runner.jockey.name, 			"Wrong jockey.name for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.breed, 			actual_runner.horse.breed, 			"Wrong horse.breed for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.coat, 			actual_runner.horse.coat, 			"Wrong horse.coat for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.father, 			actual_runner.horse.father, 		"Wrong horse.father for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.mother, 			actual_runner.horse.mother, 		"Wrong horse.mother for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.mother.father, 	actual_runner.horse.mother.father, 	"Wrong horse.mother.father for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.name, 			actual_runner.horse.name, 			"Wrong horse.name for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.horse.sex, 			actual_runner.horse.sex, 			"Wrong horse.sex for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.owner.name, 			actual_runner.owner.name, 			"Wrong owner.name for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.trainer.name,			actual_runner.trainer.name, 		"Wrong trainer.name for " + str_runner_identifier + ".")
 	
 	# nil values
-	assert_equal(nil, actual_runner.id, 						"Id not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.single_rating_after_race,	"Single_rating_after_race not nil while checking " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.id, 						"Id not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.single_rating_after_race,	"Single_rating_after_race not nil for " + str_runner_identifier + ".")
 	
-	@logger.info("Tests (from: results) for runner " + str_runner_identifier + " OK.")
+	@logger.ok("Tests (from: results) for runner " + str_runner_identifier + " OK.")
 end
 
 
 def validate_runner_from_result_list(expected_runner, actual_runner, str_runner_identifier)
 	# not nil values
-	assert_equal(expected_runner.commentary,	actual_runner.commentary, 		"Wrong commentary while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.disqualified, 	actual_runner.disqualified, 	"Wrong disqualified while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.distance, 		actual_runner.distance, 		"Wrong distance while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.final_place, 	actual_runner.final_place, 		"Wrong final_place while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.is_favorite, 	actual_runner.is_favorite, 		"Wrong is_favorite while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.is_substitute, actual_runner.is_substitute,	"Wrong is_substitute while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.non_runner, 	actual_runner.non_runner, 		"Wrong non_runner while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.number, 		actual_runner.number, 			"Wrong number while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.url, 			actual_runner.url, 				"Wrong url while checking " + str_runner_identifier + ".")
+	assert_equal(expected_runner.commentary,	actual_runner.commentary, 		"Wrong commentary for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.disqualified, 	actual_runner.disqualified, 	"Wrong disqualified for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.distance, 		actual_runner.distance, 		"Wrong distance for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.final_place, 	actual_runner.final_place, 		"Wrong final_place for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.is_favorite, 	actual_runner.is_favorite, 		"Wrong is_favorite for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.is_substitute, actual_runner.is_substitute,	"Wrong is_substitute for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.non_runner, 	actual_runner.non_runner, 		"Wrong non_runner for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.number, 		actual_runner.number, 			"Wrong number for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.url, 			actual_runner.url, 				"Wrong url for " + str_runner_identifier + ".")
 	assert_equal(expected_runner.single_rating_after_race, 
-				actual_runner.single_rating_after_race, 						"Wrong single_rating_after_race while checking " + str_runner_identifier + ".")
-	assert_equal(expected_runner.time, 			actual_runner.time, 			"Wrong time while checking " + str_runner_identifier + ".")
+				actual_runner.single_rating_after_race, 						"Wrong single_rating_after_race for " + str_runner_identifier + ".")
+	assert_equal(expected_runner.time, 			actual_runner.time, 			"Wrong time for " + str_runner_identifier + ".")
 	
 	# nil values
-	assert_equal(nil, actual_runner.age, 						"Age not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.blinder, 					"Blinder not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.breeder, 					"Breeder not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.description, 				"Description not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.draw, 						"Draw not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.earnings_career, 			"Earnings_career not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.earnings_current_year, 		"Earnings_current_year not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.earnings_last_year, 		"Earnings_last_year not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.earnings_victory, 			"Earnings_victory not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.history, 					"History not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.horse, 						"Horse not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.id, 						"Id not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.jockey, 					"Jockey not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.load_handicap, 				"Load_handicap not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.load_ride, 					"Load_ride not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.owner, 						"Owner not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.places, 					"Places not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.race, 						"Race not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.races_run, 					"Races_run not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.score_horse, 				"Score_horse not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.score_jockey, 				"Score_jockey not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.score_owner, 				"Score_owner not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.score_trainer, 				"Score_trainer not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.score_breeder, 				"Score_breeder not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.shoes, 						"Shoes not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.single_rating_before_race,	"Single_rating_before_race not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.trainer, 					"Trainer not nil while checking " + str_runner_identifier + ".")
-	assert_equal(nil, actual_runner.victories, 					"Victories not nil while checking " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.age, 						"Age not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.blinder, 					"Blinder not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.breeder, 					"Breeder not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.description, 				"Description not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.draw, 						"Draw not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.earnings_career, 			"Earnings_career not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.earnings_current_year, 		"Earnings_current_year not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.earnings_last_year, 		"Earnings_last_year not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.earnings_victory, 			"Earnings_victory not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.history, 					"History not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.horse, 						"Horse not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.id, 						"Id not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.jockey, 					"Jockey not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.load_handicap, 				"Load_handicap not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.load_ride, 					"Load_ride not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.owner, 						"Owner not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.places, 					"Places not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.race, 						"Race not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.races_run, 					"Races_run not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.score_horse, 				"Score_horse not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.score_jockey, 				"Score_jockey not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.score_owner, 				"Score_owner not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.score_trainer, 				"Score_trainer not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.score_breeder, 				"Score_breeder not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.shoes, 						"Shoes not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.single_rating_before_race,	"Single_rating_before_race not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.trainer, 					"Trainer not nil for " + str_runner_identifier + ".")
+	assert_equal(nil, actual_runner.victories, 					"Victories not nil for " + str_runner_identifier + ".")
 	
-	@logger.info("Tests (from: runner) for runner " + str_runner_identifier + " OK.")
+	@logger.ok("Tests (from: runner) for runner " + str_runner_identifier + " OK.")
 end
 
 def validate_joint_runner(expected_runner, actual_runner, str_runner_identifier)
-	assert_equal(expected_runner.age, 						actual_runner.age, 							"Wrong age while checking " + str_runner_identifier)
-	assert_equal(expected_runner.blinder, 					actual_runner.blinder, 						"Wrong blinder while checking " + str_runner_identifier)
-	assert_equal(expected_runner.commentary, 				actual_runner.commentary, 					"Wrong commentary while checking " + str_runner_identifier)		
-	assert_equal(expected_runner.description, 				actual_runner.description, 					"Wrong description while checking " + str_runner_identifier)
-	assert_equal(expected_runner.disqualified, 				actual_runner.disqualified, 				"Wrong disqualified while checking " + str_runner_identifier)
-	assert_equal(expected_runner.distance, 					actual_runner.distance, 					"Wrong distance while checking " + str_runner_identifier)
-	assert_equal(expected_runner.draw, 						actual_runner.draw, 						"Wrong draw while checking " + str_runner_identifier)
-	assert_equal(expected_runner.earnings_career,			actual_runner.earnings_career, 				"Wrong earnings_career while checking " + str_runner_identifier)
-	assert_equal(expected_runner.earnings_current_year,		actual_runner.earnings_current_year,		"Wrong earnings_current_year while checking " + str_runner_identifier)
-	assert_equal(expected_runner.earnings_last_year, 		actual_runner.earnings_last_year, 			"Wrong earnings_last_year while checking " + str_runner_identifier)
-	assert_equal(expected_runner.earnings_victory, 			actual_runner.earnings_victory, 			"Wrong earnings_victory while checking " + str_runner_identifier)
-	assert_equal(expected_runner.final_place, 				actual_runner.final_place, 					"Wrong final_place while checking " + str_runner_identifier)
-	assert_equal(expected_runner.history, 					actual_runner.history, 						"Wrong history while checking " + str_runner_identifier)
-	assert_equal(expected_runner.is_favorite, 				actual_runner.is_favorite, 					"Wrong is_favorite while checking " + str_runner_identifier)
-	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 				"Wrong is_substitute while checking " + str_runner_identifier)
-	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 				"Wrong load_handicap while checking " + str_runner_identifier)
-	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride while checking " + str_runner_identifier)
-	assert_equal(expected_runner.non_runner, 				actual_runner.non_runner, 					"Wrong non_runner while checking " + str_runner_identifier)
-	assert_equal(expected_runner.number, 					actual_runner.number, 						"Wrong number while checking " + str_runner_identifier)
-	assert_equal(expected_runner.places, 					actual_runner.places, 						"Wrong places while checking " + str_runner_identifier)
-	assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race while checking " + str_runner_identifier)
-	assert_equal(expected_runner.races_run, 				actual_runner.races_run, 					"Wrong races_run while checking " + str_runner_identifier)
-	assert_equal(expected_runner.score_horse, 				actual_runner.score_horse, 					"Wrong score_horse while checking " + str_runner_identifier)
-	assert_equal(expected_runner.score_jockey, 				actual_runner.score_jockey, 				"Wrong score_jockey while checking " + str_runner_identifier)
-	assert_equal(expected_runner.score_owner, 				actual_runner.score_owner, 					"Wrong score_owner while checking " + str_runner_identifier)
-	assert_equal(expected_runner.score_trainer, 			actual_runner.score_trainer, 				"Wrong score_trainer while checking " + str_runner_identifier)
-	assert_equal(expected_runner.score_breeder, 			actual_runner.score_breeder, 				"Wrong score_breeder while checking " + str_runner_identifier)
-	assert_equal(expected_runner.shoes, 					actual_runner.shoes, 						"Wrong shoes while checking " + str_runner_identifier)
-	assert_equal(expected_runner.single_rating_after_race,	actual_runner.single_rating_after_race, 	"Wrong single_rating while checking " + str_runner_identifier)
-	assert_equal(expected_runner.single_rating_before_race,	actual_runner.single_rating_before_race,	"Wrong single_rating while checking " + str_runner_identifier)
-	assert_equal(expected_runner.time, 						actual_runner.time, 						"Wrong time while checking " + str_runner_identifier)
+	assert_equal(expected_runner.age, 						actual_runner.age, 							"Wrong age for " + str_runner_identifier)
+	assert_equal(expected_runner.blinder, 					actual_runner.blinder, 						"Wrong blinder for " + str_runner_identifier)
+	assert_equal(expected_runner.commentary, 				actual_runner.commentary, 					"Wrong commentary for " + str_runner_identifier)		
+	assert_equal(expected_runner.description, 				actual_runner.description, 					"Wrong description for " + str_runner_identifier)
+	assert_equal(expected_runner.disqualified, 				actual_runner.disqualified, 				"Wrong disqualified for " + str_runner_identifier)
+	assert_equal(expected_runner.distance, 					actual_runner.distance, 					"Wrong distance for " + str_runner_identifier)
+	assert_equal(expected_runner.draw, 						actual_runner.draw, 						"Wrong draw for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_career,			actual_runner.earnings_career, 				"Wrong earnings_career for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_current_year,		actual_runner.earnings_current_year,		"Wrong earnings_current_year for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_last_year, 		actual_runner.earnings_last_year, 			"Wrong earnings_last_year for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_victory, 			actual_runner.earnings_victory, 			"Wrong earnings_victory for " + str_runner_identifier)
+	assert_equal(expected_runner.final_place, 				actual_runner.final_place, 					"Wrong final_place for " + str_runner_identifier)
+	assert_equal(expected_runner.history, 					actual_runner.history, 						"Wrong history for " + str_runner_identifier)
+	assert_equal(expected_runner.is_favorite, 				actual_runner.is_favorite, 					"Wrong is_favorite for " + str_runner_identifier)
+	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 				"Wrong is_substitute for " + str_runner_identifier)
+	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 				"Wrong load_handicap for " + str_runner_identifier)
+	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride for " + str_runner_identifier)
+	assert_equal(expected_runner.non_runner, 				actual_runner.non_runner, 					"Wrong non_runner for " + str_runner_identifier)
+	assert_equal(expected_runner.number, 					actual_runner.number, 						"Wrong number for " + str_runner_identifier)
+	assert_equal(expected_runner.places, 					actual_runner.places, 						"Wrong places for " + str_runner_identifier)
+	assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
+	assert_equal(expected_runner.races_run, 				actual_runner.races_run, 					"Wrong races_run for " + str_runner_identifier)
+	assert_equal(expected_runner.score_horse, 				actual_runner.score_horse, 					"Wrong score_horse for " + str_runner_identifier)
+	assert_equal(expected_runner.score_jockey, 				actual_runner.score_jockey, 				"Wrong score_jockey for " + str_runner_identifier)
+	assert_equal(expected_runner.score_owner, 				actual_runner.score_owner, 					"Wrong score_owner for " + str_runner_identifier)
+	assert_equal(expected_runner.score_trainer, 			actual_runner.score_trainer, 				"Wrong score_trainer for " + str_runner_identifier)
+	assert_equal(expected_runner.score_breeder, 			actual_runner.score_breeder, 				"Wrong score_breeder for " + str_runner_identifier)
+	assert_equal(expected_runner.shoes, 					actual_runner.shoes, 						"Wrong shoes for " + str_runner_identifier)
+	assert_equal(expected_runner.single_rating_after_race,	actual_runner.single_rating_after_race, 	"Wrong single_rating for " + str_runner_identifier)
+	assert_equal(expected_runner.single_rating_before_race,	actual_runner.single_rating_before_race,	"Wrong single_rating for " + str_runner_identifier)
+	assert_equal(expected_runner.time, 						actual_runner.time, 						"Wrong time for " + str_runner_identifier)
 	# FIXME If real website does have a URL per runner
-	assert_equal(expected_runner.url, 						actual_runner.url, 							"Wrong url while checking " + str_runner_identifier)
-	assert_equal(expected_runner.victories, 				actual_runner.victories, 					"Wrong victories while checking " + str_runner_identifier)
-	assert_equal(expected_runner.breeder.name, 				actual_runner.breeder.name, 				"Wrong breeder.name while checking " + str_runner_identifier)
-	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 					"Wrong jockey.name while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.breed, 				actual_runner.horse.breed, 					"Wrong horse.breed while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.coat, 				actual_runner.horse.coat, 					"Wrong horse.coat while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.father, 				actual_runner.horse.father, 				"Wrong horse.father while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.mother, 				actual_runner.horse.mother, 				"Wrong horse.mother while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.mother.father, 		actual_runner.horse.mother.father, 			"Wrong horse.mother.father while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 					"Wrong horse.name while checking " + str_runner_identifier)
-	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex while checking " + str_runner_identifier)
-	assert_equal(expected_runner.owner.name, 				actual_runner.owner.name, 					"Wrong owner.name while checking " + str_runner_identifier)
-	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 				"Wrong trainer.name while checking " + str_runner_identifier)
+	assert_equal(expected_runner.url, 						actual_runner.url, 							"Wrong url for " + str_runner_identifier)
+	assert_equal(expected_runner.victories, 				actual_runner.victories, 					"Wrong victories for " + str_runner_identifier)
+	assert_equal(expected_runner.breeder.name, 				actual_runner.breeder.name, 				"Wrong breeder.name for " + str_runner_identifier)
+	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 					"Wrong jockey.name for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.breed, 				actual_runner.horse.breed, 					"Wrong horse.breed for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.coat, 				actual_runner.horse.coat, 					"Wrong horse.coat for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.father, 				actual_runner.horse.father, 				"Wrong horse.father for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.mother, 				actual_runner.horse.mother, 				"Wrong horse.mother for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.mother.father, 		actual_runner.horse.mother.father, 			"Wrong horse.mother.father for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 					"Wrong horse.name for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex for " + str_runner_identifier)
+	assert_equal(expected_runner.owner.name, 				actual_runner.owner.name, 					"Wrong owner.name for " + str_runner_identifier)
+	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 				"Wrong trainer.name for " + str_runner_identifier)
 	
-	@logger.info("Tests (after joining) for " + str_runner_identifier + " OK.")
+	@logger.ok("Tests (after joining) for " + str_runner_identifier + " OK.")
 end
 
 def validate_runner_R4_C5_N2(runner_from_list_runners, race_to_test)
@@ -205,7 +240,7 @@ def validate_runner_R4_C5_N2(runner_from_list_runners, race_to_test)
 		trainer: trainer,
 		url: "",
 		victories: 2)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "first place is_favorite")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N2 (first, is_favorite)")
 end
 
 def validate_runner_R4_C5_N4(runner_from_list_runners, race_to_test)
@@ -264,7 +299,7 @@ def validate_runner_R4_C5_N4(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "runner no place no dist")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N4(no place, no dist)")
 end
 
 def validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
@@ -323,7 +358,7 @@ def validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "runner 10th place with dist")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N5(10th, with dist)")
 end
 
 def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
@@ -382,7 +417,7 @@ def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "non runner")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N17 (non runner)")
 end
 
 def validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
@@ -442,7 +477,7 @@ def validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "is_fav")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C1_N4(favorite)")
 end
 
 def validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
@@ -512,7 +547,7 @@ def validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "1st place")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C1_N5(1st)")
 end
 
 def validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
@@ -571,7 +606,7 @@ def validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "disqualified")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C1_N9(disqualified)")
 end
 
 def validate_runner_R2_C7_N1(runner_from_list_runners, race_to_test)
@@ -630,7 +665,7 @@ def validate_runner_R2_C7_N1(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "favorite")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R2_C7_N1(favorite)")
 end
 
 def validate_runner_R2_C7_N4(runner_from_list_runners, race_to_test)
@@ -689,7 +724,7 @@ def validate_runner_R2_C7_N4(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "12th place")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R2_C7_N4(12th)")
 end
 
 def validate_runner_R2_C7_N11(runner_from_list_runners, race_to_test)
@@ -748,7 +783,7 @@ def validate_runner_R2_C7_N11(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "1st place")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R2_C7_N11(1st)")
 end
 
 def validate_runner_R2_C7_N12(runner_from_list_runners, race_to_test)
@@ -807,7 +842,7 @@ def validate_runner_R2_C7_N12(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "substitute")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R2_C7_N12(substitute)")
 end
 
 def validate_runner_R1_C7_N1(runner_from_list_runners, race_to_test)
@@ -866,7 +901,7 @@ def validate_runner_R1_C7_N1(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "is favorite")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C7_N1(favorite)")
 end
 
 def validate_runner_R1_C7_N3(runner_from_list_runners, race_to_test)
@@ -925,7 +960,7 @@ def validate_runner_R1_C7_N3(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "first place")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C7_N3(1st)")
 end
 
 def validate_runner_R1_C7_N11(runner_from_list_runners, race_to_test)
@@ -984,7 +1019,7 @@ def validate_runner_R1_C7_N11(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "disqualified")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R1_C7_N11(disqualified)")
 end
 
 def validate_result_R1_C1_N4(runner_from_result_list)
@@ -1000,7 +1035,7 @@ def validate_result_R1_C1_N4(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALROY.htm",
 				single_rating_after_race: 2.5,
 				time: "1'13\"80")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "is favorite")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C1_N4(favorite)")
 end
 
 def validate_result_R1_C1_N5(runner_from_result_list)
@@ -1016,7 +1051,7 @@ def validate_result_R1_C1_N5(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VIRGIOUS_DU_MAZA.htm",
 				single_rating_after_race: 8.4,
 				time: "1'13\"80")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "first place")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C1_N5(1st)")
 end
 
 def validate_result_R1_C1_N9(runner_from_result_list)
@@ -1032,7 +1067,7 @@ def validate_result_R1_C1_N9(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1_runner_VALDEZ_TURGOT.htm",
 				single_rating_after_race: 4.2,
 				time: "0'00\"00")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "disqualified")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C1_N9(disqualified)")
 end
 
 def validate_result_R4_C5_N2(runner_from_result_list)
@@ -1048,7 +1083,7 @@ def validate_result_R4_C5_N2(runner_from_result_list)
 			url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_NEGEV.htm",
 			single_rating_after_race: 2.9,
 			time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "first place is_favorite")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N2(1st, is_favorite)")
 end
 
 def validate_result_R4_C5_N4(runner_from_result_list)
@@ -1064,7 +1099,7 @@ def validate_result_R4_C5_N4(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_CAT'S_GAME.htm",
 				single_rating_after_race: 13.9,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "no place and no dist")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N4(no place, no dist)")
 end
 
 def validate_result_R4_C5_N5(runner_from_result_list)
@@ -1080,7 +1115,7 @@ def validate_result_R4_C5_N5(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_AIM_OF_THE_GAME.htm",
 				single_rating_after_race: 9.6,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "10th place with dist")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N5(10th, with dist)")
 end
 
 def validate_result_R4_C5_N17(runner_from_result_list)
@@ -1096,7 +1131,7 @@ def validate_result_R4_C5_N17(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_LIZZY_GREY.htm",
 				single_rating_after_race: 0.0,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "non runner")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N17(non runner)")
 end
 
 def validate_result_R2_C7_N1(runner_from_result_list)
@@ -1112,7 +1147,7 @@ def validate_result_R2_C7_N1(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_FRANZ_QUERCUS.htm",
 				single_rating_after_race: 2.6,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "favorite")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R2_C7_N1(favorite)")
 end
 
 def validate_result_R2_C7_N4(runner_from_result_list)
@@ -1128,7 +1163,7 @@ def validate_result_R2_C7_N4(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_GRYPAS.htm",
 				single_rating_after_race: 17.6,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "12th place")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R2_C7_N4(12th)")
 end
 
 def validate_result_R2_C7_N11(runner_from_result_list)
@@ -1144,7 +1179,7 @@ def validate_result_R2_C7_N11(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_VIVA_VOCE_SIVOLA.htm",
 				single_rating_after_race: 93.6,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "first place")		
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R2_C7_N11(1st)")		
 end
 
 def validate_result_R2_C7_N12(runner_from_result_list)
@@ -1160,7 +1195,7 @@ def validate_result_R2_C7_N12(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_runner_TWEETY_KASH.htm",
 				single_rating_after_race: 22.3,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "substitute")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R2_C7_N12(substitute)")
 end
 
 def validate_result_R1_C7_N1(runner_from_result_list)
@@ -1176,7 +1211,7 @@ def validate_result_R1_C7_N1(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_NORHEIM_JAERV.htm",
 				single_rating_after_race: 3.5,
 				time: "1'25\"30")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "is favorite")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C7_N1(is favorite)")
 end
 
 def validate_result_R1_C7_N3(runner_from_result_list)
@@ -1192,7 +1227,7 @@ def validate_result_R1_C7_N3(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_DOKTOR_JAROS.htm",
 				single_rating_after_race: 11.6,
 				time: "1'24\"70")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "first place")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C7_N3(1st)")
 end
 
 def validate_result_R1_C7_N11(runner_from_result_list)
@@ -1208,7 +1243,7 @@ def validate_result_R1_C7_N11(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runner_METKUTUS.htm",
 				single_rating_after_race: 32.6,
 				time: "0'00\"00")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "disqualified")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R1_C7_N11(disqualified)")
 end
 
 def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
@@ -1274,7 +1309,7 @@ def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 						owner: owner,
 						trainer: trainer)
 						
-	validate_joint_runner(expected_runner, runner_to_check, "runner 10th place with dist")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N2(10th, with dist)")
 end
 
 def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
@@ -1339,7 +1374,7 @@ def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner no place and no dist")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N4(no place, no dist)")
 end
 
 def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
@@ -1405,7 +1440,7 @@ def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner 10th place with dist")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N5(10th, with dist)")
 end
 
 def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
@@ -1470,7 +1505,7 @@ def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "for non runner")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N17(non runner)")
 end
 
 def validate_joint_R1_C1_N4(runner_to_check, race_to_test)
@@ -1535,7 +1570,7 @@ def validate_joint_R1_C1_N4(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner disqualified")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N4(disqualified)")
 end
 
 def validate_joint_R1_C1_N5(runner_to_check, race_to_test)
@@ -1600,7 +1635,7 @@ def validate_joint_R1_C1_N5(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner 1st place")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N5(1st)")
 end
 
 def validate_joint_R1_C1_N9(runner_to_check, race_to_test)
@@ -1664,7 +1699,7 @@ def validate_joint_R1_C1_N9(runner_to_check, race_to_test)
 					jockey: jockey,
 					owner: owner,
 					trainer: trainer)
-	validate_joint_runner(expected_runner, runner_to_check, "runner is_fav")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N9(favorite)")
 end
 
 def validate_joint_R2_C7_N1(runner_to_check, race_to_test)
@@ -1728,7 +1763,7 @@ def validate_joint_R2_C7_N1(runner_to_check, race_to_test)
 					jockey: jockey,
 					owner: owner,
 					trainer: trainer)
-	validate_joint_runner(expected_runner, runner_to_check, "runner favorite")
+	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N1(favorite)")
 end
 
 def validate_joint_R2_C7_N4(runner_to_check, race_to_test)
@@ -1792,7 +1827,7 @@ def validate_joint_R2_C7_N4(runner_to_check, race_to_test)
 					jockey: jockey,
 					owner: owner,
 					trainer: trainer)
-	validate_joint_runner(expected_runner, runner_to_check, "runner 12th place")
+	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N4(12th)")
 end
 
 def validate_joint_R2_C7_N11(runner_to_check, race_to_test)
@@ -1856,7 +1891,7 @@ def validate_joint_R2_C7_N11(runner_to_check, race_to_test)
 					jockey: jockey,
 					owner: owner,
 					trainer: trainer)
-	validate_joint_runner(expected_runner, runner_to_check, "runner 1st place")
+	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N11(1st)")
 end
 
 def validate_joint_R2_C7_N12(runner_to_check, race_to_test)
@@ -1920,7 +1955,7 @@ def validate_joint_R2_C7_N12(runner_to_check, race_to_test)
 					jockey: jockey,
 					owner: owner,
 					trainer: trainer)
-	validate_joint_runner(expected_runner, runner_to_check, "runner favorite")
+	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N12(favorite)")
 end
 
 def validate_joint_R1_C7_N1(runner_to_check, race_to_test)
@@ -1985,7 +2020,7 @@ def validate_joint_R1_C7_N1(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner is_fav")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C7_N1(favorite)")
 end
 
 def validate_joint_R1_C7_N3(runner_to_check, race_to_test)
@@ -2050,7 +2085,7 @@ def validate_joint_R1_C7_N3(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner 1st place")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C7_N3(1st)")
 end
 
 def validate_joint_R1_C7_N11(runner_to_check, race_to_test)
@@ -2115,5 +2150,5 @@ def validate_joint_R1_C7_N11(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "runner disqualified")
+	validate_joint_runner(expected_runner, runner_to_check, "R1_C7_N11(disqualified)")
 end

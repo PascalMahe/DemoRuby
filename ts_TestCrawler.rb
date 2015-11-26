@@ -34,7 +34,7 @@ class TestCrawler < TestSuite
 	##################
 	# def test_crawl
 		
-		# @logger.info("Testing fetch meetings")
+		# @logger.imp("Testing fetch meetings")
 		# begin
 			# job = Job::new
 		
@@ -72,153 +72,152 @@ class TestCrawler < TestSuite
 		# end
 	# end
 	
-	# def test_fetch_meetings
+	def test_fetch_meetings
 		
-		# @logger.info("Testing fetch meetings")
-		# begin
-			# job = Job::new
-			# date = Date::new(2013,11,15)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
-			# html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
+		@logger.imp("Testing fetch meetings")
+		begin
+			job = Job::new
+			date = Date::new(2013,11,15)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
+			
+			if html_meeting_list == nil then
+				flunk("html_meeting_list is nil.")
+			end
 		
+			meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
 			
-			# if html_meeting_list == nil then
-				# flunk("html_meeting_list is nil.")
-			# end
-		
-			# meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
+			# Checking the list has meetings in it and that those meetings
+			# have races
+			assert_equal(5, meeting_list.size)
+			assert_equal(9, meeting_list[0].race_list.size)
+			assert_equal(8, meeting_list[1].race_list.size)
+			assert_equal(8, meeting_list[2].race_list.size)
+			assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
+															 #  but the main page only has 2 to 5
+			assert_equal(6, meeting_list[4].race_list.size)
 			
-			## Checking the list has meetings in it and that those meetings
-			## have races
-			# assert_equal(5, meeting_list.size)
-			# assert_equal(9, meeting_list[0].race_list.size)
-			# assert_equal(8, meeting_list[1].race_list.size)
-			# assert_equal(8, meeting_list[2].race_list.size)
-			# assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
-															 ##  but the main page only has 2 to 5
-			# assert_equal(6, meeting_list[4].race_list.size)
-			
-			# @logger.info("Tests for test_fetch_meetings OK.")
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			@logger.info("Tests for test_fetch_meetings OK.")
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
-	# def test_fetch_meeting_shallow
+	def test_fetch_meeting_shallow
 		
-		# @logger.info("Testing fetch meeting shallow")
-		# begin
-			## Setting up 
-			## -> Getting the page
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
-			## -> Getting the meeting list
-			# html_meeting_list = @crawler.driver.
-					# find_elements(:css, "div.reunion-line")
-			## (Checking we did get a list and the right one)
-			# assert_equal(5, html_meeting_list.size)
-			# @logger.debug("There are indeed 5 meetings.")
+		@logger.imp("Testing fetch meeting shallow")
+		begin
+			# Setting up 
+			# -> Getting the page
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			# -> Getting the meeting list
+			html_meeting_list = @crawler.driver.
+					find_elements(:css, "div.reunion-line")
+			# (Checking we did get a list and the right one)
+			assert_equal(5, html_meeting_list.size)
+			@logger.debug("There are indeed 5 meetings.")
 			
-			## -> Getting the meeting tag
-			# html_meeting_to_test = html_meeting_list[2]
+			# -> Getting the meeting tag
+			html_meeting_to_test = html_meeting_list[2]
 			
-			## (Checking it's the right one)
-			# reunion_id_attribute = html_meeting_to_test.attribute("data-reunionid")
-			# assert_equal("3", reunion_id_attribute)
+			# (Checking it's the right one)
+			reunion_id_attribute = html_meeting_to_test.attribute("data-reunionid")
+			assert_equal("3", reunion_id_attribute)
 			
-			## Creating date and job
-			# job = Job::new
-			# date = Date::new(2013, 11, 15)
+			# Creating date and job
+			job = Job::new
+			date = Date::new(2013, 11, 15)
 			
-			## The function to test
-			# meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
+			# The function to test
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
 			
-			# verif_date = Date::new(2015, 06, 12)
-			# verif_number = "3"
-			# verif_racetrack = "HIPPODROME DE SAINT GALMIER"
-			# verif_urls_of_races_array = 
-						# ["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
-						 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
-			# verif_track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
+			verif_date = Date::new(2015, 06, 12)
+			verif_number = "3"
+			verif_racetrack = "HIPPODROME DE SAINT GALMIER"
+			verif_urls_of_races_array = 
+						["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
+						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
 			
-			# verification_temp = 14
-			# verification_wind_dir = nil
-			# verification_wind_speed = 5
-			# verification_insolation = "P8c"
-			# verif_weather = Weather::new(
-				# insolation: verification_insolation, 
-				# temperature: verification_temp, 
-				# wind_direction: verification_wind_dir, 
-				# wind_speed: verification_wind_speed
-			# )
+			verif_track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
+			verification_temp = 14
+			verification_wind_dir = nil
+			verification_wind_speed = 5
+			verification_insolation = "P8c"
+			verif_weather = Weather::new(
+				insolation: verification_insolation, 
+				temperature: verification_temp, 
+				wind_direction: verification_wind_dir, 
+				wind_speed: verification_wind_speed
+			)
 			
-			# verification_meeting = Meeting::new(
-								# date: verif_date, 
-								# job: job, 
-								# number: verif_number, 
-								# racetrack: verif_racetrack, 
-								# urls_of_races_array: verif_urls_of_races_array, 
-								# track_condition: verif_track_condition, 
-								# weather: verif_weather)
-								
-			# assert_equal(verification_meeting, meeting)
+			verification_meeting = Meeting::new(
+								date: verif_date, 
+								job: job, 
+								number: verif_number, 
+								racetrack: verif_racetrack, 
+								urls_of_races_array: verif_urls_of_races_array, 
+								track_condition: verif_track_condition, 
+								weather: verif_weather)
+						
+			validate_meeting(verification_meeting, meeting, "fetch_meeting_shallow")
 			
-			## 2nd test: country
-			# html_meeting_to_test = html_meeting_list[3]
-			# meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
-			# verif_country = "Af Sud"
-			# verif_racetrack = "HIPPODROME DE VAAL"
+			# 2nd test: country
+			html_meeting_to_test = html_meeting_list[3]
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
+			verif_country = "Af Sud"
+			verif_racetrack = "HIPPODROME DE VAAL"
 			
-			# assert_equal(verif_country, meeting.country)
-			# assert_equal(verif_racetrack, meeting.racetrack)
+			assert_equal(verif_country, meeting.country)
+			assert_equal(verif_racetrack, meeting.racetrack)
 			
-			# @logger.info("Tests for test_fetch_meeting_shallow OK.")
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			@logger.info("Tests for test_fetch_meeting_shallow OK.")
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
-	# def test_fetch_meeting
+	def test_fetch_meeting
 		
-		# @logger.info("Testing fetch meeting")
-		# begin
+		@logger.imp("Testing fetch meeting")
+		begin
 			
-			# urls_of_races_array = 
-				# ["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
-				 # "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
+			urls_of_races_array = 
+				["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
+				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
 			
-			# html_meeting_to_test = Meeting::new(urls_of_races_array: urls_of_races_array)
+			html_meeting_to_test = Meeting::new(urls_of_races_array: urls_of_races_array)
 			
-			# assert_equal(0, html_meeting_to_test.race_list.size)
+			assert_equal(0, html_meeting_to_test.race_list.size)
 			
-			## The function to test
-			# meeting = @crawler.fetch_meeting(html_meeting_to_test)
+			# The function to test
+			meeting = @crawler.fetch_meeting(html_meeting_to_test)
 			
-			# assert_equal(8, meeting.race_list.size)
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			assert_equal(8, meeting.race_list.size)
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
 	# def test_fetch_race
-		# @logger.info("Testing fetch race")
+		# @logger.imp("Testing fetch race")
 		# begin
 			## Setting up 
 			## -> Getting the page
@@ -296,7 +295,7 @@ class TestCrawler < TestSuite
 	
 	# def test_fetch_weather
 		
-		# @logger.info("Testing fetch weather")
+		# @logger.imp("Testing fetch weather")
 		# begin
 			## Setting up 
 			## -> Getting the page
@@ -343,7 +342,7 @@ class TestCrawler < TestSuite
 	# end
 	
 	def test_join_runner_list_and_result_list
-		@logger.info("Testing join runner list and result list")
+		@logger.imp("Testing join runner list and result list")
 		begin
 			# Setting up 
 			# -> Getting the first race
@@ -561,9 +560,7 @@ class TestCrawler < TestSuite
 			# getting the runner_list
 			list_runners = @crawler.fetch_list_runners(race_to_test)
 			
-			
 			# First place
-			
 			runner_from_result_list = result_list[3]
 			validate_result_R1_C7_N3(runner_from_result_list)
 			
@@ -610,7 +607,7 @@ class TestCrawler < TestSuite
 	
 	def test_get_column_map()
 		
-		@logger.info("Testing getting the right column map")
+		@logger.imp("Testing getting the right column map")
 		begin
 			# Setting up 
 			# -> Getting the first race
@@ -675,7 +672,7 @@ class TestCrawler < TestSuite
 	
 	def test_fetch_runners
 		
-		@logger.info("Testing fetch runners")
+		@logger.imp("Testing fetch runners")
 		begin
 			# Setting up 
 			# -> Getting the race
@@ -698,7 +695,6 @@ class TestCrawler < TestSuite
 			
 			# is_favorite
 			runner_to_check = runner_list[2]
-			
 			validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 			
 			
@@ -717,7 +713,7 @@ class TestCrawler < TestSuite
 	
 	# def test_fetch_runners_shallow
 		
-		# @logger.info("Testing fetch runners shallow")
+		# @logger.imp("Testing fetch runners shallow")
 		# begin
 			## Setting up 
 			## -> Getting the first race (with distance)
@@ -944,7 +940,7 @@ class TestCrawler < TestSuite
 	
 	# def test_fetch_race_results
 		
-		# @logger.info("Testing fetch race results")
+		# @logger.imp("Testing fetch race results")
 		# begin
 			## Setting up 
 			## -> Getting the first race (with distance)
@@ -1101,7 +1097,7 @@ class TestCrawler < TestSuite
 	
 	# def test_fetch_runner
 		
-		# @logger.info("Testing fetch runner")
+		# @logger.imp("Testing fetch runner")
 		# begin
 			## Setting up 
 			## -> Getting the first race (with distance)

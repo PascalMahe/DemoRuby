@@ -4,6 +4,7 @@ class SimpleHtmlLogger
 	ERROR = "ERR"
 	INFO = "INF"
 	DEBUG = "DBG"
+	OK = "OK"
 	
 	File_prefix = "RPP_job-"
 	File_ext = ".html"
@@ -89,11 +90,13 @@ class SimpleHtmlLogger
 	
 	def get_color_code_from_level(level)
 		if level == IMPORTANT then 
-			color_code = 34
+			color_code = 36
 		elsif level == ERROR then 
 			color_code = 31
 		elsif level == DEBUG then 
 			color_code = 35
+		elsif level == OK then 
+			color_code = 32
 		else 
 			color_code = 37
 		end
@@ -105,23 +108,33 @@ class SimpleHtmlLogger
 		level_to_check_as_number = convert_level_to_number(level_to_check)
 		
 		# @level | level_to_check || returns
-		#	ERR	3		ERR	3			T
-		#	ERR	3		IMP	2			F
-		#	ERR	3		INF	1			F
-		#	ERR	3		DBG	0			F
+		#	ERR	4		ERR	4			T
+		#	ERR	4		IMP	3			F
+		#	ERR	4		OK	2			F
+		#	ERR	4		INF	1			F
+		#	ERR	4		DBG	0			F
 		#
-		#	IMP	2		ERR	3			T
-		#	IMP	2		IMP	2			T
-		#	IMP	2		INF	1			F
-		#	IMP	2		DBG	0			F
+		#	IMP	3		ERR	3			T
+		#	IMP	3		IMP	2			T
+		#	IMP	3		OK	2			F
+		#	IMP	3		INF	1			F
+		#	IMP	3		DBG	0			F
 		#
-		#	INF	1		ERR	3			T
-		#	INF	1		IMP	2			T
+		#	OK	2		ERR	4			T
+		#	OK	2		IMP	3			T
+		#	OK	2		OK	2			T
+		#	OK	2		INF	1			F
+		#	OK	2		DBG	0			F
+		#
+		#	INF	1		ERR	4			T
+		#	INF	1		IMP	3			T
+		#	INF	1		OK	2			T
 		#	INF	1		INF	1			T
 		#	INF	1		DBG	0			F
 		#
-		#	DBG	0		ERR	3			T
-		#	DGB	0		IMP	2			T
+		#	DBG	0		ERR	4			T
+		#	DGB	0		IMP	3			T
+		#	DGB	0		OK	2			T
 		#	DBG	0		INF	1			T
 		#	DBG	0		DBG	0			T
 		# => returns true if @level is less or equal to level_to_check
@@ -130,12 +143,15 @@ class SimpleHtmlLogger
 	end
 	
 	def convert_level_to_number(level)
-		# ERROR = 3
-		# IMPORTANT = 2
+		# ERROR = 4
+		# IMPORTANT = 3
+		# OK = 2
 		# INFO = 1
 		# DEBUG = 0
-		level_as_number = 3 #ERROR
+		level_as_number = 4 #ERROR
 		if level == IMPORTANT then
+			level_as_number = 3
+		elsif level == OK
 			level_as_number = 2
 		elsif level == INFO
 			level_as_number = 1
@@ -145,9 +161,21 @@ class SimpleHtmlLogger
 		return level_as_number
 	end
 	
+	# For discovery of color space (really ANSI code space)
+	def test_colors()
+		for i in 0..50 do
+			puts(colorize("Test of color code " + i.to_s + "\n", i))
+		end
+	end
+	
+	
 	# see http://stackoverflow.com/a/2070405/2112089
 	def colorize(text, color_code)
 	  "\e[#{color_code}m#{text}\e[0m"
+	end
+	
+	def ok(message)
+		log(OK, message)
 	end
 	
 	def info(message)
