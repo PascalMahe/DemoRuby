@@ -29,8 +29,8 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 	assert_equal(expected_meeting.track_condition,		actual_meeting.track_condition, 	"Wrong track_condition for " + str_meeting_identifier + ".")
 	assert_equal(expected_meeting.urls_of_races_array,	actual_meeting.urls_of_races_array,	"Wrong urls_of_races_array for " + str_meeting_identifier + ".")
 
-	validate_job(expected_meeting.job, actual_meeting.job, " job from " + str_meeting_identifier)
-	validate_weather(expected_meeting.weather, actual_meeting.weather, " weather from " + str_meeting_identifier)
+	validate_job(expected_meeting.job, actual_meeting.job, "from " + str_meeting_identifier)
+	validate_weather(expected_meeting.weather, actual_meeting.weather, "from " + str_meeting_identifier)
 	
 	@logger.ok("Tests for meeting " + str_meeting_identifier + " OK.")
 end

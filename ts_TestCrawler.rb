@@ -72,38 +72,38 @@ class TestCrawler < TestSuite
 		# end
 	# end
 	
-	def test_fetch_meetings
+	# def test_fetch_meetings
 		
-		@logger.imp("Testing fetch meetings")
-		begin
-			job = Job::new
-			date = Date::new(2013,11,15)
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
-			html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
+		# @logger.imp("Testing fetch meetings")
+		# begin
+			# job = Job::new
+			# date = Date::new(2013,11,15)
+			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			# html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
 			
-			if html_meeting_list == nil then
-				flunk("html_meeting_list is nil.")
-			end
+			# if html_meeting_list == nil then
+				# flunk("html_meeting_list is nil.")
+			# end
 		
-			meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
+			# meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
 			
-			# Checking the list has meetings in it and that those meetings
-			# have races
-			assert_equal(5, meeting_list.size)
-			assert_equal(9, meeting_list[0].race_list.size)
-			assert_equal(8, meeting_list[1].race_list.size)
-			assert_equal(8, meeting_list[2].race_list.size)
-			assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
-															 #  but the main page only has 2 to 5
-			assert_equal(6, meeting_list[4].race_list.size)
+			## Checking the list has meetings in it and that those meetings
+			##{ have races
+			# assert_equal(5, meeting_list.size)
+			# assert_equal(9, meeting_list[0].race_list.size)
+			# assert_equal(8, meeting_list[1].race_list.size)
+			# assert_equal(8, meeting_list[2].race_list.size)
+			# assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
+															  ## but the main page only has 2 to 5
+			# assert_equal(6, meeting_list[4].race_list.size)
 			
-			@logger.info("Tests for test_fetch_meetings OK.")
-		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
-		end
-	end
+			# @logger.info("Tests for test_fetch_meetings OK.")
+		# rescue Exception => err
+			# @logger.error(err.inspect)
+			# @logger.error(err.backtrace)
+			# flunk(err.inspect)
+		# end
+	# end
 	
 	def test_fetch_meeting_shallow
 		
@@ -167,7 +167,7 @@ class TestCrawler < TestSuite
 								track_condition: verif_track_condition, 
 								weather: verif_weather)
 						
-			validate_meeting(verification_meeting, meeting, "fetch_meeting_shallow")
+			validate_meeting(verification_meeting, meeting, "on 12/06/2012")
 			
 			# 2nd test: country
 			html_meeting_to_test = html_meeting_list[3]
@@ -216,130 +216,130 @@ class TestCrawler < TestSuite
 		end
 	end
 	
-	# def test_fetch_race
-		# @logger.imp("Testing fetch race")
-		# begin
-			## Setting up 
-			## -> Getting the page
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+	def test_fetch_race
+		@logger.imp("Testing fetch race")
+		begin
+			# Setting up 
+			# -> Getting the page
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
 			
-			## -> Getting the meeting list
-			# html_meeting_list = @crawler.driver.
-					# find_elements(:css, "div.reunion-line")
-			## (Checking we did get a list and the right one)
-			# assert_equal(5, html_meeting_list.size)
+			# -> Getting the meeting list
+			html_meeting_list = @crawler.driver.
+					find_elements(:css, "div.reunion-line")
+			# (Checking we did get a list and the right one)
+			assert_equal(5, html_meeting_list.size)
 			
-			## -> Getting the meeting tag
-			# html_meeting = html_meeting_list[0]
-			## (Checking it's the right one)
-			# reunion_id_attribute = html_meeting.attribute("data-reunionid")
-			# assert_equal("1", reunion_id_attribute)
+			# -> Getting the meeting tag
+			html_meeting = html_meeting_list[0]
+			# (Checking it's the right one)
+			reunion_id_attribute = html_meeting.attribute("data-reunionid")
+			assert_equal("1", reunion_id_attribute)
 			
-			# secondary_id = "numOfficiel-" + reunion_id_attribute
-			# secondary_div_tag = @crawler.driver
-					# .find_element(:id, secondary_id)
+			secondary_id = "numOfficiel-" + reunion_id_attribute
+			secondary_div_tag = @crawler.driver
+					.find_element(:id, secondary_id)
 			
-			## -> Getting the list of races
-			# link_to_races_tags = secondary_div_tag.find_elements(:css, "a.course")
-			# urls_of_races_array = []
-			# link_to_races_tags.each do |link_to_race_tag|
-				# urls_of_races_array.push(link_to_race_tag.attribute("href"))
-			# end
-			## Checking we've got the right number
-			# assert_equal(9, urls_of_races_array.size)
+			# -> Getting the list of races
+			link_to_races_tags = secondary_div_tag.find_elements(:css, "a.course")
+			urls_of_races_array = []
+			link_to_races_tags.each do |link_to_race_tag|
+				urls_of_races_array.push(link_to_race_tag.attribute("href"))
+			end
+			# Checking we've got the right number
+			assert_equal(9, urls_of_races_array.size)
 			
-			## Extracting the race to test
-			# url_to_race = urls_of_races_array[6]
-			# meeting = Meeting::new()
-			# fetched_race = @crawler.fetch_race(url_to_race, meeting)
+			# Extracting the race to test
+			url_to_race = urls_of_races_array[6]
+			meeting = Meeting::new()
+			fetched_race = @crawler.fetch_race(url_to_race, meeting)
 			
-			# verif_bets = 166715.00
-			# verif_detailed_conditions = "PRIX DES TROTTEURS \"SANG-FROID\" Course 7 Course Internationale Départ à l'Autostart 20.000. - Attelé. - 2.100 mètres (G. P.) 9.000, 5.000, 2.800, 1.600, 1.000, 400, 200. Course spéciale sur invitation réservée à 12 trotteurs \"Sang-Froid\" sélectio nés par les Fédérations de Finlande, Norvège et Suède. 3 chevaux seront menés par des jockeys français désignés p r la SECF."
-			# verif_distance = 2100
-			# verif_general_conditions = "Internationale - Autostart  - Corde à gauche"
-			# verif_meeting = meeting
-			# verif_name = "PRIX DES TROTTEURS \"SANG-FROID\""
-			# verif_number = 7
-			# verif_race_type = @ref_list_hash[:ref_race_type_list]["Attelé"]
-			# verif_result = "3 - 7 - 1 - 10 - 6 - 2 - 12"
-			# verif_result_insertion_time = Time::new
-			# verif_runner_list = []
-			# verif_time =  Time::new("2014-02-20")
-			# verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
-			# verif_value =  20000
+			verif_bets = 166715.00
+			verif_detailed_conditions = "PRIX DES TROTTEURS \"SANG-FROID\" Course 7 Course Internationale Départ à l'Autostart 20.000. - Attelé. - 2.100 mètres (G. P.) 9.000, 5.000, 2.800, 1.600, 1.000, 400, 200. Course spéciale sur invitation réservée à 12 trotteurs \"Sang-Froid\" sélectio nés par les Fédérations de Finlande, Norvège et Suède. 3 chevaux seront menés par des jockeys français désignés p r la SECF."
+			verif_distance = 2100
+			verif_general_conditions = "Internationale - Autostart  - Corde à gauche"
+			verif_meeting = meeting
+			verif_name = "PRIX DES TROTTEURS \"SANG-FROID\""
+			verif_number = 7
+			verif_race_type = @ref_list_hash[:ref_race_type_list]["Attelé"]
+			verif_result = "3 - 7 - 1 - 10 - 6 - 2 - 12"
+			verif_result_insertion_time = Time::new
+			verif_runner_list = []
+			verif_time =  Time::new("2014-02-20")
+			verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
+			verif_value =  20000
 			
-			# verif_race = Race::new(bets: verif_bets,
-				# detailed_conditions: verif_detailed_conditions,
-				# distance: verif_distance,  
-				# general_conditions: verif_general_conditions,
-				# meeting: verif_meeting, 
-				# name: verif_name, 
-				# number: verif_number, 
-				# race_type: verif_race_type,
-				# result: verif_result,
-				# result_insertion_time: verif_result_insertion_time,
-				# runner_list: verif_runner_list,
-				# time: verif_time,
-				# url: verif_url,  
-				# value: verif_value
-			# )
+			verif_race = Race::new(bets: verif_bets,
+				detailed_conditions: verif_detailed_conditions,
+				distance: verif_distance,  
+				general_conditions: verif_general_conditions,
+				meeting: verif_meeting, 
+				name: verif_name, 
+				number: verif_number, 
+				race_type: verif_race_type,
+				result: verif_result,
+				result_insertion_time: verif_result_insertion_time,
+				runner_list: verif_runner_list,
+				time: verif_time,
+				url: verif_url,  
+				value: verif_value
+			)
 			
-			# assert_equal(verif_race, fetched_race)
-			# @logger.info("Tests for test_fetch_race OK.")
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			assert_equal(verif_race, fetched_race)
+			@logger.info("Tests for test_fetch_race OK.")
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
-	# def test_fetch_weather
+	def test_fetch_weather
 		
-		# @logger.imp("Testing fetch weather")
-		# begin
-			## Setting up 
-			## -> Getting the page
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+		@logger.imp("Testing fetch weather")
+		begin
+			# Setting up 
+			# -> Getting the page
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
 			
-			## -> Getting the meeting list
-			# html_meeting_list = @crawler.driver.
-					# find_elements(:css, "div.reunion-line")
-			## (Checking we did get a list and the right one)
-			# assert_equal(5, html_meeting_list.size)
+			# -> Getting the meeting list
+			html_meeting_list = @crawler.driver.
+					find_elements(:css, "div.reunion-line")
+			# (Checking we did get a list and the right one)
+			assert_equal(5, html_meeting_list.size)
 			
-			## -> Getting the meeting tag
-			# html_meeting = html_meeting_list[1]
+			# -> Getting the meeting tag
+			html_meeting = html_meeting_list[1]
 			
-			## (Checking it's the right one)
-			# reunion_id_attribute = html_meeting.attribute("data-reunionid")
-			# assert_equal("2", reunion_id_attribute)
+			# (Checking it's the right one)
+			reunion_id_attribute = html_meeting.attribute("data-reunionid")
+			assert_equal("2", reunion_id_attribute)
 			
-			# div_tag_for_weather = html_meeting.
-					# find_element(:css, "div.picto-meteo")
+			div_tag_for_weather = html_meeting.
+					find_element(:css, "div.picto-meteo")
 			
-			## the function to test
-			# weather = @crawler.fetch_weather(div_tag_for_weather)
-			## @logger.debug("Weather : " + weather.to_s)
+			# the function to test
+			weather = @crawler.fetch_weather(div_tag_for_weather)
+			# @logger.debug("Weather : " + weather.to_s)
 			
-			# verification_temp = 12
-			# verification_wind_dir = nil
-			# verification_wind_speed = 16
-			# verification_insolation = "P1"
-			# verification_weather = Weather::new(
-				# insolation: verification_insolation, 
-				# temperature: verification_temp, 
-				# wind_direction: verification_wind_dir, 
-				# wind_speed: verification_wind_speed
-			# )
+			verification_temp = 12
+			verification_wind_dir = nil
+			verification_wind_speed = 16
+			verification_insolation = "P1"
+			verification_weather = Weather::new(
+				insolation: verification_insolation, 
+				temperature: verification_temp, 
+				wind_direction: verification_wind_dir, 
+				wind_speed: verification_wind_speed
+			)
 			
-			# assert_equal(verification_weather, weather)
-			# @logger.info("Tests for test_fetch_weather OK.")
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			assert_equal(verification_weather, weather)
+			@logger.info("Tests for test_fetch_weather OK.")
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
 	def test_join_runner_list_and_result_list
 		@logger.imp("Testing join runner list and result list")
