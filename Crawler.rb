@@ -25,6 +25,8 @@ class Crawler
 	ODD_LINE_FLAG = "even"
 	EVEN_LINE_FLAG = "odd"
 	
+	DETAILED_COND_INTRO = ""
+	
 	HEADER_LINE_TYPE_1 = 		"N° Nom Cas Fer S A Jockey Poids (kg) Entraîneur Dist (mètres) Musique Gains Rapports probables SG"								
 	HEADER_LINE_TYPE_1_BIS = 	"N° Nom Cas. Fer S A Driver Poids (kg) Entraîneur Dist (mètres) Musique Gains Rapports probables SG"
 	HEADER_LINE_TYPE_2 = 		"N° Nom Cas. Oeil S A Jockey Corde Poids (kg) Entraineur Musique Rapports probables SG"
@@ -374,9 +376,13 @@ class Crawler
 		div_detailed_cond_tag_array = @driver.
 			# find_element(:xpath, "//div[@class='detail-popin']")
 			find_elements(:css, "div.detail-popin")
+		detailed_cond = "" #if there's no detail element
 		if div_detailed_cond_tag_array.length > 0 then
 			div_detailed_cond_tag = div_detailed_cond_tag_array[0]
+			div_detailed_cond_tag = div_detailed_cond_tag.find_element(:xpath, "div[@class='inner']/div[@class='content']")
 			detailed_cond = div_detailed_cond_tag.text.strip()
+			
+			# @logger.debug("fetch_race - detailed_cond : " + detailed_cond)
 			
 			# close popin
 			btn_close_popin = @driver.find_element(:css, "div.popin-close")
@@ -384,8 +390,6 @@ class Crawler
 			if $globalState.is_test then
 				@driver.navigate.back
 			end
-		else 
-			detailed_cond = "" #if there's no detail element
 		end
 		
 		# @logger.debug("detailed_cond : " + detailed_cond)
@@ -395,7 +399,7 @@ class Crawler
 		# 							Monté - 	65000 € - 	2700m - 10 partants Corde à gauche 
 		#							Attelé - 	20000 € - 	2100m - 12 partants  - Internationale - Autostart Corde à gauche 
 		# split#2
-		general_cond_tag = @driver.find_element(:id, "conditions")
+		general_cond_tag = @driver.find_element(:css, "#conditions > p")
 		general_cond_str_raw = general_cond_tag.text
 		
 		general_cond_array = general_cond_str_raw.split("-")
@@ -419,11 +423,12 @@ class Crawler
 		
 		# name
 		# inside h2.course-title/b[1] => VAAL - JOBURG'S PRAWN FEST HANDICAP
+		#                             => VINCENNES - PRIX DES TROTTEURS "SANG-FROID"
 		# split#1
 		race_title_tag = @driver.find_element(:xpath, "//h2[@class='course-title']")
 		race_title_str = race_title_tag.text
 		# @logger.debug("race_title_str : " + race_title_str)
-		race_title_array = race_title_str.split("-")
+		race_title_array = race_title_str.split(" - ")
 		name = race_title_array[2].strip()
 		# @logger.debug("name : " + name)
 		
@@ -431,7 +436,8 @@ class Crawler
 		# li.current
 		# attribute data-courseid
 		current_racer_tag = @driver.find_element(:css, "li.current")
-		number = current_racer_tag.attribute("data-courseid")
+		str_number = current_racer_tag.attribute("data-courseid")
+		number = str_number.to_i
 		# @logger.debug("number : " + number)
 		
 		# race_type
@@ -507,8 +513,9 @@ class Crawler
 		
 		# runner_list
 		@logger.debug("fetch_race - Fetching runners.")
-		runner_list = fetch_runners(race)
+		race.runner_list = fetch_runners(race)
 		# @logger.debug("runner_list : " + runner_list.to_s)
+		return race
 	end
 
 	def fetch_runners(race)

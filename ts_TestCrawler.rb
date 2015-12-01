@@ -250,42 +250,10 @@ class TestCrawler < TestSuite
 			
 			# Extracting the race to test
 			url_to_race = urls_of_races_array[6]
-			meeting = Meeting::new()
+			meeting = Meeting::new(job: Job::new, weather: Weather:: new)
 			fetched_race = @crawler.fetch_race(url_to_race, meeting)
-			
-			verif_bets = 166715.00
-			verif_detailed_conditions = "PRIX DES TROTTEURS \"SANG-FROID\" Course 7 Course Internationale Départ à l'Autostart 20.000. - Attelé. - 2.100 mètres (G. P.) 9.000, 5.000, 2.800, 1.600, 1.000, 400, 200. Course spéciale sur invitation réservée à 12 trotteurs \"Sang-Froid\" sélectio nés par les Fédérations de Finlande, Norvège et Suède. 3 chevaux seront menés par des jockeys français désignés p r la SECF."
-			verif_distance = 2100
-			verif_general_conditions = "Internationale - Autostart  - Corde à gauche"
-			verif_meeting = meeting
-			verif_name = "PRIX DES TROTTEURS \"SANG-FROID\""
-			verif_number = 7
-			verif_race_type = @ref_list_hash[:ref_race_type_list]["Attelé"]
-			verif_result = "3 - 7 - 1 - 10 - 6 - 2 - 12"
-			verif_result_insertion_time = Time::new
-			verif_runner_list = []
-			verif_time =  Time::new("2014-02-20")
-			verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
-			verif_value =  20000
-			
-			verif_race = Race::new(bets: verif_bets,
-				detailed_conditions: verif_detailed_conditions,
-				distance: verif_distance,  
-				general_conditions: verif_general_conditions,
-				meeting: verif_meeting, 
-				name: verif_name, 
-				number: verif_number, 
-				race_type: verif_race_type,
-				result: verif_result,
-				result_insertion_time: verif_result_insertion_time,
-				runner_list: verif_runner_list,
-				time: verif_time,
-				url: verif_url,  
-				value: verif_value
-			)
-			
-			assert_equal(verif_race, fetched_race)
-			@logger.info("Tests for test_fetch_race OK.")
+			# @logger.debug("test_fetch_race - fetched_race: " + fetched_race.to_s)
+			validate_race_R1_C7(fetched_race, meeting)
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)

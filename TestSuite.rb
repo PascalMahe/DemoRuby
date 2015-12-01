@@ -73,6 +73,7 @@ class TestSuite < MiniTest::Test
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
+	@@crawler = nil
 	
 	logger.info("End of setup")
 	
@@ -86,6 +87,12 @@ class TestSuite < MiniTest::Test
 	Minitest.after_run {
 		# Loggin at INFO level to avoid unnecesary logging about test data deletion
 		logger.level = SimpleHtmlLogger::INFO
+		
+		if @@crawler != nil
+			logger.debug("Found a crawler. Shutting it down.")
+			@@crawler.close_driver()
+		end
+		
 		logger.info("Teardown")
 		
 		# Data deletion went here until it was moved to before the data insertion
