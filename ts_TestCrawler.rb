@@ -679,232 +679,240 @@ class TestCrawler < TestSuite
 		end
 	end
 	
-	# def test_fetch_runners_shallow
+	def test_fetch_runners_shallow
 		
-		# @logger.imp("Testing fetch runners shallow")
-		# begin
-			## Setting up 
-			## -> Getting the first race (with distance)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3_runners.htm")
+		@logger.imp("Testing fetch runners shallow")
+		begin
+			# Setting up 
+			# -> Getting the first race (with distance)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3_runners.htm")
 			
-			# race_to_test = Race::new() # R4_C3
-			# runner = nil
+			race_to_test = Race::new() # R4_C3
+			runner = nil
 			
-			## the function to test
-			# runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			# the function to test
+			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
 			
-			## Checking we did get a list and the right one
-			# assert("Runner list is nil", runner_hash != nil)
-			# assert_equal(8, runner_hash.size, "Wrong number of runners fetched")
+			# Checking we did get a list and the right one
+			assert("Runner list is nil", runner_hash != nil)
+			assert_equal(8, runner_hash.size, "Wrong number of runners fetched")
 			
-			## Checking the fetched results
+			# Checking the fetched results
 			
-			## Without blinder
-			# runner_to_check = runner_hash[1]
-			# assert_equal(7, 				runner_to_check.age, 			"Wrong age while checking runner without blinder")
-			# assert_equal("SANS_OEILLERES", 	runner_to_check.blinder, 		"Wrong blinder while checking runner without blinder")
-			# assert_equal(8, 				runner_to_check.draw, 			"Wrong draw while checking runner without blinder")
-			# assert_equal("1p2p(13)7p9p", 	runner_to_check.history, 		"Wrong history while checking runner without blinder")			
-			# assert_equal("Mythical Palace", runner_to_check.horse.name, 	"Wrong horse.name while checking runner without blinder")
-			# assert_equal("H", 				runner_to_check.horse.sex, 		"Wrong sex while checking runner without blinder")
-			# assert_equal(false, 			runner_to_check.is_favorite, 	"Wrong is_favorite while checking runner without blinder")
-			# assert_equal("G Lerena", 		runner_to_check.jockey.name, 	"Wrong jockey.name while checking runner without blinder")
-			# assert_equal(60.5, 				runner_to_check.load_handicap, 	"Wrong load_handicap while checking runner without blinder")
-			# assert_equal(0, 				runner_to_check.load_ride, 		"Wrong load_ride while checking runner without blinder")
-			# assert_equal(false, 			runner_to_check.non_runner, 	"Wrong non_runner while checking runner without blinder")
-			# assert_equal(1, 				runner_to_check.number, 		"Wrong number while checking runner without blinder")
-			# assert_equal(race_to_test, 		runner_to_check.race, 			"Wrong race while checking runner without blinder")
-			# assert_equal(0.0, 				runner_to_check.single_rating, 	"Wrong single_rating while checking runner without blinder")
-			# assert_equal("S G Tarry", 		runner_to_check.trainer.name, 	"Wrong trainer.name while checking runner without blinder")
-			# assert_equal("", 				runner_to_check.url, 			"Wrong url while checking runner without blinder")
-			# @logger.info("Tests for runner (with draw) without blinder OK.")
+			# Without blinder
+			runner_to_check = runner_hash[1]
+			expected_runner = Runner::new(
+								age: 7,
+								blinder: @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"],
+								draw: 8,
+								earnings_career: 0.0,
+								history: "1p2p(13)7p9p",		
+								horse: Horse::new(	name: "Mythical Palace",  
+													sex: @ref_list_hash[:ref_sex_list]["H"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "G Lerena"),
+								load_handicap: 60.5,
+								load_ride: 0.0,
+								non_runner: false,
+								number: 1,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								shoes: @ref_list_hash[:ref_shoes_list][""],
+								url: "")
+			validate_runner_shallow(expected_runner, runner_to_check, "runner (with draw) without blinder")
 			
-			## Non runner
-			# runner_to_check = runner_hash[8]
-			# assert_equal(nil, 			runner_to_check.age, 			"Wrong age while checking non runner")
-			# assert_equal(nil, 			runner_to_check.blinder, 		"Wrong blinder while checking non runner")
-			# assert_equal(nil, 			runner_to_check.draw, 			"Wrong draw while checking non runner")
-			# assert_equal(nil, 			runner_to_check.history, 		"Wrong history while checking non runner")
-			# assert_equal("Phenomenal", 	runner_to_check.horse.name, 	"Wrong horse.name while checking non runner")
-			# assert_equal(nil, 			runner_to_check.horse.sex, 		"Wrong sex while checking runner non with blinder")
-			# assert_equal(false, 		runner_to_check.is_favorite, 	"Wrong is_favorite while checking non runner without blinder")
-			# assert_equal(nil, 			runner_to_check.jockey, 		"Wrong jockey while checking non runner")
-			# assert_equal(nil, 			runner_to_check.load_handicap, 	"Wrong load_handicap while checking non runner")
-			# assert_equal(nil, 			runner_to_check.load_ride, 		"Wrong load_ride while checking non runner")
-			# assert_equal(true, 			runner_to_check.non_runner, 	"Wrong is_favorite while checking non runner without blinder")
-			# assert_equal(8, 			runner_to_check.number, 		"Wrong number while checking non runner")			
-			# assert_equal(race_to_test, 	runner_to_check.race, 			"Wrong race while checking non runner")
-			# assert_equal(nil, 			runner_to_check.single_rating, 	"Wrong single_rating while checking non runner")
-			# assert_equal(nil, 			runner_to_check.trainer, 		"Wrong trainer while checking non runner")
-			# assert_equal("", 			runner_to_check.url, 			"Wrong url while checking non runner")
-			# @logger.info("Tests for non runner (with draw) OK.")
+			# Non runner
+			runner_to_check = runner_hash[8]
+			expected_runner = Runner::new(
+								age: 0,
+								blinder: @ref_list_hash[:ref_blinder_list][""],
+								draw: 0,
+								earnings_career: 0.0,
+								history: "",
+								horse: Horse::new(	name: "Phenomenal", 
+													sex: @ref_list_hash[:ref_sex_list][""]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: ""),
+								load_handicap: 0.0,
+								load_ride: 0.0,
+								non_runner: true,
+								number: 8,			
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								shoes: @ref_list_hash[:ref_shoes_list][""],
+								url: "")
+			validate_runner_shallow(expected_runner, runner_to_check, "non runner (with draw)")
 			
-			## -> Getting the second race (with time)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runners.htm")
+			# -> Getting the second race (with time)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runners.htm")
 			
-			# race_to_test = Race::new() # R1_C7
+			race_to_test = Race::new() # R1_C7
 			
-			## the function to test
-			# runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			# the function to test
+			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
 			
-			## Checking we did get a list and the right one
-			# assert_equal(12, runner_hash.size, "Wrong number of runners fetched")
+			# Checking we did get a list and the right one
+			assert_equal(12, runner_hash.size, "Wrong number of runners fetched")
 			
-			## Checking the fetched results
-			# runner_to_check = runner_hash[9]
-			# assert_equal(7, 				runner_to_check.age, 				"Wrong age while checking runner without shoes and with earnings")
-			# assert_equal(nil, 				runner_to_check.blinder, 			"Wrong blinder while checking runner without shoes and with earnings")
-			# assert_equal(nil, 				runner_to_check.draw, 				"Wrong draw while checking runner without shoes and with earnings")
-			# assert_equal("3aDa2a(13)", 		runner_to_check.history, 			"Wrong history while checking runner without shoes and with earnings")
-			# assert_equal("Jaervso Ole", 	runner_to_check.horse.name, 		"Wrong horse.name while checking runner without shoes and with earnings")
-			# assert_equal("M", 				runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner without shoes and with earnings")
-			# assert_equal(false, 			runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner without shoes and with earnings")
-			# assert_equal("F. Nivard", 		runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner without shoes and with earnings")
-			# assert_equal(nil, 				runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner without shoes and with earnings")
-			# assert_equal(nil, 				runner_to_check.load_ride, 			"Wrong load_ride while checking runner without shoes and with earnings")
-			# assert_equal(false, 			runner_to_check.non_runner, 		"Wrong is_favorite while checking runner without shoes and with earnings")
-			# assert_equal(9, 				runner_to_check.number, 			"Wrong number while checking runner without shoes and with earnings")
-			# assert_equal(race_to_test, 		runner_to_check.race, 				"Wrong race while checking runner without shoes and with earnings")
-			# assert_equal(0.0, 				runner_to_check.single_rating, 		"Wrong single_rating while checking runner without shoes and with earnings")
-			# assert_equal("", 				runner_to_check.url, 				"Wrong url while checking runner without shoes and with earnings")
-			# assert_equal("O. Tjomsland", 	runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner without shoes and with earnings")
-			# assert_equal(2100, 				runner_to_check.distance, 			"Wrong distance while checking runner without shoes and with earnings")
-			# assert_equal(100566.00, 		runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without shoes and with earnings")
-			# assert_equal("", 				runner_to_check.shoes, 				"Wrong shoes while checking runner without shoes and with earnings")
-			# @logger.info("Tests for runner without shoes and with earnings OK.")
+			# Checking the fetched results
+			runner_to_check = runner_hash[9]
+			expected_runner = Runner::new(
+								age: 7,
+								blinder: @ref_list_hash[:ref_blinder_list][""],
+								draw: 0,
+								history: "3aDa2a(13)",
+								horse: Horse::new(	name: "Jaervso Ole", 
+													sex: @ref_list_hash[:ref_sex_list]["M"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "F. Nivard"),
+								load_handicap: 0.0,
+								load_ride: 0.0,
+								non_runner: false,
+								number: 9,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: 2100,
+								earnings_career: 100566.00,
+								shoes: @ref_list_hash[:ref_shoes_list][""])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner without shoes and with earnings")
 
-			# runner_to_check = runner_hash[3]
-			# assert_equal(7, 					runner_to_check.age, 				"Wrong age while checking runner with shoes (front) and earnings")
-			# assert_equal(nil, 					runner_to_check.blinder, 			"Wrong blinder while checking runner with shoes front) and earnings")
-			# assert_equal(nil, 					runner_to_check.draw, 				"Wrong draw while checking runner with shoes (front) and earnings")
-			# assert_equal("0a2a1a1a(1", 			runner_to_check.history, 			"Wrong history while checking runner with shoes (front) and earnings")
-			# assert_equal("Doktor Jaros", 		runner_to_check.horse.name, 		"Wrong horse.name while checking runner with shoes (front) and earnings")
-			# assert_equal("M", 					runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner with shoes (front) and earnings")
-			# assert_equal(false, 				runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner with shoes (front) and earnings")
-			# assert_equal("G. Gudmestad", 		runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner with shoes (front) and earnings")
-			# assert_equal(nil, 					runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner with shoes (front) and earnings")
-			# assert_equal(nil, 					runner_to_check.load_ride, 			"Wrong load_ride while checking runner with shoes (front) and earnings")
-			# assert_equal(false, 				runner_to_check.non_runner, 		"Wrong is_favorite while checking runner with shoes (front) and earnings")
-			# assert_equal(3, 					runner_to_check.number, 			"Wrong number while checking runner with shoes (front) and earnings")
-			# assert_equal(race_to_test, 			runner_to_check.race, 				"Wrong race while checking runner with shoes (front) and earnings")
-			# assert_equal(0.0, 					runner_to_check.single_rating, 		"Wrong single_rating while checking runner with shoes (front) and earnings")
-			# assert_equal("", 					runner_to_check.url, 				"Wrong url while checking runner with shoes (front) and earnings")
-			# assert_equal("G. Gudmestad", 		runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner with shoes (front) and earnings")
-			# assert_equal(2100, 					runner_to_check.distance, 			"Wrong distance while checking runner with shoes (front) and earnings")
-			# assert_equal(87843.00, 				runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner with shoes (front) and earnings")
-			# assert_equal("DEFERRE_ANTERIEURS", 	runner_to_check.shoes, 				"Wrong shoes while checking runner with shoes (front) and earnings")
-			# @logger.info("Tests for runner with shoes (front) and earnings OK.")
+			runner_to_check = runner_hash[3]
+			expected_runner = Runner::new(
+								age: 7,
+								blinder: @ref_list_hash[:ref_blinder_list][""],
+								draw: 0,
+								history: "0a2a1a1a(1",
+								horse: Horse::new(	name: "Doktor Jaros", 
+													sex: @ref_list_hash[:ref_sex_list]["M"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "G. Gudmestad"),
+								load_handicap: 0.0,
+								load_ride: 0.0,
+								non_runner: false,
+								number: 3,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: 2100,
+								earnings_career: 87843.00,
+								shoes: @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner with shoes (front) and earnings")
 
-			# runner_to_check = runner_hash[11]
-			# assert_equal(10, 								runner_to_check.age, 				"Wrong age while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(nil, 								runner_to_check.blinder, 			"Wrong blinder while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(nil, 								runner_to_check.draw, 				"Wrong draw while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("4a0a6a5a(1", 						runner_to_check.history, 			"Wrong history while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("Metkutus", 						runner_to_check.horse.name, 		"Wrong horse.name while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("M", 								runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(false, 							runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("J.m. Paavola", 					runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(nil, 								runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(nil, 								runner_to_check.load_ride, 			"Wrong load_ride while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(false, 							runner_to_check.non_runner, 		"Wrong is_favorite while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(11, 								runner_to_check.number, 			"Wrong number while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(race_to_test, 						runner_to_check.race, 				"Wrong race while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(0.0, 								runner_to_check.single_rating, 		"Wrong single_rating while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("", 								runner_to_check.url, 				"Wrong url while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("J.m. Paavola", 					runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(2100, 								runner_to_check.distance, 			"Wrong distance while checking runner with shoes (front & back) off and earnings")
-			# assert_equal(86140.00, 							runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner with shoes (front & back) off and earnings")
-			# assert_equal("DEFERRE_ANTERIEURS_POSTERIEURS",	runner_to_check.shoes, 				"Wrong shoes while checking runner with shoes (front & back) off and earnings")
-			# @logger.info("Tests for runner (with trainer) with front and back shoes off OK.")
+			runner_to_check = runner_hash[11]
+			expected_runner = Runner::new(
+								age: 10,
+								blinder: @ref_list_hash[:ref_blinder_list][""],
+								draw: 0,
+								history: "4a0a6a5a(1",
+								horse: Horse::new(name: "Metkutus", sex: @ref_list_hash[:ref_sex_list]["M"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "J.m. Paavola"),
+								load_handicap: 0.0,
+								load_ride: 0.0,
+								non_runner: false,
+								number: 11,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: 2100,
+								earnings_career: 86140.00,
+								shoes: @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner (with trainer) with front and back shoes off")
 
 			
-			## -> Getting the third race (without draw)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
+			# -> Getting the third race (without draw)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
 			
-			# race_to_test = Race::new() # R2_C8
+			race_to_test = Race::new() # R2_C8
 			
-			## the function to test
-			# runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			# the function to test
+			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
 			
-			## Checking we did get a list and the right one
-			# assert_equal(11, runner_hash.size, "Wrong number of runners fetched")
+			# Checking we did get a list and the right one
+			assert_equal(11, runner_hash.size, "Wrong number of runners fetched")
 			
-			## Checking the fetched results
-			# runner_to_check = runner_hash[8]
-			# assert_equal(5, 					runner_to_check.age, 				"Wrong age while checking runner without draw")
-			# assert_equal("OEILLERES_CLASSIQUE",	runner_to_check.blinder, 			"Wrong blinder while checking runner without draw")
-			# assert_equal(nil, 					runner_to_check.draw, 				"Wrong draw while checking runner without draw")
-			# assert_equal("3a0h8h3s2s6s", 		runner_to_check.history, 			"Wrong history while checking runner without draw")
-			# assert_equal("Becqualink", 			runner_to_check.horse.name, 		"Wrong horse.name while checking runner without draw")
-			# assert_equal("H", 					runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner without draw")
-			# assert_equal(false, 				runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner without draw")
-			# assert_equal("F.corallo", 			runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner without draw")
-			# assert_equal(66, 					runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner without draw")
-			# assert_equal(64, 					runner_to_check.load_ride, 			"Wrong load_ride while checking runner without draw")
-			# assert_equal(false, 				runner_to_check.non_runner, 		"Wrong is_favorite while checking runner without draw")
-			# assert_equal(8, 					runner_to_check.number, 			"Wrong number while checking runner without draw")
-			# assert_equal(race_to_test, 			runner_to_check.race, 				"Wrong race while checking runner without draw")
-			# assert_equal(0.0, 					runner_to_check.single_rating, 		"Wrong single_rating while checking runner without draw")
-			# assert_equal("", 					runner_to_check.url, 				"Wrong url while checking runner without draw")
-			# assert_equal("C.scandella", 		runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner without draw")
-			# assert_equal(nil, 					runner_to_check.distance, 			"Wrong distance while checking runner without draw")
-			# assert_equal(nil, 					runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw")
-			# assert_equal(nil, 					runner_to_check.shoes, 				"Wrong shoes while checking runner without draw")
-			# @logger.info("Tests for runner without draw OK.")
+			# Checking the fetched results
+			runner_to_check = runner_hash[8]
+			expected_runner = Runner::new(
+								age: 5,
+								blinder: @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"],
+								draw: 0,
+								history: "3a0h8h3s2s6s",
+								horse: Horse::new(name: "Becqualink", sex: @ref_list_hash[:ref_sex_list]["H"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "F.corallo"),
+								load_handicap: 66,
+								load_ride: 64,
+								non_runner: false,
+								number: 8,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: nil,
+								earnings_career: 0.0,
+								shoes: @ref_list_hash[:ref_shoes_list][""])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw")
 			
-			# runner_to_check = runner_hash[9]
-			# assert_equal(5, 					runner_to_check.age, 				"Wrong age while checking runner without draw or history but with load_ride")
-			# assert_equal("SANS_OEILLERES", 		runner_to_check.blinder, 			"Wrong blinder while checking runner without draw or history but with load_ride")
-			# assert_equal(nil, 					runner_to_check.draw, 				"Wrong draw while checking runner without draw or history but with load_ride")
-			# assert_equal("", 					runner_to_check.history, 			"Wrong history while checking runner without draw or history but with load_ride")
-			# assert_equal("Velours D'allier",	runner_to_check.horse.name, 		"Wrong horse.name while checking runner without draw or history but with load_ride")
-			# assert_equal("H", 					runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner without draw or history but with load_ride")
-			# assert_equal(false, 				runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner without draw or history but with load_ride")
-			# assert_equal("J.zerourou", 			runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner without draw or history but with load_ride")
-			# assert_equal(66, 					runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner without draw or history but with load_ride")
-			# assert_equal(64, 					runner_to_check.load_ride, 			"Wrong load_ride while checking runner without draw or history but with load_ride")
-			# assert_equal(false, 				runner_to_check.non_runner, 		"Wrong is_favorite while checking runner without draw or history but with load_ride")
-			# assert_equal(9, 					runner_to_check.number, 			"Wrong number while checking runner without draw or history but with load_ride")
-			# assert_equal(race_to_test, 			runner_to_check.race, 				"Wrong race while checking runner without draw or history but with load_ride")
-			# assert_equal(0.0, 					runner_to_check.single_rating, 		"Wrong single_rating while checking runner without draw or history but with load_ride")
-			# assert_equal("", 					runner_to_check.url, 				"Wrong url while checking runner without draw or history but with load_ride")
-			# assert_equal("E.clayeux", 			runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner without draw or history but with load_ride")
-			# assert_equal(nil, 					runner_to_check.distance, 			"Wrong distance while checking runner without draw or history but with load_ride")
-			# assert_equal(nil, 					runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw or history but with load_ride")
-			# assert_equal(nil, 					runner_to_check.shoes, 				"Wrong shoes while checking runner without draw or history but with load_ride")
-			# @logger.info("Tests for runner without draw or history but with load_ride OK.")
-			
-			
-			## Checking the fetched results
-			# runner_to_check = runner_hash[4]
-			# assert_equal(5, 						runner_to_check.age, 				"Wrong age while checking runner without draw but with load_ride and history")
-			# assert_equal("OEILLERES_AUSTRALIENNES",	runner_to_check.blinder, 			"Wrong blinder while checking runner without draw but with load_ride and history")
-			# assert_equal(nil, 						runner_to_check.draw, 				"Wrong draw while checking runner without draw but with load_ride and history")
-			# assert_equal("4h(13)1h4p2s", 			runner_to_check.history, 			"Wrong history while checking runner without draw but with load_ride and history")
-			# assert_equal("Va Longtemps", 			runner_to_check.horse.name, 		"Wrong horse.name while checking runner without draw but with load_ride and history")
-			# assert_equal("F", 						runner_to_check.horse.sex, 			"Wrong horse.sex while checking runner without draw but with load_ride and history")
-			# assert_equal(false, 					runner_to_check.is_favorite, 		"Wrong is_favorite while checking runner without draw but with load_ride and history")
-			# assert_equal("J.plouganou", 			runner_to_check.jockey.name, 		"Wrong jockey.name while checking runner without draw but with load_ride and history")
-			# assert_equal(67, 						runner_to_check.load_handicap, 		"Wrong load_handicap while checking runner without draw but with load_ride and history")
-			# assert_equal(0, 						runner_to_check.load_ride, 			"Wrong load_ride while checking runner without draw but with load_ride and history")
-			# assert_equal(false, 					runner_to_check.non_runner, 		"Wrong is_favorite while checking runner without draw but with load_ride and history")
-			# assert_equal(4, 						runner_to_check.number, 			"Wrong number while checking runner without draw but with load_ride and history")
-			# assert_equal(race_to_test, 				runner_to_check.race, 				"Wrong race while checking runner without draw but with load_ride and history")
-			# assert_equal(0.0, 						runner_to_check.single_rating, 		"Wrong single_rating while checking runner without draw but with load_ride and history")
-			# assert_equal("", 						runner_to_check.url, 				"Wrong url while checking runner without draw but with load_ride and history")
-			# assert_equal("E.clayeux", 				runner_to_check.trainer.name, 		"Wrong trainer.name while checking runner without draw but with load_ride and history")
-			# assert_equal(nil, 						runner_to_check.distance, 			"Wrong distance while checking runner without draw but with load_ride and history")
-			# assert_equal(nil, 						runner_to_check.earnings_career, 	"Wrong earnings_career while checking runner without draw but with load_ride and history")
-			# assert_equal(nil, 						runner_to_check.shoes, 				"Wrong shoes while checking runner without draw but with load_ride and history")
-			# @logger.info("Tests for runner without draw but with load_ride and history OK.")
+			runner_to_check = runner_hash[9]
+			expected_runner = Runner::new(
+								age: 5,
+								blinder: @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"],
+								draw: 0,
+								history: "",
+								horse: Horse::new(name: "Velours D'allier", sex: @ref_list_hash[:ref_sex_list]["H"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "J.zerourou"),
+								load_handicap: 66,
+								load_ride: 64,
+								non_runner: false,
+								number: 9,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: nil,
+								earnings_career: 0.0,
+								shoes: @ref_list_hash[:ref_shoes_list][""])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw or history but with load_ride")
 			
 			
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			# Checking the fetched results
+			runner_to_check = runner_hash[4]
+			expected_runner = Runner::new(
+								age: 5,
+								blinder: @ref_list_hash[:ref_blinder_list]["OEILLERES_AUSTRALIENNES"],
+								draw: 0,
+								history: "4h(13)1h4p2s",
+								horse: Horse::new(name: "Va Longtemps", sex: @ref_list_hash[:ref_sex_list]["F"]),
+								is_favorite: false,
+								is_substitute: false,
+								jockey: Jockey::new(name: "J.plouganou"),
+								load_handicap: 67,
+								load_ride: 0.0,
+								non_runner: false,
+								number: 4,
+								race: race_to_test,
+								single_rating_before_race: 0.0,
+								url: "",
+								distance: nil,
+								earnings_career: 0.0,
+								shoes: @ref_list_hash[:ref_shoes_list][""])
+			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw but with load_ride and history")
+			
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
 	# def test_fetch_race_results
 		

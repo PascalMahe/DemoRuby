@@ -720,12 +720,13 @@ class Crawler
 	def fetch_runners_shallow(race)
 		# Parameter: a race
 		# Fields to fill:
-		# - age (horse)
+		# - age (runner)							
 		# - blinder (runner)
 		# - distance (runner)
 		# - draw (runner)
 		# - earnings_career (runner)
 		# - history (shortened history) (runner)
+		# - is_substitute (runner)
 		# - jockey
 		# - load_handicap (runner)
 		# - load_ride (runner)
@@ -734,7 +735,7 @@ class Crawler
 		# - number (runner)
 		# - race (runner)
 		# - shirt (?) -> nobody cares...
-		# - shoes (?) -> nobody cares...
+		# - shoes (runner)
 		# - single_rating_before_race (runner)
 		# - sex (horse)
 		# - url (runner)
@@ -785,6 +786,7 @@ class Crawler
 				age = 0
 				blinder_text = ""
 				draw = 0
+				earnings_career = 0.0
 				history = ""
 				horse = nil
 				is_substitute = false
@@ -841,7 +843,7 @@ class Crawler
 					sex_raw = sex_elmt.text.strip
 					sex_text = sex_raw
 					
-					# age (horse)
+					# age (runner)
 					age_elmt = html_runner.find_element(:xpath, "td[6]")
 					age_raw = age_elmt.text.strip
 					age = age_raw.to_i
@@ -898,9 +900,9 @@ class Crawler
 					end
 					
 					# earnings_career
-					if history_xpath != nil then
+					if gains_xpath != nil then
 						earnings_career_elmt = html_runner.
-							find_element(:xpath, history_xpath)
+							find_element(:xpath, gains_xpath)
 						earnings_career_raw = earnings_career_elmt.text
 						earnings_career_raw = earnings_career_raw.gsub(",", ".")
 						earnings_career_raw = earnings_career_raw.gsub("€", "")
@@ -1008,7 +1010,7 @@ class Crawler
 		# - time (runner)
 		
 		# see fetch_runner_shallow for :
-		# - age (horse)
+		# - age (runner)
 		# - blinder (runner)
 		# - distance (runner)
 		# - draw (runner)
@@ -1171,7 +1173,7 @@ class Crawler
 		# - victories (runner)
 		
 		# see fetch_runner_shallow for:
-		# - age (horse)
+		# - age (runner)
 		# - blinder (runner)
 		# - distance (runner)
 		# - draw (runner)
