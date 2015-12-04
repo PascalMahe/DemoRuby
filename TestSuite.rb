@@ -9,9 +9,11 @@ class TestSuite < MiniTest::Test
 	attr_accessor :sql_test
 	attr_accessor :ref_list_hash
 	
+	
 	##########################
 	# Setup before any tests #
 	##########################
+	
 	path_to_log = ""
 	# Starting in debug to erase old test file
 	log_level = SimpleHtmlLogger::DEBUG
@@ -31,6 +33,55 @@ class TestSuite < MiniTest::Test
 	logger = $globalState.logger
 	config = $globalState.config
 	dbi = $globalState.dbi
+	
+	##########################
+	# Before anything else:  #
+	# saving the work dir    #
+	##########################
+	logger.imp("Saving work dir")
+	save_dir_name = "../RPP_Save"
+	if not Dir.exist?(save_dir_name) then
+		logger.debug("Creating " + save_dir_name)
+		Dir.mkdir(save_dir_name)
+		logger.debug("Saving all files and directories")
+		FileUtils.copy_entry(".", "./Save")
+	else
+		save_dir = Dir.new(save_dir_name)
+		array_of_files = Dir.entries(".")
+		copied_files = 0
+		array_of_files.each do |file_name| 
+			# to avoid the directories . && ..
+			if File.file?(file_name) then
+				local_file = File::new(file_name)
+				needs_copying = false
+				distant_file_name = save_dir_name + "/" + file_name
+				if not File.file?(distant_file_name) then
+					needs_copying = true
+				else
+					distant_file = File::new(distant_file_name)
+					# if the local file has been modified after the distant one,
+					# it's saved
+					if local_file.mtime >= distant_file.mtime && local_file.size > 0 then
+						needs_copying = true
+					end
+				end
+				# if the local file has been modified after the distant one,
+				# it's saved
+				if needs_copying then
+					logger.debug("Saving " + file_name)
+					copied_files = copied_files + 1
+					FileUtils.copy(file_name, save_dir_name, {verbose: false})
+				end
+			end
+		end
+		plural = ""
+		if not copied_files == 1
+			plural = "s"
+		end
+		logger.info("Saved " + copied_files.to_s + " file" + plural + " from work dir.")
+	end
+	
+	
 	# Loggin at INFO level to avoid unnecesary logging about test data insertion
 	logger.level = SimpleHtmlLogger::INFO
 	logger.imp("TEST SUITE")
