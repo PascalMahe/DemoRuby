@@ -106,6 +106,28 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 	@logger.ok("Tests for meeting " + str_meeting_identifier + " OK.")
 end
 
+def validate_runner(expected_runner, actual_runner, str_runner_identifier)
+	assert_equal(expected_runner.horse.breed, 				actual_runner.horse.breed, 				"Wrong horse.breed for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.coat, 				actual_runner.horse.coat, 				"Wrong horse.coat for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.father.name, 		actual_runner.horse.father.name, 		"Wrong horse.father.name for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.mother.name, 		actual_runner.horse.mother.name, 		"Wrong horse.mother.name for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.mother.father.name, 	actual_runner.horse.mother.father.name, "Wrong horse.mother.father.name for " + str_runner_identifier)
+
+	assert_equal(expected_runner.breeder.name, 				actual_runner.breeder.name, 			"Wrong breeder.name for " + str_runner_identifier)
+	assert_equal(expected_runner.description, 				actual_runner.description, 				"Wrong description for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_career, 			actual_runner.earnings_career, 			"Wrong earnings_career for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_current_year, 	actual_runner.earnings_current_year,	"Wrong earnings_current_year for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_last_year, 		actual_runner.earnings_last_year, 		"Wrong earnings_last_year for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_victory, 			actual_runner.earnings_victory, 		"Wrong earnings_victory for " + str_runner_identifier)
+	assert_equal(expected_runner.owner.name, 				actual_runner.owner.name, 				"Wrong owner.name for " + str_runner_identifier)
+	assert_equal(expected_runner.places, 					actual_runner.places, 					"Wrong places for " + str_runner_identifier)
+	assert_equal(expected_runner.races_run, 				actual_runner.races_run, 				"Wrong races_run for " + str_runner_identifier)
+	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 			"Wrong trainer.name for " + str_runner_identifier)
+	assert_equal(expected_runner.victories, 				actual_runner.victories, 				"Wrong victories for " + str_runner_identifier)
+		
+	@logger.ok("Tests for runner " + str_runner_identifier + " OK.")
+end
+
 def validate_runner_shallow(expected_runner, actual_runner, str_runner_identifier)
 
 	assert_equal(expected_runner.age, 						actual_runner.age, 				"Wrong age for " + str_runner_identifier)

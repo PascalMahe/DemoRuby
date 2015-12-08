@@ -88,7 +88,7 @@ class TestCrawler < TestSuite
 			# meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
 			
 			## Checking the list has meetings in it and that those meetings
-			##{ have races
+			## have races
 			# assert_equal(5, meeting_list.size)
 			# assert_equal(9, meeting_list[0].race_list.size)
 			# assert_equal(8, meeting_list[1].race_list.size)
@@ -720,7 +720,7 @@ class TestCrawler < TestSuite
 								single_rating_before_race: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""],
 								url: "")
-			validate_runner_shallow(expected_runner, runner_to_check, "runner (with draw) without blinder")
+			validate_runner_shallow(expected_runner, runner_to_check, "(with draw) without blinder")
 			
 			# Non runner
 			runner_to_check = runner_hash[8]
@@ -778,7 +778,7 @@ class TestCrawler < TestSuite
 								distance: 2100,
 								earnings_career: 100566.00,
 								shoes: @ref_list_hash[:ref_shoes_list][""])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner without shoes and with earnings")
+			validate_runner_shallow(expected_runner, runner_to_check, "without shoes and with earnings")
 
 			runner_to_check = runner_hash[3]
 			expected_runner = Runner::new(
@@ -801,7 +801,7 @@ class TestCrawler < TestSuite
 								distance: 2100,
 								earnings_career: 87843.00,
 								shoes: @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner with shoes (front) and earnings")
+			validate_runner_shallow(expected_runner, runner_to_check, "with shoes (front) and earnings")
 
 			runner_to_check = runner_hash[11]
 			expected_runner = Runner::new(
@@ -823,7 +823,7 @@ class TestCrawler < TestSuite
 								distance: 2100,
 								earnings_career: 86140.00,
 								shoes: @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner (with trainer) with front and back shoes off")
+			validate_runner_shallow(expected_runner, runner_to_check, "(with trainer) with front and back shoes off")
 
 			
 			# -> Getting the third race (without draw)
@@ -858,7 +858,7 @@ class TestCrawler < TestSuite
 								distance: nil,
 								earnings_career: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw")
+			validate_runner_shallow(expected_runner, runner_to_check, "without draw")
 			
 			runner_to_check = runner_hash[9]
 			expected_runner = Runner::new(
@@ -880,7 +880,7 @@ class TestCrawler < TestSuite
 								distance: nil,
 								earnings_career: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw or history but with load_ride")
+			validate_runner_shallow(expected_runner, runner_to_check, "without draw or history but with load_ride")
 			
 			
 			# Checking the fetched results
@@ -904,7 +904,7 @@ class TestCrawler < TestSuite
 								distance: nil,
 								earnings_career: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""])
-			validate_runner_shallow(expected_runner, runner_to_check, "runner without draw but with load_ride and history")
+			validate_runner_shallow(expected_runner, runner_to_check, "without draw but with load_ride and history")
 			
 			
 		rescue Exception => err
@@ -946,7 +946,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "runner (first place)")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N2 (first place)")
 			
 			# After 10th place (final_place == nil)
 			runner_to_check = runner_hash[10]
@@ -961,7 +961,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "runner (After 10th place)")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N10(After 10th place)")
 			
 			# Non-runner (non_runner == true, final_place == nil, single_rating_after_race == nil)
 			runner_to_check = runner_hash[11]
@@ -976,7 +976,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: true,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "Non-runner")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N11 (non-runner)")
 			
 			# Normal
 			runner_to_check = runner_hash[1]
@@ -991,7 +991,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "normal runner")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N1 (normal)")
 			
 			# Favorite (is_favorite == true)
 			runner_to_check = runner_hash[6]
@@ -1006,7 +1006,7 @@ class TestCrawler < TestSuite
 								is_favorite: true,
 								non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "Favorite runner")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N6 (favorite)")
 			@logger.ok("Tests for race with distance OK.")
 			
 			# -> Getting the second race (with time)
@@ -1033,7 +1033,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "runner with commentary and time")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R3_C1_N11 (commentary and time)")
 			
 			runner_to_check = runner_hash[10]
 			expected_runner = Runner::new(
@@ -1047,7 +1047,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								non_runner: false,
 								disqualified: true)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "runner with commentary and 0 time")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R3_C1_N10 (commentary and 0 time)")
 			
 			
 			# checking that there is a favorite
@@ -1069,151 +1069,174 @@ class TestCrawler < TestSuite
 		end
 	end
 	
-	# def test_fetch_runner
+	def test_fetch_runner
 		
-		# @logger.imp("Testing fetch runner")
-		# begin
-			## Setting up 
-			## -> Getting the first race (with distance)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4.htm")
+		@logger.imp("Testing fetch runner")
+		begin
+			# Setting up 
+			# -> Getting the first race (with distance)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4.htm")
 			
-			# race_to_test = Race::new() # R4_C4
-			# runner = nil
+			race_to_test = Race::new() # R4_C4
+			runner = nil
 			
-			## fetching the hash of runners (to get the URLs)
-			# runner_results_hash = @crawler.fetch_race_results(race_to_test)
+			# fetching the hash of runners (to get the URLs)
+			runner_results_hash = @crawler.fetch_race_results(race_to_test)
 			
-			## Checking we did get a list and the right one
-			# assert("Runner list is nil", runner_results_hash != nil)
-			# assert_equal(17, runner_results_hash.size, "Wrong number of runners fetched")
+			# Checking we did get a list and the right one
+			assert("Runner list is nil", runner_results_hash != nil)
+			assert_equal(17, runner_results_hash.size, "Wrong number of runners fetched")
 			
-			## fetching the runners' shallow data (as if we're in the fetch_runners function)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runners.htm")
-			# runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
+			# fetching the runners' shallow data (as if we're in the fetch_runners function)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runners.htm")
+			runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
 			
-			# assert_equal(17, runner_shallow_hash.size, "Wrong number of runners shallow fetched")
+			assert_equal(17, runner_shallow_hash.size, "Wrong number of runners shallow fetched")
 			
-			## putting each runner's URL
-			# runner_shallow_hash.each do |key, shallow_runner|
-				## @logger.debug("number = " + key.to_s + ", shallow_runner: " + shallow_runner.to_s)
-				## @logger.debug("current_number: " + current_number.to_s)
-				# result_runner = runner_results_hash[key]
-				## @logger.debug("url before: " + shallow_runner.url)
-				## @logger.debug("result_runner url: " + result_runner.url)
-				# shallow_runner.url = result_runner.url
+			# putting each runner's URL
+			runner_shallow_hash.each do |key, shallow_runner|
+				# @logger.debug("number = " + key.to_s + ", shallow_runner: " + shallow_runner.to_s)
+				# @logger.debug("current_number: " + current_number.to_s)
+				result_runner = runner_results_hash[key]
+				# @logger.debug("url before: " + shallow_runner.url)
+				# @logger.debug("result_runner url: " + result_runner.url)
+				shallow_runner.url = result_runner.url
 				
-				## @logger.debug("url after: " + shallow_runner.url)
-			# end
+				# @logger.debug("url after: " + shallow_runner.url)
+			end
 			
-			## the function to test
-			# runner_shallow_hash.each do |key, shallow_runner|
-				# shallow_runner = @crawler.fetch_runner(shallow_runner)
-			# end
+			# the function to test
+			runner_shallow_hash.each do |key, shallow_runner|
+				shallow_runner = @crawler.go_and_fetch_runner(shallow_runner)
+			end
+			
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list][""]
+			
+			father = Horse::new(name: "antonius pius")
+			grand_father = Horse::new(name: "goldkeeper")
+			mother = Horse::new(name: "cherry flower", father: grand_father)
+			
+			horse = Horse::new(breed: breed,
+								coat: coat,
+								father: father,
+								mother: mother)
+			
+			# runner without victories or breeder
+			runner_to_check = runner_shallow_hash[1]
+			expected_runner = Runner::new(
+								breeder: Breeder::new(name: ""),
+								description: "",
+								earnings_career: 3024.00,
+								earnings_current_year: 1049.00,
+								earnings_last_year: 1975.00,
+								earnings_victory: 0.00,
+								horse: horse,
+								number: 1,
+								owner: Owner::new(name: "MESSRS A LANG & R J MAYHEW"),
+								places: 6,
+								races_run: 7,
+								trainer: Trainer::new(name: "C MAYHEW"),
+								url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_ANTONIA_MAJOR.htm",
+								victories: 0)
+			validate_runner(expected_runner, runner_to_check, "R4_C4_N1 (without victories or breeder)")
+			
+			# runner without earnings, victories or places
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list][""]
+			
+			father = Horse::new(name: "casey tibbs")
+			grand_father = Horse::new(name: "dahar")
+			mother = Horse::new(name: "dahlia's legacy", father: grand_father)
+			
+			horse = Horse::new(breed: breed,
+								coat: coat,
+								father: father,
+								mother: mother)
+			
+			runner_to_check = runner_shallow_hash[7]
+			expected_runner = Runner::new(
+								breeder: Breeder::new(name: ""),
+								description: "",
+								earnings_career: 0.00,
+								earnings_current_year: 0.00,
+								earnings_last_year: 0.00,
+								earnings_victory: 0.00,
+								horse: horse,
+								number: 7,
+								owner: Owner::new(name: "MR S M FERREIRA"),
+								places: 0,
+								races_run: 3,
+								trainer: Trainer::new(name: "S M FERREIRA"),
+								url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_DAHLIA%27S_DESTINY.htm",
+								victories: 0)
+			validate_runner(expected_runner, runner_to_check, "R4_C4_N7 (without earnings, victories or places)")
 			
 			
-			## runner without victories or breeder
-			# runner_to_check = runner_shallow_hash[1]
-			# races_run: 7,
-			# victories: 0,
-			# places: 6,
-			# earnings_career: 3024.00,
-			# earnings_current_year: 1049.00,
-			# earnings_last_year: 1975.00,
-			# earnings_victory: 0.00,
-			# description: nil,
-			# horse.breed: "PUR-SANG",
-			# horse.coat: nil,
-			# breeder: "",
-			# trainer: "C MAYHEW",
-			# number: 1,
-			# owner: "MESSRS A LANG & R J MAYHEW",
-			# horse.father.name: "antonius pius",
-			# horse.mother.name: "cherry flower",
-			# horse.mother.father.name: "goldkeeper",
-			# "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_ANTONIA_MAJOR.htm", 				
-														# runner_to_check.url, 						"Wrong url while checking runner without victories or breeder")
-			# @logger.ok("Tests for runner (without victories or breeder) OK.")
+			# -> Getting the second race (with time)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8.htm")
 			
-			## runner without earnings, victories or places
-			# runner_to_check = runner_shallow_hash[7]
-			# races_run, 					"Wrong races_run while checking runner without earnings: 3,
-			# victories, 					"Wrong victories while checking runner without earnings: 0,
-			# places, 					"Wrong places while checking runner without earnings: 0,
-			# earnings_career, 			"Wrong earnings_career while checking runner without earnings: 0.00,
-			# earnings_current_year, 		"Wrong earnings_current_year while checking runner without earnings: 0.00,
-			# earnings_last_year, 		"Wrong earnings_last_year while checking runner without earnings: 0.00,
-			# earnings_victory, 			"Wrong earnings_victory while checking runner without earnings: 0.00,
-			# description, 				"Wrong description while checking runner without earnings: nil,
-			# horse.breed, 				"Wrong horse.breed while checking runner without earnings: "PUR-SANG",
-			# horse.coat, 				"Wrong horse.coat while checking runner without earnings: nil,
-			# breeder, 					"Wrong breeder while checking runner without earnings: "",
-			# number, 					"Wrong number while checking runner without earnings: 7,
-			# trainer, 					"Wrong trainer while checking runner without earnings: "S M FERREIRA",
-			# owner, 						"Wrong owner while checking runner without earnings: "MR S M FERREIRA",
-			# horse.father.name, 			"Wrong horse.father.name while checking runner without earnings: "casey tibbs",
-			# horse.mother.name, 			"Wrong horse.mother.name while checking runner without earnings: "dahlia's legacy",
-			# horse.mother.father.name, 	"Wrong horse.mother.father.name while checking runner without earnings: "dahar",
-			# "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runner_DAHLIA%27S_DESTINY.htm", 				
-											# runner_to_check.url, 						"Wrong url while checking runner without earnings, victories or places")
-			# @logger.ok("Tests for runner (without earnings, victories or places) OK.")
+			race_to_test = Race::new() # R2_C8
+			runner = nil
 			
+			# fetching the hash of runners (to get the URLs)
+			runner_results_hash = @crawler.fetch_race_results(race_to_test)
 			
-			## -> Getting the second race (with time)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8.htm")
+			# Checking we did get a list and the right one
+			assert("Runner list is nil", runner_results_hash != nil)
+			assert_equal(11, runner_results_hash.size, "Wrong number of runners fetched")
 			
-			# race_to_test = Race::new() # R2_C8
-			# runner = nil
+			# fetching the runners' shallow data (as if we're in the fetch_runners function)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
+			runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
 			
-			## fetching the hash of runners (to get the URLs)
-			# runner_results_hash = @crawler.fetch_race_results(race_to_test)
+			# putting each runner's URL
+			runner_shallow_hash.each do |key, shallow_runner|
+				result_runner = runner_results_hash[shallow_runner.number]
+				shallow_runner.url = result_runner.url
+			end
 			
-			## Checking we did get a list and the right one
-			# assert("Runner list is nil", runner_results_hash != nil)
-			# assert_equal(11, runner_results_hash.size, "Wrong number of runners fetched")
+			# the function to test
+			runner_shallow_hash.each do |key, shallow_runner|
+				shallow_runner = @crawler.go_and_fetch_runner(shallow_runner)
+			end
 			
-			## fetching the runners' shallow data (as if we're in the fetch_runners function)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
-			# runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
+			# runner without earnings_current_year
+			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
+			coat = @ref_list_hash[:ref_coat_list]["GRIS FONCE"]
 			
-			## putting each runner's URL
-			# runner_shallow_hash.each do |key, shallow_runner|
-				# result_runner = runner_results_hash[shallow_runner.number]
-				# shallow_runner.url = result_runner.url
-			# end
+			father = Horse::new(name: "sacro saint")
+			grand_father = Horse::new(name: "saint cyrien")
+			mother = Horse::new(name: "biblique", father: grand_father)
 			
-			## the function to test
-			# runner_shallow_hash.each do |key, shallow_runner|
-				# shallow_runner = @crawler.fetch_runner(shallow_runner)
-			# end
+			horse = Horse::new(breed: breed,
+								coat: coat,
+								father: father,
+								mother: mother)
 			
-			## runner without earnings_current_year
-			# runner_to_check = runner_shallow_hash[3]
-			# races_run: 12,
-			# victories: 2,
-			# places: 6,
-			# earnings_career: 68300.00,
-			# earnings_current_year: 0.00,
-			# earnings_last_year: 53900.00,
-			# earnings_victory: 36480.00,
-			# description: nil,
-			# horse.breed: "PUR-SANG",
-			# horse.coat: "GRIS FONCE",
-			# breeder: "HARAS DE SAINT-VOIR",
-			# trainer: "MACAIRE (S)",
-			# number: 3,
-			# owner: "HARAS DE SAINT-VOIR",
-			# horse.father.name: "sacro saint",
-			# horse.mother.name: "biblique",
-			# horse.mother.father.name: "saint cyrien",
-			# "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runner_VOTEZ_POUR_MOI.htm", 				
-												# runner_to_check.url, 					"Wrong url while checking runner without without earnings_current_year")
-			# @logger.ok("Tests for runner (without earnings_current_year) OK.")
+			runner_to_check = runner_shallow_hash[3]
+			expected_runner = Runner::new(
+								breeder: Breeder::new(name: "HARAS DE SAINT-VOIR"),
+								description: "",
+								earnings_career: 68300.00,
+								earnings_current_year: 0.00,
+								earnings_last_year: 53900.00,
+								earnings_victory: 36480.00,
+								horse: horse,
+								number: 3,
+								owner: Owner::new(name: "HARAS DE SAINT-VOIR"),
+								places: 6,
+								races_run: 12,
+								trainer: Trainer::new(name: "MACAIRE (S)"),
+								url: "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runner_VOTEZ_POUR_MOI.htm",
+								victories: 2)
+			validate_runner(expected_runner, runner_to_check, "R2_C8_N3 (without earnings_current_year)")
 			
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+	end
 	
 end
