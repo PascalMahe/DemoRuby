@@ -17,21 +17,16 @@ class Runner
 	attr_accessor :horse
 	attr_accessor :id
 	attr_accessor :is_favorite
+	attr_accessor :is_non_runner
 	attr_accessor :is_substitute
 	attr_accessor :jockey
 	attr_accessor :load_handicap
 	attr_accessor :load_ride
-	attr_accessor :non_runner	
 	attr_accessor :number
 	attr_accessor :owner
 	attr_accessor :places
 	attr_accessor :race
 	attr_accessor :races_run
-	attr_accessor :score_horse
-	attr_accessor :score_jockey
-	attr_accessor :score_owner
-	attr_accessor :score_trainer
-	attr_accessor :score_breeder
 	attr_accessor :shoes
 	attr_accessor :single_rating_after_race
 	attr_accessor :single_rating_before_race
@@ -58,21 +53,16 @@ class Runner
 			horse: nil,
 			id: nil,
 			is_favorite: nil,
+			is_non_runner: nil,
 			is_substitute: nil,
 			jockey: nil,
 			load_handicap: nil,
 			load_ride: nil,
-			non_runner: nil,
 			number: nil,
 			owner: nil,
 			places: nil,
 			race: nil,
 			races_run: nil,
-			score_horse: nil,
-			score_jockey: nil,
-			score_owner: nil,
-			score_trainer: nil,
-			score_breeder: nil,
 			shoes: nil,
 			single_rating_after_race: nil,
 			single_rating_before_race: nil,
@@ -98,21 +88,16 @@ class Runner
 		@horse = horse
 		@id = id
 		@is_favorite = is_favorite
+		@is_non_runner = is_non_runner
 		@is_substitute = is_substitute
 		@jockey = jockey
 		@load_handicap = load_handicap
 		@load_ride = load_ride
-		@non_runner = non_runner
 		@number = number
 		@owner = owner
 		@places = places
 		@race = race
 		@races_run = races_run
-		@score_breeder = score_breeder
-		@score_horse = score_horse
-		@score_jockey = score_jockey
-		@score_owner = score_owner
-		@score_trainer = score_trainer
 		@shoes = shoes
 		@single_rating_after_race = single_rating_after_race
 		@single_rating_before_race = single_rating_before_race
@@ -156,11 +141,8 @@ class Runner
 		@draw = choose_good_int(@draw, other_runner.draw)
 		# float
 		@earnings_career = choose_good_float(@earnings_career, other_runner.earnings_career)
-		# float
 		@earnings_current_year = choose_good_float(@earnings_current_year, other_runner.earnings_current_year)
-		# float
 		@earnings_last_year = choose_good_float(@earnings_last_year, other_runner.earnings_last_year)
-		# float
 		@earnings_victory = choose_good_float(@earnings_victory, other_runner.earnings_victory)
 		# int
 		@final_place = choose_good_int(@final_place, other_runner.final_place)
@@ -172,26 +154,26 @@ class Runner
 		end
 		# string
 		@id = choose_good_string(@id, other_runner.id)
+		
 		# boolean
 		if @is_favorite == nil then 
 			@is_favorite = other_runner.is_favorite 
 		end
-		# boolean
+		if @is_non_runner == nil then 
+			@is_non_runner = other_runner.is_non_runner 
+		end
 		if @is_substitute == nil then 
 			@is_substitute = other_runner.is_substitute 
 		end
+		
 		# object
 		if @jockey == nil then 
 			@jockey = other_runner.jockey 
 		end
 		# float
 		@load_handicap = choose_good_float(@load_handicap, other_runner.load_handicap)
-		# float
 		@load_ride = choose_good_float(@load_ride, other_runner.load_ride)
-		# boolean
-		if @non_runner == nil then 
-			@non_runner = other_runner.non_runner 
-		end
+		
 		# int
 		@number = choose_good_int(@number, other_runner.number)
 		# object
@@ -207,28 +189,12 @@ class Runner
 		# int
 		@races_run = choose_good_int(@races_run, other_runner.races_run)
 		
-		if @score_breeder == nil then 
-			@score_breeder = other_runner.score_breeder 
-		end
-		if @score_horse == nil then 
-			@score_horse = other_runner.score_horse 
-		end
-		if @score_jockey == nil then 
-			@score_jockey = other_runner.score_jockey 
-		end
-		if @score_owner == nil then 
-			@score_owner = other_runner.score_owner 
-		end
-		if @score_trainer == nil then 
-			@score_trainer = other_runner.score_trainer 
-		end
 		# object
 		if @shoes == nil then 
 			@shoes = other_runner.shoes 
 		end
 		# float
 		@single_rating_after_race = choose_good_float(@single_rating_after_race, other_runner.single_rating_after_race)
-		# float
 		@single_rating_before_race = choose_good_float(@single_rating_before_race, other_runner.single_rating_before_race)
 		# string
 		@time = choose_good_string(@time, other_runner.time)
@@ -297,22 +263,17 @@ class Runner
 		", earnings_victory = " + nil_safe_to_s(earnings_victory) +
 		", final_place = " + nil_safe_to_s(final_place) +
 		", is_favorite = " + nil_safe_to_s(is_favorite) +
+		", is_non_runner = " + nil_safe_to_s(is_non_runner) +
 		", is_substitute = " + nil_safe_to_s(is_substitute) +
 		", history = " + nil_safe_to_s(history) +
 		", jockey = " + nil_safe_to_s(jockey) +
 		", load_handicap = " + nil_safe_to_s(load_handicap) +
 		", load_ride = " + nil_safe_to_s(load_ride) +
-		", non_runner = " + nil_safe_to_s(non_runner) +
 		", number = " + nil_safe_to_s(number) +
 		", owner = " + nil_safe_to_s(owner) +
 		", places = " + nil_safe_to_s(places) +
 		", race = " + nil_safe_to_s(race) +
 		", races_run = " + nil_safe_to_s(races_run) +
-		", score_breeder = " + nil_safe_to_s(score_breeder) + 
-		", score_horse = " + nil_safe_to_s(score_horse) +
-		", score_jockey = " + nil_safe_to_s(score_jockey) +
-		", score_owner = " + nil_safe_to_s(score_owner) +
-		", score_trainer = " + nil_safe_to_s(score_trainer) +
 		", single_rating_after_race = " + nil_safe_to_s(single_rating_after_race) +
 		", single_rating_before_race = " + nil_safe_to_s(single_rating_before_race) +
 		", shoes = " + nil_safe_to_s(shoes) +

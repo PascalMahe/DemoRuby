@@ -726,12 +726,13 @@ class Crawler
 		# - draw (runner)
 		# - earnings_career (runner)
 		# - history (shortened history) (runner)
+		# - is_non_runner (runner)
 		# - is_substitute (runner)
 		# - jockey
 		# - load_handicap (runner)
 		# - load_ride (runner)
 		# - name (horse)
-		# - non_runner (runner)
+
 		# - number (runner)
 		# - race (runner)
 		# - shirt (?) -> nobody cares...
@@ -782,7 +783,7 @@ class Crawler
 			# big if on class to ignore the non-runners in the HTML table
 			if runner_class.index(EVEN_LINE_FLAG) != nil or runner_class.index(ODD_LINE_FLAG) != nil then
 				
-				non_runner = false
+				is_non_runner = false
 				age = 0
 				blinder_text = ""
 				draw = 0
@@ -827,14 +828,14 @@ class Crawler
 				
 				if runner_class.index(NON_RUNNER_FLAG) != nil then
 					# non partant
-					non_runner = true
+					is_non_runner = true
 					
 					horse = Horse::new(name: horse_name)
 					
-					# @logger.trace("fetch_runners_shallow - non_runner branch ")
+					# @logger.trace("fetch_runners_shallow - is_non_runner branch ")
 				else
 					# partant
-					non_runner = false
+					is_non_runner = false
 					
 					# @logger.debug("fetch_runners_shallow - runner branch ")
 					
@@ -971,11 +972,11 @@ class Crawler
 					earnings_career: earnings_career,
 					history: history,
 					horse: horse,
+					is_non_runner: is_non_runner,
 					is_substitute: is_substitute,
 					jockey: jockey,
 					load_handicap: load_handicap,
 					load_ride: load_ride,
-					non_runner: non_runner,
 					number: number,
 					race: race,
 					single_rating_before_race: single_rating_before_race,
@@ -1004,7 +1005,7 @@ class Crawler
 		# - diff. with precedent -> distance (runner)
 		# - final_place (runner)
 		# - is_favorite (runner)
-		# - non_runner (rapports) (runner)
+		# - is_non_runner (rapports) (runner)
 		# - number (runner)
 		# - single_rating_after_race (rapports) (runner)
 		# - time (runner)
@@ -1020,7 +1021,7 @@ class Crawler
 		# - load_handicap (runner)
 		# - load_ride (runner)
 		# - name (horse)
-		# - non_runner (runner)
+		# - is_non_runner (runner)
 		# - number (runner)
 		# - race (runner)
 		# - shirt (?) -> nobody cares...
@@ -1057,11 +1058,11 @@ class Crawler
 			
 			disqualified = false
 			is_favorite = false
-			non_runner = false
+			is_non_runner = false
 			
 			if td_list.size < 7 then
 				# non-runner
-				non_runner = true
+				is_non_runner = true
 				commentary = ""
 				time = ""
 				distance = ""
@@ -1138,7 +1139,7 @@ class Crawler
 				distance: distance,
 				final_place: final_place,
 				is_favorite: is_favorite,
-				non_runner: non_runner,
+				is_non_runner: is_non_runner,
 				number: number,
 				single_rating_after_race: single_rating_after_race,
 				time: time,
@@ -1183,7 +1184,7 @@ class Crawler
 		# - load_handicap (runner)
 		# - load_ride (runner)
 		# - name (horse)
-		# - non_runner (runner)
+		# - is_non_runner (runner)
 		# - number (runner)
 		# - race (runner)
 		# - shirt (?) -> nobody cares...
@@ -1199,7 +1200,7 @@ class Crawler
 		# - diff. with precedent -> distance (runner)
 		# - final_place (runner)
 		# - is_favorite (runner)
-		# - non_runner (rapports) (runner)
+		# - is_non_runner (rapports) (runner)
 		# - number (runner)
 		# - single_rating_after_race (rapports) (runner)
 		# - time (runner)

@@ -670,7 +670,7 @@ class TestCrawler < TestSuite
 			
 			# is after 10
 			
-			# is non_runner
+			# is is_non_runner
 			
 		rescue Exception => err
 			@logger.error(err.inspect)
@@ -710,11 +710,11 @@ class TestCrawler < TestSuite
 								horse: Horse::new(	name: "Mythical Palace",  
 													sex: @ref_list_hash[:ref_sex_list]["H"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "G Lerena"),
 								load_handicap: 60.5,
 								load_ride: 0.0,
-								non_runner: false,
 								number: 1,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -733,11 +733,11 @@ class TestCrawler < TestSuite
 								horse: Horse::new(	name: "Phenomenal", 
 													sex: @ref_list_hash[:ref_sex_list][""]),
 								is_favorite: false,
+								is_non_runner: true,
 								is_substitute: false,
 								jockey: Jockey::new(name: ""),
 								load_handicap: 0.0,
 								load_ride: 0.0,
-								non_runner: true,
 								number: 8,			
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -766,11 +766,11 @@ class TestCrawler < TestSuite
 								horse: Horse::new(	name: "Jaervso Ole", 
 													sex: @ref_list_hash[:ref_sex_list]["M"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "F. Nivard"),
 								load_handicap: 0.0,
 								load_ride: 0.0,
-								non_runner: false,
 								number: 9,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -789,11 +789,11 @@ class TestCrawler < TestSuite
 								horse: Horse::new(	name: "Doktor Jaros", 
 													sex: @ref_list_hash[:ref_sex_list]["M"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "G. Gudmestad"),
 								load_handicap: 0.0,
 								load_ride: 0.0,
-								non_runner: false,
 								number: 3,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -811,11 +811,11 @@ class TestCrawler < TestSuite
 								history: "4a0a6a5a(1",
 								horse: Horse::new(name: "Metkutus", sex: @ref_list_hash[:ref_sex_list]["M"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "J.m. Paavola"),
 								load_handicap: 0.0,
 								load_ride: 0.0,
-								non_runner: false,
 								number: 11,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -846,11 +846,11 @@ class TestCrawler < TestSuite
 								history: "3a0h8h3s2s6s",
 								horse: Horse::new(name: "Becqualink", sex: @ref_list_hash[:ref_sex_list]["H"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "F.corallo"),
 								load_handicap: 66,
 								load_ride: 64,
-								non_runner: false,
 								number: 8,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -868,11 +868,11 @@ class TestCrawler < TestSuite
 								history: "",
 								horse: Horse::new(name: "Velours D'allier", sex: @ref_list_hash[:ref_sex_list]["H"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "J.zerourou"),
 								load_handicap: 66,
 								load_ride: 64,
-								non_runner: false,
 								number: 9,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -892,11 +892,11 @@ class TestCrawler < TestSuite
 								history: "4h(13)1h4p2s",
 								horse: Horse::new(name: "Va Longtemps", sex: @ref_list_hash[:ref_sex_list]["F"]),
 								is_favorite: false,
+								is_non_runner: false,
 								is_substitute: false,
 								jockey: Jockey::new(name: "J.plouganou"),
 								load_handicap: 67,
 								load_ride: 0.0,
-								non_runner: false,
 								number: 4,
 								race: race_to_test,
 								single_rating_before_race: 0.0,
@@ -944,7 +944,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 29.9,
 								time: "",
 								is_favorite: false,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N2 (first place)")
 			
@@ -959,11 +959,11 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 23.9,
 								time: "",
 								is_favorite: false,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N10(After 10th place)")
 			
-			# Non-runner (non_runner == true, final_place == nil, single_rating_after_race == nil)
+			# Non-runner (is_non_runner == true, final_place == nil, single_rating_after_race == nil)
 			runner_to_check = runner_hash[11]
 			expected_runner = Runner::new(
 								url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1_runner_OUT_MY_WAY.htm",
@@ -974,7 +974,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 0.0,
 								time: "",
 								is_favorite: false,
-								non_runner: true,
+								is_non_runner: true,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N11 (non-runner)")
 			
@@ -989,7 +989,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 4.8,
 								time: "",
 								is_favorite: false,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N1 (normal)")
 			
@@ -1004,7 +1004,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 4.7,
 								time: "",
 								is_favorite: true,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N6 (favorite)")
 			@logger.ok("Tests for race with distance OK.")
@@ -1031,7 +1031,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 100.9,
 								time: "1'16\"90",
 								is_favorite: false,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: false)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R3_C1_N11 (commentary and time)")
 			
@@ -1045,7 +1045,7 @@ class TestCrawler < TestSuite
 								single_rating_after_race: 45.2,
 								time: "0'00\"00",
 								is_favorite: false,
-								non_runner: false,
+								is_non_runner: false,
 								disqualified: true)
 			validate_runner_from_result_list(expected_runner, runner_to_check, "R3_C1_N10 (commentary and 0 time)")
 			
