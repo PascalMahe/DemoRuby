@@ -1,0 +1,35 @@
+R1 C1		 20 Février 2014 • R1C1 - 13h15 • VINCENNES - 		PRIX DES ANDELYS 									Monté - 	 65 000 € - 	2700m - 10 partants  - 						Corde à gauche 
+R1 C2		 20 Février 2014 • R1C2 - 13h52 • VINCENNES - 		PRIX DU PLATEAU DE GRAVELLE 						Attelé - 	110 000 € - 	2100m - 16 partants  - 						Internationale - Autostart  - Corde à gauche 
+R1 C3		 20 Février 2014 • R1C3 - 14h22 • VINCENNES - 		PRIX DU CANTAL										Attelé - 	 90 000 € - 	2850m - 13 partants  - 						Européenne  	- Corde à gauche
+R1 C4		 20 Février 2014 • R1C4 - 14h50 • VINCENNES - 		PRIX DE GUISE										Attelé - 	 62 000 € - 	2700m -  8 partants  - 						Corde à gauche 
+R1 C5		 20 Février 2014 • R1C5 - 15h20 • VINCENNES - 		PRIX DE LA BAULE									Attelé - 	 44 000 € - 	2700m - 14 partants  - 						Corde à gauche 
+R1 C6		 20 Février 2014 • R1C6 - 15h52 • VINCENNES - 		PRIX DE VIRE										Monté - 	 70 000 € - 	2175m -  8 partants  - 						Corde à gauche 
+R1 C7		 20 Février 2014 • R1C7 - 16h30 • VINCENNES - 		PRIX DES TROTTEURS "SANG-FROID"						Attelé - 	 20 000 € - 	2100m - 12 partants  - 						Internationale - Autostart  - Corde à gauche 
+R1 C8		 20 Février 2014 • R1C8 - 17h05 • VINCENNES - 		PRIX D'EPINAY										Attelé - 	 36 000 € - 	2700m - 14 partants  - 						Corde à gauche 
+R1 C9		 20 Février 2014 • R1C9 - 17h35 • VINCENNES - 		PRIX DE LAUZUN										Monté - 	 62 000 € - 	2700m - 10 partants  - 						Corde à gauche 		
+R2 C1		 20 Février 2014 • R2C1 - 12h30 • BORELY - 			PRIX DE LA ROUVIERE									Plat - 		 22 000 € - 	1550m -  7 partants  - Terrain souple  - 	Courses à conditions  - Corde à gauche 
+R2 C2		 20 Février 2014 • R2C2 - 13h00 • BORELY - 			PRIX DES NEFLIERS									Plat - 		 17 000 € - 	1550m -  6 partants  - Terrain souple  - 	Courses à conditions  - Corde à gauche 
+R2 C3		 20 Février 2014 • R2C3 - 13h35 • BORELY - 			PRIX DE SAINTE ANNE									Plat - 		 16 000 € - 	1800m - 11 partants  - Terrain souple  - 	A réclamer  - Corde à gauche 
+R2 C4		 20 Février 2014 • R2C4 - 14h07 • BORELY - 			PRIX DES PLATANES									Plat - 		 15 000 € - 	2450m -  7 partants  - Terrain souple  - 	A réclamer  - Corde à gauche 
+R2 C5		 20 Février 2014 • R2C5 - 14h35 • BORELY - 			PRIX DE MEJEAN										Plat - 		 18 000 € - 	1200m - 14 partants  - Terrain souple  - 	Handicap divisé  - Corde à gauche 
+R2 C6		 20 Février 2014 • R2C6 - 15h05 • BORELY - 			PRIX DE LA REDONNE									Plat - 		 14 000 € - 	1200m - 14 partants  - Terrain souple  - 	Handicap divisé  - Corde à gauche 
+R2 C7		 20 Février 2014 • R2C7 - 15h35 • BORELY - 			PRIX DE LA PLANCHE									Haies - 	 18 000 € - 	3800m - 12 partants  - Terrain souple  - 	A réclamer 
+R2 C8		 20 Février 2014 • R2C8 - 16h05 • BORELY - 			PRIX DE SAINT-TROPEZ								Haies - 	 21 000 € - 	3500m - 11 partants  - Terrain souple  - 	Courses à conditions 		
+R3 C1		 20 Février 2014 • R3C1 - 17h20 • SAINT GALMIER - 	PRIX DE FEURS										Monté - 	 22 000 € - 	2700m - 14 partants  - Terrain bon  - 		Apprentis - Lads Jockeys - 	Européenne  - Corde à droite 
+R3 C2		 20 Février 2014 • R3C2 - 17h50 • SAINT GALMIER - 	PRIX DE LA CLAYETTE									Attelé - 	 22 000 € - 	2050m - 11 partants  - Terrain bon  - 		Nationale - Autostart  - Corde à droite 
+R3 C3		 20 Février 2014 • R3C3 - 18h20 • SAINT GALMIER - 	PRIX A.S.S.E.										Attelé - 	 22 000 € - 	2675m - 13 partants  - Terrain bon  - 		Nationale  - Corde à droite 
+R3 C4		 20 Février 2014 • R3C4 - 18h55 • SAINT GALMIER - 	PRIX UNO ATOUT										Attelé - 	 32 000 € - 	2650m - 13 partants  - Terrain bon  - 		Européenne - Autostart  - Corde à droite 
+R3 C5		 20 Février 2014 • R3C5 - 19h25 • SAINT GALMIER - 	PX O DEUX BOUCHONS-PX PARCOURS GOURMAND				Attelé - 	 20 000 € - 	2675m - 15 partants  - Terrain bon  - 		Corde à droite 
+R3 C6		 20 Février 2014 • R3C6 - 19h58 • SAINT GALMIER - 	PRIX GEBRAZAC										Attelé - 	 20 000 € - 	2675m - 18 partants  - Terrain bon  - 		Corde à droite
+R3 C7		 20 Février 2014 • R3C7 - 20h35 • SAINT GALMIER - 	PRIX D'AIX LES BAINS								Attelé - 	 20 000 € - 	2675m - 18 partants  - Terrain bon  - 		Corde à droite 
+R3 C8		 20 Février 2014 • R3C8 - 20h58 • SAINT GALMIER - 	PRIX DE CHATILLON SUR CHALARONNE					Attelé - 	  6 000 € - 	2050m - 16 partants  - Terrain bon  - 		Amateurs - Autostart  - Corde à droite		
+R4 C2		 20 Février 2014 • R4C2 - 11h45 • VAAL - 			ALL TO COME MAIDEN JUVENILE PLATE					Plat - 		  5 995 € - 	1200m - 12 partants  - 						Courses à conditions  - Corde à droite 
+R4 C3		 20 Février 2014 • R4C3 - 12h15 • VAAL - 			JOBURG'S PRAWN FEST HANDICAP						Plat - 		  7 759 € - 	1200m -  8 partants  - 						Handicap  - Corde à droite 
+R4 C4		 20 Février 2014 • R4C4 - 12h50 • VAAL - 			MAIDEN PLATE (F&M) WILGERBOSDRIFT TRIPLE TIARA		Plat - 		  5 995 € - 	1400m - 17 partants  - 						Courses à conditions  - Corde à droite 
+R4 C5		 20 Février 2014 • R4C5 - 13h25 • VAAL - 			DIVIDED HANDICAP (F&M) TRIPLE CROWN COMING SOON		Plat - 		  7 054 € - 	1400m - 17 partants  - 						Handicap Corde à droite 
+R5 C1		 20 Février 2014 • R5C1 - 16h15 • MEYDAN (E.A.U) - 	DISTRICT ONE										Plat - 		127 193 € - 	1400m -  9 partants  - 						Handicap  - Corde à gauche 
+R5 C2		 20 Février 2014 • R5C2 - 16h50 • MEYDAN (E.A.U) - 	MEYDAN SOBHA										Plat - 		 79 950 € - 	1600m - 19 partants  - 						Handicap  - Corde à gauche 
+R5 C3		 20 Février 2014 • R5C3 - 17h25 • MEYDAN (E.A.U) - 	MEYDAN SOBHA PHASE II								Plat - 		127 193 € - 	1000m - 10 partants  - 						Handicap  - Corde à gauche		
+R5 C4		 20 Février 2014 • R5C4 - 18h00 • MEYDAN (E.A.U) - 	DISTRICT ONE PHASE I								Plat - 		109 023 € - 	2000m - 19 partants  - 						Handicap  - Corde à gauche 
+R5 C5		 20 Février 2014 • R5C5 - 18h35 • MEYDAN (E.A.U) - 	BALANCHINE											Plat - 		145 364 € - 	1800m -  6 partants  - 						Groupe II  - Corde à gauche 
+R5 C6		 20 Février 2014 • R5C6 - 19h10 • MEYDAN (E.A.U) - 	DUBAI MILLENIUM STAKES								Plat - 		145 364 € - 	2000m - 13 partants  - 						Courses à conditions  - Corde à gauche 
