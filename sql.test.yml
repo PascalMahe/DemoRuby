@@ -41,13 +41,45 @@
 				id_sex,
 				id_breed,
 				id_coat,
+				id_father,
+				id_mother,
 				name
 			) VALUES (
 				-1, /* id_horse */
 				-1, /* sex */
 				-1, /* breed */
 				-1, /* coat */
+				-2,
+				-3,
 				"Test Horse 1 name"
+			)'
+
+  :horse_father: 'INSERT INTO Horse(
+				id_horse,
+				id_sex,
+				id_breed,
+				id_coat,
+				name
+			) VALUES (
+				-2, /* id_horse */
+				-1, /* sex */
+				-1, /* breed */
+				-1, /* coat */
+				"Test Father name"
+			)'
+
+  :horse_mother: 'INSERT INTO Horse(
+				id_horse,
+				id_sex,
+				id_breed,
+				id_coat,
+				name
+			) VALUES (
+				-3, /* id_horse */
+				-1, /* sex */
+				-1, /* breed */
+				-1, /* coat */
+				"Test Mother name"
 			)'
 
   :job: 'INSERT INTO Job(
@@ -172,114 +204,142 @@
 			-2 /* value */ 
 		)'
 
-  :runner_with_final_place: 'INSERT INTO Runner(
-				id_runner,
-				id_race,
-				id_horse,
-				id_jockey,
-				id_trainer,
+  :runner_after_race: 'INSERT INTO Runner(
+				id_runner, 
+				id_blinder, 
+				id_breeder, 
+				id_jockey, 
+				id_horse, 
 				id_owner,
-				id_breeder,
-				id_blinder,
-				id_shoes,
-				number,
-				draw,
-				single_rating,
-				final_place,
-				non_runner,
-				races_run,
-				victories,
-				places,
-				earnings_career,
-				earnings_current_year,
-				earnings_last_year,
-				earnings_victory,
+				id_race, 
+				id_shoes, 
+				id_trainer, 
+				age,
+				commentary,
 				description,
+				disqualified,
 				distance,
-				load,
+				draw,
+				earnings_career, 
+				earnings_current_year, 
+				earnings_last_year, 
+				earnings_victory,
+				final_place,
 				history,
-				url
+				is_favorite,
+				is_non_runner,
+				is_substitute,
+				load_handicap,
+				load_ride,
+				number,
+				places,
+				races_run,
+				single_rating_after_race, 
+				single_rating_before_race, 
+				time,
+				url,
+				victories
 			) VALUES (
 				-1, /* id_runner */
-				-1, /* id_race */
-				-1, /* id_horse */
-				-1, /* id_jockey */
-				-1, /* id_trainer */
-				-1, /* id_owner */
-				-1, /* id_breeder */
 				-1, /* id_blinder */
+				-1, /* id_breeder */
+				-1, /* id_jockey */
+				-1, /* id_horse */
+				-1, /* id_owner */
+				-1, /* id_race */
 				-1, /* id_shoes */
-				-1, /* number */
+				-1, /* id_trainer */
+				-1, /* age */
+				"Test Runner 1 commentary",
+				"Test Runner 1 description",
+				-1, /* disqualified, boolean */
+				-1, /* distance */
 				-1, /* draw */
-				-1.1, /* single_rating */
-				-1, /* final_place */
-				-1, /* non_runner, boolean */
-				-1, /* races_run */
-				-1, /* victories */
-				-1, /* places */
 				-1, /* earnings_career */
 				-1, /* earnings_current_year */
 				-1, /* earnings_last_year */
 				-1, /* earnings_victory */
-				"Test Runner 1 description",
-				-1, /* distance */
-				-1.1, /* load */
+				-1, /* final_place */
 				"Test Runner 1 history",
-				"Test Runner 1 url"
+				-1, /* is_favorite, boolean */
+				-1, /* is_non_runner, boolean */
+				-1, /* is_substitute, boolean */
+				-1.1, /* load_handicap */
+				-1.1, /* load_ride */
+				-1, /* number */
+				-1, /* places */
+				-1, /* races_run */
+				-1.1, /* single_rating_after_race */
+				-1.1, /* single_rating_before_race */
+				"Test Runner 1 time",
+				"Test Runner 1 url",
+				-1 /* victories */
 			)'
 
-  :runner_without_final_place: 'INSERT INTO Runner(
-				id_runner,
-				id_race,
-				id_horse,
-				id_jockey,
-				id_trainer,
+  :runner_before_race: 'INSERT INTO Runner(
+				id_runner, 
+				id_blinder, 
+				id_breeder, 
+				id_jockey, 
+				id_horse, 
 				id_owner,
-				id_breeder,
-				id_blinder,
-				id_shoes,
-				number,
-				draw,
-				single_rating,
-				non_runner,
-				races_run,
-				victories,
-				places,
-				earnings_career,
-				earnings_current_year,
-				earnings_last_year,
-				earnings_victory,
+				id_race, 
+				id_shoes, 
+				id_trainer, 
+				age,
+				commentary,
 				description,
 				distance,
-				load,
+				draw,
+				earnings_career, 
+				earnings_current_year, 
+				earnings_last_year, 
+				earnings_victory,
 				history,
-				url
+				is_favorite,
+				is_non_runner,
+				is_substitute,
+				load_handicap,
+				load_ride,
+				number,
+				places,
+				races_run,
+				single_rating_before_race, 
+				time,
+				url,
+				victories
 			) VALUES (
 				-2, /* id_runner */
-				-1, /* id_race */
-				-1, /* id_horse */
-				-1, /* id_jockey */
-				-1, /* id_trainer */
-				-1, /* id_owner */
-				-1, /* id_breeder */
 				-1, /* id_blinder */
+				-1, /* id_breeder */
+				-1, /* id_jockey */
+				-1, /* id_horse */
+				-1, /* id_owner */
+				-1, /* id_race */
 				-1, /* id_shoes */
-				-1, /* number */
+				-1, /* id_trainer */
+				-1, /* age */
+				"Test Runner 1 commentary",
+				"Test Runner 1 description",
+				-1, /* disqualified, boolean */
 				-1, /* draw */
-				-1.1, /* single_rating */
-				-1, /* non_runner, boolean */
-				-1, /* races_run */
-				-1, /* victories */
-				-1, /* places */
 				-1, /* earnings_career */
 				-1, /* earnings_current_year */
 				-1, /* earnings_last_year */
 				-1, /* earnings_victory */
-				"Test Runner 1 description",
-				-1, /* distance */
-				-1.1, /* load */
 				"Test Runner 1 history",
-				"Test Runner 1 url"
+				-1, /* is_favorite, boolean */
+				-1, /* is_non_runner, boolean */
+				-1, /* is_substitute, boolean */
+				-1.1, /* load_handicap */
+				-1.1, /* load_ride */
+				-1, /* number */
+				-1, /* places */
+				-1, /* races_run */
+				-1.1, /* single_rating_before_race */
+				"Test Runner 1 time",
+				"Test Runner 1 url",
+				-1 /* victories */
 			)'
 
   :trainer: 'INSERT INTO Trainer(
@@ -355,57 +415,69 @@
 			-10 /* value */ 
 		)'
 
-  :runner_without_final_place: 'INSERT INTO Runner(
-				id_runner,
-				id_race,
-				id_horse,
-				id_jockey,
-				id_trainer,
+  :runner_before_race: 'INSERT INTO Runner(
+				id_runner, 
+				id_blinder, 
+				id_breeder, 
+				id_jockey, 
+				id_horse, 
 				id_owner,
-				id_breeder,
-				id_blinder,
-				id_shoes,
+				id_race, 
+				id_shoes, 
+				id_trainer, 
+				age,
+				commentary,
 				description,
 				distance,
 				draw,
-				earnings_career,
-				earnings_current_year,
-				earnings_last_year,
+				earnings_career, 
+				earnings_current_year, 
+				earnings_last_year, 
 				earnings_victory,
 				history,
-				load,
-				non_runner,
+				is_favorite,
+				is_non_runner,
+				is_substitute,
+				load_handicap,
+				load_ride,
 				number,
 				places,
 				races_run,
-				single_rating,
+				single_rating_before_race, 
+				time,
 				url,
 				victories
 			) VALUES (
 				-10, /* id_runner */
-				-1, /* id_race */
-				-1, /* id_horse */
-				-1, /* id_jockey */
-				-1, /* id_trainer */
-				-1, /* id_owner */
-				-1, /* id_breeder */
 				-1, /* id_blinder */
+				-1, /* id_breeder */
+				-1, /* id_jockey */
+				-1, /* id_horse */
+				-1, /* id_owner */
+				-1, /* id_race */
 				-1, /* id_shoes */
-				"Test Runner 10 update description",
-				-10, /* distance */
+				-1, /* id_trainer */
+				-1, /* age */
+				"Test Runner 10 commentary",
+				"Test Runner 10 description",
+				-10, /* disqualified, boolean */
 				-10, /* draw */
 				-10, /* earnings_career */
 				-10, /* earnings_current_year */
 				-10, /* earnings_last_year */
 				-10, /* earnings_victory */
-				"Test Runner 10 update history",
-				-10.1, /* load */
-				-10, /* non_runner, boolean */
+				"Test Runner 10 history",
+				-1, /* is_favorite, boolean */
+				-1, /* is_non_runner, boolean */
+				-1, /* is_substitute, boolean */
+				-10.1, /* load_handicap */
+				-10.1, /* load_ride */
 				-10, /* number */
 				-10, /* places */
 				-10, /* races_run */
-				-10.1, /* single_rating */
-				"Test Runner 10 update url",
+				-10.1, /* single_rating_before_race */
+				"Test Runner 10 time",
+				"Test Runner 10 url",
 				-10 /* victories */
 			)'
 

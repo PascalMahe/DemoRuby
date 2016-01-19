@@ -50,13 +50,17 @@ CREATE TABLE IF NOT EXISTS Forecast(
 );			
 CREATE TABLE IF NOT EXISTS Horse(
 	id_horse INTEGER PRIMARY KEY,
-	id_sex INTEGER, /* FK to RefSex */
 	id_breed INTEGER, /* FK to RefBreed */
 	id_coat INTEGER, /* FK to RefCoat */
+	id_father INTEGER, /* FK to Horse */
+	id_mother INTEGER, /* FK to Horse */
+	id_sex INTEGER, /* FK to RefSex */
 	name TEXT,
-	FOREIGN KEY(id_sex) REFERENCES RefSex(id),
 	FOREIGN KEY(id_breed) REFERENCES RefBreed(id),
-	FOREIGN KEY(id_coat) REFERENCES RefCoat(id)
+	FOREIGN KEY(id_coat) REFERENCES RefCoat(id),
+	FOREIGN KEY(id_father) REFERENCES Horse(id_horse),
+	FOREIGN KEY(id_mother) REFERENCES Horse(id_horse),
+	FOREIGN KEY(id_sex) REFERENCES RefSex(id)
 );
 CREATE TABLE IF NOT EXISTS Job(
 	id_job INTEGER PRIMARY KEY,
@@ -98,14 +102,15 @@ CREATE TABLE IF NOT EXISTS Race(
 	id_race INTEGER PRIMARY KEY,
 	id_meeting INTEGER, /* FK to Meeting */
 	id_race_type INTEGER, /* FK to RefRaceType */
-	time TEXT,
+	bets INTEGER, /* in euros */
+	detailed_conditions TEXT,
+	distance INTEGER, /* in meters */
+	general_conditions TEXT,
 	number INTEGER,
 	name TEXT,
 	result TEXT,
 	result_insertion_time DATETIME,
-	distance INTEGER, /* in meters */
-	detailed_conditions TEXT,
-	bets INTEGER, /* in euros */
+	time TEXT,
 	url TEXT,
 	value INTEGER, /* in euros */
 	FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id),
@@ -113,39 +118,47 @@ CREATE TABLE IF NOT EXISTS Race(
 );
 CREATE TABLE IF NOT EXISTS Runner(
 	id_runner INTEGER PRIMARY KEY,
-	id_race INTEGER, /* FK to Race */
+	id_blinder INTEGER, /* FK to RefBlinder */
+	id_breeder INTEGER, /* FK to Breeder */
 	id_horse INTEGER, /* FK to Horse */
 	id_jockey INTEGER, /* FK to Jockey */
-	id_trainer INTEGER, /* FK to Trainer */
 	id_owner INTEGER, /* FK to Owner */
-	id_breeder INTEGER, /* FK to Breeder */
-	id_blinder INTEGER, /* FK to RefBlinder */
+	id_race INTEGER, /* FK to Race */
 	id_shoes INTEGER, /* FK to RefShoes */
-	number INTEGER,
+	id_trainer INTEGER, /* FK to Trainer */
+	age INTEGER,
+	commentary TEXT,
+	description TEXT,
+	disqualified INTEGER, /* boolean */
+	distance INTEGER,
 	draw INTEGER,
-	single_rating REAL,
-	final_place INTEGER,
-	non_runner INTEGER, /* boolean */
-	races_run INTEGER,
-	victories INTEGER,
-	places INTEGER,
 	earnings_career INTEGER, /* in euros */
 	earnings_current_year INTEGER, /* in euros */
 	earnings_last_year INTEGER, /* in euros */
 	earnings_victory INTEGER, /* in euros */
-	description TEXT,
-	distance INTEGER,
-	load REAL,
+	final_place INTEGER,
 	history TEXT,
+	is_favorite INTEGER, /* boolean */
+	is_non_runner INTEGER, /* boolean */
+	is_substitute INTEGER, /* boolean */
+	load_handicap REAL,
+	load_ride REAL,
+	number INTEGER,
+	places INTEGER,
+	races_run INTEGER,
+	single_rating_after_race REAL,
+	single_rating_before_race REAL,
+	time TEXT,
 	url TEXT,
-	FOREIGN KEY(id_race) REFERENCES Race(id),
+	victories INTEGER,
+	FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id),
+	FOREIGN KEY(id_breeder) REFERENCES Breeder(id),
 	FOREIGN KEY(id_horse) REFERENCES Horse(id),
 	FOREIGN KEY(id_jockey) REFERENCES Jockey(id),
-	FOREIGN KEY(id_trainer) REFERENCES Trainer(id),
 	FOREIGN KEY(id_owner) REFERENCES Owner(id),
-	FOREIGN KEY(id_breeder) REFERENCES Breeder(id),
-	FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id),
-	FOREIGN KEY(id_shoes) REFERENCES RefShoes(id)
+	FOREIGN KEY(id_race) REFERENCES Race(id),
+	FOREIGN KEY(id_shoes) REFERENCES RefShoes(id),
+	FOREIGN KEY(id_trainer) REFERENCES Trainer(id)
 );
 CREATE TABLE IF NOT EXISTS Trainer(
 	id_trainer INTEGER PRIMARY KEY,

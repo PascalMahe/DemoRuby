@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS Runner;
 DROP TABLE IF EXISTS Trainer;
 DROP TABLE IF EXISTS Weather;
 DROP TABLE IF EXISTS Weight;
- 
+
 -- CLEAN
 -- reference tables
 DELETE FROM RefBlinder;
@@ -51,3 +51,4 @@ DELETE FROM Runner;
 DELETE FROM Trainer;
 DELETE FROM Weather;
 DELETE FROM Weight;
+

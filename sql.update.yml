@@ -12,5 +12,7 @@
 			WHERE id_forecast = :id'
 
  :runner: 'UPDATE Runner
-			SET final_place = :final_place
+			SET final_place = :final_place,
+			disqualified = :disqualified,
+			single_rating_after_race = :single_rating_after_race
 			WHERE id_runner = :id'
