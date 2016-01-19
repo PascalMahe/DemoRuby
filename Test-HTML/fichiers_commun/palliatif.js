@@ -1,4 +1,5 @@
 function afficherPopinMeteo(evtTarget){
+	console.log("afficherPopinMeteo - cible : ");
 	console.log(evtTarget);
 	var reunionDivTag = evtTarget.parentNode.parentNode;
 	var reunionId = reunionDivTag.getAttribute("data-reunionid");
@@ -18,6 +19,22 @@ function afficherPopinMeteo(evtTarget){
 	
 	popin.style.top = evtTarget.getBoundingClientRect().bottom + "px";
 	popin.style.left = evtTarget.getBoundingClientRect().left + "px";
-	
+}
+
+function masquerPopinMeteo(evtTarget){
+	console.log("masquerPopinMeteo - cible : ");
+	console.log(evtTarget);
+	var reunionDivTag = evtTarget.parentNode.parentNode;
+	var reunionId = reunionDivTag.getAttribute("data-reunionid");
+	var reunionIndex = reunionId - 1;
+	var bodyTag = document.getElementsByTagName("body")[0];
+	var weatherPopinTagsArray = bodyTag.getElementsByClassName('popin bottom');
+	console.log("masquerPopinMeteo - weatherPopinTagsArray.length : " + weatherPopinTagsArray.length);
+	var weatherPopinIndexesArray = [1, 4, 7, 9, 11]; // indexes of div.popin-bottom tags that contain weather data
+	// cf. Reference/popin-list.txt for, well, reference
+
+	var popinIndex = weatherPopinIndexesArray[reunionIndex];
+	var popin = weatherPopinTagsArray[popinIndex]; // getting the popin
+	popin.style.display = "none";
 	
 }

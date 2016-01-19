@@ -5496,6 +5496,9 @@ html {
 }
 /* meteo */
 .reunions-infos-line .picto-meteo {
+  /* P.MAHE : ajouté pour voir ces putains de picto-meteo */
+  background-color: #6633cc;
+  
   background-image: url("../fichiers_commun/sprite_homepage.png");
   background-repeat: no-repeat;
   background-position: 100px 100px;
