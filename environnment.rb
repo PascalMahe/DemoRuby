@@ -1,13 +1,13 @@
 class Meeting
-	attr_accessor :date
 	attr_accessor :country
+	attr_accessor :date
 	attr_accessor :id
 	attr_accessor :job
 	attr_accessor :number
 	attr_accessor :racetrack
-	attr_accessor :race_list
+	attr_accessor :race_list # transient
 	attr_accessor :track_condition
-	attr_accessor :urls_of_races_array
+	attr_accessor :urls_of_races_array # transient
 	attr_accessor :weather
 	
 	def initialize(country: nil, date: nil, job: nil, number: nil, racetrack: nil, urls_of_races_array: nil, track_condition: nil, weather: nil)
@@ -62,14 +62,14 @@ class Race
 	attr_accessor :detailed_conditions
 	attr_accessor :distance
 	attr_accessor :id
-	attr_accessor :meeting
 	attr_accessor :general_conditions
+	attr_accessor :meeting
 	attr_accessor :name
 	attr_accessor :number
 	attr_accessor :race_type
 	attr_accessor :result
 	attr_accessor :result_insertion_time
-	attr_accessor :runner_list
+	attr_accessor :runner_list # transient
 	attr_accessor :time
 	attr_accessor :url
 	attr_accessor :value
@@ -162,7 +162,8 @@ class Weather
 	attr_accessor :wind_speed
 	attr_accessor :insolation
 	
-	def initialize(insolation: nil, temperature: nil, wind_direction: nil, wind_speed: nil)
+	def initialize(id: nil, insolation: nil, temperature: nil, wind_direction: nil, wind_speed: nil)
+		@id = id
 		@insolation = insolation
 		@temperature = temperature
 		@wind_direction = wind_direction

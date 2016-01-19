@@ -16,7 +16,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			@ref_list_hash = @dbi.load_all_refs
 		end
 		
-		@logger.level = SimpleHtmlLogger::ERROR
+		@logger.level = SimpleHtmlLogger::INFO
 	end
 	
 	##################
@@ -24,7 +24,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	##################
 	def test_insert_breeder
 		
-		@logger.info("Testing insertion of Breeder")
+		@logger.imp("Testing insertion of Breeder")
 		begin
 			# Counting Breeders in DB before insert
 			
@@ -41,6 +41,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			inserted_breeder = @dbi.load_breeder_by_id(breeder.id)
 			assert_equal(breeder.name, inserted_breeder.name)
 			assert_equal(old_breeder_num + 1, new_breeder_num)
+			
+			@logger.ok("Tests for insertion of Breeder OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -49,7 +51,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_forecast_with_matchrate
-		@logger.info("Testing insertion of Forecast")
+		@logger.imp("Testing insertion of Forecast")
 		begin
 			# Counting number of Forecasts before test
 			old_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
@@ -75,6 +77,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			new_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
 			assert_equal(old_forecast_num + 1, new_forecast_num)
 			
+			@logger.ok("Tests for insertion of Forecast OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -83,7 +86,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_forecast_without_matchrate
-		@logger.info("Testing insertion of Forecast")
+		@logger.imp("Testing insertion of Forecast (without matchrate)")
 		begin
 			# Counting number of Forecasts before test
 			old_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
@@ -106,7 +109,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			# Counting number of RefDirection after test
 			new_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
 			assert_equal(old_forecast_num + 1, new_forecast_num)
-			
+
+			@logger.ok("Tests for insertion of Forecast (without matchrate) OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -115,29 +119,62 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_horse
-		@logger.info("Testing insertion of Horse")
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.imp("Testing insertion of Horse")
 		begin
 			# Counting number of Horses before test
 			old_horse_num = @dbi.select_count_from_table(@config[:gen][:table_names][:horse])
 			
-			horse = Horse::new
-			horse.sex = @ref_list_hash[:ref_sex_list]["M"]
-			horse.breed = @ref_list_hash[:ref_breed_list]["Pur-sang"]
-			horse.coat = @ref_list_hash[:ref_coat_list]["gris"]
-			horse.name = "SILVER TREASURE"
+			horse = Horse::new(
+				breed: @ref_list_hash[:ref_breed_list]["Pur-sang"],
+				coat: @ref_list_hash[:ref_coat_list]["gris"],
+				father: Horse::new(id: -2),
+				mother: Horse::new(id: -3),
+				name: "SILVER TREASURE",
+				sex: @ref_list_hash[:ref_sex_list]["M"]
+			)
+			
+			@logger.debug("test_insert_horse - horse.father.id : " + horse.father.id.to_s)
+			@logger.debug("test_insert_horse - horse.mother.id : " + horse.mother.id.to_s)
+			
 			horse.id = @dbi.insert_horse(horse)
 			
 			# Checking insert by value
 			inserted_horse = @dbi.load_horse_by_id(horse.id)
-			assert_equal(horse.sex, inserted_horse.sex)
 			assert_equal(horse.breed, inserted_horse.breed)
 			assert_equal(horse.coat, inserted_horse.coat)
 			assert_equal(horse.name, inserted_horse.name)
+			assert_equal(horse.sex, inserted_horse.sex)
 			
-			# Counting number of RefDirection after test
+			# father
+			expected_father = Horse::new(
+				breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+				coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+				id: -2,
+				father: nil,
+				mother: nil,
+				name: "Test Father name",
+				sex: @ref_list_hash[:ref_sex_list]["Test Sex"]
+			)
+			assert_equal(expected_father, inserted_horse.father)
+			
+			# mother
+			expected_mother = Horse::new(
+				breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+				coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+				id: -3,
+				father: nil,
+				mother: nil,
+				name: "Test Mother name",
+				sex: @ref_list_hash[:ref_sex_list]["Test Sex"]
+			)
+			assert_equal(expected_mother, inserted_horse.mother)
+			
+			# Counting number of Horses after test
 			new_horse_num = @dbi.select_count_from_table(@config[:gen][:table_names][:horse])
 			assert_equal(old_horse_num + 1, new_horse_num)
 			
+			@logger.ok("Tests for insertion of Horse OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -146,8 +183,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_job
-		@logger.level = SimpleHtmlLogger::DEBUG
-		@logger.info("Testing insertion of Job")
+		@logger.imp("Testing insertion of Job")
 		begin
 			# Counting number of Jobs before test
 			old_job_num = @dbi.select_count_from_table(@config[:gen][:table_names][:job])
@@ -185,10 +221,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 				job.computing_end_time.strftime(@config[:gen][:default_date_time_format]), 
 				selected_job.computing_end_time.strftime(@config[:gen][:default_date_time_format]))
 			
-			# Counting number of RefDirection after test
+			# Counting number of Job after test
 			new_job_num = @dbi.select_count_from_table(@config[:gen][:table_names][:job])
 			assert_equal(old_job_num + 1, new_job_num)
 			
+			@logger.ok("Tests for insertion of Job OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -197,7 +234,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_jockey
-		@logger.info("Testing insertion of Jockey")
+		@logger.imp("Testing insertion of Jockey")
 		begin
 			# Counting number of Jockeys before test
 			old_jockey_num = @dbi.select_count_from_table(@config[:gen][:table_names][:jockey])
@@ -216,6 +253,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			new_jockey_num = @dbi.select_count_from_table(@config[:gen][:table_names][:jockey])
 			assert_equal(old_jockey_num + 1, new_jockey_num)
 			
+			@logger.ok("Tests for insertion of Jockey OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -224,27 +262,29 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 
 	def test_insert_meeting
-		@logger.info("Testing insertion of Meeting")
+		@logger.imp("Testing insertion of Meeting")
 		
 		begin
 			# Counting number of Meetings before test
 			old_meeting_num = @dbi.select_count_from_table(@config[:gen][:table_names][:meeting])
 			
-			job = @dbi.load_job_by_id(-1)
-			track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
 			country = "BEL"
 			date = Time.now
-			racetrack = "Auteuil"
+			job = @dbi.load_job_by_id(-1)
 			number = 11
+			racetrack = "Auteuil"
+			track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
 			urls_of_races_array = []
+			weather = Weather::new(id: -1)
 			
 			meeting = Meeting::new(country: country, 
-						date: date, 
-						job: job, 
-						number: number, 
-						racetrack: racetrack, 
-						urls_of_races_array: urls_of_races_array, 
-						track_condition: track_condition)
+									date: date, 
+									job: job, 
+									number: number, 
+									racetrack: racetrack, 
+									urls_of_races_array: urls_of_races_array, 
+									track_condition: track_condition,
+									weather: weather)
 
 			@dbi.insert_meeting(meeting)
 
@@ -261,10 +301,20 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(meeting.number, selected_meeting.number)
 			assert_equal(meeting.urls_of_races_array, [])
 			
-			# Counting number of RefDirection after test
+			# weather
+			expected_weather = Weather::new(id: -1,
+											insolation: "Test Weather 1 insolation",
+											temperature: -1,
+											wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
+											wind_speed: -1)
+			
+			assert_equal(expected_weather, selected_meeting.weather)
+			
+			# Counting number of Meetings after test
 			new_meeting_num = @dbi.select_count_from_table(@config[:gen][:table_names][:meeting])
 			assert_equal(old_meeting_num + 1, new_meeting_num)
 			
+			@logger.ok("Tests for insertion of Meeting OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -273,7 +323,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_origin
-		@logger.info("Testing insertion of Origin")
+		@logger.imp("Testing insertion of Origin")
 		begin
 			# Counting number of Origins before test
 			old_origin_num = @dbi.select_count_from_table(@config[:gen][:table_names][:origin])
@@ -291,10 +341,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(origin.column_order, insert_origin.column_order)
 			assert_equal(origin.url, insert_origin.url)
 			
-			# Counting number of RefDirection after test
+			# Counting number of Origin after test
 			new_origin_num = @dbi.select_count_from_table(@config[:gen][:table_names][:origin])
 			assert_equal(old_origin_num + 1, new_origin_num)
 			
+			@logger.ok("Tests for insertion of Origin OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -303,7 +354,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_owner
-		@logger.info("Testing insertion of Owner")
+		@logger.imp("Testing insertion of Owner")
 		begin
 			# Counting number of Owners before test
 			old_owner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:owner])
@@ -317,10 +368,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 			insert_owner = @dbi.load_owner_by_id(owner.id)
 			assert_equal(owner.name, insert_owner.name)
 			
-			# Counting number of RefDirection after test
+			# Counting number of Owner after test
 			new_owner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:owner])
 			assert_equal(old_owner_num + 1, new_owner_num)
 			
+			@logger.ok("Tests for insertion of Owner OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -329,16 +381,16 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_race_with_result
-		@logger.info("Testing insertion of Race")
+		@logger.imp("Testing insertion of Race")
 		
 		begin
 			# Counting number of Races before test
 			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			
 			bets = 143010
-			
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
+			general_conditions = "Internationale - Autostart Corde à gauche"
 			meeting = @dbi.load_meeting_by_id(-1)
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
@@ -353,6 +405,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 					bets: bets,
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
+					general_conditions: general_conditions,
 					meeting: meeting, 
 					name: name, 
 					number: number, 
@@ -372,6 +425,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.bets, 				selected_race.bets)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
 			assert_equal(race.distance, 			selected_race.distance)
+			assert_equal(race.general_conditions, 	selected_race.general_conditions)
 			assert_equal(race.meeting, 				selected_race.meeting)
 			assert_equal(race.name, 				selected_race.name)
 			assert_equal(race.number, 				selected_race.number)
@@ -386,10 +440,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.url,		selected_race.url)
 			assert_equal(race.value, 	selected_race.value)
 			
-			# Counting number of RefDirection after test
+			# Counting number of Race after test
 			new_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			assert_equal(old_race_num + 1, new_race_num)
 			
+			@logger.ok("Tests for insertion of Race OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -398,7 +453,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_race_without_result
-		@logger.info("Testing insertion of Race")
+		@logger.imp("Testing insertion of Race (without result)")
 		
 		begin
 			# Counting number of Races before test
@@ -407,6 +462,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			bets = 143010
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
+			general_conditions = "Internationale - Autostart Corde à gauche"
 			meeting = @dbi.load_meeting_by_id(-1)
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
@@ -419,6 +475,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 					bets: bets,
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
+					general_conditions: general_conditions, 
 					meeting: meeting, 
 					name: name, 
 					number: number, 
@@ -435,6 +492,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.bets, 				selected_race.bets)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
 			assert_equal(race.distance, 			selected_race.distance)
+			assert_equal(race.general_conditions, 	selected_race.general_conditions)
 			assert_equal(race.meeting, 				selected_race.meeting)
 			assert_equal(race.name, 				selected_race.name)
 			assert_equal(race.number, 				selected_race.number)
@@ -445,10 +503,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.url, 					selected_race.url)
 			assert_equal(race.value, 				selected_race.value)
 			
-			# Counting number of RefDirection after test
+			# Counting number of Races after test
 			new_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			assert_equal(old_race_num + 1, new_race_num)
 			
+			@logger.ok("Tests for insertion of Race (without result) OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -458,7 +517,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_ref_objects
-		@logger.info("Testing insertion of RefObjects")
+		@logger.imp("Testing insertion of RefObjects")
 		begin
 			##### REF DIRECTION #####
 			# Counting number of RefDirection before test
@@ -556,6 +615,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			new_ref_shoes_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_shoes])
 			assert_equal(old_ref_shoes_num + 1, new_ref_shoes_num)
 			
+			@logger.ok("Tests for insertion of RefObject OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -563,73 +623,91 @@ class TestDatabaseInterfaceInsert < TestSuite
 		end
 	end
 	
-	def test_insert_runner_with_final_place
-		@logger.info("Testing insertion of Runner")
+	def test_insert_runner_after_race
+		@logger.imp("Testing insertion of Runner (after race)")
 		begin
 			# Counting number of runners before test
 			old_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
 			
 			runner = Runner::new(
-				breeder: @dbi.load_breeder_by_id(-1),
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
+				breeder: @dbi.load_breeder_by_id(-1),
+				horse: @dbi.load_horse_by_id(-1),
+				jockey: @dbi.load_jockey_by_id(-1),
+				owner: @dbi.load_owner_by_id(-1),
+				race: @dbi.load_race_by_id(-1),
+				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
+				trainer: @dbi.load_trainer_by_id(-1),
+				age: 5,
+				commentary: "Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.",
+				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
+				distance: 7200,
+				disqualified: false,
+				draw: 5,
 				earnings_career: 355958,
 				earnings_current_year: 55600,
 				earnings_last_year: 231858,
 				earnings_victory: 340358,
-				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
-				distance: 7200,
-				draw: 5,
 				final_place: 1,
 				history: "2p 5p 2p 0p 1p 2p 6p 0p 3p 7p ",
-				horse: @dbi.load_horse_by_id(-1),
-				jockey: @dbi.load_jockey_by_id(-1),
-				load: 58.5,
-				non_runner: 0,
+				is_favorite: true,
+				is_non_runner: false,
+				is_substitute: true,
+				load_handicap: 58.5,
+				load_ride: 12.4,
 				number: 1,
 				places: 2,
-				owner: @dbi.load_owner_by_id(-1),
-				race: @dbi.load_race_by_id(-1),
 				races_run: 10,
-				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
-				single_rating: 9.7,
-				trainer: @dbi.load_trainer_by_id(-1),
+				single_rating_after_race: 9.7,
+				single_rating_before_race: 5.2,
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
-				victories: 6,
+				victories: 6
 			)
-			@dbi.insert_runner_with_final_place(runner)
+			@dbi.insert_runner_after_race(runner)
 
 			# Checking by value
 			selected_runner = @dbi.load_runner_by_id(runner.id)
 
-			assert_equal(runner.race, selected_runner.race)
-			assert_equal(runner.horse, selected_runner.horse)
-			assert_equal(runner.jockey, selected_runner.jockey)
-			assert_equal(runner.trainer, selected_runner.trainer)
-			assert_equal(runner.owner, selected_runner.owner)
-			assert_equal(runner.breeder, selected_runner.breeder)
-			assert_equal(runner.blinder, selected_runner.blinder)
-			assert_equal(runner.shoes, selected_runner.shoes)
-			assert_equal(runner.number, selected_runner.number)
-			assert_equal(runner.draw, selected_runner.draw)
-			assert_equal(runner.single_rating, selected_runner.single_rating)
-			assert_equal(runner.non_runner, selected_runner.non_runner)
-			assert_equal(runner.races_run, selected_runner.races_run)
-			assert_equal(runner.victories, selected_runner.victories)
-			assert_equal(runner.places, selected_runner.places)
-			assert_equal(runner.earnings_career, selected_runner.earnings_career)
-			assert_equal(runner.earnings_current_year, selected_runner.earnings_current_year)
-			assert_equal(runner.earnings_last_year, selected_runner.earnings_last_year)
-			assert_equal(runner.earnings_victory, selected_runner.earnings_victory)
-			assert_equal(runner.description, selected_runner.description)
-			assert_equal(runner.distance, selected_runner.distance)
-			assert_equal(runner.load, selected_runner.load)
-			assert_equal(runner.history, selected_runner.history)
-			assert_equal(runner.url, selected_runner.url)
-			assert_equal(runner.final_place, selected_runner.final_place)
+			assert_equal(runner.blinder, 					selected_runner.blinder)
+			assert_equal(runner.breeder, 					selected_runner.breeder)
+			assert_equal(runner.horse, 						selected_runner.horse)
+			assert_equal(runner.jockey, 					selected_runner.jockey)
+			assert_equal(runner.owner, 						selected_runner.owner)
+			assert_equal(runner.race, 						selected_runner.race)
+			assert_equal(runner.shoes, 						selected_runner.shoes)
+			assert_equal(runner.trainer, 					selected_runner.trainer)
+			
+			assert_equal(runner.age, 						selected_runner.age)
+			assert_equal(runner.commentary, 				selected_runner.commentary)
+			assert_equal(runner.description, 				selected_runner.description)
+			assert_equal(runner.disqualified, 				selected_runner.disqualified)
+			assert_equal(runner.distance,					selected_runner.distance)
+			assert_equal(runner.draw, 						selected_runner.draw)
+			assert_equal(runner.earnings_career, 			selected_runner.earnings_career)
+			assert_equal(runner.earnings_current_year, 		selected_runner.earnings_current_year)
+			assert_equal(runner.earnings_last_year, 		selected_runner.earnings_last_year)
+			assert_equal(runner.earnings_victory, 			selected_runner.earnings_victory)
+			assert_equal(runner.final_place, 				selected_runner.final_place)
+			assert_equal(runner.history, 					selected_runner.history)
+			assert_equal(runner.is_favorite, 				selected_runner.is_favorite)
+			assert_equal(runner.is_non_runner, 				selected_runner.is_non_runner)
+			assert_equal(runner.is_substitute, 				selected_runner.is_substitute)
+			assert_equal(runner.load_handicap, 				selected_runner.load_handicap)
+			assert_equal(runner.load_ride, 					selected_runner.load_ride)
+			assert_equal(runner.number, 					selected_runner.number)
+			assert_equal(runner.places,   					selected_runner.places)
+			assert_equal(runner.races_run, 					selected_runner.races_run)
+			assert_equal(runner.single_rating_after_race, 	selected_runner.single_rating_after_race)
+			assert_equal(runner.single_rating_before_race, 	selected_runner.single_rating_before_race)
+			assert_equal(runner.time, 						selected_runner.time)
+			assert_equal(runner.url, 						selected_runner.url)
+			assert_equal(runner.victories, 					selected_runner.victories)
 			
 			# Counting the number of weights after insertion
 			new_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
 			assert_equal(old_runner_num + 1, new_runner_num)
+			
+			@logger.ok("Tests for insertion of Runner (after race) OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -637,72 +715,87 @@ class TestDatabaseInterfaceInsert < TestSuite
 		end
 	end
 
-	def test_insert_runner_without_final_place
-		@logger.info("Testing insertion of Runner")
+	def test_insert_runner_before_race
+		# no final_place, disqualified or single_rating_after_race
+		
+		@logger.imp("Testing insertion of Runner")
 		begin
 			# Counting number of runners before test
 			old_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
 			
 			runner = Runner::new(
-				breeder: @dbi.load_breeder_by_id(-1),
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
+				breeder: @dbi.load_breeder_by_id(-1),
+				horse: @dbi.load_horse_by_id(-1),
+				jockey: @dbi.load_jockey_by_id(-1),
+				owner: @dbi.load_owner_by_id(-1),
+				race: @dbi.load_race_by_id(-1),
+				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
+				trainer: @dbi.load_trainer_by_id(-1),
+				age: 5,
+				commentary: "Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.",
+				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
+				distance: 7200,
+				draw: 5,
 				earnings_career: 355958,
 				earnings_current_year: 55600,
 				earnings_last_year: 231858,
 				earnings_victory: 340358,
-				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
-				distance: 7200,
-				draw: 5,
 				history: "2p 5p 2p 0p 1p 2p 6p 0p 3p 7p ",
-				horse: @dbi.load_horse_by_id(-1),
-				jockey: @dbi.load_jockey_by_id(-1),
-				load: 58.5,
-				non_runner: 0,
+				is_favorite: true,
+				is_non_runner: false,
+				is_substitute: true,
+				load_handicap: 58.5,
+				load_ride: 12.4,
 				number: 1,
 				places: 2,
-				owner: @dbi.load_owner_by_id(-1),
-				race: @dbi.load_race_by_id(-1),
 				races_run: 10,
-				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
-				single_rating: 9.7,
-				trainer: @dbi.load_trainer_by_id(-1),
+				single_rating_before_race: 5.2,
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
-				victories: 6,
+				victories: 6
 			)
-			@dbi.insert_runner_without_final_place(runner)
+			@dbi.insert_runner_before_race(runner)
 
 			# Checking by value
 			selected_runner = @dbi.load_runner_by_id(runner.id)
 			
-			assert_equal(runner.blinder, 				selected_runner.blinder)
-			assert_equal(runner.breeder, 				selected_runner.breeder)
-			assert_equal(runner.description, 			selected_runner.description)
-			assert_equal(runner.distance, 				selected_runner.distance)
-			assert_equal(runner.draw, 					selected_runner.draw)
-			assert_equal(runner.earnings_career, 		selected_runner.earnings_career)
-			assert_equal(runner.earnings_current_year, 	selected_runner.earnings_current_year)
-			assert_equal(runner.earnings_last_year, 	selected_runner.earnings_last_year)
-			assert_equal(runner.earnings_victory, 		selected_runner.earnings_victory)
-			assert_equal(runner.history, 				selected_runner.history)
-			assert_equal(runner.horse, 					selected_runner.horse)
-			assert_equal(runner.jockey, 				selected_runner.jockey)
-			assert_equal(runner.load, 					selected_runner.load)
-			assert_equal(runner.non_runner, 			selected_runner.non_runner)
-			assert_equal(runner.number, 				selected_runner.number)
-			assert_equal(runner.owner, 					selected_runner.owner)
-			assert_equal(runner.places, 				selected_runner.places)
-			assert_equal(runner.race, 					selected_runner.race)
-			assert_equal(runner.races_run, 				selected_runner.races_run)
-			assert_equal(runner.shoes, 					selected_runner.shoes)
-			assert_equal(runner.single_rating, 			selected_runner.single_rating)
-			assert_equal(runner.trainer, 				selected_runner.trainer)
-			assert_equal(runner.url, 					selected_runner.url)
-			assert_equal(runner.victories, 				selected_runner.victories)
+			assert_equal(runner.blinder, 					selected_runner.blinder)
+			assert_equal(runner.breeder, 					selected_runner.breeder)
+			assert_equal(runner.horse, 						selected_runner.horse)
+			assert_equal(runner.jockey, 					selected_runner.jockey)
+			assert_equal(runner.owner, 						selected_runner.owner)
+			assert_equal(runner.race, 						selected_runner.race)
+			assert_equal(runner.shoes, 						selected_runner.shoes)
+			assert_equal(runner.trainer, 					selected_runner.trainer)
 			
-			# Counting the number of weights after insertion
+			assert_equal(runner.age, 						selected_runner.age)
+			assert_equal(runner.commentary, 				selected_runner.commentary)
+			assert_equal(runner.description, 				selected_runner.description)
+			assert_equal(runner.distance,					selected_runner.distance)
+			assert_equal(runner.draw, 						selected_runner.draw)
+			assert_equal(runner.earnings_career, 			selected_runner.earnings_career)
+			assert_equal(runner.earnings_current_year, 		selected_runner.earnings_current_year)
+			assert_equal(runner.earnings_last_year, 		selected_runner.earnings_last_year)
+			assert_equal(runner.earnings_victory, 			selected_runner.earnings_victory)
+			assert_equal(runner.history, 					selected_runner.history)
+			assert_equal(runner.is_favorite, 				selected_runner.is_favorite)
+			assert_equal(runner.is_non_runner, 				selected_runner.is_non_runner)
+			assert_equal(runner.is_substitute, 				selected_runner.is_substitute)
+			assert_equal(runner.load_handicap, 				selected_runner.load_handicap)
+			assert_equal(runner.load_ride, 					selected_runner.load_ride)
+			assert_equal(runner.number, 					selected_runner.number)
+			assert_equal(runner.places,   					selected_runner.places)
+			assert_equal(runner.races_run, 					selected_runner.races_run)
+			assert_equal(runner.single_rating_before_race, 	selected_runner.single_rating_before_race)
+			assert_equal(runner.time, 						selected_runner.time)
+			assert_equal(runner.url, 						selected_runner.url)
+			assert_equal(runner.victories, 					selected_runner.victories)
+			
+			# Counting the number of Runner after insertion
 			new_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
 			assert_equal(old_runner_num + 1, new_runner_num)
 			
+			@logger.ok("Tests for insertion of Runner (before race) OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -711,9 +804,9 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_trainer
-		@logger.info("Testing insertion of Trainer")
+		@logger.imp("Testing insertion of Trainer")
 		begin
-			# Counting number of weathers before test
+			# Counting number of Trainer before test
 			old_trainer_num = @dbi.select_count_from_table(@config[:gen][:table_names][:trainer])
 			
 			trainer = Trainer::new
@@ -725,9 +818,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 			selected_trainer = @dbi.load_trainer_by_id(trainer.id)
 			assert_equal(trainer.name, selected_trainer.name)
 			
-			# Counting the number of weights after insertion
+			# Counting the number of Trainer after insertion
 			new_trainer_num = @dbi.select_count_from_table(@config[:gen][:table_names][:trainer])
 			assert_equal(old_trainer_num + 1, new_trainer_num)
+			
+			@logger.ok("Tests for insertion of Trainer OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -735,7 +830,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_weather
-		@logger.info("Testing insertion of Weather")
+		@logger.imp("Testing insertion of Weather")
 		begin
 			# Counting number of weathers before test
 			old_weather_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weather])
@@ -745,7 +840,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 				temperature: 19,
 				wind_direction: @ref_list_hash[:ref_direction_list]["S"],
 				wind_speed: 11
-				)
+			)
 
 			@dbi.insert_weather(weather)
 
@@ -753,13 +848,15 @@ class TestDatabaseInterfaceInsert < TestSuite
 			selected_weather = @dbi.load_weather_by_id(weather.id)
 
 			assert_equal(weather.wind_direction, selected_weather.wind_direction)
+			assert_equal(weather.insolation, selected_weather.insolation)
 			assert_equal(weather.temperature, selected_weather.temperature)
 			assert_equal(weather.wind_speed, selected_weather.wind_speed)
-			assert_equal(weather.insolation, selected_weather.insolation)
 			
-			# Counting the number of weights after insertion
+			# Counting the number of Weather after insertion
 			new_weather_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weather])
 			assert_equal(old_weather_num + 1, new_weather_num)
+			
+			@logger.ok("Tests for insertion of Weather OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -768,7 +865,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_weight
-		@logger.info("Testing insertion of Weight")
+		@logger.imp("Testing insertion of Weight")
 		begin
 			# Counting number of weights before test
 			old_weight_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weight])
@@ -792,6 +889,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			new_weight_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weight])
 			assert_equal(old_weight_num + 1, new_weight_num)
 			
+			@logger.ok("Tests for insertion of Weight OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)

@@ -1,19 +1,18 @@
 class Forecast
 	attr_accessor :id
-	attr_accessor :race
-	attr_accessor :origin
 	attr_accessor :expected_result
-	attr_accessor :result_match_rate
 	attr_accessor :normalised_result_match_rate
-	attr_accessor :origin_score
-	
+	attr_accessor :origin
+	attr_accessor :race
+	attr_accessor :result_match_rate
+
 	def to_s()
 		return "Forecast[id = " + id.to_s +
-		", race = " + race.to_s + 
-		", origin = " + origin.to_s +
 		", expected_result = " + expected_result.to_s +
-		", result_match_rate = " + result_match_rate.to_s +
 		", normalised_result_match_rate = " + normalised_result_match_rate.to_s + 
+		", origin = " + origin.to_s +
+		", race = " + race.to_s + 
+		", result_match_rate = " + result_match_rate.to_s +
 		"]"
 	end
 	
@@ -26,8 +25,7 @@ class Forecast
 			other_object.origin == self.origin and
 			other_object.expected_result == self.expected_result and
 			other_object.result_match_rate == self.result_match_rate and
-			other_object.normalised_result_match_rate == self.normalised_result_match_rate and
-			other_object.origin_score == self.origin_score then
+			other_object.normalised_result_match_rate == self.normalised_result_match_rate then
 			return true
 		else 
 			return false
