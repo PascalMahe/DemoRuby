@@ -91,29 +91,30 @@ class Crawler
 		  #:ssl      => PROXY
 		# )
 		# profile.add_extension("./Install/firebug-1.12.6.xpi") # NB : FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
-		profile["general.useragent.override"] = "Selenium UA"
-		profile["nglayout.initialpaint.delay"] = 0
-		profile["browser.tabs.animated"] = false
-		profile["image.animation_modr"] = "none"
-		profile["browser.sessionhistory.max_total_viewer"] = 1
-		profile["browser.sessionhistory.max_entries"] = 3
-		profile["browser.sessionhistory.max_total_viewers"] = 1
-		profile["browser.sessionhistory.max_tabs_undo"] = 0
-		profile["network.http.pipeline"] = true
-		profile["network.http.pipeline.maxrequests"] = 8
+		profile["browser.bookmarks.max_backups"] = 0
 		profile["browser.cache.memory.enable"] = true
 		profile["browser.cache.disk.enable"] = true
-		profile["browser.search.suggest.enabled"] = false
-		profile["browser.formfill.enable"] = false
 		profile["browser.download.manager.scanWhenDone"] = false
-		profile["browser.bookmarks.max_backups"] = 0
-				
+		profile["browser.formfill.enable"] = false
+		profile["network.http.pipeline"] = true
+		profile["network.http.pipeline.maxrequests"] = 8
+		profile["browser.search.suggest.enabled"] = false
+		profile["browser.sessionhistory.max_entries"] = 3
+		profile["browser.sessionhistory.max_tabs_undo"] = 0
+		profile["browser.sessionhistory.max_total_viewer"] = 1
+		profile["browser.sessionhistory.max_total_viewers"] = 1
+		profile["browser.startup.homepage"] = "file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm"
+		profile["browser.tabs.animated"] = false
+		profile["image.animation_modr"] = "none"
+		profile["general.useragent.override"] = "Selenium UA"
+		profile["nglayout.initialpaint.delay"] = 0
+		
 		#Loading browser
 		driver = Selenium::WebDriver.for(:firefox,:profile => profile)
 		# @driver = Selenium::WebDriver.for(:firefox)
 		# @driver = Selenium::WebDriver.for(:remote, :url => "http://localhost:4444/wd/hub", :desired_capabilities => :htmlunit)
 		
-		driver.manage.timeouts.implicit_wait = 15 # seconds
+		driver.manage.timeouts.implicit_wait = 5 # seconds
 		browser_start_end_time = Time::now
 		browser_start_total_time = browser_start_end_time - browser_start_start_time
 		logStr = "Browser prepared (" + browser_start_total_time.to_s + "s)"
@@ -165,7 +166,7 @@ class Crawler
 					html_meeting_list.size.to_s + " meetings.")
 		html_meeting_list.each do |meeting|
 			business_meeting = 
-				fetch_meeting_shallow(meeting, date, current_job)
+				fetch_meeting_shallow(meeting, current_job)
 			meeting_list.push(business_meeting)
 			# @logger.debug("current business_meeting is a(n) " + business_meeting.class.to_s)
 			if business_meeting.is_a?(Meeting) then
@@ -188,21 +189,22 @@ class Crawler
 		return meeting_list
 	end
 
-	def fetch_meeting_shallow(html_meeting, date, job)
+	def fetch_meeting_shallow(html_meeting, job)
 		# parameter: a WebElement representing an <div> tag, linking to the meeting
 		
 		# number, racetrack, weather and track_condition are in the original tag's
-		# children, date (is deduced from a race's tag
+		# children, date is deduced from a race's tag
 		
 		# number
-		number = html_meeting.attribute("data-reunionid")
+		number = html_meeting.attribute("data-reunionid").to_i
 		# @logger.debug("Number : " + number)
 		
-		# racetrack
+		# racetrack & country
 		strong_tag_for_racetrack = html_meeting.
 					find_element(:css, "strong")
 		racetrack = strong_tag_for_racetrack.attribute("title")
-		country = nil
+		
+		country = "France"
 		if racetrack.index("(") != nil then
 			racetrackArray = racetrack.split("(")
 			racetrack = racetrackArray[0].strip()
@@ -211,21 +213,6 @@ class Crawler
 			# @logger.debug("Country : " + country)
 		end
 		# @logger.debug("Racetrack : " + racetrack)
-		
-		
-		# track_condition
-		track_condition = nil
-		begin # try/catch block for NoSuchElementError if not track_condition
-			span_tag_for_track_condition = html_meeting.
-					find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
-		
-			track_condition_text = span_tag_for_track_condition.text
-			# @logger.debug("Track condition text : " + track_condition_text)
-			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_text]
-			# @logger.debug("Track condition : " + track_condition.to_s)
-		rescue
-			@logger.debug("Track condition : nil")
-		end
 		
 		# weather
 		weather = nil
@@ -237,7 +224,7 @@ class Crawler
 		end
 		
 		# getting second tag
-		secondary_id = "numOfficiel-" + number
+		secondary_id = "numOfficiel-" + number.to_s
 		secondary_div_tag = @driver.find_element(:id, secondary_id)
 		
 		# urls_of_races_array
@@ -267,6 +254,21 @@ class Crawler
 		meeting_date = Date::new(year, month, day) # => 2015, 06, 15
 		
 		# @logger.debug("Meeting_date : " + meeting_date.to_s)
+		
+		# track_condition
+		track_condition = @ref_list_hash[:ref_track_condition_list][""]
+		begin # try/catch block for NoSuchElementError if not track_condition
+			span_tag_for_track_condition = html_meeting.
+					find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
+		
+			track_condition_text = span_tag_for_track_condition.text
+			# @logger.debug("Track condition text : " + track_condition_text)
+			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_text]
+			# @logger.debug("Track condition : " + track_condition.to_s)
+		rescue
+			@logger.debug("No element found for track condition in meeting " +
+				 meeting_date.strftime(@config[:gen][:default_date_format]) + " n°" + number.to_s)
+		end
 		
 		meeting = Meeting::new(country: country,
 								date: meeting_date, 
@@ -311,14 +313,18 @@ class Crawler
 		popin_bottoms_tags = @driver.find_elements(:css, "div.popin")
 		
 		my_popin_bottom = nil 
+		# number_of_pop_in_bottoms_displayed = 0
 		popin_bottoms_tags.each do |popin_bottom|
 			# @logger.debug("current popin_bottom : " + popin_bottom.to_s)
 			if popin_bottom.displayed? then
 				my_popin_bottom = popin_bottom
 				break
+				# number_of_pop_in_bottoms_displayed = number_of_pop_in_bottoms_displayed + 1
 			end	
 		end
+		
 		# @logger.debug("my_popin_bottom : " + my_popin_bottom.to_s)
+		# @logger.debug("number_of_pop_in_bottoms_displayed : " + number_of_pop_in_bottoms_displayed.to_s)
 		if my_popin_bottom != nil then
 			str_weather_raw = my_popin_bottom.text.strip
 			
@@ -326,15 +332,18 @@ class Crawler
 			# from test page, may break on real page
 			
 			str_temperature = weather_components[0]
-			
-			str_wind_speed = weather_components[1]
-			
-			
 			str_temperature = str_temperature.gsub("Temp :   ", "").gsub("°C", "").strip()
 			temperature = str_temperature.to_i
+			
+			str_wind_speed = weather_components[1]
 			str_wind_speed = str_wind_speed.gsub("Vent :    ", "").gsub("km/h", "").strip()
 			wind_speed = str_wind_speed.to_i
 		end
+		
+		# TODO: hide the pop-in (so that it doesn't fuck up the tests)
+		# -> by moving the mouse to the calendar above the meetings
+		todayElmt = @driver.find_element(:id, "calendar-input")
+		@driver.action.move_to(todayElmt).perform
 		
 		# @logger.debug("temperature : " + temperature.to_s)
 		# @logger.debug("wind_speed : " + wind_speed.to_s)
@@ -358,7 +367,7 @@ class Crawler
 		
 		# bets
 		# div#masses-enjeu/div[1]/div => Placé : XXX,XX €
-		bet_tag = @driver.find_element(:xpath, "//div[@id='masses-enjeu']/div[1]")
+		bet_tag = @driver.find_element(:xpath, "//div[@id='masses-enjeu']/div[2]")
 		bets_text = bet_tag.text
 		bets_text_array = bets_text.split(":")
 		bets_str_raw = bets_text_array[1]

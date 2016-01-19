@@ -32,9 +32,10 @@ class TestCrawler < TestSuite
 	##################
 	#      Tests     #
 	##################
-	# def test_crawl
+	# def not_test_crawl
 		
 		# @logger.imp("Testing fetch meetings")
+		# test_start_time = Time.now()
 		# begin
 			# job = Job::new
 		
@@ -70,46 +71,101 @@ class TestCrawler < TestSuite
 			# @logger.error(err.backtrace)
 			# flunk(err.inspect)
 		# end
+		# @logger.ok("Tests for crawl OK.")
+		# test_end_time = Time.now()
+		# test_duration_in_days = test_end_time - test_start_time
+		# test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		# @logger.ok("(Tests took" + 
+			# test_duration_in_s.to_f.to_s + 
+			# "s.)")
 	# end
 	
-	# def test_fetch_meetings
+	def not_test_fetch_meetings
 		
-		# @logger.imp("Testing fetch meetings")
-		# begin
-			# job = Job::new
-			# date = Date::new(2013,11,15)
-			# @crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
-			# html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
+		@logger.imp("Testing fetch meetings")
+		test_start_time = Time.now()
+		begin
+			job = Job::new
+			date = Date::new(2013,11,15)
+			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			html_meeting_list = @crawler.driver.find_element(:xpath, "//div[@id='reunions-view']")
 			
-			# if html_meeting_list == nil then
-				# flunk("html_meeting_list is nil.")
-			# end
+			if html_meeting_list == nil then
+				flunk("html_meeting_list is nil.")
+			end
 		
-			# meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
+			meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
 			
-			## Checking the list has meetings in it and that those meetings
-			## have races
-			# assert_equal(5, meeting_list.size)
-			# assert_equal(9, meeting_list[0].race_list.size)
-			# assert_equal(8, meeting_list[1].race_list.size)
-			# assert_equal(8, meeting_list[2].race_list.size)
-			# assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
-															  ## but the main page only has 2 to 5
-			# assert_equal(6, meeting_list[4].race_list.size)
+			# Checking the list has meetings in it and that those meetings
+			# have races
+			assert_equal(5, meeting_list.size)
+			assert_equal(9, meeting_list[0].race_list.size)
+			assert_equal(8, meeting_list[1].race_list.size)
+			assert_equal(8, meeting_list[2].race_list.size)
+			assert_equal(4, meeting_list[3].race_list.size) # should be 5, according to the files 
+															# but the main page only has 2 to 5
+			assert_equal(6, meeting_list[4].race_list.size)
 			
-			# @logger.ok("Tests for test_fetch_meetings OK.")
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-	# end
+			# Checking the meetings
+			# R1
+			r1 = meeting_list[0]
+			validate_R1(r1, job, date)
+			
+			r1_c7 = r1.race_list[6]
+			validate_race_R1_C7(r1_c7, r1)
+			
+			# R2
+			r2 = meeting_list[1]
+			validate_R2(r2, job, date)
+			
+			r2_c7 = r2.race_list[6]
+			validate_race_R2_C7(r2_c7, r2)
+			
+			# R3
+			r3 = meeting_list[2]
+			validate_R3(r3, job, date)
+			
+			r3_c1 = r3.race_list[0]
+			validate_race_R3_C1(r3_c1, r3)
+			
+			# R4
+			r4 = meeting_list[3]
+			validate_R4(r4, job, date)
+			
+			r4_c3 = r4.race_list[2]
+			validate_race_R4_C3(r4_c3, r4)
+			
+			# R5
+			r5 = meeting_list[0]
+			validate_R5(r5, job, date)
+			
+			r5_c5 = r5.race_list[4]
+			validate_race_R5_C5(r5_c5, r5)
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for fetch_meetings OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
+	end
 	
-	def test_fetch_meeting_shallow
+	def not_test_fetch_meeting_shallow
 		
 		@logger.imp("Testing fetch meeting shallow")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
+			
+			# Creating job
+			job = Job::new
+			
 			# -> Getting the page
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
 			# -> Getting the meeting list
@@ -118,77 +174,57 @@ class TestCrawler < TestSuite
 			# (Checking we did get a list and the right one)
 			assert_equal(5, html_meeting_list.size)
 			@logger.debug("There are indeed 5 meetings.")
-			
+
+			# R1
 			# -> Getting the meeting tag
-			html_meeting_to_test = html_meeting_list[2]
+			html_meeting_to_test = html_meeting_list[0]
 			
 			# (Checking it's the right one)
 			reunion_id_attribute = html_meeting_to_test.attribute("data-reunionid")
-			assert_equal("3", reunion_id_attribute)
+			assert_equal("1", reunion_id_attribute)
 			
-			# Creating date and job
-			job = Job::new
-			date = Date::new(2013, 11, 15)
+			# Function to test
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, job)
+			validate_R1(meeting, job)
 			
-			# The function to test
-			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
+			# R2
+			html_meeting_to_test = html_meeting_list[1]
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, job)
+			validate_R2(meeting, job)
 			
-			verif_date = Date::new(2015, 06, 12)
-			verif_number = "3"
-			verif_racetrack = "HIPPODROME DE SAINT GALMIER"
-			verif_urls_of_races_array = 
-						["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
-						 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
+			# R3
+			html_meeting_to_test = html_meeting_list[2]
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, job)
+			validate_R3(meeting, job)
 			
-			verif_track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
-			verification_temp = 14
-			verification_wind_dir = nil
-			verification_wind_speed = 5
-			verification_insolation = "P8c"
-			verif_weather = Weather::new(
-				insolation: verification_insolation, 
-				temperature: verification_temp, 
-				wind_direction: verification_wind_dir, 
-				wind_speed: verification_wind_speed
-			)
-			
-			verification_meeting = Meeting::new(
-								date: verif_date, 
-								job: job, 
-								number: verif_number, 
-								racetrack: verif_racetrack, 
-								urls_of_races_array: verif_urls_of_races_array, 
-								track_condition: verif_track_condition, 
-								weather: verif_weather)
-						
-			validate_meeting(verification_meeting, meeting, "on 12/06/2012")
-			
-			# 2nd test: country
+			# R4 (country)
 			html_meeting_to_test = html_meeting_list[3]
-			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, date, job)
-			verif_country = "Af Sud"
-			verif_racetrack = "HIPPODROME DE VAAL"
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, job)
+			validate_R4(meeting, job)
 			
-			assert_equal(verif_country, meeting.country)
-			assert_equal(verif_racetrack, meeting.racetrack)
+			# R5 (country)
+			html_meeting_to_test = html_meeting_list[4]
+			meeting = @crawler.fetch_meeting_shallow(html_meeting_to_test, job)
+			validate_R5(meeting, job)
 			
-			@logger.ok("Tests for test_fetch_meeting_shallow OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_meeting_shallow OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_meeting
+	def not_test_fetch_meeting
 		
 		@logger.imp("Testing fetch meeting")
+		test_start_time = Time.now()
 		begin
 			
 			urls_of_races_array = 
@@ -209,15 +245,23 @@ class TestCrawler < TestSuite
 			meeting = @crawler.fetch_meeting(html_meeting_to_test)
 			
 			assert_equal(8, meeting.race_list.size)
-		rescue Exception => err
+					rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_meeting OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_race
+	def not_test_fetch_race
 		@logger.imp("Testing fetch race")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the page
@@ -254,16 +298,26 @@ class TestCrawler < TestSuite
 			fetched_race = @crawler.fetch_race(url_to_race, meeting)
 			# @logger.debug("test_fetch_race - fetched_race: " + fetched_race.to_s)
 			validate_race_R1_C7(fetched_race, meeting)
+			
+			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_race OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_weather
+	def not_test_fetch_weather
 		
 		@logger.imp("Testing fetch weather")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the page
@@ -301,16 +355,24 @@ class TestCrawler < TestSuite
 			)
 			
 			assert_equal(verification_weather, weather)
-			@logger.ok("Tests for test_fetch_weather OK.")
+			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_weather OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_join_runner_list_and_result_list
+	def not_test_join_runner_list_and_result_list
 		@logger.imp("Testing join runner list and result list")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the first race
@@ -571,11 +633,20 @@ class TestCrawler < TestSuite
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for join_runner_list_and_result_list OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
+		
 	end
 	
-	def test_get_column_map()
+	def not_test_get_column_map()
 		
 		@logger.imp("Testing getting the right column map")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the first race
@@ -628,19 +699,25 @@ class TestCrawler < TestSuite
 							"Wrong column map while testing " + 
 							"get_column_map for race: " + race_ID)
 			end
-			
-			@logger.ok("Tests for get_column_map OK.")
-			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for get_column_map OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
+		
 	end
 	
-	def test_fetch_runners
+	def not_test_fetch_runners
 		
 		@logger.imp("Testing fetch runners")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the race
@@ -677,11 +754,19 @@ class TestCrawler < TestSuite
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_runners OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_runners_shallow
+	def not_test_fetch_runners_shallow
 		
 		@logger.imp("Testing fetch runners shallow")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the first race (with distance)
@@ -825,7 +910,6 @@ class TestCrawler < TestSuite
 								shoes: @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"])
 			validate_runner_shallow(expected_runner, runner_to_check, "(with trainer) with front and back shoes off")
 
-			
 			# -> Getting the third race (without draw)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
 			
@@ -906,17 +990,25 @@ class TestCrawler < TestSuite
 								shoes: @ref_list_hash[:ref_shoes_list][""])
 			validate_runner_shallow(expected_runner, runner_to_check, "without draw but with load_ride and history")
 			
-			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_runners_shallow OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_race_results
+	def test_fetch_race_results()
 		
 		@logger.imp("Testing fetch race results")
+		test_start_time = DateTime.now()
+		@logger.debug(test_start_time.strftime(@config[:gen][:default_time_format]))
 		begin
 			# Setting up 
 			# -> Getting the first race (with distance)
@@ -1061,17 +1153,24 @@ class TestCrawler < TestSuite
 			assert("No favorite found in race!", favorite_runner != nil)
 			
 			@logger.ok("Tests for race with time OK.")
-			
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_race_results OK.")
+		test_end_time = DateTime.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took " + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
-	def test_fetch_runner
+	def not_test_fetch_runner()
 		
 		@logger.imp("Testing fetch runner")
+		test_start_time = Time.now()
 		begin
 			# Setting up 
 			# -> Getting the first race (with distance)
@@ -1237,6 +1336,13 @@ class TestCrawler < TestSuite
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
+		@logger.ok("Tests for fetch_runner OK.")
+		test_end_time = Time.now()
+		test_duration_in_days = test_end_time - test_start_time
+		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
+		@logger.ok("(Tests took" + 
+			test_duration_in_s.to_f.to_s + 
+			"s.)")
 	end
 	
 end

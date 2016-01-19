@@ -1,9 +1,7 @@
 ﻿require 'minitest'
 
 def validate_race(expected_race, actual_race, str_race_identifier)
-	# @logger.debug("validate_race_R1_C7 - actual_race: " + actual_race.to_s)
-	@logger.debug("validate_race_R1_C7 - actual_race.runner_list is nil: " + (actual_race.runner_list == nil).to_s)
-	@logger.debug("validate_race_R1_C7 - expected_race.runner_list is nil: " + (expected_race.runner_list == nil).to_s)
+	assert_equal(expected_race.bets, 					actual_race.bets, 					"Wrong bets for " + str_race_identifier)
 	assert_equal(expected_race.detailed_conditions, 	actual_race.detailed_conditions, 	"Wrong detailed_conditions for " + str_race_identifier)
 	assert_equal(expected_race.distance, 				actual_race.distance, 				"Wrong distance for " + str_race_identifier)  
 	assert_equal(expected_race.general_conditions, 		actual_race.general_conditions, 	"Wrong general_conditions for " + str_race_identifier)
@@ -12,7 +10,6 @@ def validate_race(expected_race, actual_race, str_race_identifier)
 	assert_equal(expected_race.race_type, 				actual_race.race_type, 				"Wrong race_type for " + str_race_identifier)
 	assert_equal(expected_race.result, 					actual_race.result, 				"Wrong result for " + str_race_identifier)
 	# assert_equal(expected_race.result_insertion_time, 	actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier)
-	# assert_equal(expected_race.runner_list, 			actual_race.runner_list, 			"Wrong runner_list for " + str_race_identifier)
 	
 	# Checking runner_list's value would be too costly (in term of development) so,
 	# we just check its length
@@ -25,7 +22,7 @@ def validate_race(expected_race, actual_race, str_race_identifier)
 	
 	validate_meeting(expected_race.meeting, 				actual_race.meeting, 			"meeting from " + str_race_identifier) 
 
-	@logger.ok("Tests for race " + str_race_identifier + " OK.")
+	@logger.ok("Tests for " + str_race_identifier + " OK.")
 end
 
 def validate_race_R1_C7(fetched_race, meeting)
@@ -68,13 +65,169 @@ def validate_race_R1_C7(fetched_race, meeting)
 	validate_race(verif_race, fetched_race, "R1 C7")
 end
 
+def validate_race_R2_C7(fetched_race, meeting)
+	verif_bets = 136823.00
+	verif_detailed_conditions = "Pour tous chevaux de 5 ans et au-dess us, n'ayant pas reçu, en course de ha ies, une alloc ation de 8.000 (à récl amer excepté), depuis le 1er septembr e 2013 inclus, et mis à réclamer au m inimum pour 9.000, avec prix de récl amation supérieur de 2.000 en 2.000. Poids : 5 ans, 66 k. ; 6 ans et au-de ssus, 68 k. Surcharges accumulées : 1 k. par 2.000 pour les pr ix de récla mation supérieurs à 9.000. En outre, tout cheval ayant, depuis le 1 er déc embre 2013 inclus, en courses de haie s, reçu une allocation de 7.500 porte ra 2 k. Les Jockeys n'ayant pas gagné quarante courses recevront 4 k . "
+	verif_distance = 3800
+	verif_general_conditions = "Terrain souple  - A réclamer"
+	verif_meeting = meeting
+	verif_name = "PRIX DE LA PLANCHE"
+	verif_number = 7
+	verif_race_type = @ref_list_hash[:ref_race_type_list]["Haies"]
+	verif_result = "11 - 2 - 1 - 3 - 6 - 12 - 7 - 9 - 8 - 5 - 10 - 4"
+	verif_result_insertion_time = Time::new
+	verif_runner_list = []
+	for i in 0..11 do
+		verif_runner_list[i] = Runner::new
+	end
+	# @logger.debug("validate_race_R1_C7 - verif_runner_list: " + verif_runner_list.to_s)
+	verif_time =  Time::new(1, 1, 1, 15, 35)
+	verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7_conditions.htm"
+	verif_value =  18000
+	
+	verif_race = Race::new(
+		bets: verif_bets,
+		detailed_conditions: verif_detailed_conditions,
+		distance: verif_distance,  
+		general_conditions: verif_general_conditions,
+		meeting: verif_meeting, 
+		name: verif_name, 
+		number: verif_number, 
+		race_type: verif_race_type,
+		result: verif_result,
+		result_insertion_time: verif_result_insertion_time,
+		runner_list: verif_runner_list,
+		time: verif_time,
+		url: verif_url,  
+		value: verif_value
+	)
+	validate_race(verif_race, fetched_race, "R2 C7")
+end
+
+def validate_race_R3_C1(fetched_race, meeting)
+	verif_bets = 127877.00
+	verif_detailed_conditions = "PRIX DE FEURS Course 1 Course E Course Européenne APPRENTIS - LADS-JOCKEYS 22.000. - Monté. - 2.700 mètres. 9.900, 5.500, 3.080, 1.760, 1.100, 440, 220.- alloués par la S.E.C.F. Pour 6 à 10 ans inclus (Q à U), n'ayant pas gagné 161.000. - Avance de 25 m. aux chevaux montés par des Apprentis ou Lads-Jockeys n'ayant pas gagné quinze courses. Sont seuls admis à participer à cette épreuve les chevaux n'ayant pas, dans es 12 mois précédant la course, été classés, au trot monté ou au trot attelé, 1er, 2ème ou 3ème d'une épreuve d Groupe I. Poids minimum (voir Conditions Générales)."
+	verif_distance = 2700
+	verif_general_conditions = "Terrain bon  - Apprentis - Lads Jockeys - Européenne  - Corde à droite"
+	verif_meeting = meeting
+	verif_name = "PRIX DE FEURS"
+	verif_number = 1
+	verif_race_type = @ref_list_hash[:ref_race_type_list]["Monté"]
+	verif_result = "5 - 7 - 13 - 4 - 9 - 1 - 12 - 3 - 8 - 11"
+	verif_result_insertion_time = Time::new
+	verif_runner_list = []
+	for i in 0..13 do
+		verif_runner_list[i] = Runner::new
+	end
+	# @logger.debug("validate_race_R1_C7 - verif_runner_list: " + verif_runner_list.to_s)
+	verif_time =  Time::new(1, 1, 1, 17, 20)
+	verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1_conditions.htm"
+	verif_value =  22000
+	
+	verif_race = Race::new(
+		bets: verif_bets,
+		detailed_conditions: verif_detailed_conditions,
+		distance: verif_distance,  
+		general_conditions: verif_general_conditions,
+		meeting: verif_meeting, 
+		name: verif_name, 
+		number: verif_number, 
+		race_type: verif_race_type,
+		result: verif_result,
+		result_insertion_time: verif_result_insertion_time,
+		runner_list: verif_runner_list,
+		time: verif_time,
+		url: verif_url,  
+		value: verif_value
+	)
+	validate_race(verif_race, fetched_race, "R3 C1")
+end
+
+def validate_race_R4_C3(fetched_race, meeting)
+	verif_bets = 29235.00
+	verif_detailed_conditions = "Pour pur sang femelle de trois ans et plus (Allocations distribuées aux 5 pr iers). "
+	verif_distance = 1200
+	verif_general_conditions = "Handicap  - Corde à droite"
+	verif_meeting = meeting
+	verif_name = "JOBURG'S PRAWN FEST HANDICAP"
+	verif_number = 3
+	verif_race_type = @ref_list_hash[:ref_race_type_list]["Plat"]
+	verif_result = "7 - 1 - 6 - 3 - 4 - 5 - 2"
+	verif_result_insertion_time = Time::new
+	verif_runner_list = []
+	for i in 0..7 do
+		verif_runner_list[i] = Runner::new
+	end
+	# @logger.debug("validate_race_R1_C7 - verif_runner_list: " + verif_runner_list.to_s)
+	verif_time =  Time::new(1, 1, 1, 12, 15)
+	verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3.htm"
+	verif_value =  7759
+	
+	verif_race = Race::new(
+		bets: verif_bets,
+		detailed_conditions: verif_detailed_conditions,
+		distance: verif_distance,  
+		general_conditions: verif_general_conditions,
+		meeting: verif_meeting, 
+		name: verif_name, 
+		number: verif_number, 
+		race_type: verif_race_type,
+		result: verif_result,
+		result_insertion_time: verif_result_insertion_time,
+		runner_list: verif_runner_list,
+		time: verif_time,
+		url: verif_url,  
+		value: verif_value
+	)
+	validate_race(verif_race, fetched_race, "R4 C3")
+end
+
+def validate_race_R5_C5(fetched_race, meeting)
+	verif_bets = 77856.00
+	verif_detailed_conditions = "Pour pur sang femelle de 4 ans et plus (Allocations distribuées aux 6 premie ). "
+	verif_distance = 1800
+	verif_general_conditions = "Groupe II  - Corde à gauche"
+	verif_meeting = meeting
+	verif_name = "MEYDAN (E.A.U) - BALANCHINE"
+	verif_number = 7
+	verif_race_type = @ref_list_hash[:ref_race_type_list]["Plat"]
+	verif_result = "3 - 4 - 1 - 2 - 5 - 6"
+	verif_result_insertion_time = Time::new
+	verif_runner_list = []
+	for i in 0..5 do
+		verif_runner_list[i] = Runner::new
+	end
+	# @logger.debug("validate_race_R1_C7 - verif_runner_list: " + verif_runner_list.to_s)
+	verif_time =  Time::new(1, 1, 1, 18, 35)
+	verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R5_C5.htm"
+	verif_value =  145364
+	
+	verif_race = Race::new(
+		bets: verif_bets,
+		detailed_conditions: verif_detailed_conditions,
+		distance: verif_distance,  
+		general_conditions: verif_general_conditions,
+		meeting: verif_meeting, 
+		name: verif_name, 
+		number: verif_number, 
+		race_type: verif_race_type,
+		result: verif_result,
+		result_insertion_time: verif_result_insertion_time,
+		runner_list: verif_runner_list,
+		time: verif_time,
+		url: verif_url,  
+		value: verif_value
+	)
+	validate_race(verif_race, fetched_race, "R5 C5")
+end
+
 def validate_weather(expected_weather, actual_weather, str_weather_identifier)
 	assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier)
 	assert_equal(expected_weather.temperature,	actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier)
 	assert_equal(expected_weather.wind_speed,	actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier)
 	assert_equal(expected_weather.insolation,	actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier)
 	
-	@logger.ok("Tests for weather " + str_weather_identifier + " OK.")
+	@logger.ok("Tests for " + str_weather_identifier + " OK.")
 end
 
 def  validate_job(expected_job, actual_job, str_job_identifier)
@@ -83,7 +236,7 @@ def  validate_job(expected_job, actual_job, str_job_identifier)
 	assert_equal(expected_job.crawling_end_time,	actual_job.crawling_end_time,	"Wrong crawling_end_time for " + str_job_identifier)
 	assert_equal(expected_job.computing_end_time,	actual_job.computing_end_time,	"Wrong computing_end_time for " + str_job_identifier)
 	
-	@logger.ok("Tests for job " + str_job_identifier + " OK.")
+	@logger.ok("Tests for " + str_job_identifier + " OK.")
 end
 
 def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
@@ -103,7 +256,132 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 	validate_job(expected_meeting.job, actual_meeting.job, "job from " + str_meeting_identifier)
 	validate_weather(expected_meeting.weather, actual_meeting.weather, "weather from " + str_meeting_identifier)
 	
-	@logger.ok("Tests for meeting " + str_meeting_identifier + " OK.")
+	@logger.ok("Tests for " + str_meeting_identifier + " OK.")
+end
+
+def validate_R1(actual_r1, job)
+	expected_r1 = Meeting::new(
+		country: "France",
+		date: Date::new(2015, 06, 12),
+		job: job, 
+		number: 1, 
+		racetrack: "HIPPODROME DE PARIS-VINCENNES", 
+		urls_of_races_array: [
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C2.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C3.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C4.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C5.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C6.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C8.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R1_C9.htm"
+					], 
+		track_condition: @ref_list_hash[:ref_track_condition_list][""], 
+		weather: Weather::new(
+					insolation: "P8", 
+					temperature: 11, 
+					wind_speed: 27)
+	)
+	validate_meeting(expected_r1, actual_r1, "R1")
+end
+
+def validate_R2(actual_r2, job)
+	expected_r2 = Meeting::new(
+		country: "France",
+		date: Date::new(2015, 06, 12),
+		job: job, 
+		number: 2, 
+		racetrack: "HIPPODROME DE MARSEILLE BORELY", 
+		urls_of_races_array: [
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C1.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C2.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C3.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C4.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C5.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C6.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8.htm"
+					], 
+		track_condition: @ref_list_hash[:ref_track_condition_list]["Terrain souple"], 
+		weather: Weather::new(
+					insolation: "P1", 
+					temperature: 12, # 12
+					wind_speed: 16)  # 16
+	)
+	validate_meeting(expected_r2, actual_r2, "R2")
+end
+
+def validate_R3(actual_r3, job)
+	expected_r3 = Meeting::new(
+		country: "France",
+		date: Date::new(2015, 06, 12),
+		job: job, 
+		number: 3, 
+		racetrack: "HIPPODROME DE SAINT GALMIER", 
+		urls_of_races_array: [
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"
+					], 
+		track_condition: @ref_list_hash[:ref_track_condition_list]["Terrain bon"], 
+		weather: Weather::new(
+					insolation: "P8c", 
+					temperature: 14, # 14
+					wind_speed: 5)  #  5
+	)
+	validate_meeting(expected_r3, actual_r3, "R3")
+end
+
+def validate_R4(actual_r4, job)
+	expected_r4 = Meeting::new(
+		country: "Af Sud",
+		date: Date::new(2015, 06, 12),
+		job: job, 
+		number: 4, 
+		racetrack: "HIPPODROME DE VAAL", 
+		urls_of_races_array: [
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R4_C2.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5.htm",
+					], 
+		track_condition: @ref_list_hash[:ref_track_condition_list][""], 
+		weather: Weather::new(
+					insolation: "P4", 
+					temperature: 31, # 31
+					wind_speed: 9)  #  9
+	)
+	validate_meeting(expected_r4, actual_r4, "R4")
+end
+
+def validate_R5(actual_r5, job)
+	expected_r5 = Meeting::new(
+		country: "E.A.U",
+		date: Date::new(2015, 06, 12),
+		job: job, 
+		number: 5, 
+		racetrack: "HIPPODROME MEYDAN", 
+		urls_of_races_array: [
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C1.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C2.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C3.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C4.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C5.htm",
+					"file:///D:/Dev/workspace/RPP/Test-HTML/R5_C6.htm"
+					], 
+		track_condition: @ref_list_hash[:ref_track_condition_list][""], 
+		weather: Weather::new(
+					insolation: "P1", 
+					temperature: 24, # 24
+					wind_speed: 18)  # 18
+	)
+	validate_meeting(expected_r5, actual_r5, "R5")
 end
 
 def validate_runner(expected_runner, actual_runner, str_runner_identifier)
@@ -125,29 +403,29 @@ def validate_runner(expected_runner, actual_runner, str_runner_identifier)
 	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 			"Wrong trainer.name for " + str_runner_identifier)
 	assert_equal(expected_runner.victories, 				actual_runner.victories, 				"Wrong victories for " + str_runner_identifier)
 		
-	@logger.ok("Tests for runner " + str_runner_identifier + " OK.")
+	@logger.ok("Tests for " + str_runner_identifier + " OK.")
 end
 
 def validate_runner_shallow(expected_runner, actual_runner, str_runner_identifier)
 
-	assert_equal(expected_runner.age, 						actual_runner.age, 				"Wrong age for " + str_runner_identifier)
-	assert_equal(expected_runner.blinder, 					actual_runner.blinder, 			"Wrong blinder for " + str_runner_identifier)
-	assert_equal(expected_runner.distance, 					actual_runner.distance, 		"Wrong distance for " + str_runner_identifier)
-	assert_equal(expected_runner.draw, 						actual_runner.draw, 			"Wrong draw for " + str_runner_identifier)
-	assert_equal(expected_runner.earnings_career, 			actual_runner.earnings_career, 	"Wrong earnings_career for " + str_runner_identifier)
-	assert_equal(expected_runner.history, 					actual_runner.history, 			"Wrong history for " + str_runner_identifier)
-	assert_equal(expected_runner.is_non_runner, 				actual_runner.is_non_runner, 		"Wrong is_favorite for " + str_runner_identifier)
-	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 	"Wrong is_substitute for " + str_runner_identifier)
-	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 		"Wrong jockey.name for " + str_runner_identifier)
-	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 	"Wrong load_handicap for " + str_runner_identifier)
-	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 		"Wrong load_ride for " + str_runner_identifier)
-	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 		"Wrong horse.name for " + str_runner_identifier)
-	assert_equal(expected_runner.number, 					actual_runner.number, 			"Wrong number for " + str_runner_identifier)
-	assert_equal(expected_runner.race, 						actual_runner.race, 			"Wrong race for " + str_runner_identifier)
-	assert_equal(expected_runner.shoes, 					actual_runner.shoes, 			"Wrong shoes for " + str_runner_identifier)
+	assert_equal(expected_runner.age, 						actual_runner.age, 							"Wrong age for " + str_runner_identifier)
+	assert_equal(expected_runner.blinder, 					actual_runner.blinder, 						"Wrong blinder for " + str_runner_identifier)
+	assert_equal(expected_runner.distance, 					actual_runner.distance, 					"Wrong distance for " + str_runner_identifier)
+	assert_equal(expected_runner.draw, 						actual_runner.draw, 						"Wrong draw for " + str_runner_identifier)
+	assert_equal(expected_runner.earnings_career, 			actual_runner.earnings_career, 				"Wrong earnings_career for " + str_runner_identifier)
+	assert_equal(expected_runner.history, 					actual_runner.history, 						"Wrong history for " + str_runner_identifier)
+	assert_equal(expected_runner.is_non_runner, 			actual_runner.is_non_runner, 				"Wrong is_favorite for " + str_runner_identifier)
+	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 				"Wrong is_substitute for " + str_runner_identifier)
+	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 					"Wrong jockey.name for " + str_runner_identifier)
+	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 				"Wrong load_handicap for " + str_runner_identifier)
+	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 					"Wrong horse.name for " + str_runner_identifier)
+	assert_equal(expected_runner.number, 					actual_runner.number, 						"Wrong number for " + str_runner_identifier)
+	assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
+	assert_equal(expected_runner.shoes, 					actual_runner.shoes, 						"Wrong shoes for " + str_runner_identifier)
 	assert_equal(expected_runner.single_rating_before_race, actual_runner.single_rating_before_race, 	"Wrong single_rating for " + str_runner_identifier)
-	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 		"Wrong horse.sex for " + str_runner_identifier)
-	assert_equal(expected_runner.url, 						actual_runner.url, 				"Wrong url for " + str_runner_identifier)
+	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex for " + str_runner_identifier)
+	assert_equal(expected_runner.url, 						actual_runner.url, 							"Wrong url for " + str_runner_identifier)
 	@logger.ok("Tests (shallow) for runner " + str_runner_identifier + " OK.")
 end
 
@@ -167,7 +445,7 @@ def validate_runner_from_runner_list(expected_runner, actual_runner, str_runner_
 	assert_equal(expected_runner.final_place, 			actual_runner.final_place, 			"Wrong final_place for " + str_runner_identifier)
 	assert_equal(expected_runner.history, 				actual_runner.history, 				"Wrong history for " + str_runner_identifier)
 	assert_equal(expected_runner.is_favorite, 			actual_runner.is_favorite, 			"Wrong is_favorite for " + str_runner_identifier)
-	assert_equal(expected_runner.is_non_runner, 		actual_runner.is_non_runner, 			"Wrong is_non_runner for " + str_runner_identifier)
+	assert_equal(expected_runner.is_non_runner, 		actual_runner.is_non_runner, 		"Wrong is_non_runner for " + str_runner_identifier)
 	assert_equal(expected_runner.is_substitute, 		actual_runner.is_substitute, 		"Wrong is_substitute for " + str_runner_identifier)
 	assert_equal(expected_runner.load_handicap, 		actual_runner.load_handicap, 		"Wrong load_handicap for " + str_runner_identifier)
 	assert_equal(expected_runner.load_ride, 			actual_runner.load_ride, 			"Wrong load_ride for " + str_runner_identifier)
@@ -211,7 +489,7 @@ def validate_runner_from_result_list(expected_runner, actual_runner, str_runner_
 	assert_equal(expected_runner.distance, 		actual_runner.distance, 		"Wrong distance for " + str_runner_identifier)
 	assert_equal(expected_runner.final_place, 	actual_runner.final_place, 		"Wrong final_place for " + str_runner_identifier)
 	assert_equal(expected_runner.is_favorite, 	actual_runner.is_favorite, 		"Wrong is_favorite for " + str_runner_identifier)
-	assert_equal(expected_runner.is_non_runner, actual_runner.is_non_runner, 		"Wrong is_non_runner for " + str_runner_identifier)
+	assert_equal(expected_runner.is_non_runner, actual_runner.is_non_runner, 	"Wrong is_non_runner for " + str_runner_identifier)
 	assert_equal(expected_runner.is_substitute, actual_runner.is_substitute,	"Wrong is_substitute for " + str_runner_identifier)
 	assert_equal(expected_runner.number, 		actual_runner.number, 			"Wrong number for " + str_runner_identifier)
 	assert_equal(expected_runner.url, 			actual_runner.url, 				"Wrong url for " + str_runner_identifier)
@@ -262,7 +540,7 @@ def validate_joint_runner(expected_runner, actual_runner, str_runner_identifier)
 	assert_equal(expected_runner.final_place, 				actual_runner.final_place, 					"Wrong final_place for " + str_runner_identifier)
 	assert_equal(expected_runner.history, 					actual_runner.history, 						"Wrong history for " + str_runner_identifier)
 	assert_equal(expected_runner.is_favorite, 				actual_runner.is_favorite, 					"Wrong is_favorite for " + str_runner_identifier)
-	assert_equal(expected_runner.is_non_runner, 			actual_runner.is_non_runner, 					"Wrong is_non_runner for " + str_runner_identifier)
+	assert_equal(expected_runner.is_non_runner, 			actual_runner.is_non_runner, 				"Wrong is_non_runner for " + str_runner_identifier)
 	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 				"Wrong is_substitute for " + str_runner_identifier)
 	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 				"Wrong load_handicap for " + str_runner_identifier)
 	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride for " + str_runner_identifier)
