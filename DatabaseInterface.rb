@@ -51,18 +51,40 @@ class DatabaseInterface
 	end
 	
 	def boolean_load(non_boolean_value)
-		boolean_return = false
-		if non_boolean_value == 1 then
-			boolean_return = true
+		boolean_return = nil
+		if non_boolean_value != nil then
+			boolean_return = false
+			if non_boolean_value == 1 then
+				boolean_return = true
+			end
 		end
 		return boolean_return
 	end
 	
+	# To avoid problems with timezones
+	# -> put everything in UTC before interacting
+	# with Sqlite
+	def date_cleanup(values_hash)
+		if values_hash != nil then
+			values_hash.each do |key, value|
+				if value.respond_to? :to_time then
+					# @logger.debug("date_cleanup - timey value : " + value.strftime(@config[:gen][:database_date_time_format]))
+					utc_time_value_as_str = value.to_time.utc.strftime(@config[:gen][:database_date_time_format])
+					# @logger.debug("date_cleanup - UTC time value : " + utc_time_value_as_str)
+					# if the value has the to_time method
+					values_hash[key] = utc_time_value_as_str
+				end
+			end
+		end
+	end
+	
 	#For INSERT, UPDATE or DELETE
 	def execute_query(query, statement = nil, values_hash = nil, is_insertion = nil)
-		log_nicely("Executing query : ", query, values_hash)
-		
+		# Cleanups
 		boolean_cleanup(values_hash)
+		date_cleanup(values_hash)
+		
+		log_nicely("Executing query : ", query, values_hash)
 		
 		if statement == nil then
 			statement = @db.prepare(query)
@@ -390,7 +412,7 @@ class DatabaseInterface
 			:name => race.name,
 			:number => race.number, 
 			:result => race.result, 
-			:result_insertion_time => race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]), 
+			:result_insertion_time => race.result_insertion_time,
 			:time => race.time,
 			:url => race.url,
 			:value => race.value
@@ -570,13 +592,14 @@ class DatabaseInterface
 	
 	#race : update result & result_insertion_time
 	def update_race_with_result(race)
+		race.result_insertion_time.strftime(@config[:gen][:default_date_time_format])
 		values_hash = {
 			:result => race.result,
 			# NB: calling the SQLite function datetime directly in the request fails
 			# so we have to trust the race object to have the right times -> no date
 			# in the SQL
 			# :result_insertion_time => "datetime('now', 'localtime')",
-			 :result_insertion_time => race.result_insertion_time.strftime(@config[:gen][:default_date_time_format]),
+			:result_insertion_time => race.result_insertion_time,
 			:id => race.id
 		}
 		execute_query(
@@ -963,6 +986,20 @@ class DatabaseInterface
 			number = row["number"]
 			result = row["result"]
 			result_insertion_time = row["result_insertion_time"]
+			# TODO convert from UTC to local time
+			# if result_insertion_time != nil then
+				# @logger.debug("load_race_by_id - result_insertion_time : " + result_insertion_time.to_s)
+				# utc_result_insertion_time = Time.utc()
+				# @logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
+				# @logger.debug("load_race_by_id - result_insertion_time.utc? " + result_insertion_time.utc?.to_s)
+				# if result_insertion_time.utc? then
+					# result_insertion_time = result_insertion_time.localtime
+					# @logger.debug("load_race_by_id - result_insertion_time (after .localtime) : " + result_insertion_time.to_s)
+				# end
+				
+			# end
+			# result_insertion_time = Time.parse(str_result_insertion_time, 
+												# @config[:gen][:database_date_time_format])
 			time = row["time"]
 			url = row["url"]
 			value = row["value"]

@@ -460,7 +460,7 @@
 				-1, /* age */
 				"Test Runner 10 commentary",
 				"Test Runner 10 description",
-				-10, /* disqualified, boolean */
+				-10, /* distance */
 				-10, /* draw */
 				-10, /* earnings_career */
 				-10, /* earnings_current_year */

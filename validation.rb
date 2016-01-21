@@ -11,17 +11,55 @@ def validate_race(expected_race, actual_race, str_race_identifier)
 	assert_equal(expected_race.result, 					actual_race.result, 				"Wrong result for " + str_race_identifier)
 	# assert_equal(expected_race.result_insertion_time, 	actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier)
 	
-	# Checking runner_list's value would be too costly (in term of development) so,
+	# Checking runner_list's value would be too costly (in term of tests' development) so,
 	# we just check its length
-	assert_equal(expected_race.runner_list.length, 		actual_race.runner_list.length, 	"Wrong runner_list.length for " + str_race_identifier)
+	if not (expected_race.runner_list == nil) and 
+		not (actual_race.runner_list == nil) then
+		assert_equal(expected_race.runner_list.length, 	actual_race.runner_list.length, 	"Wrong runner_list.length for " + str_race_identifier)
+	else
+		if expected_race.runner_list == nil then
+			assert_equal(nil, actual_race.runner_list, 	"Wrong runner_list for " + str_race_identifier + " (should be nil)")
+		else
+			# actual_race.runner_list is not nil 
+			# but actual_race.runner_list is
+			# => error!
+			flunk("Wrong runner_list for " + str_race_identifier + " (should not be nil)")
+		end
+	end
 	assert_equal(expected_race.time, 					actual_race.time, 					"Wrong time for " + str_race_identifier)
 	assert_equal(expected_race.url, 					actual_race.url, 					"Wrong url for " + str_race_identifier)  
 	assert_equal(expected_race.value, 					actual_race.value, 					"Wrong value for " + str_race_identifier)  
 	
-	assert_operator(5, :<=, (expected_race.result_insertion_time - actual_race.result_insertion_time) * 60 * 1000 , 	"Wrong result_insertion_time for " + str_race_identifier)
+	if not (expected_race.result_insertion_time == nil) and 
+		not (actual_race.result_insertion_time == nil) then
+		assert_operator(5, :>=, ((expected_race.result_insertion_time.to_time - actual_race.result_insertion_time.to_time)).abs, 	"Wrong result_insertion_time for " + str_race_identifier)
+	else
+		if expected_race.result_insertion_time == nil then
+			assert_equal(nil, actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier + " (should be nil)")
+		else
+			# actual_race.result_insertion_time is not nil 
+			# but actual_race.result_insertion_time is
+			# => error!
+			flunk("Wrong result_insertion_time for " + str_race_identifier + " (should not be nil)")
+		end
+	end
 	
-	validate_meeting(expected_race.meeting, 				actual_race.meeting, 			"meeting from " + str_race_identifier) 
-
+	
+	if not (expected_race.meeting == nil) and 
+		not (actual_race.meeting == nil) then
+		validate_meeting(expected_race.meeting, 		actual_race.meeting, 			"meeting from " + str_race_identifier) 
+	else
+		if expected_race.meeting == nil then
+			assert_equal(nil, actual_race.meeting, 	"Wrong meeting for " + str_race_identifier + " (should be nil)")
+		else
+			# actual_race.meeting is not nil 
+			# but actual_race.meeting is
+			# => error!
+			flunk("Wrong meeting for " + str_race_identifier + " (should not be nil)")
+		end
+	end
+	
+	
 	@logger.ok("Tests for " + str_race_identifier + " OK.")
 end
 
