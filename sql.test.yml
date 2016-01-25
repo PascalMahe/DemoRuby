@@ -113,9 +113,8 @@
 				id_weather,
 				country,				
 				date,
-				racetrack,
 				number,
-				url
+				racetrack
 			) VALUES (
 				-1, /* id_meeting */
 				-1, /* track_condition */
@@ -123,9 +122,8 @@
 				-1, /* weather */
 				"Test Meeting 1 country", /* country */
 				"01/01/2015", /* date */
-				"Test Meeting 1 racetrack",
 				-1, /* number */
-				"Test Meeting 1 URL"
+				"Test Meeting 1 racetrack"
 			)'
 
   :origin: 'INSERT INTO Origin(
@@ -152,28 +150,30 @@
 			id_race,
 			id_meeting,
 			id_race_type,
-			time,
-			number,
+			bets,
+			detailed_conditions,
+			distance,
+			general_conditions,
 			name,
+			number,
 			result,
 			result_insertion_time,
-			distance,
-			detailed_conditions,
-			bets,
+			time,
 			url,
 			value
 		) VALUES (
 			-1, /* id_race */
-			-1,/* meeting */
-			-1, /* race_type */
-			"Test Race 1 time",
-			-1, /* number */
-			"Test Race 1 name",
-			"Test Race 1 result",
-			"01/01/2015 00:00", /* result_insertion_time */
-			-1, /* distance */
-			"Test Race 1 detailed conditions",
+			-1, /* id_meeting */
+			-1, /* id_race_type */
 			-1, /* bets */ 
+			"Test Race 1 detailed conditions",
+			-1, /* distance */
+			"Test Race 1 general conditions",
+			"Test Race 1 name",
+			-1, /* number */
+			"Test Race 1 result",
+			"01/01/2015 00:00:00", /* result_insertion_time */
+			"Test Race 1 time",
 			"Test Race 1 URL",
 			-1 /* value */ 
 		)'

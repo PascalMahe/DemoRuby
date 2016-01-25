@@ -70,12 +70,12 @@
 			);'
 
  :job: 'CREATE TABLE IF NOT EXISTS Job(
-			id_job INTEGER PRIMARY KEY,
-			start_time DATETIME, 
-			loading_end_time DATETIME,
-			crawling_end_time DATETIME,
-			computing_end_time DATETIME
-		);'
+				id_job INTEGER PRIMARY KEY,
+				start_time DATETIME, 
+				loading_end_time DATETIME,
+				crawling_end_time DATETIME,
+				computing_end_time DATETIME
+			);'
 
  :jockey: 'CREATE TABLE IF NOT EXISTS Jockey(
 				id_jockey INTEGER PRIMARY KEY,
@@ -90,8 +90,8 @@
 				id_weather INTEGER, /* FK to Weather */
 				country TEXT,
 				date DATE,
-				racetrack TEXT,
 				number INTEGER, 
+				racetrack TEXT,
 				FOREIGN KEY(id_track_condition) REFERENCES RefTrackCondition(id)
 				FOREIGN KEY(id_job) REFERENCES Job(id_job)
 				FOREIGN KEY(id_weather) REFERENCES Weather(id_weather)
@@ -110,68 +110,68 @@
 			);'
 
  :race: 'CREATE TABLE IF NOT EXISTS Race(
-			id_race INTEGER PRIMARY KEY,
-	id_meeting INTEGER, /* FK to Meeting */
-	id_race_type INTEGER, /* FK to RefRaceType */
-	bets INTEGER, /* in euros */
-	detailed_conditions TEXT,
-	distance INTEGER, /* in meters */
-	general_conditions TEXT,
-	number INTEGER,
-	name TEXT,
-	result TEXT,
-	result_insertion_time DATETIME,
-	time TEXT,
-	url TEXT,
-	value INTEGER, /* in euros */
-	FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id),
-	FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
-		);'
+				id_race INTEGER PRIMARY KEY,
+				id_meeting INTEGER, /* FK to Meeting */
+				id_race_type INTEGER, /* FK to RefRaceType */
+				bets INTEGER, /* in euros */
+				detailed_conditions TEXT,
+				distance INTEGER, /* in meters */
+				general_conditions TEXT,
+				number INTEGER,
+				name TEXT,
+				result TEXT,
+				result_insertion_time DATETIME,
+				time TEXT,
+				url TEXT,
+				value INTEGER, /* in euros */
+				FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id),
+				FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
+			);'
 
  :runner: 'CREATE TABLE IF NOT EXISTS Runner(
-			id_runner INTEGER PRIMARY KEY,
-			id_blinder INTEGER, /* FK to RefBlinder */
-			id_breeder INTEGER, /* FK to Breeder */
-			id_horse INTEGER, /* FK to Horse */
-			id_jockey INTEGER, /* FK to Jockey */
-			id_owner INTEGER, /* FK to Owner */
-			id_race INTEGER, /* FK to Race */
-			id_shoes INTEGER, /* FK to RefShoes */
-			id_trainer INTEGER, /* FK to Trainer */
-			age INTEGER,
-			commentary TEXT,
-			description TEXT,
-			disqualified INTEGER, /* boolean */
-			distance INTEGER,
-			draw INTEGER,
-			earnings_career INTEGER, /* in euros */
-			earnings_current_year INTEGER, /* in euros */
-			earnings_last_year INTEGER, /* in euros */
-			earnings_victory INTEGER, /* in euros */
-			final_place INTEGER,
-			history TEXT,
-			is_favorite INTEGER, /* boolean */
-			is_non_runner INTEGER, /* boolean */
-			is_substitute INTEGER, /* boolean */
-			load_handicap REAL,
-			load_ride REAL,
-			number INTEGER,
-			places INTEGER,
-			races_run INTEGER,
-			single_rating_after_race REAL,
-			single_rating_before_race REAL,
-			time TEXT,
-			url TEXT,
-			victories INTEGER,
-			FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id),
-			FOREIGN KEY(id_breeder) REFERENCES Breeder(id),
-			FOREIGN KEY(id_horse) REFERENCES Horse(id),
-			FOREIGN KEY(id_jockey) REFERENCES Jockey(id),
-			FOREIGN KEY(id_owner) REFERENCES Owner(id),
-			FOREIGN KEY(id_race) REFERENCES Race(id),
-			FOREIGN KEY(id_shoes) REFERENCES RefShoes(id)
-			FOREIGN KEY(id_trainer) REFERENCES Trainer(id),
-		);'
+				id_runner INTEGER PRIMARY KEY,
+				id_blinder INTEGER, /* FK to RefBlinder */
+				id_breeder INTEGER, /* FK to Breeder */
+				id_horse INTEGER, /* FK to Horse */
+				id_jockey INTEGER, /* FK to Jockey */
+				id_owner INTEGER, /* FK to Owner */
+				id_race INTEGER, /* FK to Race */
+				id_shoes INTEGER, /* FK to RefShoes */
+				id_trainer INTEGER, /* FK to Trainer */
+				age INTEGER,
+				commentary TEXT,
+				description TEXT,
+				disqualified INTEGER, /* boolean */
+				distance INTEGER,
+				draw INTEGER,
+				earnings_career INTEGER, /* in euros */
+				earnings_current_year INTEGER, /* in euros */
+				earnings_last_year INTEGER, /* in euros */
+				earnings_victory INTEGER, /* in euros */
+				final_place INTEGER,
+				history TEXT,
+				is_favorite INTEGER, /* boolean */
+				is_non_runner INTEGER, /* boolean */
+				is_substitute INTEGER, /* boolean */
+				load_handicap REAL,
+				load_ride REAL,
+				number INTEGER,
+				places INTEGER,
+				races_run INTEGER,
+				single_rating_after_race REAL,
+				single_rating_before_race REAL,
+				time TEXT,
+				url TEXT,
+				victories INTEGER,
+				FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id),
+				FOREIGN KEY(id_breeder) REFERENCES Breeder(id),
+				FOREIGN KEY(id_horse) REFERENCES Horse(id),
+				FOREIGN KEY(id_jockey) REFERENCES Jockey(id),
+				FOREIGN KEY(id_owner) REFERENCES Owner(id),
+				FOREIGN KEY(id_race) REFERENCES Race(id),
+				FOREIGN KEY(id_shoes) REFERENCES RefShoes(id)
+				FOREIGN KEY(id_trainer) REFERENCES Trainer(id),
+			);'
 
  :trainer: 'CREATE TABLE IF NOT EXISTS Trainer(
 				id_trainer INTEGER PRIMARY KEY,

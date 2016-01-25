@@ -35,10 +35,24 @@ end
 
 class Job
 	attr_accessor :id
-	attr_accessor :start_time
-	attr_accessor :loading_end_time
-	attr_accessor :crawling_end_time
 	attr_accessor :computing_end_time
+	attr_accessor :crawling_end_time
+	attr_accessor :loading_end_time
+	attr_accessor :start_time
+	
+	def initialize(
+			id: nil,
+			computing_end_time: nil,
+			crawling_end_time: nil,
+			loading_end_time: nil,
+			start_time: nil
+		)
+		@id = id
+		@computing_end_time = computing_end_time
+		@crawling_end_time = crawling_end_time
+		@loading_end_time = loading_end_time
+		@start_time = start_time
+	end
 	
 	def to_s()
 		return "Job[id = " + id.to_s +

@@ -10,9 +10,18 @@ class Meeting
 	attr_accessor :urls_of_races_array # transient
 	attr_accessor :weather
 	
-	def initialize(country: nil, date: nil, job: nil, number: nil, racetrack: nil, urls_of_races_array: nil, track_condition: nil, weather: nil)
-		@date = date
+	def initialize(country: nil, 
+					date: nil, 
+					id: nil,
+					job: nil, 
+					number: nil, 
+					racetrack: nil, 
+					urls_of_races_array: nil, 
+					track_condition: nil, 
+					weather: nil)
 		@country = country
+		@date = date
+		@id = id
 		@job = job
 		@number = number
 		@racetrack = racetrack

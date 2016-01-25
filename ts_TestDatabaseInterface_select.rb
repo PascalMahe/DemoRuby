@@ -1,4 +1,5 @@
 ﻿require './TestSuite.rb'
+require './validation.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'
@@ -20,7 +21,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	#      Tests     #
 	##################
 	def test_select_breeder
-		@logger.info("Testing selection of Breeder")
+		@logger.imp("Testing selection of Breeder")
 		begin
 			test_id = -1
 			selected_breeder = @dbi.load_breeder_by_id(test_id)
@@ -29,6 +30,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(test_id, 				selected_breeder.id)
 			assert_equal("Test Breeder 1 Name", selected_breeder.name)
 			
+			@logger.ok("Tests selection of Breeder OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -37,7 +39,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_forecast
-		@logger.info("Testing selection of Forecast")
+		@logger.imp("Testing selection of Forecast")
 		begin
 			test_id = -1
 			selected_forecast = @dbi.load_forecast_by_id(test_id)
@@ -62,6 +64,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			)
 			assert_equal(-1, selected_forecast.race.distance)
 			assert_equal("Test Race 1 detailed conditions", selected_forecast.race.detailed_conditions)
+			assert_equal("Test Race 1 general conditions", selected_forecast.race.general_conditions)
 			assert_equal(-1, selected_forecast.race.bets)
 			assert_equal(-1, selected_forecast.race.value)
 			assert_equal("Test Race 1 URL", selected_forecast.race.url)
@@ -122,7 +125,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1, 				selected_forecast.race.meeting.weather.wind_direction.id)
 			assert_equal("Test Direction", 	selected_forecast.race.meeting.weather.wind_direction.text)
 			
-						
+			@logger.ok("Tests selection of Forecast OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -131,27 +134,37 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_horse
-		@logger.info("Testing selection of Horse")
+		@logger.imp("Testing selection of Horse")
 		begin
 			test_id = -1
 			selected_horse = @dbi.load_horse_by_id(test_id)
 			
-			# Checking value
-			assert_equal(test_id, 				selected_horse.id)
-			assert_equal("Test Horse 1 name", 	selected_horse.name)
-	
-			# Nested value : sex
-			assert_equal(-1,			selected_horse.sex.id)
-			assert_equal("Test Sex", 	selected_horse.sex.text)
+			father = Horse::new(id: -2, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: nil,
+								mother: nil,
+								name: "Test Father name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
+								
+			mother = Horse::new(id: -3, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: nil,
+								mother: nil,
+								name: "Test Mother name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
 			
-			# Nested value : breed
-			assert_equal(-1,			selected_horse.breed.id)
-			assert_equal("Test Breed", 	selected_horse.breed.text)
-			
-			# Nested value : coat
-			assert_equal(-1,			selected_horse.coat.id)
-			assert_equal("Test Coat", 	selected_horse.coat.text)
-			
+			expected_horse = Horse::new(	id: -1, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: father,
+								mother: mother,
+								name: "Test Horse 1 name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
+								
+			validate_horse(expected_horse, selected_horse, "selection of horse")
+			@logger.ok("Tests selection of Horse OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -160,7 +173,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_job
-		@logger.info("Testing selection of Job")
+		@logger.imp("Testing selection of Job")
 		begin
 			test_id = -1
 			selected_job = @dbi.load_job_by_id(test_id)
@@ -192,6 +205,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 				selected_job.computing_end_time
 			)
 			
+			@logger.ok("Tests selection of Job OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -201,7 +215,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	
 	
 	def test_select_jockey
-		@logger.info("Testing selection of Jockey")
+		@logger.imp("Testing selection of Jockey")
 		begin
 			test_id = -1
 			selected_jockey = @dbi.load_jockey_by_id(test_id)
@@ -211,6 +225,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Jockey 1 name", 		selected_jockey.name)
 			assert_equal("Test Jockey 1 jacket", 	selected_jockey.jacket)
 			
+			@logger.ok("Tests selection of Jockey OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -219,7 +234,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 
 	def test_select_meeting
-		@logger.info("Testing selection of Meeting")
+		@logger.imp("Testing selection of Meeting")
 		begin
 			test_id = -1
 			selected_meeting = @dbi.load_meeting_by_id(test_id)
@@ -273,6 +288,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1, 				selected_meeting.weather.wind_direction.id)
 			assert_equal("Test Direction", 	selected_meeting.weather.wind_direction.text)
 			
+			@logger.ok("Tests selection of Meeting OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -281,7 +297,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_origin
-		@logger.info("Testing selection of Origin")
+		@logger.imp("Testing selection of Origin")
 		begin
 			test_id = -1
 			selected_origin = @dbi.load_origin_by_id(test_id)
@@ -292,6 +308,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Origin 1 column order", 	selected_origin.column_order)
 			assert_equal("Test Origin 1 URL", 			selected_origin.url)
 			
+			@logger.ok("Tests selection of Origin OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -300,7 +317,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_owner
-		@logger.info("Testing selection of Owner")
+		@logger.imp("Testing selection of Owner")
 		begin
 			test_id = -1
 			selected_owner = @dbi.load_owner_by_id(test_id)
@@ -309,6 +326,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(test_id, 				selected_owner.id)
 			assert_equal("Test Owner 1 name", 	selected_owner.name)
 			
+			@logger.ok("Tests selection of Owner OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -317,7 +335,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_race
-		@logger.info("Testing selection of Race")
+		@logger.imp("Testing selection of Race")
 		begin
 			test_id = -1
 			selected_race = @dbi.load_race_by_id(test_id)
@@ -330,6 +348,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal("Test Race 1 result", 				selected_race.result)
 			assert_equal(-1, 								selected_race.distance)
 			assert_equal("Test Race 1 detailed conditions", selected_race.detailed_conditions)
+			assert_equal("Test Race 1 general conditions", 	selected_race.general_conditions)
 			assert_equal(-1, 								selected_race.bets)
 			assert_equal("Test Race 1 URL", 				selected_race.url)
 			assert_equal(-1, 								selected_race.value)
@@ -389,6 +408,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1, 				selected_race.meeting.weather.wind_direction.id)
 			assert_equal("Test Direction", 	selected_race.meeting.weather.wind_direction.text)
 			
+			@logger.ok("Tests selection of Race OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -397,7 +417,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_ref_objects
-		@logger.info("Testing selection of RefObjects")
+		@logger.imp("Testing selection of RefObjects")
 		begin
 			@logger.info("Blinder")
 			test_id = -1
@@ -471,6 +491,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(test_id, 					selected_track_condition.id)
 			assert_equal("Test Track Condition", 	selected_track_condition.text)
 			
+			@logger.ok("Tests selection of RefObjects OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -479,138 +500,120 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_runner
-		@logger.info("Testing selection of Runner")
+		@logger.imp("Testing selection of Runner")
 		begin
 			test_id = -1
 			selected_runner = @dbi.load_runner_by_id(test_id)
 			
+			breeder = Breeder::new(id: -1, name: "Test Breeder 1 Name")
+			
+			father = Horse::new(id: -2, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: nil,
+								mother: nil,
+								name: "Test Father name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
+								
+			mother = Horse::new(id: -3, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: nil,
+								mother: nil,
+								name: "Test Mother name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
+			
+			horse = Horse::new(	id: -1, 
+								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
+								coat: @ref_list_hash[:ref_coat_list]["Test Coat"],
+								father: father,
+								mother: mother,
+								name: "Test Horse 1 name",
+								sex: @ref_list_hash[:ref_sex_list]["Test Sex"])
+								
+			job = Job::new(id: -1,
+							start_time: DateTime.new(2015, 01, 27, 17, 35, 0.250, '+00'),
+							loading_end_time: DateTime.new(2015, 01, 27, 18, 36, 1.500, '+00'),
+							crawling_end_time: DateTime.new(2015, 01, 27, 19, 37, 2.750, '+00'),
+							computing_end_time: DateTime.new(2015, 01, 27, 20, 38, 3.999, '+00'))
+								
+			jockey = Jockey::new(id: -1, name: "Test Jockey 1 name", jacket: "Test Jockey 1 jacket")
+			
+			weather = Weather::new(id: -1,
+									insolation: "Test Weather 1 insolation",
+									temperature: -1,
+									wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
+									wind_speed: -1)
+			
+			meeting = Meeting::new(country: "Test Meeting 1 country",
+									date: Date.new(2015, 01, 01),
+									id: -1,
+									job: job,
+									number: -1,
+									racetrack: "Test Meeting 1 racetrack",
+									track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
+									weather: weather)
+									
+			owner = Owner::new(id: -1, name: "Test Owner 1 name")
+			
+			race = Race::new(bets: -1,
+							detailed_conditions: "Test Race 1 detailed conditions",
+							distance: -1,
+							id: -1,
+							meeting: meeting,
+							name: "Test Race 1 name",
+							number: -1,
+							general_conditions: "Test Race 1 general conditions",
+							race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
+							result: "Test Race 1 result",
+							# result_insertion_time: "01/01/2015 00:00",
+							result_insertion_time: DateTime.new(2015, 01, 01, 00, 00, 00, '+00'),
+							time: "Test Race 1 time",
+							url: "Test Race 1 URL",
+							value: -1)
+							
+			trainer = Trainer::new(id: -1, name: "Test Trainer 1 name")
+			
+			expected_runner = Runner::new(
+				blinder: @ref_list_hash[:ref_blinder_list]["Test Blinder"],
+				breeder: breeder,
+				horse: horse,
+				jockey: jockey,
+				owner: owner,
+				race: race,
+				shoes: @ref_list_hash[:ref_shoes_list]["Test Shoes"],
+				trainer: trainer,
+				age: -1,
+				commentary: "Test Runner 1 commentary",
+				description: "Test Runner 1 description",
+				distance: -1,
+				disqualified: false,
+				draw: -1,
+				earnings_career: -1,
+				earnings_current_year: -1,
+				earnings_last_year: -1,
+				earnings_victory: -1,
+				final_place: -1,
+				history: "Test Runner 1 history",
+				id: test_id,
+				is_favorite: false,
+				is_non_runner: false,
+				is_substitute: false,
+				load_handicap: -1.1,
+				load_ride: -1.1,
+				number: -1,
+				places: -1,
+				races_run: -1,
+				single_rating_after_race: -1.1,
+				single_rating_before_race: -1.1,
+				time: "Test Runner 1 time",
+				url: "Test Runner 1 url",
+				victories: -1
+			)
 			# Checking value
-			assert_equal(test_id, 						selected_runner.id)
-			assert_equal(-1, 							selected_runner.number)
-			assert_equal(-1, 							selected_runner.draw)
-			assert_equal(-1.1, 							selected_runner.single_rating)
-			assert_equal(-1, 							selected_runner.non_runner)
-			assert_equal(-1, 							selected_runner.races_run)
-			assert_equal(-1, 							selected_runner.victories)
-			assert_equal(-1, 							selected_runner.places)
-			assert_equal(-1, 							selected_runner.earnings_career)
-			assert_equal(-1, 							selected_runner.earnings_current_year)
-			assert_equal(-1, 							selected_runner.earnings_last_year)
-			assert_equal(-1, 							selected_runner.earnings_victory)
-			assert_equal("Test Runner 1 description", 	selected_runner.description)
-			assert_equal(-1, 							selected_runner.distance)
-			assert_equal(-1.1, 							selected_runner.load)
-			assert_equal("Test Runner 1 history", 		selected_runner.history)
-			assert_equal("Test Runner 1 url", 			selected_runner.url)
+			validate_joint_runner(expected_runner, selected_runner, "selection of runner")
 			
-			# Nested value : race
-			assert_equal(test_id, 							selected_runner.race.id)
-			assert_equal("Test Race 1 time", 				selected_runner.race.time)
-			assert_equal(-1, 								selected_runner.race.number)
-			assert_equal("Test Race 1 name", 				selected_runner.race.name)
-			assert_equal("Test Race 1 result", 				selected_runner.race.result)
-			assert_equal(-1, 								selected_runner.race.distance)
-			assert_equal("Test Race 1 detailed conditions", selected_runner.race.detailed_conditions)
-			assert_equal(-1, 								selected_runner.race.bets)
-			assert_equal("Test Race 1 URL", 				selected_runner.race.url)
-			assert_equal(-1, 								selected_runner.race.value)
-			
-			expected_result_insertion_time = 	DateTime.new(2015, 01, 01, 00, 00)
-			assert_equal(
-				expected_result_insertion_time, 
-				selected_runner.race.result_insertion_time
-			)
-			
-			# Nested value (2nd level) : meeting
-			assert_equal(test_id, 						selected_runner.race.meeting.id)
-			assert_equal("Test Meeting 1 country", 		selected_runner.race.meeting.country)
-			assert_equal(Date.new(2015, 01, 01), 		selected_runner.race.meeting.date)
-			assert_equal("Test Meeting 1 racetrack", 	selected_runner.race.meeting.racetrack)
-			assert_equal(-1, 							selected_runner.race.meeting.number)
-			assert_equal(nil, 							selected_runner.race.meeting.urls_of_races_array)
-			
-			# Nested value (2nd level) : track_condition
-			assert_equal(-1,						selected_runner.race.meeting.track_condition.id)
-			assert_equal("Test Track Condition", 	selected_runner.race.meeting.track_condition.text)
-			
-			# Nested value (3rd level) : job
-			assert_equal(-1, selected_runner.race.meeting.job.id)
-
-			expected_start_time = 			DateTime.new(2015, 01, 27, 17, 35, 0.250)
-			assert_equal(
-				expected_start_time, 
-				selected_runner.race.meeting.job.start_time
-			)
-			
-			expected_loading_end_time = 	DateTime.new(2015, 01, 27, 18, 36, 1.500)
-			assert_equal(
-				expected_loading_end_time, 
-				selected_runner.race.meeting.job.loading_end_time
-			)
-			
-			expected_crawling_end_time = 	DateTime.new(2015, 01, 27, 19, 37, 2.750)
-			assert_equal(
-				expected_crawling_end_time, 
-				selected_runner.race.meeting.job.crawling_end_time
-			)
-			
-			expected_computing_end_time = 	DateTime.new(2015, 01, 27, 20, 38, 3.999)
-			assert_equal(
-				expected_computing_end_time, 
-				selected_runner.race.meeting.job.computing_end_time
-			)
-			
-			# Nested value (3rd level) : weather
-			assert_equal(-1,							selected_runner.race.meeting.weather.id)
-			assert_equal(-1, 							selected_runner.race.meeting.weather.temperature)
-			assert_equal(-1,						 	selected_runner.race.meeting.weather.wind_speed)
-			assert_equal("Test Weather 1 insolation", 	selected_runner.race.meeting.weather.insolation)
-			
-			# Nested value (4th level) : wind_direction
-			assert_equal(-1, 				selected_runner.race.meeting.weather.wind_direction.id)
-			assert_equal("Test Direction", 	selected_runner.race.meeting.weather.wind_direction.text)
-			
-			# Nested value : horse
-			assert_equal(test_id, 				selected_runner.horse.id)
-			assert_equal("Test Horse 1 name", 	selected_runner.horse.name)
-	
-			# Nested value (2nd level) : sex
-			assert_equal(-1,			selected_runner.horse.sex.id)
-			assert_equal("Test Sex", 	selected_runner.horse.sex.text)
-			
-			# Nested value (2nd level) : breed
-			assert_equal(-1,			selected_runner.horse.breed.id)
-			assert_equal("Test Breed", 	selected_runner.horse.breed.text)
-			
-			# Nested value (2nd level) : coat
-			assert_equal(-1,			selected_runner.horse.coat.id)
-			assert_equal("Test Coat", 	selected_runner.horse.coat.text)
-			
-			# Nested value (2nd level) : jockey
-			assert_equal(test_id, 					selected_runner.jockey.id)
-			assert_equal("Test Jockey 1 name", 		selected_runner.jockey.name)
-			assert_equal("Test Jockey 1 jacket", 	selected_runner.jockey.jacket)
-			
-			# Nested value : trainer
-			assert_equal(test_id, 				selected_runner.trainer.id)
-			assert_equal("Test Trainer 1 name", selected_runner.trainer.name)
-			
-			# Nested value : owner
-			assert_equal(test_id, 				selected_runner.owner.id)
-			assert_equal("Test Owner 1 name", 	selected_runner.owner.name)
-			
-			# Nested value : breeder
-			assert_equal(test_id, 				selected_runner.breeder.id)
-			assert_equal("Test Breeder 1 Name", selected_runner.breeder.name)
-			
-			# Nested value : blinder
-			assert_equal(test_id, 			selected_runner.blinder.id)
-			assert_equal("Test Blinder", 	selected_runner.blinder.text)
-			
-			# Nested value : shoes
-			assert_equal(test_id, 		selected_runner.shoes.id)
-			assert_equal("Test Shoes", 	selected_runner.shoes.text)
-			
+			@logger.ok("Tests selection of Runner OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -619,7 +622,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_trainer
-		@logger.info("Testing selection of Trainer")
+		@logger.imp("Testing selection of Trainer")
 		begin
 			test_id = -1
 			selected_trainer = @dbi.load_trainer_by_id(test_id)
@@ -628,6 +631,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(test_id, 				selected_trainer.id)
 			assert_equal("Test Trainer 1 name", selected_trainer.name)
 			
+			@logger.ok("Tests selection of Trainer OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -636,7 +640,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_weather
-		@logger.info("Testing selection of Weather")
+		@logger.imp("Testing selection of Weather")
 		begin
 			test_id = -1
 			selected_weather = @dbi.load_weather_by_id(test_id)
@@ -651,6 +655,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1, 				selected_weather.wind_direction.id)
 			assert_equal("Test Direction", 	selected_weather.wind_direction.text)
 			
+			@logger.ok("Tests selection of Weather OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)
@@ -659,7 +664,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	end
 	
 	def test_select_weight
-		@logger.info("Testing selection of Weight")
+		@logger.imp("Testing selection of Weight")
 		begin
 			test_id = -1
 			selected_weight = @dbi.load_weight_by_id(test_id)
@@ -689,6 +694,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			)
 			assert_equal(-1, selected_weight.forecast.race.distance)
 			assert_equal("Test Race 1 detailed conditions", selected_weight.forecast.race.detailed_conditions)
+			assert_equal("Test Race 1 general conditions", selected_weight.forecast.race.general_conditions)
 			assert_equal(-1, selected_weight.forecast.race.bets)
 			assert_equal(-1, selected_weight.forecast.race.value)
 			assert_equal("Test Race 1 URL", selected_weight.forecast.race.url)
@@ -749,6 +755,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1, 				selected_weight.forecast.race.meeting.weather.wind_direction.id)
 			assert_equal("Test Direction", 	selected_weight.forecast.race.meeting.weather.wind_direction.text)
 			
+			@logger.ok("Tests selection of Weight OK.")
 		rescue Exception => err
 			@logger.error(err.inspect)
 			@logger.error(err.backtrace)

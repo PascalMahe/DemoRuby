@@ -4,8 +4,10 @@ class Breeder
 	attr_accessor :name
 	
 	def initialize(
+			id: nil,
 			name: nil
 		)
+		@id = id
 		@name = name
 	end
 	
@@ -90,8 +92,12 @@ class Jockey
 	attr_accessor :jacket
 	
 	def initialize(
+			id: nil,
+			jacket: nil,
 			name: nil
 		)
+		@id = id
+		@jacket = jacket
 		@name = name
 	end
 	
@@ -127,8 +133,10 @@ class Owner
 	attr_accessor :name
 	
 	def initialize(
+			id: nil,
 			name: nil
 		)
+		@id = id
 		@name = name
 	end
 	
@@ -156,8 +164,10 @@ class Trainer
 	attr_accessor :name
 	
 	def initialize(
+			id: nil,
 			name: nil
 		)
+		@id = id
 		@name = name
 	end
 	
