@@ -5,6 +5,7 @@ require './environnment.rb'
 require './prediction.rb'
 require './people.rb'
 require './Runner.rb'
+require './validation.rb'
 
 class TestDatabaseInterfaceInsert < TestSuite
 	
@@ -119,7 +120,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_horse
-		@logger.level = SimpleHtmlLogger::DEBUG
 		@logger.imp("Testing insertion of Horse")
 		begin
 			# Counting number of Horses before test
@@ -383,6 +383,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	def test_insert_race_with_result
 		@logger.imp("Testing insertion of Race")
 		
+		@logger.level = SimpleHtmlLogger::DEBUG
 		begin
 			# Counting number of Races before test
 			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
@@ -503,6 +504,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.url, 					selected_race.url)
 			assert_equal(race.value, 				selected_race.value)
 			
+			validate_race(race, selected_race, "insertion of race")
+			
 			# Counting number of Races after test
 			new_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
 			assert_equal(old_race_num + 1, new_race_num)
@@ -513,7 +516,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 			@logger.error(err.backtrace)
 			flunk(err.inspect)
 		end
-		@logger.level = SimpleHtmlLogger::INFO
 	end
 	
 	def test_insert_ref_objects
