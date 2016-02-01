@@ -20,9 +20,22 @@ class TestCrawler < TestSuite
 		@crawler = @@crawler
 		
 		@logger.level = SimpleHtmlLogger::DEBUG
+		
+		@test_start_time = Time.now()
 	end
 	
 	def teardown
+		test_end_time = Time.now()
+		
+		test_duration_in_s = test_end_time - @test_start_time
+		
+		# @logger.debug("teardown - test_start_time : " + @test_start_time.to_s)
+		# @logger.debug("teardown - test_end_time : " + test_end_time.to_s)
+		# @logger.debug("teardown - test_duration_in_s : " + test_duration_in_s.to_s)
+		@logger.ok("(Test took " + 
+			format_time_diff(test_duration_in_s) + 
+			".)")
+	
 		@logger.debug("Teardown")
 		# @crawler.close_driver()
 		@logger.level = SimpleHtmlLogger::INFO
@@ -32,7 +45,7 @@ class TestCrawler < TestSuite
 	##################
 	#      Tests     #
 	##################
-	# def not_test_crawl
+	# def not_testcrawl
 		
 		# @logger.imp("Testing fetch meetings")
 		# test_start_time = Time.now()
@@ -75,7 +88,7 @@ class TestCrawler < TestSuite
 		# test_end_time = Time.now()
 		# test_duration_in_days = test_end_time - test_start_time
 		# test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		# @logger.ok("(Tests took" + 
+		# @logger.ok("(Test took " + 
 			# test_duration_in_s.to_f.to_s + 
 			# "s.)")
 	# end
@@ -83,7 +96,6 @@ class TestCrawler < TestSuite
 	def not_test_fetch_meetings
 		
 		@logger.imp("Testing fetch meetings")
-		test_start_time = Time.now()
 		begin
 			job = Job::new
 			date = Date::new(2013,11,15)
@@ -148,12 +160,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_meetings OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_fetch_meeting_shallow
@@ -213,15 +219,9 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_meeting_shallow OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
-	def not_test_fetch_meeting
+	def test_fetch_meeting
 		
 		@logger.imp("Testing fetch meeting")
 		test_start_time = Time.now()
@@ -251,12 +251,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_meeting OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_fetch_race
@@ -306,12 +300,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_race OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_fetch_weather
@@ -362,12 +350,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_weather OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_join_runner_list_and_result_list
@@ -634,13 +616,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for join_runner_list_and_result_list OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
-		
 	end
 	
 	def not_test_get_column_map()
@@ -705,13 +680,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for get_column_map OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
-		
 	end
 	
 	def not_test_fetch_runners
@@ -755,12 +723,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_runners OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_fetch_runners_shallow
@@ -815,8 +777,7 @@ class TestCrawler < TestSuite
 								draw: 0,
 								earnings_career: 0.0,
 								history: "",
-								horse: Horse::new(	name: "Phenomenal", 
-													sex: @ref_list_hash[:ref_sex_list][""]),
+								horse: Horse::new(name: "Phenomenal"),
 								is_favorite: false,
 								is_non_runner: true,
 								is_substitute: false,
@@ -996,15 +957,9 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_runners_shallow OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
-	def test_fetch_race_results()
+	def not_test_fetch_race_results()
 		
 		@logger.imp("Testing fetch race results")
 		test_start_time = DateTime.now()
@@ -1053,7 +1008,7 @@ class TestCrawler < TestSuite
 								is_favorite: false,
 								is_non_runner: false,
 								disqualified: false)
-			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N10(After 10th place)")
+			validate_runner_from_result_list(expected_runner, runner_to_check, "R4_C1_N10 (After 10th place)")
 			
 			# Non-runner (is_non_runner == true, final_place == nil, single_rating_after_race == nil)
 			runner_to_check = runner_hash[11]
@@ -1159,12 +1114,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_race_results OK.")
-		test_end_time = DateTime.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took " + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 	def not_test_fetch_runner()
@@ -1211,6 +1160,7 @@ class TestCrawler < TestSuite
 			
 			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 			coat = @ref_list_hash[:ref_coat_list][""]
+			sex = @ref_list_hash[:ref_sex_list]["F"]
 			
 			father = Horse::new(name: "antonius pius")
 			grand_father = Horse::new(name: "goldkeeper")
@@ -1219,7 +1169,9 @@ class TestCrawler < TestSuite
 			horse = Horse::new(breed: breed,
 								coat: coat,
 								father: father,
-								mother: mother)
+								name: "Antonia Major",
+								mother: mother,
+								sex: sex)
 			
 			# runner without victories or breeder
 			runner_to_check = runner_shallow_hash[1]
@@ -1251,6 +1203,7 @@ class TestCrawler < TestSuite
 			horse = Horse::new(breed: breed,
 								coat: coat,
 								father: father,
+								name: "Dahlia's Destiny",
 								mother: mother)
 			
 			runner_to_check = runner_shallow_hash[7]
@@ -1303,6 +1256,7 @@ class TestCrawler < TestSuite
 			# runner without earnings_current_year
 			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 			coat = @ref_list_hash[:ref_coat_list]["GRIS FONCE"]
+			sex = @ref_list_hash[:ref_sex_list]["H"]
 			
 			father = Horse::new(name: "sacro saint")
 			grand_father = Horse::new(name: "saint cyrien")
@@ -1311,7 +1265,9 @@ class TestCrawler < TestSuite
 			horse = Horse::new(breed: breed,
 								coat: coat,
 								father: father,
-								mother: mother)
+								mother: mother,
+								name: "Votez Pour Moi",
+								sex: sex)
 			
 			runner_to_check = runner_shallow_hash[3]
 			expected_runner = Runner::new(
@@ -1337,12 +1293,6 @@ class TestCrawler < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for fetch_runner OK.")
-		test_end_time = Time.now()
-		test_duration_in_days = test_end_time - test_start_time
-		test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		@logger.ok("(Tests took" + 
-			test_duration_in_s.to_f.to_s + 
-			"s.)")
 	end
 	
 end

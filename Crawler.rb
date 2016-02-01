@@ -117,7 +117,9 @@ class Crawler
 		driver.manage.timeouts.implicit_wait = 5 # seconds
 		browser_start_end_time = Time::now
 		browser_start_total_time = browser_start_end_time - browser_start_start_time
-		logStr = "Browser prepared (" + browser_start_total_time.to_s + "s)"
+		logStr = "Browser prepared (" + 
+			format_time_diff(browser_start_total_time)	+ 
+			")"
 		@logger.info(logStr)
 		return driver
 	end
@@ -787,6 +789,8 @@ class Crawler
 		html_runner_list = @driver.find_elements(:css, CSS_TO_RUNNERS)
 		html_runner_list.each do | html_runner |
 			
+			sex = nil
+			
 			runner_class_raw = html_runner.attribute("class")
 			runner_class = runner_class_raw.strip
 			# big if on class to ignore the non-runners in the HTML table
@@ -965,9 +969,10 @@ class Crawler
 					horse = Horse::new(name: horse_name)
 					
 					jockey = Jockey::new(name: jockey_name)
+					
+					sex = @ref_list_hash[:ref_sex_list][sex_text]
 				end
 				# @logger.trace("fetch_runners_shallow - back to main branch ")
-				sex = @ref_list_hash[:ref_sex_list][sex_text]
 				horse.sex = sex
 				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
 				# @logger.debug("fetch_runners_shallow - shoes_text : " + shoes_text)

@@ -32,7 +32,9 @@ def validate_race(expected_race, actual_race, str_race_identifier)
 	
 	if not (expected_race.result_insertion_time == nil) and 
 		not (actual_race.result_insertion_time == nil) then
-		assert_operator(5, :>=, ((expected_race.result_insertion_time.to_time - actual_race.result_insertion_time.to_time)).abs, 	"Wrong result_insertion_time for " + str_race_identifier)
+		@logger.debug("validate_race - expected RIT : " + expected_race.result_insertion_time.to_time.to_s)
+		@logger.debug("validate_race - actual RIT : " + actual_race.result_insertion_time.to_time.to_s)
+		assert_operator(120, :>=, ((expected_race.result_insertion_time.to_time - actual_race.result_insertion_time.to_time)).abs, 	"Wrong result_insertion_time for " + str_race_identifier)
 	else
 		if expected_race.result_insertion_time == nil then
 			assert_equal(nil, actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier + " (should be nil)")
@@ -793,7 +795,7 @@ def validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
 				jockey: jockey,
 				owner: owner,
 				trainer: trainer)
-	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N5(10th, with dist)")
+	validate_runner_from_runner_list(expected_runner, runner_from_list_runners, "R4_C5_N5 (10th, with dist)")
 end
 
 def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
@@ -801,7 +803,6 @@ def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 	coat = @ref_list_hash[:ref_coat_list][""]
-	sex = @ref_list_hash[:ref_sex_list][""]
 	
 	father = Horse::new(name: "windrush")
 	grand_father = Horse::new(name: "northern guest")
@@ -815,8 +816,7 @@ def validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
 						coat: coat,
 						father: father,
 						mother: mother,
-						name: "Lizzy Grey",
-						sex: sex)
+						name: "Lizzy Grey")
 	expected_runner = Runner::new(
 				age: 0,
 				blinder: blinder,
@@ -1550,7 +1550,7 @@ def validate_result_R4_C5_N5(runner_from_result_list)
 				url: "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5_runner_AIM_OF_THE_GAME.htm",
 				single_rating_after_race: 9.6,
 				time: "")
-	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N5(10th, with dist)")
+	validate_runner_from_result_list(expected_runner, runner_from_result_list, "R4_C5_N5 (10th, with dist)")
 end
 
 def validate_result_R4_C5_N17(runner_from_result_list)
@@ -1739,7 +1739,7 @@ def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 						owner: owner,
 						trainer: trainer)
 						
-	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N2(10th, with dist)")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N2 (10th, with dist)")
 end
 
 def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
@@ -1860,7 +1860,7 @@ def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
 					owner: owner,
 					trainer: trainer)
 	
-	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N5(10th, with dist)")
+	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N5 (10th, with dist)")
 end
 
 def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
@@ -1868,7 +1868,6 @@ def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 	coat = @ref_list_hash[:ref_coat_list][""]
-	sex = @ref_list_hash[:ref_sex_list][""]
 	
 	father = Horse::new(name: "windrush")
 	grand_father = Horse::new(name: "northern guest")
@@ -1882,8 +1881,8 @@ def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 						coat: coat,
 						father: father,
 						mother: mother,
-						name: "Lizzy Grey",
-						sex: sex)
+						name: "Lizzy Grey")
+						
 	expected_runner = Runner::new(			
 					age: 0,
 					blinder: blinder,
