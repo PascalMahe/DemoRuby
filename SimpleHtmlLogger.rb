@@ -9,6 +9,15 @@ class SimpleHtmlLogger
 	File_prefix = "RPP_job-"
 	File_ext = ".html"
 	
+	OPEN_BRACKET = "("
+	CLOS_BRACKET = ")"
+	
+	OPEN_SQUARE_BRACKET = "["
+	CLOS_SQUARE_BRACKET = "]"
+	
+	OPEN_ANGLE_BRACKET = "#<" # with the # beacause it's used by Ruby to show an object
+	CLOS_ANGLE_BRACKET = ">"
+	
 	attr_accessor :file
 	attr_accessor :path
 	attr_accessor :level
@@ -237,16 +246,20 @@ class SimpleHtmlLogger
 		# new lines and tabs are inserted only if there is a list (array...)
 		# we check that by checking if there are multiple (more than one) commas or brackets (and if the brackets are in pairs)
 		number_of_commas = string.scan(",").length
-		number_of_opening_brackets = string.scan("(").length
-		number_of_closing_brackets = string.scan(")").length
-		number_of_opening_square_brackets = string.scan("[").length
-		number_of_closing_square_brackets = string.scan("]").length
+		number_of_opening_brackets = string.scan(OPEN_BRACKET).length
+		number_of_closing_brackets = string.scan(CLOS_BRACKET).length
+		number_of_opening_square_brackets = string.scan(OPEN_SQUARE_BRACKET).length
+		number_of_closing_square_brackets = string.scan(CLOS_SQUARE_BRACKET).length
+		# number_of_opening_angle_brackets = string.scan(OPEN_ANGLE_BRACKET).length
+		# number_of_closing_angle_brackets = string.scan(CLOS_ANGLE_BRACKET).length
 		
 		is_a_list_or_array = number_of_commas > 1 or 
 							(number_of_opening_brackets == number_of_closing_brackets and 
 								number_of_opening_brackets > 1) or
-							(number_of_opening_brackets == number_of_closing_brackets and 
-								number_of_opening_brackets > 1)
+							(number_of_opening_square_brackets == number_of_closing_square_brackets and 
+								number_of_opening_square_brackets > 1) # or
+							# (number_of_opening_angle_brackets == number_of_closing_angle_brackets and 
+								# number_of_opening_angle_brackets > 1)
 		if is_a_list_or_array then
 			
 			# at each bracket (opening or closing), a new_line_string is inserted, followed by a number of tab_strings
@@ -256,7 +269,7 @@ class SimpleHtmlLogger
 			opened_paren = 0
 			while (i < string.length() - 1) do
 
-				if string[i].eql?("[") and not (string[i + 1].eql?("]")) then
+				if string[i].eql?(OPEN_SQUARE_BRACKET) and not (string[i + 1].eql?(CLOS_SQUARE_BRACKET)) then
 					tab_nb = tab_nb + 1
 					nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, false)
 					i = i + nb_char_inserted
@@ -268,9 +281,15 @@ class SimpleHtmlLogger
 					i = i + nb_char_inserted
 				end
 
-				if string[i].eql?("]") 
+				# if string[i].eql?(OPEN_ANGLE_BRACKET) and not (string[i + 1].eql?(CLOS_ANGLE_BRACKET)) then
+					# tab_nb = tab_nb + 1
+					# nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, false)
+					# i = i + nb_char_inserted
+				# end
+
+				if string[i].eql?(CLOS_SQUARE_BRACKET) 
 					if i - 1 > 0 then 
-						if not (string[i - 1].eql?("[")) then
+						if not (string[i - 1].eql?(OPEN_SQUARE_BRACKET)) then
 							tab_nb = tab_nb - 1
 							nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
 							i = i + nb_char_inserted
@@ -288,12 +307,27 @@ class SimpleHtmlLogger
 					end #end if
 				end #end if
 				
-				if string[i].eql?("(") then
+				# if string[i].eql?(CLOS_ANGLE_BRACKET) 
+					# if i - 1 > 0 then 
+						# if not (string[i - 1].eql?(OPEN_ANGLE_BRACKET)) then
+							# tab_nb = tab_nb - 1
+							# nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
+							# i = i + nb_char_inserted
+						# end #end if 
+					# end #end if
+				# end #end if
+				
+				if string[i].eql?(OPEN_BRACKET) then
 					opened_paren = opened_paren + 1
 				end
-				if string[i].eql?(")") then
+				if string[i].eql?(CLOS_BRACKET) then
 					opened_paren = opened_paren - 1
 				end
+				# if string[i].eql?(CLOS_ANGLE_BRACKET) then
+					# opened_paren = opened_paren - 1
+				# end
+				
+				
 				if string[i].eql?(",") and opened_paren == 0 then
 					nb_char_inserted = insert_new_line_and_tabs(string, i, tab_nb, tab_string, new_line_string, true)
 					i = i + nb_char_inserted
