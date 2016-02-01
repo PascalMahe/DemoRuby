@@ -987,17 +987,18 @@ class DatabaseInterface
 			result = row["result"]
 			result_insertion_time = row["result_insertion_time"]
 			# TODO convert from UTC to local time
-			# if result_insertion_time != nil then
-				# @logger.debug("load_race_by_id - result_insertion_time : " + result_insertion_time.to_s)
-				# utc_result_insertion_time = Time.utc()
-				# @logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
-				# @logger.debug("load_race_by_id - result_insertion_time.utc? " + result_insertion_time.utc?.to_s)
-				# if result_insertion_time.utc? then
-					# result_insertion_time = result_insertion_time.localtime
-					# @logger.debug("load_race_by_id - result_insertion_time (after .localtime) : " + result_insertion_time.to_s)
-				# end
+			if result_insertion_time != nil then
+			
+				@logger.debug("load_race_by_id - result_insertion_time : " + result_insertion_time.to_s)
+				result_insertion_time = result_insertion_time.to_time
+				@logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
+				@logger.debug("load_race_by_id - result_insertion_time.utc? " + result_insertion_time.utc?.to_s)
+				if result_insertion_time.utc? then
+					result_insertion_time = result_insertion_time.localtime
+					@logger.debug("load_race_by_id - result_insertion_time (after .localtime) : " + result_insertion_time.to_s)
+				end
 				
-			# end
+			end
 			# result_insertion_time = Time.parse(str_result_insertion_time, 
 												# @config[:gen][:database_date_time_format])
 			time = row["time"]

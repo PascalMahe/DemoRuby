@@ -9,6 +9,8 @@
  :database_date_time_format: '%d/%m/%Y %H:%M:%S.%L %z' 
  :default_date_format: 		'%d/%m/%Y'
  :default_time_format: 		'%H:%M:%S.%L'
+ :minute_time_format: 		'%M:%S.%L'
+ :second_time_format: 		'%S.%L'
  :sql_create: 	'sql.table_creation.yml'
  :sql_delete: 	'sql.table_deletion.yml'
  :sql_insert: 	'sql.insert.yml'

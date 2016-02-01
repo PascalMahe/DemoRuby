@@ -13,6 +13,21 @@ def nil_safe_to_s(attr)
 	return attr_as_string
 end
 
+def format_time_diff(sec_with_frac)
+	tDif = Time.at(sec_with_frac)
+	if sec_with_frac > 3600 then
+		format =  $globalState.config[:gen][:default_time_format]
+		suffix = "h"
+	elsif sec_with_frac > 60 then
+		format =  $globalState.config[:gen][:minute_time_format]
+		suffix = "m"
+	else
+		format =  $globalState.config[:gen][:second_time_format]
+		suffix = "s"
+	end
+	return tDif.strftime(format) + " " + suffix
+end
+
 class GlobalState
 	attr_accessor :config
 	attr_accessor :logger

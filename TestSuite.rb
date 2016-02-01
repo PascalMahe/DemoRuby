@@ -125,7 +125,7 @@ class TestSuite < MiniTest::Test
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
 	@@crawler = nil
-	
+	@suite_start_time = Time.now
 	logger.info("End of setup")
 	
 	##########################
@@ -149,6 +149,12 @@ class TestSuite < MiniTest::Test
 		# Data deletion went here until it was moved to before the data insertion
 		
 		logger.info("End of teardown")
+		
+		suite_end_time = Time.now
+		test_suite_duration = suite_end_time - @suite_start_time
+		logger.info("Test suite took: " + 
+			format_time_diff(test_suite_duration))
+		
 		logger.imp("END TEST SUITE")
 	}
 	############################
