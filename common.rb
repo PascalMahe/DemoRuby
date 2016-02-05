@@ -1,6 +1,10 @@
 ﻿require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
 require './DatabaseInterface.rb'
+require './DB_insert.rb'
+require './DB_select_by_tech_id.rb'
+require './DB_select_by_business_id.rb'
+require './DB_update.rb'
 require './SimpleHtmlLogger.rb'
 
 	
@@ -32,6 +36,10 @@ class GlobalState
 	attr_accessor :config
 	attr_accessor :logger
 	attr_accessor :dbi
+	attr_accessor :dbi_insert
+	attr_accessor :dbi_select_by_tech_id
+	attr_accessor :dbi_select_by_business_id
+	attr_accessor :dbi_update
 	attr_accessor :is_test
 
 	def load_config()
@@ -58,6 +66,10 @@ class GlobalState
 		@logger = SimpleHtmlLogger::new(path_to_log, log_level)
 		@is_test = is_test
 		@dbi = DatabaseInterface::new(@config, is_test, @logger)
+		@dbi_insert = DatabaseInterfaceInsert::new(@config, is_test, @logger)
+		@dbi_select_by_tech_id = DatabaseInterfaceSelectByTechId::new(@config, is_test, @logger)
+		@dbi_select_by_business_id = DatabaseInterfaceSelectByBusinessId::new(@config, is_test, @logger)
+		@dbi_update = DatabaseInterfaceUpdate::new(@config, is_test, @logger)
 	end
 	
 end

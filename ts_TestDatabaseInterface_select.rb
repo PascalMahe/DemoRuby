@@ -11,10 +11,14 @@ class TestDatabaseInterfaceSelect < TestSuite
 	def setup
 		@logger = $globalState.logger
 		@config = $globalState.config
-		@dbi = $globalState.dbi
+		@dbi_select = $globalState.dbi_select_by_tech_id
 		if(@ref_list_hash == nil) then 
-			@ref_list_hash = @dbi.load_all_refs
+			@ref_list_hash = @dbi_select.load_all_refs
 		end
+	end
+	
+	def teardown
+		
 	end
 	
 	##################
@@ -24,7 +28,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Breeder")
 		begin
 			test_id = -1
-			selected_breeder = @dbi.load_breeder_by_id(test_id)
+			selected_breeder = @dbi_select.load_breeder_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 				selected_breeder.id)
@@ -42,7 +46,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Forecast")
 		begin
 			test_id = -1
-			selected_forecast = @dbi.load_forecast_by_id(test_id)
+			selected_forecast = @dbi_select.load_forecast_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 							selected_forecast.id)
@@ -101,7 +105,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Horse")
 		begin
 			test_id = -1
-			selected_horse = @dbi.load_horse_by_id(test_id)
+			selected_horse = @dbi_select.load_horse_by_id(test_id)
 			
 			father = Horse::new(id: -2, 
 								breed: @ref_list_hash[:ref_breed_list]["Test Breed"],
@@ -140,7 +144,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Job")
 		begin
 			test_id = -1
-			selected_job = @dbi.load_job_by_id(test_id)
+			selected_job = @dbi_select.load_job_by_id(test_id)
 			
 			# Checking value
 			assert_equal(-1, selected_job.id)
@@ -182,7 +186,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Jockey")
 		begin
 			test_id = -1
-			selected_jockey = @dbi.load_jockey_by_id(test_id)
+			selected_jockey = @dbi_select.load_jockey_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 					selected_jockey.id)
@@ -201,7 +205,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Meeting")
 		begin
 			test_id = -1
-			selected_meeting = @dbi.load_meeting_by_id(test_id)
+			selected_meeting = @dbi_select.load_meeting_by_id(test_id)
 			
 			job = Job::new(id: -1,
 							start_time: DateTime.new(2015, 01, 27, 17, 35, 0.250, '+00'),
@@ -238,7 +242,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Origin")
 		begin
 			test_id = -1
-			selected_origin = @dbi.load_origin_by_id(test_id)
+			selected_origin = @dbi_select.load_origin_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 						selected_origin.id)
@@ -258,7 +262,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Owner")
 		begin
 			test_id = -1
-			selected_owner = @dbi.load_owner_by_id(test_id)
+			selected_owner = @dbi_select.load_owner_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 				selected_owner.id)
@@ -276,7 +280,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Race")
 		begin
 			test_id = -1
-			selected_race = @dbi.load_race_by_id(test_id)
+			selected_race = @dbi_select.load_race_by_id(test_id)
 			
 			# Checking value
 			job = Job::new(id: -1,
@@ -413,7 +417,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Runner")
 		begin
 			test_id = -1
-			selected_runner = @dbi.load_runner_by_id(test_id)
+			selected_runner = @dbi_select.load_runner_by_id(test_id)
 			
 			breeder = Breeder::new(id: -1, name: "Test Breeder 1 Name")
 			
@@ -535,7 +539,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Trainer")
 		begin
 			test_id = -1
-			selected_trainer = @dbi.load_trainer_by_id(test_id)
+			selected_trainer = @dbi_select.load_trainer_by_id(test_id)
 			
 			# Checking value
 			assert_equal(test_id, 				selected_trainer.id)
@@ -553,7 +557,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Weather")
 		begin
 			test_id = -1
-			selected_weather = @dbi.load_weather_by_id(test_id)
+			selected_weather = @dbi_select.load_weather_by_id(test_id)
 			
 			# Checking value
 			assert_equal(-1,							selected_weather.id)
@@ -577,7 +581,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Weight")
 		begin
 			test_id = -1
-			selected_weight = @dbi.load_weight_by_id(test_id)
+			selected_weight = @dbi_select.load_weight_by_id(test_id)
 			
 			# Checking value
 			assert_equal(-1,					selected_weight.id)

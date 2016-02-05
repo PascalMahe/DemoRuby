@@ -12,9 +12,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 	def setup
 		@logger = $globalState.logger
 		@config = $globalState.config
-		@dbi = $globalState.dbi
+		@dbi_insert = $globalState.dbi_insert
+		@dbi_select = $globalState.dbi_select_by_tech_id
 		if(@ref_list_hash == nil) then 
-			@ref_list_hash = @dbi.load_all_refs
+			@ref_list_hash = @dbi_select.load_all_refs
 		end
 		
 		@logger.level = SimpleHtmlLogger::INFO
@@ -29,17 +30,17 @@ class TestDatabaseInterfaceInsert < TestSuite
 		begin
 			# Counting Breeders in DB before insert
 			
-			old_breeder_num = @dbi.select_count_from_table(@config[:gen][:table_names][:breeder])
+			old_breeder_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:breeder])
 			
 			breeder = Breeder::new
 			breeder.name = "LYNN LODGE STUD"
 			
-			breeder.id = @dbi.insert_breeder(breeder)
+			breeder.id = @dbi_insert.insert_breeder(breeder)
 			
 			# Counting Breeders in DB after insert
-			new_breeder_num = @dbi.select_count_from_table(@config[:gen][:table_names][:breeder])
+			new_breeder_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:breeder])
 			
-			inserted_breeder = @dbi.load_breeder_by_id(breeder.id)
+			inserted_breeder = @dbi_select.load_breeder_by_id(breeder.id)
 			assert_equal(breeder.name, inserted_breeder.name)
 			assert_equal(old_breeder_num + 1, new_breeder_num)
 			
@@ -55,19 +56,19 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Forecast")
 		begin
 			# Counting number of Forecasts before test
-			old_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
+			old_forecast_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:forecast])
 			
 			forecast = Forecast::new
-			forecast.race = @dbi.load_race_by_id(-1)
-			forecast.origin = @dbi.load_origin_by_id(-1)
+			forecast.race = @dbi_select.load_race_by_id(-1)
+			forecast.origin = @dbi_select.load_origin_by_id(-1)
 			forecast.expected_result = "1 - 2 - 7 - 3 - 4"
 			forecast.result_match_rate = 1045
 			forecast.normalised_result_match_rate = 0.15
 			
-			forecast.id = @dbi.insert_forecast_with_matchrate(forecast)
+			forecast.id = @dbi_insert.insert_forecast_with_matchrate(forecast)
 			
 			# Checking insert by value
-			inserted_forecast = @dbi.load_forecast_by_id(forecast.id)
+			inserted_forecast = @dbi_select.load_forecast_by_id(forecast.id)
 			assert_equal(forecast.race, inserted_forecast.race)
 			assert_equal(forecast.origin, inserted_forecast.origin)
 			assert_equal(forecast.expected_result, inserted_forecast.expected_result)
@@ -75,7 +76,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(forecast.normalised_result_match_rate, inserted_forecast.normalised_result_match_rate)
 			
 			# Counting number of RefDirection after test
-			new_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
+			new_forecast_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:forecast])
 			assert_equal(old_forecast_num + 1, new_forecast_num)
 			
 			@logger.ok("Tests for insertion of Forecast OK.")
@@ -90,17 +91,17 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Forecast (without matchrate)")
 		begin
 			# Counting number of Forecasts before test
-			old_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
+			old_forecast_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:forecast])
 			
 			forecast = Forecast::new
-			forecast.race = @dbi.load_race_by_id(-1)
-			forecast.origin = @dbi.load_origin_by_id(-1)
+			forecast.race = @dbi_select.load_race_by_id(-1)
+			forecast.origin = @dbi_select.load_origin_by_id(-1)
 			forecast.expected_result = "1 - 2 - 7 - 3 - 4"
 
-			forecast.id = @dbi.insert_forecast_without_matchrate(forecast)
+			forecast.id = @dbi_insert.insert_forecast_without_matchrate(forecast)
 			
 			# Checking insert by value
-			inserted_forecast = @dbi.load_forecast_by_id(forecast.id)
+			inserted_forecast = @dbi_select.load_forecast_by_id(forecast.id)
 			assert_equal(forecast.race, inserted_forecast.race)
 			assert_equal(forecast.origin, inserted_forecast.origin)
 			assert_equal(forecast.expected_result, inserted_forecast.expected_result)
@@ -108,7 +109,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(nil, inserted_forecast.normalised_result_match_rate)
 			
 			# Counting number of RefDirection after test
-			new_forecast_num = @dbi.select_count_from_table(@config[:gen][:table_names][:forecast])
+			new_forecast_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:forecast])
 			assert_equal(old_forecast_num + 1, new_forecast_num)
 
 			@logger.ok("Tests for insertion of Forecast (without matchrate) OK.")
@@ -123,7 +124,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Horse")
 		begin
 			# Counting number of Horses before test
-			old_horse_num = @dbi.select_count_from_table(@config[:gen][:table_names][:horse])
+			old_horse_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:horse])
 			
 			horse = Horse::new(
 				breed: @ref_list_hash[:ref_breed_list]["Pur-sang"],
@@ -137,10 +138,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 			@logger.debug("test_insert_horse - horse.father.id : " + horse.father.id.to_s)
 			@logger.debug("test_insert_horse - horse.mother.id : " + horse.mother.id.to_s)
 			
-			horse.id = @dbi.insert_horse(horse)
+			horse.id = @dbi_insert.insert_horse(horse)
 			
 			# Checking insert by value
-			inserted_horse = @dbi.load_horse_by_id(horse.id)
+			inserted_horse = @dbi_select.load_horse_by_id(horse.id)
 			assert_equal(horse.breed, inserted_horse.breed)
 			assert_equal(horse.coat, inserted_horse.coat)
 			assert_equal(horse.name, inserted_horse.name)
@@ -171,7 +172,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(expected_mother, inserted_horse.mother)
 			
 			# Counting number of Horses after test
-			new_horse_num = @dbi.select_count_from_table(@config[:gen][:table_names][:horse])
+			new_horse_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:horse])
 			assert_equal(old_horse_num + 1, new_horse_num)
 			
 			@logger.ok("Tests for insertion of Horse OK.")
@@ -186,7 +187,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Job")
 		begin
 			# Counting number of Jobs before test
-			old_job_num = @dbi.select_count_from_table(@config[:gen][:table_names][:job])
+			old_job_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:job])
 			
 			job = Job::new
 			job.start_time = DateTime.now
@@ -194,10 +195,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 			job.crawling_end_time = DateTime.now
 			job.computing_end_time = DateTime.now
 
-			@dbi.insert_job(job)
+			@dbi_insert.insert_job(job)
 			
 			# Checking insert by value
-			selected_job = @dbi.load_job_by_id(job.id)
+			selected_job = @dbi_select.load_job_by_id(job.id)
 			
 			# DEBUGGING
 			strFirstMessage = ""
@@ -222,7 +223,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 				selected_job.computing_end_time.strftime(@config[:gen][:default_date_time_format]))
 			
 			# Counting number of Job after test
-			new_job_num = @dbi.select_count_from_table(@config[:gen][:table_names][:job])
+			new_job_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:job])
 			assert_equal(old_job_num + 1, new_job_num)
 			
 			@logger.ok("Tests for insertion of Job OK.")
@@ -237,20 +238,20 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Jockey")
 		begin
 			# Counting number of Jockeys before test
-			old_jockey_num = @dbi.select_count_from_table(@config[:gen][:table_names][:jockey])
+			old_jockey_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:jockey])
 			
 			jockey = Jockey::new
 			jockey.jacket = "/turf/casaques/31102013/petites-casaques-course/1/4.png*-60px"
 			jockey.name = "c.soumillon"
-			jockey.id = @dbi.insert_jockey(jockey)
+			jockey.id = @dbi_insert.insert_jockey(jockey)
 			
 			# Checking insert by value
-			inserted_jockey = @dbi.load_jockey_by_id(jockey.id)
+			inserted_jockey = @dbi_select.load_jockey_by_id(jockey.id)
 			assert_equal(jockey.name, inserted_jockey.name)
 			assert_equal(jockey.jacket, inserted_jockey.jacket)
 			
 			# Counting number of RefDirection after test
-			new_jockey_num = @dbi.select_count_from_table(@config[:gen][:table_names][:jockey])
+			new_jockey_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:jockey])
 			assert_equal(old_jockey_num + 1, new_jockey_num)
 			
 			@logger.ok("Tests for insertion of Jockey OK.")
@@ -266,11 +267,11 @@ class TestDatabaseInterfaceInsert < TestSuite
 		
 		begin
 			# Counting number of Meetings before test
-			old_meeting_num = @dbi.select_count_from_table(@config[:gen][:table_names][:meeting])
+			old_meeting_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:meeting])
 			
 			country = "BEL"
 			date = Time.now
-			job = @dbi.load_job_by_id(-1)
+			job = @dbi_select.load_job_by_id(-1)
 			number = 11
 			racetrack = "Auteuil"
 			track_condition = @ref_list_hash[:ref_track_condition_list]["Terrain bon"]
@@ -286,10 +287,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 									track_condition: track_condition,
 									weather: weather)
 
-			@dbi.insert_meeting(meeting)
+			@dbi_insert.insert_meeting(meeting)
 
 			# Checking insert by value
-			selected_meeting = @dbi.load_meeting_by_id(meeting.id)
+			selected_meeting = @dbi_select.load_meeting_by_id(meeting.id)
 			assert_equal(meeting.country, selected_meeting.country)
 			assert_equal(meeting.job, selected_meeting.job)
 			assert_equal(meeting.track_condition, selected_meeting.track_condition)
@@ -311,7 +312,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(expected_weather, selected_meeting.weather)
 			
 			# Counting number of Meetings after test
-			new_meeting_num = @dbi.select_count_from_table(@config[:gen][:table_names][:meeting])
+			new_meeting_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:meeting])
 			assert_equal(old_meeting_num + 1, new_meeting_num)
 			
 			@logger.ok("Tests for insertion of Meeting OK.")
@@ -326,23 +327,23 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Origin")
 		begin
 			# Counting number of Origins before test
-			old_origin_num = @dbi.select_count_from_table(@config[:gen][:table_names][:origin])
+			old_origin_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:origin])
 			
 			origin = Origin::new
 			origin.name = "Single Rating"
 			origin.column_order = "single_rating"
 			origin.url = "http://www.pmu.fr/turf/index.html#/turf/30102013/reunion-1-PARIS_VINCENNES/pronostics.html"
 
-			origin.id = @dbi.insert_origin(origin)
+			origin.id = @dbi_insert.insert_origin(origin)
 			
 			# Checking insert by value
-			insert_origin = @dbi.load_origin_by_id(origin.id)
+			insert_origin = @dbi_select.load_origin_by_id(origin.id)
 			assert_equal(origin.name, insert_origin.name)
 			assert_equal(origin.column_order, insert_origin.column_order)
 			assert_equal(origin.url, insert_origin.url)
 			
 			# Counting number of Origin after test
-			new_origin_num = @dbi.select_count_from_table(@config[:gen][:table_names][:origin])
+			new_origin_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:origin])
 			assert_equal(old_origin_num + 1, new_origin_num)
 			
 			@logger.ok("Tests for insertion of Origin OK.")
@@ -357,19 +358,19 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Owner")
 		begin
 			# Counting number of Owners before test
-			old_owner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:owner])
+			old_owner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:owner])
 			
 			owner = Owner::new
 			owner.name = "MLLE A.WEAVER"
 
-			owner.id = @dbi.insert_owner(owner)
+			owner.id = @dbi_insert.insert_owner(owner)
 			
 			# Checking insert by value
-			insert_owner = @dbi.load_owner_by_id(owner.id)
+			insert_owner = @dbi_select.load_owner_by_id(owner.id)
 			assert_equal(owner.name, insert_owner.name)
 			
 			# Counting number of Owner after test
-			new_owner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:owner])
+			new_owner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:owner])
 			assert_equal(old_owner_num + 1, new_owner_num)
 			
 			@logger.ok("Tests for insertion of Owner OK.")
@@ -386,13 +387,13 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.level = SimpleHtmlLogger::DEBUG
 		begin
 			# Counting number of Races before test
-			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
+			old_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
 			
 			bets = 143010
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			general_conditions = "Internationale - Autostart Corde à gauche"
-			meeting = @dbi.load_meeting_by_id(-1)
+			meeting = @dbi_select.load_meeting_by_id(-1)
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
 			race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions"]
@@ -418,10 +419,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 					value: value
 			)
 			
-			@dbi.insert_race_with_result(race)
+			@dbi_insert.insert_race_with_result(race)
 
 			# Checking insert by value
-			selected_race = @dbi.load_race_by_id(race.id)
+			selected_race = @dbi_select.load_race_by_id(race.id)
 
 			assert_equal(race.bets, 				selected_race.bets)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
@@ -442,7 +443,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.value, 	selected_race.value)
 			
 			# Counting number of Race after test
-			new_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
+			new_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
 			assert_equal(old_race_num + 1, new_race_num)
 			
 			@logger.ok("Tests for insertion of Race OK.")
@@ -458,13 +459,13 @@ class TestDatabaseInterfaceInsert < TestSuite
 		
 		begin
 			# Counting number of Races before test
-			old_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
+			old_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
 			
 			bets = 143010
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			general_conditions = "Internationale - Autostart Corde à gauche"
-			meeting = @dbi.load_meeting_by_id(-1)
+			meeting = @dbi_select.load_meeting_by_id(-1)
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
 			race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions"]
@@ -485,10 +486,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 					url: url, 
 					value: value)
 			
-			@dbi.insert_race_without_result(race)
+			@dbi_insert.insert_race_without_result(race)
 
 			# Checking insert by value
-			selected_race = @dbi.load_race_by_id(race.id)
+			selected_race = @dbi_select.load_race_by_id(race.id)
 			
 			assert_equal(race.bets, 				selected_race.bets)
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
@@ -507,7 +508,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			validate_race(race, selected_race, "insertion of race")
 			
 			# Counting number of Races after test
-			new_race_num = @dbi.select_count_from_table(@config[:gen][:table_names][:race])
+			new_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
 			assert_equal(old_race_num + 1, new_race_num)
 			
 			@logger.ok("Tests for insertion of Race (without result) OK.")
@@ -523,98 +524,98 @@ class TestDatabaseInterfaceInsert < TestSuite
 		begin
 			##### REF DIRECTION #####
 			# Counting number of RefDirection before test
-			old_ref_direction_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_direction])
+			old_ref_direction_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_direction])
 			
-			@dbi.insert_ref_direction(RefDirection::new("", "test1"))
+			@dbi_insert.insert_ref_direction(RefDirection::new("", "test1"))
 			
 			# Counting number of RefDirection after test
-			new_ref_direction_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_direction])
+			new_ref_direction_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_direction])
 			assert_equal(old_ref_direction_num + 1, new_ref_direction_num)
 			
 			
 			##### REF TRACK CONDITION #####
 			# Counting number of RefTrackCondition before test
-			old_ref_track_condition_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_track_condition])
+			old_ref_track_condition_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_track_condition])
 			
-			@dbi.insert_ref_track_condition(RefTrackCondition::new("", "test1"))
+			@dbi_insert.insert_ref_track_condition(RefTrackCondition::new("", "test1"))
 
 			# Counting number of RefTrackCondition after test
-			new_ref_track_condition_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_track_condition])
+			new_ref_track_condition_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_track_condition])
 			assert_equal(old_ref_track_condition_num + 1, new_ref_track_condition_num)
 			
 			##### REF RACE TYPE #####
 			# Counting number of RefRaceType before test
-			old_ref_race_type_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_race_type])
+			old_ref_race_type_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_race_type])
 			
-			@dbi.insert_ref_race_type(RefRaceType::new("", "test1"))
+			@dbi_insert.insert_ref_race_type(RefRaceType::new("", "test1"))
 			
 			# Counting number of RefRaceType after test
-			new_ref_race_type_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_race_type])
+			new_ref_race_type_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_race_type])
 			assert_equal(old_ref_race_type_num + 1, new_ref_race_type_num)
 			
 			
 			##### REF COLUMN #####
 			# Counting number of RefColumn before test
-			old_ref_column_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_column])
+			old_ref_column_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_column])
 			
-			@dbi.insert_ref_column(RefColumn::new("", "test1"))
+			@dbi_insert.insert_ref_column(RefColumn::new("", "test1"))
 			
 			# Counting number of RefColumn after test
-			new_ref_column_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_column])
+			new_ref_column_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_column])
 			assert_equal(old_ref_column_num + 1, new_ref_column_num)
 			
 			##### REF SEX #####
 			# Counting number of RefSex before test
-			old_ref_sex_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_sex])
+			old_ref_sex_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_sex])
 			
-			@dbi.insert_ref_sex(RefSex::new("", "test1"))
+			@dbi_insert.insert_ref_sex(RefSex::new("", "test1"))
 			
 			# Counting number of RefSex after test
-			new_ref_sex_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_sex])
+			new_ref_sex_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_sex])
 			assert_equal(old_ref_sex_num + 1, new_ref_sex_num)
 			
 			
 			##### REF BREED #####
 			# Counting number of RefBreed before test
-			old_ref_breed_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_breed])
+			old_ref_breed_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_breed])
 			
-			@dbi.insert_ref_breed(RefBreed::new("", "test1"))
+			@dbi_insert.insert_ref_breed(RefBreed::new("", "test1"))
 			
 			# Counting number of RefBreed after test
-			new_ref_breed_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_breed])
+			new_ref_breed_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_breed])
 			assert_equal(old_ref_breed_num + 1, new_ref_breed_num)
 			
 			
 			##### REF COAT #####
 			# Counting number of RefCoat before test
-			old_ref_coat_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_coat])
+			old_ref_coat_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_coat])
 						
-			@dbi.insert_ref_coat(RefCoat::new("", "test1"))
+			@dbi_insert.insert_ref_coat(RefCoat::new("", "test1"))
 			
 			# Counting number of RefCoat after test
-			new_ref_coat_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_coat])
+			new_ref_coat_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_coat])
 			assert_equal(old_ref_coat_num + 1, new_ref_coat_num)
 			
 			
 			##### REF BLINDER #####
 			# Counting number of RefBlinder before test
-			old_ref_blinder_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_blinder])
+			old_ref_blinder_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_blinder])
 						
-			@dbi.insert_ref_blinder(RefBlinder::new("", "test1"))
+			@dbi_insert.insert_ref_blinder(RefBlinder::new("", "test1"))
 			
 			# Counting number of RefBlinder after test
-			new_ref_blinder_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_blinder])
+			new_ref_blinder_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_blinder])
 			assert_equal(old_ref_blinder_num + 1, new_ref_blinder_num)
 			
 			
 			##### REF SHOES #####
 			# Counting number of RefShoes before test
-			old_ref_shoes_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_shoes])
+			old_ref_shoes_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_shoes])
 						
-			@dbi.insert_ref_shoes(RefShoes::new("", "test1"))
+			@dbi_insert.insert_ref_shoes(RefShoes::new("", "test1"))
 			
 			# Counting number of RefShoes after test
-			new_ref_shoes_num = @dbi.select_count_from_table(@config[:gen][:table_names][:ref_shoes])
+			new_ref_shoes_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:ref_shoes])
 			assert_equal(old_ref_shoes_num + 1, new_ref_shoes_num)
 			
 			@logger.ok("Tests for insertion of RefObject OK.")
@@ -629,17 +630,17 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Runner (after race)")
 		begin
 			# Counting number of runners before test
-			old_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
+			old_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
 			
 			runner = Runner::new(
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
-				breeder: @dbi.load_breeder_by_id(-1),
-				horse: @dbi.load_horse_by_id(-1),
-				jockey: @dbi.load_jockey_by_id(-1),
-				owner: @dbi.load_owner_by_id(-1),
-				race: @dbi.load_race_by_id(-1),
+				breeder: @dbi_select.load_breeder_by_id(-1),
+				horse: @dbi_select.load_horse_by_id(-1),
+				jockey: @dbi_select.load_jockey_by_id(-1),
+				owner: @dbi_select.load_owner_by_id(-1),
+				race: @dbi_select.load_race_by_id(-1),
 				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
-				trainer: @dbi.load_trainer_by_id(-1),
+				trainer: @dbi_select.load_trainer_by_id(-1),
 				age: 5,
 				commentary: "Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.",
 				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
@@ -665,10 +666,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
 				victories: 6
 			)
-			@dbi.insert_runner_after_race(runner)
+			@dbi_insert.insert_runner_after_race(runner)
 
 			# Checking by value
-			selected_runner = @dbi.load_runner_by_id(runner.id)
+			selected_runner = @dbi_select.load_runner_by_id(runner.id)
 
 			assert_equal(runner.blinder, 					selected_runner.blinder)
 			assert_equal(runner.breeder, 					selected_runner.breeder)
@@ -706,7 +707,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(runner.victories, 					selected_runner.victories)
 			
 			# Counting the number of weights after insertion
-			new_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
+			new_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
 			assert_equal(old_runner_num + 1, new_runner_num)
 			
 			@logger.ok("Tests for insertion of Runner (after race) OK.")
@@ -723,17 +724,17 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Runner")
 		begin
 			# Counting number of runners before test
-			old_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
+			old_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
 			
 			runner = Runner::new(
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
-				breeder: @dbi.load_breeder_by_id(-1),
-				horse: @dbi.load_horse_by_id(-1),
-				jockey: @dbi.load_jockey_by_id(-1),
-				owner: @dbi.load_owner_by_id(-1),
-				race: @dbi.load_race_by_id(-1),
+				breeder: @dbi_select.load_breeder_by_id(-1),
+				horse: @dbi_select.load_horse_by_id(-1),
+				jockey: @dbi_select.load_jockey_by_id(-1),
+				owner: @dbi_select.load_owner_by_id(-1),
+				race: @dbi_select.load_race_by_id(-1),
 				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
-				trainer: @dbi.load_trainer_by_id(-1),
+				trainer: @dbi_select.load_trainer_by_id(-1),
 				age: 5,
 				commentary: "Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.",
 				description: "Décevant dans la course de référence, il serait dangereux de l'écarter totalement. Une place est à sa portée. Par Gianni Caggiula, Equidia.",
@@ -756,10 +757,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
 				victories: 6
 			)
-			@dbi.insert_runner_before_race(runner)
+			@dbi_insert.insert_runner_before_race(runner)
 
 			# Checking by value
-			selected_runner = @dbi.load_runner_by_id(runner.id)
+			selected_runner = @dbi_select.load_runner_by_id(runner.id)
 			
 			assert_equal(runner.blinder, 					selected_runner.blinder)
 			assert_equal(runner.breeder, 					selected_runner.breeder)
@@ -794,7 +795,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(runner.victories, 					selected_runner.victories)
 			
 			# Counting the number of Runner after insertion
-			new_runner_num = @dbi.select_count_from_table(@config[:gen][:table_names][:runner])
+			new_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
 			assert_equal(old_runner_num + 1, new_runner_num)
 			
 			@logger.ok("Tests for insertion of Runner (before race) OK.")
@@ -809,19 +810,19 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Trainer")
 		begin
 			# Counting number of Trainer before test
-			old_trainer_num = @dbi.select_count_from_table(@config[:gen][:table_names][:trainer])
+			old_trainer_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:trainer])
 			
 			trainer = Trainer::new
 			trainer.name = "R.CHOTARD"
 
-			@dbi.insert_trainer(trainer)
+			@dbi_insert.insert_trainer(trainer)
 			
 			# Checking insertion by value
-			selected_trainer = @dbi.load_trainer_by_id(trainer.id)
+			selected_trainer = @dbi_select.load_trainer_by_id(trainer.id)
 			assert_equal(trainer.name, selected_trainer.name)
 			
 			# Counting the number of Trainer after insertion
-			new_trainer_num = @dbi.select_count_from_table(@config[:gen][:table_names][:trainer])
+			new_trainer_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:trainer])
 			assert_equal(old_trainer_num + 1, new_trainer_num)
 			
 			@logger.ok("Tests for insertion of Trainer OK.")
@@ -835,7 +836,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Weather")
 		begin
 			# Counting number of weathers before test
-			old_weather_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weather])
+			old_weather_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:weather])
 			
 			weather = Weather::new(
 				insolation: "P6.png",
@@ -844,10 +845,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 				wind_speed: 11
 			)
 
-			@dbi.insert_weather(weather)
+			@dbi_insert.insert_weather(weather)
 
 			# Checking insertion by value
-			selected_weather = @dbi.load_weather_by_id(weather.id)
+			selected_weather = @dbi_select.load_weather_by_id(weather.id)
 
 			assert_equal(weather.wind_direction, selected_weather.wind_direction)
 			assert_equal(weather.insolation, selected_weather.insolation)
@@ -855,7 +856,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(weather.wind_speed, selected_weather.wind_speed)
 			
 			# Counting the number of Weather after insertion
-			new_weather_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weather])
+			new_weather_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:weather])
 			assert_equal(old_weather_num + 1, new_weather_num)
 			
 			@logger.ok("Tests for insertion of Weather OK.")
@@ -870,25 +871,25 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Weight")
 		begin
 			# Counting number of weights before test
-			old_weight_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weight])
+			old_weight_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:weight])
 			
 			# Insertion test
 			weight = Weight::new
-			weight.forecast = @dbi.load_forecast_by_id(-1)
+			weight.forecast = @dbi_select.load_forecast_by_id(-1)
 			weight.name = "flLfD"
 			weight.value = 11
 
-			@dbi.insert_weight(weight)
+			@dbi_insert.insert_weight(weight)
 
 			# Checking insertion by value
-			inserted_weight = @dbi.load_weight_by_id(weight.id)
+			inserted_weight = @dbi_select.load_weight_by_id(weight.id)
 						
 			assert_equal(weight.forecast, inserted_weight.forecast)
 			assert_equal(weight.name, inserted_weight.name)
 			assert_equal(weight.value, inserted_weight.value)
 			
 			# Counting the number of weights after insertion
-			new_weight_num = @dbi.select_count_from_table(@config[:gen][:table_names][:weight])
+			new_weight_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:weight])
 			assert_equal(old_weight_num + 1, new_weight_num)
 			
 			@logger.ok("Tests for insertion of Weight OK.")
