@@ -79,6 +79,8 @@ class SimpleHtmlLogger
 	end
 	
 	def log(level, message)
+		# Mutex are forbidden in trap_context
+		# (ThreadError otherwise)
 		@mutex.synchronize do
 			if can_write_level?(level) then
 				timestamp = Time.now
