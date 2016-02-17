@@ -2,22 +2,17 @@
 require './ref.rb'
 require './Crawler.rb'
 require './validation.rb'
+require 'json'
 
-class TestCrawler < TestSuite
+class TestJson < TestSuite
 	
 	@@crawler = nil
 	
 	def setup
 		@logger = $globalState.logger
 		@config = $globalState.config
-		@dbi = $globalState.dbi
-		@ref_list_hash = @dbi.load_all_refs
-				
-		if @@crawler == nil then
-			@logger.info("Creating crawler for test.")
-			@@crawler = Crawler::new(@logger, @ref_list_hash, @config)
-		end
-		@crawler = @@crawler
+		@dbi_select = $globalState.dbi_select_by_tech_id
+		@ref_list_hash = @dbi_select.load_all_refs
 		
 		@logger.level = SimpleHtmlLogger::DEBUG
 		
@@ -28,10 +23,6 @@ class TestCrawler < TestSuite
 		test_end_time = Time.now()
 		
 		test_duration_in_s = test_end_time - @test_start_time
-		
-		# @logger.debug("teardown - test_start_time : " + @test_start_time.to_s)
-		# @logger.debug("teardown - test_end_time : " + test_end_time.to_s)
-		# @logger.debug("teardown - test_duration_in_s : " + test_duration_in_s.to_s)
 		@logger.ok("(Test took " + 
 			format_time_diff(test_duration_in_s) + 
 			".)")
@@ -41,59 +32,193 @@ class TestCrawler < TestSuite
 		@logger.level = SimpleHtmlLogger::INFO
 	end
 	
+	############################
+	# Tests for simple objects #
+	############################
 	
-	##################
-	#      Tests     #
-	##################
-	# def testcrawl
+	def test_simple_breeder_to_json
 		
-		# @logger.imp("Testing fetch meetings")
-		# test_start_time = Time.now()
-		# begin
-			# job = Job::new
-		
-			# homepage_url = "file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm"
-			# returned_meeting_list = @crawler.crawl(homepage_url, job)
+		@logger.imp("Testing simple breeder to JSON")
+		begin
+			breeder = Breeder::new(name: "LYNN LODGE STUD", id: 5)
 			
-			# expected_meeting_list_size = 5
-			# assert_equal(expected_meeting_list_size, returned_meeting_list.size)
+			json_breeder = breeder.to_json
 			
-			## First meeting : 9 races
-			# first_meeting = returned_meeting_list[1]
-			# nb_races_in_first_meeting = 9
+			# inserted_breeder = @dbi_select.load_breeder_by_id(breeder.id)
+			# assert_equal(breeder.name, inserted_breeder.name)
+			# assert_equal(old_breeder_num + 1, new_breeder_num)
 			
-			## Second meeting : 8 races
-			# second_meeting = returned_meeting_list[2]
-			# nb_races_in_second_meeting = 8
-			
-			## Third meeting : 8 races
-			# third_meeting = returned_meeting_list[3]
-			# nb_races_in_third_meeting = 8
-			
-			## Fourth meeting : 5 races
-			# fourth_meeting = returned_meeting_list[4]
-			# nb_races_in_fourth_meeting = 5
-			
-			## Fifth meeting : 6 races
-			# fifth_meeting = returned_meeting_list[5]
-			# nb_races_in_fifth_meeting = 6
-			
-			
-		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
-		# end
-		# @logger.ok("Tests for crawl OK.")
-		# test_end_time = Time.now()
-		# test_duration_in_days = test_end_time - test_start_time
-		# test_duration_in_s = test_duration_in_days * 24 * 60 * 60
-		# @logger.ok("(Test took " + 
-			# test_duration_in_s.to_f.to_s + 
-			# "s.)")
-	# end
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple breeder to JSON OK.")
+	end
 	
-	def test_fetch_meetings
+	def test_simple_forecast_to_json
+		
+		@logger.imp("Testing simple forecast to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple forecast to JSON OK.")
+	end
+	
+	def test_simple_horse_to_json
+		
+		@logger.imp("Testing simple horse to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple horse to JSON OK.")
+	end
+	
+	def test_simple_job_to_json
+		
+		@logger.imp("Testing simple job to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple job to JSON OK.")
+	end
+	
+	def test_simple_jockey_to_json
+		
+		@logger.imp("Testing simple jockey to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple jockey to JSON OK.")
+	end
+	
+	def test_simple_meeting_to_json
+		
+		@logger.imp("Testing simple meeting to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple meeting to JSON OK.")
+	end
+	
+	def test_simple_origin_to_json
+		
+		@logger.imp("Testing simple origin to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple origin to JSON OK.")
+	end
+	
+	def test_simple_owner_to_json
+		
+		@logger.imp("Testing simple owner to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple owner to JSON OK.")
+	end
+	
+	def test_simple_race_to_json
+		
+		@logger.imp("Testing simple race to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple race to JSON OK.")
+	end
+	
+	def test_simple_runner_to_json
+		
+		@logger.imp("Testing simple runner to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple runner to JSON OK.")
+	end
+	
+	def test_simple_trainer_to_json
+		
+		@logger.imp("Testing simple trainer to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple trainer to JSON OK.")
+	end
+	
+	def test_simple_weather_to_json
+		
+		@logger.imp("Testing simple weather to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple weather to JSON OK.")
+	end
+	
+	def test_simple_weight_to_json
+		
+		@logger.imp("Testing simple weight to JSON")
+		begin
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for simple weight to JSON OK.")
+	end
+	
+	######################
+	#  Tests for nested  #
+	######################
+	
+	# TODO
+	
+	def not_test_fetch_meetings
 		
 		@logger.imp("Testing fetch meetings")
 		begin

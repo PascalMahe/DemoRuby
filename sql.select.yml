@@ -13,7 +13,7 @@
  :ref_sex_list: 'SELECT * FROM RefSex'
  :ref_shoes_list: 'SELECT * FROM RefShoes'
  
- # BUSINESS TABLES
+ # BUSINESS TABLES BY TECH ID
  :breeder_by_id: "SELECT * FROM Breeder WHERE id_breeder = :id"
  :forecast_by_id: "SELECT * FROM Forecast WHERE id_forecast = :id"
  :horse_by_id: "SELECT * FROM Horse WHERE id_horse = :id"
@@ -27,4 +27,16 @@
  :trainer_by_id: "SELECT * FROM Trainer WHERE id_trainer = :id"
  :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
  :weight_by_id: "SELECT * FROM Weight WHERE id_weight = :id"
+
+ # BUSINESS IDs BY BUSINESS ID
+ :breeder_id: "SELECT id_breeder FROM Breeder WHERE name = :name"
+ :horse_id: "SELECT id_horse FROM Horse WHERE name = :name AND father = :id_father AND mother = :id_mother"
+ :job_id: "SELECT id_job FROM Job WHERE start_time = :start_time"
+ :jockey_id: "SELECT id_jockey FROM Jockey WHERE name = :name"
+ :meeting_id: "SELECT id_meeting FROM Meeting WHERE date = :date AND racetrack = :racetrack"
+ :owner_id: "SELECT id_owner FROM Owner WHERE name = :name"
+ :race_id: "SELECT id_race FROM Race WHERE meeting = :id_meeting AND number = :number"
+ :runner_id: "SELECT id_runner FROM Runner WHERE race = :id_race AND number = :number"
+ :trainer_id: "SELECT id_trainer FROM Trainer WHERE name = :name"
+ :weather_id: "SELECT id_weather FROM Weather WHERE wind_direction = :wind_direction AND temperature = :temperature AND wind_speed = :wind_speed AND insolation = :insolation"
 

@@ -259,7 +259,7 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		jockey = Jockey::new
 		row = execute_select_w_one_result(
 			@sql[:select][:jockey_by_id], 
-			@stat_select_job_by_id, 
+			@stat_select_jockey_by_id, 
 			:id => id)
 		if row != nil then
 			jockey.id = id

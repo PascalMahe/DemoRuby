@@ -349,6 +349,9 @@ class Crawler
 		
 		# @logger.debug("temperature : " + temperature.to_s)
 		# @logger.debug("wind_speed : " + wind_speed.to_s)
+		
+		# FIXME: what about wind_direction?
+		
 		weather = Weather::new(
 			insolation: wheather_insolation, 
 			temperature: temperature, 

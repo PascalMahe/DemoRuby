@@ -8,7 +8,7 @@ require './Crawler.rb'
 class TestSuite < MiniTest::Test
 	attr_accessor :sql_test
 	attr_accessor :ref_list_hash
-	
+	attr_accessor :state
 	
 	##########################
 	# Setup before any tests #
@@ -33,6 +33,7 @@ class TestSuite < MiniTest::Test
 	logger = $globalState.logger
 	config = $globalState.config
 	dbi = $globalState.dbi
+	dbi_select_by_tech_id = $globalState.dbi_select_by_tech_id
 	
 	##########################
 	# Before anything else:  #
@@ -88,12 +89,12 @@ class TestSuite < MiniTest::Test
 	logger.info("First setup")
 	
 	begin # try
-		@ref_list_hash = dbi.load_all_refs
+		@ref_list_hash = dbi_select_by_tech_id.load_all_refs
 	rescue Exception => sqle
 		logger.error(sqle.inspect)
 		logger.info("Database tables might not exist, trying to create them.")
 		dbi.create_tables()
-		@ref_list_hash = dbi.load_all_refs
+		@ref_list_hash = dbi_select_by_tech_id.load_all_refs
 	end
 	
 	# getting the SQL for the setup and teardown
@@ -101,29 +102,38 @@ class TestSuite < MiniTest::Test
 	@sql_test = YAML.load_file(config[:gen][:sql_test])
 
 	# cleaning database, just in case a test failed before it could do it itself
-	logger.debug(@sql_test[:test][:delete].keys)
-	@sql_test[:test][:delete].keys.each do |table|
+	logger.debug(@sql_test[:delete].keys)
+	@sql_test[:delete].keys.each do |table|
 		logger.info("Deleting test values from " + table.to_s)
-		current_query = @sql_test[:test][:delete][table]
+		current_query = @sql_test[:delete][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
 	
-	#setting up the test values for insert and select
-	@sql_test[:test][:insert].keys.each do |table|
-		logger.info("Inserting S&I test data into " + table.to_s + ".")
-		current_query = @sql_test[:test][:insert][table]
+	#setting up the test values for select by tech ID
+	@sql_test[:tech_id].keys.each do |table|
+		logger.info("Inserting STech test data into " + table.to_s + ".")
+		current_query = @sql_test[:tech_id][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
 	
 	#setting up the test values for update
-	@sql_test[:test][:insert_for_update].keys.each do |table|
+	@sql_test[:update].keys.each do |table|
 		logger.info("Inserting U test data into " + table.to_s + ".")
-		current_query = @sql_test[:test][:insert_for_update][table]
+		current_query = @sql_test[:update][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
+	
+	#setting up the test values for select by business ID
+	@sql_test[:business_id].keys.each do |table|
+		logger.info("Inserting SBusiness test data into " + table.to_s + ".")
+		current_query = @sql_test[:business_id][table]
+		dummy_statement = nil
+		dbi.execute_query(current_query, dummy_statement, nil, true)
+	end
+	
 	@@crawler = nil
 	@suite_start_time = Time.now
 	logger.info("End of setup")
