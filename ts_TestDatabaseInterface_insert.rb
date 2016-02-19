@@ -184,6 +184,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_job
+		@logger.level = SimpleHtmlLogger::DEBUG
 		@logger.imp("Testing insertion of Job")
 		begin
 			# Counting number of Jobs before test
@@ -383,8 +384,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 	
 	def test_insert_race_with_result
 		@logger.imp("Testing insertion of Race")
-		
-		@logger.level = SimpleHtmlLogger::DEBUG
 		begin
 			# Counting number of Races before test
 			old_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
