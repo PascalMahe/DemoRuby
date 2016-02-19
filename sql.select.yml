@@ -30,13 +30,13 @@
 
  # BUSINESS IDs BY BUSINESS ID
  :breeder_id: "SELECT id_breeder FROM Breeder WHERE name = :name"
- :horse_id: "SELECT id_horse FROM Horse WHERE name = :name AND father = :id_father AND mother = :id_mother"
+ :horse_id: "SELECT id_horse FROM Horse WHERE name = :name AND id_father = :id_father AND id_mother = :id_mother"
  :job_id: "SELECT id_job FROM Job WHERE start_time = :start_time"
  :jockey_id: "SELECT id_jockey FROM Jockey WHERE name = :name"
  :meeting_id: "SELECT id_meeting FROM Meeting WHERE date = :date AND racetrack = :racetrack"
  :owner_id: "SELECT id_owner FROM Owner WHERE name = :name"
- :race_id: "SELECT id_race FROM Race WHERE meeting = :id_meeting AND number = :number"
- :runner_id: "SELECT id_runner FROM Runner WHERE race = :id_race AND number = :number"
+ :race_id: "SELECT id_race FROM Race WHERE id_meeting = :id_meeting AND number = :number"
+ :runner_id: "SELECT id_runner FROM Runner WHERE id_race = :id_race AND number = :number"
  :trainer_id: "SELECT id_trainer FROM Trainer WHERE name = :name"
- :weather_id: "SELECT id_weather FROM Weather WHERE wind_direction = :wind_direction AND temperature = :temperature AND wind_speed = :wind_speed AND insolation = :insolation"
+ :weather_id: "SELECT id_weather FROM Weather WHERE id_wind_direction = :id_wind_direction AND temperature = :temperature AND wind_speed = :wind_speed AND insolation = :insolation"
 

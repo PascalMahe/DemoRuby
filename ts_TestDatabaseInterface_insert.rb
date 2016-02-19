@@ -184,7 +184,6 @@ class TestDatabaseInterfaceInsert < TestSuite
 	end
 	
 	def test_insert_job
-		@logger.level = SimpleHtmlLogger::DEBUG
 		@logger.imp("Testing insertion of Job")
 		begin
 			# Counting number of Jobs before test

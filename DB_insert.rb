@@ -8,8 +8,9 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	#REF
 	def insert_ref_object(ref_class, ref_object)
 		query = @sql[:insert][:ref_object] % ref_class
-		# Note : the statement is not a attribute of the DatabaseInterface object
-		# (not @) because the query can change (query for RefSex, RefBreed...)
+		# Note : the statement is not a attribute of the DatabaseInterface 
+		# object (not @) because the query can change (query for RefSex, 
+		# RefBreed...)
 		stat_insert_ref_object = @db.prepare(query)
 		ref_object.id = execute_query(
 			query, 
@@ -118,7 +119,8 @@ class DatabaseInterfaceInsert < DatabaseInterface
 			:race => forecast.race.id, 
 			:expected_result => forecast.expected_result,
 			:result_match_rate => forecast.result_match_rate,
-			:normalised_result_match_rate => forecast.normalised_result_match_rate
+			:normalised_result_match_rate => 
+				forecast.normalised_result_match_rate
 		}
 		forecast.id = execute_query(
 			@sql[:insert][:forecast_with_matchrate], 
@@ -160,11 +162,32 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_job(job)
+		start_time = job.start_time.strftime
+			(@config[:gen][:database_date_time_format])
+			
+		loading_end_time = nil
+		if job.loading_end_time != nil then
+			loading_end_time = job.loading_end_time.strftime
+				(@config[:gen][:database_date_time_format])
+		end
+		
+		crawling_end_time = nil
+		if job.crawling_end_time != nil then
+			crawling_end_time = job.crawling_end_time.strftime
+				(@config[:gen][:database_date_time_format])
+		end
+		
+		computing_end_time = nil
+		if job.computing_end_time != nil then
+			computing_end_time = job.computing_end_time.strftime
+				(@config[:gen][:database_date_time_format])
+		end
+		
 		values_hash = {
-			:start_time => 			job.start_time.strftime(@config[:gen][:database_date_time_format]), 
-			:loading_end_time => 	job.loading_end_time.strftime(@config[:gen][:database_date_time_format]),
-			:crawling_end_time => 	job.crawling_end_time.strftime(@config[:gen][:database_date_time_format]),
-			:computing_end_time => 	job.computing_end_time.strftime(@config[:gen][:database_date_time_format])
+			:start_time => 			start_time, 
+			:loading_end_time => 	loading_end_time,
+			:crawling_end_time => 	crawling_end_time,
+			:computing_end_time => 	computing_end_time
 		}
 		job.id = execute_query(
 			@sql[:insert][:job], 
@@ -191,7 +214,8 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		@logger.debug("Seeking to insert meeting : " + meeting.to_s)
 		values_hash = {
 			:country => meeting.country,
-			:date => meeting.date.strftime(@config[:gen][:default_date_format]),
+			:date => meeting.date.
+				strftime(@config[:gen][:default_date_format]),
 			:job => meeting.job.id,
 			:number => meeting.number,
 			:racetrack => meeting.racetrack,

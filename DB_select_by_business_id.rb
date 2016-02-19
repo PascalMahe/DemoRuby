@@ -17,7 +17,13 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 			@sql[:select][:breeder_id], 
 			@stat_select_breeder_id, 
 			values_hash)
-		return row["id_breeder"]
+		
+		if row != nil then
+			tech_id = row["id_breeder"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_horse_id(horse)
@@ -30,41 +36,63 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 			@sql[:select][:horse_id], 
 			@stat_select_horse_id, 
 			values_hash)
-		return row["id_horse"]
+		if row != nil then
+			tech_id = row["id_horse"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_job_id(job)
 		values_hash = {
-			:start_time => job.start_time
+			:start_time => job.start_time.
+				strftime(@config[:gen][:database_date_time_format])
 		}
 		row = execute_select_w_one_result(
 			@sql[:select][:job_id], 
 			@stat_select_job_id, 
 			values_hash)
-		return row["id_job"]
+		if row != nil then
+			tech_id = row["id_job"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_jockey_id(jockey)
 		values_hash = {
-			:name => breeder.name
+			:name => jockey.name
 		}
 		row = execute_select_w_one_result(
 			@sql[:select][:jockey_id], 
 			@stat_select_jockey_id, 
 			values_hash)
-		return row["id_jockey"]
+		if row != nil then
+			tech_id = row["id_jockey"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_meeting_id(meeting)
 		values_hash = {
-			:date => meeting.date,
+			:date => meeting.date.
+				strftime(@config[:gen][:default_date_format]),
 			:racetrack => meeting.racetrack
 		}
 		row = execute_select_w_one_result(
 			@sql[:select][:meeting_id], 
 			@stat_select_meeting_id, 
 			values_hash)
-		return row["id_meeting"]
+		if row != nil then
+			tech_id = row["id_meeting"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_owner_id(owner)
@@ -75,19 +103,29 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 			@sql[:select][:owner_id], 
 			@stat_select_owner_id, 
 			values_hash)
-		return row["id_owner"]
+		if row != nil then
+			tech_id = row["id_owner"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_race_id(race)
 		values_hash = {
-			:id_meeting => race.id_meeting.id,
+			:id_meeting => race.meeting.id,
 			:number => race.number
 		}
 		row = execute_select_w_one_result(
 			@sql[:select][:race_id], 
 			@stat_select_race_id, 
 			values_hash)
-		return row["id_race"]
+		if row != nil then
+			tech_id = row["id_race"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_runner_id(runner)
@@ -99,7 +137,12 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 			@sql[:select][:runner_id], 
 			@stat_select_runner_id, 
 			values_hash)
-		return row["id_runner"]
+		if row != nil then
+			tech_id = row["id_runner"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_trainer_id(trainer)
@@ -110,21 +153,31 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 			@sql[:select][:trainer_id], 
 			@stat_select_trainer_id, 
 			values_hash)
-		return row["id_trainer"]
+		if row != nil then
+			tech_id = row["id_trainer"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 	def load_weather_id(weather)
 		values_hash = {
 			:insolation => weather.insolation,
-			:wind_speed => weather.wind_speed,
 			:temperature => weather.temperature,
-			:wind_direction => weather.wind_direction
+			:id_wind_direction => weather.wind_direction.id,
+			:wind_speed => weather.wind_speed
 		}
 		row = execute_select_w_one_result(
 			@sql[:select][:weather_id], 
 			@stat_select_weather_id, 
 			values_hash)
-		return row["id_weather"]
+		if row != nil then
+			tech_id = row["id_weather"]
+		else
+			tech_id = nil
+		end
+		return tech_id
 	end
 	
 end

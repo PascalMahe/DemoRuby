@@ -126,7 +126,10 @@ class DatabaseInterface
 	
 	#For SELECT with one result
 	def execute_select_w_one_result(query, statement, values_hash)
-
+		
+		# Cleanups
+		date_cleanup(values_hash)
+		
 		log_nicely("Fetching first result of query : ", query, values_hash)
 			
 		if statement == nil then
