@@ -1,0 +1,112 @@
+State : stocke un dictionnaire avec (clef, valeur) = (nom_de_la_methode, a_fini (bool))
+
+MiniTest.setup : 
+	lit dictionnaire(nom_de_la_methode)
+	si a_fini 
+		MiniTest.skip
+	sinon
+		stocke (nom_de_methode, false)
+MiniTest.teardown : remplace par (nom_de_methode, true)
+
+TestSuite.setup
+	lit State (from disk) et vide le fichier
+	si State == nil
+		initialise State
+	
+TestSuite.teardown
+	
+TestSuite.deploy_parachute
+	ecrite State (to disk)
+	
+Checkpoints ?
+	-> valeur s'enrichit d'un dictionnaire 
+	
+	
+Testé dans TestSuite : 
+
+	# Setting up Ctrl-c
+	Signal.trap("SIGINT") do
+		deploy_parachute()
+	end
+	
+	def self.deploy_parachute()
+		trap_context = true
+		$globalState.logger.level = SimpleHtmlLogger::DEBUG
+		$globalState.logger.imp("deploy_parachute - SIGINT was called", trap_context: trap_context)
+		$globalState.logger.imp("deploy_parachute - Saving TestSuite state.", trap_context: trap_context)
+		$globalState.logger.debug("deploy_parachute - method name: " + __method__.to_s, trap_context: trap_context)
+		str_caller = caller
+		$globalState.logger.debug("deploy_parachute - execution stack: " + str_caller, trap_context: trap_context)
+		exit
+	end
+	
+# -> marche : appuyer sur CTRL-Z appelle deploy_parachute mais il faut modifier SimpleHtmlLogger car les mutex (dans log)
+	# sont interdits dans les Trap Context
+	# => transformer ça (l. 81->101)
+	def log(level, message)
+		# Mutex are forbidden in trap_context
+		# (ThreadError otherwise)
+		@mutex.synchronize do
+			if can_write_level?(level) then
+				timestamp = Time.now
+				#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
+				# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
+				str_now = timestamp.strftime("%H:%M:%S.%L")
+				color_code = get_color_code_from_level(level)
+				complete_log = terminal_pretty(message.to_s)
+				# complete_log = colorize(str_now + " - " + level + " - " + complete_log, color_code)
+				complete_log = colorize(str_now + " - " + complete_log, color_code)
+				puts(complete_log)
+				html_message = html_escape(message.to_s)
+				html_message = html_pretty(html_message)
+				#puts html_message
+				@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
+			end
+		end
+ 	end
+	
+	# en ça :
+	def compute_and_print(level, message)
+		if can_write_level?(level) then
+			timestamp = Time.now
+			#For time and formatting examples, cf. http://www.tutorialspoint.com/ruby/ruby_date_time.htm
+			# for doc : http://ruby-doc.org/stdlib-2.0.0/libdoc/date/rdoc/Date.html
+			str_now = timestamp.strftime("%H:%M:%S.%L")
+			color_code = get_color_code_from_level(level)
+			complete_log = terminal_pretty(message.to_s)
+			# complete_log = colorize(str_now + " - " + level + " - " + complete_log, color_code)
+			complete_log = colorize(str_now + " - " + complete_log, color_code)
+			puts(complete_log)
+			html_message = html_escape(message.to_s)
+			html_message = html_pretty(html_message)
+			#puts html_message
+			@file.puts('<tr class="' + level + '"><td>' + str_now + '</td><td>' + level + '</td><td class="' + level + '-main">' + html_message + '</td>')
+		end
+	end
+	
+	def log(level, message, trap_context)
+		if not trap_context then
+			# Mutex are forbidden in trap_context
+			# (ThreadError otherwise)
+			@mutex.synchronize do
+				compute_and_print(level, message)
+			end
+		else
+			if message.start_with?("\n") then
+				puts
+				message.slice!(1, message.length - 1)
+			end			
+			compute_and_print(level, message)
+		end
+ 	end
+	
+	# et tous les 
+	def ok(message)
+		log(OK, message)
+	end
+	
+	# en
+	def ok(message, trap_context: false)
+		log(OK, message, trap_context)
+	end
+	
