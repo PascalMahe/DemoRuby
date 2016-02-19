@@ -270,7 +270,7 @@ def validate_weather(expected_weather, actual_weather, str_weather_identifier)
 	@logger.ok("Tests for " + str_weather_identifier + " OK.")
 end
 
-def  validate_job(expected_job, actual_job, str_job_identifier)
+def validate_job(expected_job, actual_job, str_job_identifier)
 	assert_equal(expected_job.start_time,			actual_job.start_time,			"Wrong start_time for " + str_job_identifier)
 	assert_equal(expected_job.loading_end_time,		actual_job.loading_end_time,	"Wrong loading_end_time for " + str_job_identifier)
 	assert_equal(expected_job.crawling_end_time,	actual_job.crawling_end_time,	"Wrong crawling_end_time for " + str_job_identifier)
