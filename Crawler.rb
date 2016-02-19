@@ -148,7 +148,7 @@ class Crawler
 	end
 
 	
-    def fetch_meetings(html_meeting_list, date, current_job)
+    def fetch_meetings(html_meeting_list, current_job)
 		# html_meeting_list parameter: a WebElement representing a <div> tag 
 		# containing the meetings' tags
 		
