@@ -14,8 +14,6 @@ class TestSaver < TestSuite
 		@dbi_select_biz = $globalState.dbi_select_by_business_id
 		@ref_list_hash = @dbi_select_tech.load_all_refs
 		
-		@logger.level = SimpleHtmlLogger::DEBUG
-		
 		@test_start_time = Time.now()
 	end
 	
@@ -109,6 +107,95 @@ class TestSaver < TestSuite
 			flunk(err.inspect)
 		end
 		@logger.ok("Tests for save breeder OK.")
+	end
+	
+	def test_save_horse
+		
+		@logger.imp("Testing save horse")
+		begin
+			@logger.level = SimpleHtmlLogger::DEBUG
+			
+			# Counting number of Horse before test
+			old_horse_num = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:horse])
+					
+			# Getting last ID currently in Horse
+			old_last_id = @dbi_select_tech.
+				select_last_id_from_table(
+					@config[:gen][:table_names][:horse])
+			
+			@logger.debug("test_save_horse - " +
+				"old_horse_num = " + old_horse_num.to_s)
+			@logger.debug("test_save_horse - " +
+				"old_last_id = " + old_last_id.to_s)
+			
+			# Creating a Horse without id
+			# (Adding the date & time to the name so that's it unique
+			# even if the test is launched multiple times and the DB
+			# is not cleaned in between.)
+			father = @dbi_select_tech.load_horse_by_id(-5)
+			mother = @dbi_select_tech.load_horse_by_id(-6)
+			name = "SILVER TREASURE" + 
+				DateTime.now.strftime(@config[:gen][:default_date_time_format])
+			horse_to_save = Horse::new(	father: father, 
+										mother: mother, 
+										name: name)
+			
+			# Saving it
+			saver = Saver::new(@dbi_insert, 
+								@dbi_select_tech, 
+								@dbi_select_biz)
+			saver.save_horse(horse_to_save)
+			
+			# Check that it has an ID
+			assert_operator(0, :<=, horse_to_save.id)
+			# Check that its ID is one bigger than the old last one
+			assert_equal(old_last_id + 1, horse_to_save.id)
+			
+			# Check that the number of Horses in the DB incremented
+			horse_num_after_first_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:horse])
+			assert_equal(old_horse_num + 1, 
+						horse_num_after_first_save,
+						"Wrong number of Horses in DB after first " + 
+							"attempt to save")
+			
+			# Check that if a Horse is retrieved just on that ID,
+			# it's the same as the first
+			verification_horse = @dbi_select_tech.
+				load_horse_by_id(horse_to_save.id)
+			validate_horse(horse_to_save, 
+							verification_horse, 
+							"horse to save")
+			
+			# Check that if a create the same Horse (without ID)
+			# and try to save it, it retrieves the ID but doesn't save
+			# it (number of Horse isn't incremented again)
+			horse_to_fail_to_save = Horse::new(	father: father, 
+												mother: mother, 
+												name: name)
+			saver.save_horse(horse_to_fail_to_save)
+			
+			assert_equal(horse_to_save,
+						horse_to_fail_to_save,
+						"Wrong ID after attempt to fail to save")
+			
+			horse_num_after_second_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:horse])
+			assert_equal(horse_num_after_first_save, 
+						horse_num_after_second_save,
+						"Wrong number of Horses in DB after first " + 
+							"attempt to save")
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for save horse OK.")
 	end
 	
 	

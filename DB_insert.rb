@@ -145,12 +145,22 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_horse(horse)
+		# optional parameters are assigned if not nil
+		if horse.breed != nil then
+			breed = horse.breed.id
+		end
+		if horse.coat != nil then
+			coat = horse.coat.id
+		end
+		if horse.sex != nil then
+			sex = horse.sex.id
+		end
 		values_hash = {
-			:breed => horse.breed.id,
-			:coat => horse.coat.id,
+			:breed => breed,
+			:coat => coat,
 			:father => horse.father.id, 
 			:mother => horse.mother.id, 
-			:sex => horse.sex.id, 
+			:sex => sex, 
 			:name => horse.name
 		}
 		horse.id = execute_query(

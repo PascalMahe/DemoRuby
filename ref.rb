@@ -35,7 +35,7 @@ class RefObjectContainer < Hash
 		@database_interface = database_interface
 	end
 	
-	#fetches from text
+	# fetches from text
 	def [](text)
 		if not self.has_key?(text) then
 			
@@ -56,18 +56,25 @@ class RefObjectContainer < Hash
 		return ref_to_add
 	end
 	
-	#fetches from id
+	# fetches from id
 	def get(key)
 		# Select gets the element such as value.id == key
 		# and returns a hash containing that element.
 		# cf. http://www.ruby-doc.org/core-2.0.0/Hash.html#method-i-select
 		new_hash = self.select{|k,v| v.id == key}
 		
-		$globalState.logger.debug("Looking for id = %s in :" % key)
-		$globalState.logger.debug(self)
+		$globalState.logger.debug("get - Looking for id = %s in :" % key)
+		$globalState.logger.debug("get - " + self.to_s)
 		
-		# We only want the first element
-		return new_hash.shift()[1]
+		ref_with_right_ID = new_hash.shift()
+		if ref_with_right_ID == nil then
+			value_to_return = nil
+		else
+			# We only want the first element (the id)
+			value_to_return = ref_with_right_ID[1]
+			$globalState.logger.debug("get - Found" + value_to_return.to_s)
+		end
+		return value_to_return
 	end
 end
 
