@@ -1,5 +1,6 @@
 :gen:
  # ALL TABLES
  :count_all: 'SELECT COUNT (*) FROM :table'
+ :last_id: 'SELECT MAX(id_:table) FROM :table'
  
  

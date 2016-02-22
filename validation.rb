@@ -1,5 +1,10 @@
 ﻿require 'minitest'
 
+def validate_breeder(expected_breeder, actual_breeder, str_breeder_identifier)
+	assert_equal(expected_breeder.id, 	actual_breeder.id,		"Wrong id for " + str_breeder_identifier)
+	assert_equal(expected_breeder.name,	actual_breeder.name,	"Wrong name for " + str_breeder_identifier)
+end
+
 def validate_race(expected_race, actual_race, str_race_identifier)
 	assert_equal(expected_race.bets, 					actual_race.bets, 					"Wrong bets for " + str_race_identifier)
 	assert_equal(expected_race.detailed_conditions, 	actual_race.detailed_conditions, 	"Wrong detailed_conditions for " + str_race_identifier)

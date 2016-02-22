@@ -562,4 +562,28 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		return weight
 	end
 	
+	# Select last ID from one table
+	def select_last_id_from_table(table)
+		
+		query = @sql[:gen][:last_id]
+		
+		# Replace :table parameter in query with table
+		# For security reasons, checking if table is in the table list
+		if @config[:gen][:table_names].has_value?(table) then
+			query = query.gsub(':table', table)
+		end
+		
+		# Note : the statement is not a attribute of the DatabaseInterface object
+		# (not @) because the query can change (query for RefSex, Breeder...)
+		stat_select_count = @db.prepare(query)
+				
+		row = execute_select_w_one_result(
+			query, 
+			stat_select_count, 
+			nil
+		)
+		
+		return row["MAX(id_" + table + ")"]
+	end
+	
 end

@@ -1,90 +1,94 @@
 
 class Saver
 	attr_accessor :dbi_insert
-	attr_accessor :dbi_select_by_tech_id
-	attr_accessor :dbi_select_by_business_id
+	attr_accessor :dbi_select_tech
+	attr_accessor :dbi_select_biz
 
-	def initialize(dbi_insert, dbi_select_by_tech_id, dbi_select_by_tech_id)
+	def initialize(dbi_insert, dbi_select_tech, dbi_select_by_biz)
 		@dbi_insert = dbi_insert
-		@dbi_select_by_tech_id = dbi_select_by_tech_id
-		@dbi_select_by_business_id = dbi_select_by_tech_id
+		@dbi_select_by_tech = dbi_select_tech
+		@dbi_select_biz = dbi_select_by_biz
 		
 		@logger = $globalState.logger
 	end
 	
 	def save_breeder(breeder)
 		if breeder.id == nil then
-			logger.debug("save_breeder - no ID")
-			tech_id = @dbi_select_by_business_id.load_breeder_id(breeder)
+			@logger.debug("save_breeder - no ID")
+			tech_id = @dbi_select_biz.load_breeder_id(breeder)
 			
 			if tech_id == nil then
-				@logger.debug("save_breeder - no tech ID retrieved, inserting breeder")
+				@logger.debug("save_breeder - no tech ID retrieved, " +
+					"inserting breeder")
 				@dbi_insert.insert_breeder(breeder)
 				@logger.debug("save_breeder - breeder inserted")
 			else
 				breeder.id = tech_id
 			end
 			
-			@logger.debug("save_breeder - tech ID retrieved: " + breeder.id)
+			@logger.debug("save_breeder - tech ID retrieved: " + breeder.id.to_s)
 		else
-			@logger.debug("save_breeder - breeder#" + breeder.id)
+			@logger.debug("save_breeder - breeder#" + breeder.id.to_s)
 		end
 	end
 	
 	def save_horse(horse)
 		if horse.id == nil then
-			logger.debug("save_horse - no ID")
-			tech_id = @dbi_select_by_business_id.load_horse_id(horse)
+			@logger.debug("save_horse - no ID")
+			tech_id = @dbi_select_biz.load_horse_id(horse)
 			
 			if tech_id == nil then
-				@logger.debug("save_horse - no tech ID retrieved, inserting horse")
+				@logger.debug("save_horse - no tech ID retrieved, " +
+					"inserting horse")
 				@dbi_insert.insert_horse(horse)
 				@logger.debug("save_horse - horse inserted")
 			else
 				horse.id = tech_id
 			end
 			
-			@logger.debug("save_horse - tech ID retrieved: " + horse.id)
+			@logger.debug("save_horse - tech ID retrieved: " + horse.id.to_s)
 		else
-			@logger.debug("save_horse - horse#" + horse.id)
+			@logger.debug("save_horse - horse#" + horse.id.to_s)
 		end
 	end
 	
 	def save_job(job)
 		if job.id == nil then
-			logger.debug("save_job - no ID")
-			tech_id = @dbi_select_by_business_id.load_job_id(job)
+			@logger.debug("save_job - no ID")
+			tech_id = @dbi_select_biz.load_job_id(job)
 			
 			if tech_id == nil then
-				@logger.debug("save_job - no tech ID retrieved, inserting job")
+				@logger.debug("save_job - no tech ID retrieved, " +
+					"inserting job")
 				@dbi_insert.insert_job(job)
 				@logger.debug("save_job - job inserted")
 			else
 				job.id = tech_id
 			end
 			
-			@logger.debug("save_job - tech ID retrieved: " + job.id)
+			@logger.debug("save_job - tech ID retrieved: " + job.id.to_s)
 		else
-			@logger.debug("save_job - job#" + job.id)
+			@logger.debug("save_job - job#" + job.id.to_s)
 		end
 	end
 	
 	def save_jockey(jockey)
 		if jockey.id == nil then
-			logger.debug("save_jockey - no ID")
-			tech_id = @dbi_select_by_business_id.load_jockey_id(jockey)
+			@logger.debug("save_jockey - no ID")
+			tech_id = @dbi_select_biz.load_jockey_id(jockey)
 			
 			if tech_id == nil then
-				@logger.debug("save_jockey - no tech ID retrieved, inserting jockey")
+				@logger.debug("save_jockey - no tech ID retrieved, " +
+					"inserting jockey")
 				@dbi_insert.insert_jockey(jockey)
 				@logger.debug("save_jockey - jockey inserted")
 			else
 				jockey.id = tech_id
 			end
 			
-			@logger.debug("save_jockey - tech ID retrieved: " + jockey.id)
+			@logger.debug("save_jockey - tech ID retrieved: " + jockey.id.to_s)
 		else
-			@logger.debug("save_jockey - jockey#" + jockey.id)
+			@logger.debug("save_jockey - jockey#" + jockey.id.to_s)
 		end
 	end
 	
@@ -93,29 +97,30 @@ class Saver
 		if meeting.job.id == nil then
 			@logger.debug("save_meeting - saving job")
 			save_job(meeting.job)
-			@logger.debug("save_meeting - job#" + meeting.job.id)
+			@logger.debug("save_meeting - job#" + meeting.job.id.to_s)
 		end
 		
 		# weather
 		@logger.debug("save_meeting - saving weather")
 		save_weather(meeting.weather)
-		@logger.debug("save_meeting - weather#" + meeting.weather.id)
+		@logger.debug("save_meeting - weather#" + meeting.weather.id.to_s)
 		
 		# if the ID is unknown 
 		# => if the meeting exists in the DB, its ID is loaded
 		# => if the meeting isn't in the DB, it's inserted
 		if meeting.id == nil then
 			@logger.debug("save_meeting - no ID")
-			tech_id = @dbi_select_by_business_id.load_meeting_id(meeting)
+			tech_id = @dbi_select_biz.load_meeting_id(meeting)
 			
 			if tech_id == nil then
-				@logger.debug("save_meeting - no tech ID retrieved, inserting meeting")
+				@logger.debug("save_meeting - no tech ID retrieved, " +
+					"inserting meeting")
 				@dbi_insert.insert_meeting(meeting)
 				@logger.debug("save_meeting - meeting inserted")
 			else
 				meeting.id = tech_id
 			end
-			@logger.debug("save_meeting - tech ID retrieved: " + meeting.id)
+			@logger.debug("save_meeting - tech ID retrieved: " + meeting.id.to_s)
 		end
 		
 		# saving the races
@@ -133,20 +138,21 @@ class Saver
 	
 	def save_owner(owner)
 		if owner.id == nil then
-			logger.debug("save_owner - no ID")
-			tech_id = @dbi_select_by_business_id.load_owner_id(owner)
+			@logger.debug("save_owner - no ID")
+			tech_id = @dbi_select_biz.load_owner_id(owner)
 			
 			if tech_id == nil then
-				@logger.debug("save_owner - no tech ID retrieved, inserting owner")
+				@logger.debug("save_owner - no tech ID retrieved, " +
+					"inserting owner")
 				@dbi_insert.insert_owner(owner)
 				@logger.debug("save_owner - owner inserted")
 			else
 				owner.id = tech_id
 			end
 			
-			@logger.debug("save_owner - tech ID retrieved: " + owner.id)
+			@logger.debug("save_owner - tech ID retrieved: " + owner.id.to_s)
 		else
-			@logger.debug("save_owner - owner#" + owner.id)
+			@logger.debug("save_owner - owner#" + owner.id.to_s)
 		end
 	end
 	
@@ -155,15 +161,16 @@ class Saver
 			@logger.debug("save_race - no ID")
 			tech_id = @dbi.load_race_id(race)
 			if tech_id == nil then
-				@logger.debug("save_race - no tech ID retrieved, inserting race")
+				@logger.debug("save_race - no tech ID retrieved, " +
+					"inserting race")
 				@dbi_insert.insert_race_with_result(race)
 				@logger.debug("save_race - race inserted")
 			else
 				meeting.id = tech_id
 			end
-			@logger.debug("save_race - tech ID retrieved: " + race.id)
+			@logger.debug("save_race - tech ID retrieved: " + race.id.to_s)
 		else
-			@logger.debug("save_race - race#" + race.id)
+			@logger.debug("save_race - race#" + race.id.to_s)
 		end
 		
 		# saving the runners
@@ -221,81 +228,84 @@ class Saver
 		# breeder
 		@logger.debug("save_runner - saving breeder")
 		save_breeder(runner.breeder)
-		@logger.debug("save_runner - breeder#" + runner.breeder.id)
+		@logger.debug("save_runner - breeder#" + runner.breeder.id.to_s)
 		
 		# horse
 		@logger.debug("save_runner - saving horse")
 		save_horse(runner.horse)
-		@logger.debug("save_runner - horse#" + runner.horse.id)
+		@logger.debug("save_runner - horse#" + runner.horse.id.to_s)
 		
 		# jockey
 		@logger.debug("save_runner - saving jockey")
 		save_jockey(runner.jockey)
-		@logger.debug("save_runner - jockey#" + runner.jockey.id)
+		@logger.debug("save_runner - jockey#" + runner.jockey.id.to_s)
 		
 		# owner
 		@logger.debug("save_runner - saving owner")
 		save_owner(runner.owner)
-		@logger.debug("save_runner - owner#" + runner.owner.id)
+		@logger.debug("save_runner - owner#" + runner.owner.id.to_s)
 		
 		# trainer
 		@logger.debug("save_runner - saving trainer")
 		save_trainer(runner.trainer)
-		@logger.debug("save_runner - trainer#" + runner.trainer.id)
+		@logger.debug("save_runner - trainer#" + runner.trainer.id.to_s)
 		
 		if runner.id == nil then
-			logger.debug("save_runner - no ID")
-			tech_id = @dbi_select_by_business_id.load_runner_id(trainer)
+			@logger.debug("save_runner - no ID")
+			tech_id = @dbi_select_biz.load_runner_id(trainer)
 			
 			if tech_id == nil then
-				@logger.debug("save_runner - no tech ID retrieved, inserting runner")
+				@logger.debug("save_runner - no tech ID retrieved, " +
+					"inserting runner")
 				@dbi_insert.insert_runner(runner)
 				@logger.debug("save_runner - runner inserted")
 			else
 				runner.id = tech_id
 			end
 			
-			@logger.debug("save_trainer - tech ID retrieved: " + runner.id)
+			@logger.debug("save_trainer - tech ID retrieved: " + runner.id.to_s)
 		else
-			@logger.debug("save_trainer - runner#" + runner.id)
+			@logger.debug("save_trainer - runner#" + runner.id.to_s)
 		end
 	end
 	
 	def save_trainer(trainer)
 		if trainer.id == nil then
-			logger.debug("save_trainer - no ID")
-			tech_id = @dbi_select_by_business_id.load_trainer_id(trainer)
+			@logger.debug("save_trainer - no ID")
+			tech_id = @dbi_select_biz.load_trainer_id(trainer)
 			
 			if tech_id == nil then
-				@logger.debug("save_trainer - no tech ID retrieved, inserting trainer")
+				@logger.debug("save_trainer - no tech ID retrieved, " +
+					"inserting trainer")
 				@dbi_insert.insert_trainer(trainer)
 				@logger.debug("save_trainer - trainer inserted")
 			else
 				trainer.id = tech_id
 			end
 			
-			@logger.debug("save_trainer - tech ID retrieved: " + trainer.id)
+			@logger.debug("save_trainer - tech ID retrieved: " + trainer.id.to_s)
 		else
-			@logger.debug("save_trainer - trainer#" + trainer.id)
+			@logger.debug("save_trainer - trainer#" + trainer.id.to_s)
 		end
 	end
 
 	def save_weather(weather)
 		if weather.id == nil then
-			logger.debug("save_weather - no ID")
-			tech_id = @dbi_select_by_business_id.load_weather_id(weather)
+			@logger.debug("save_weather - no ID")
+			tech_id = @dbi_select_biz.load_weather_id(weather)
 			
 			if tech_id == nil then
-				@logger.debug("save_weather - no tech ID retrieved, inserting weather")
+				@logger.debug("save_weather - no tech ID retrieved, " +
+					"inserting weather")
 				@dbi_insert.insert_weather(weather)
 				@logger.debug("save_weather - weather inserted")
 			else
 				weather.id = tech_id
 			end
 			
-			@logger.debug("save_weather - tech ID retrieved: " + weather.id)
+			@logger.debug("save_weather - tech ID retrieved: " + weather.id.to_s)
 		else
-			@logger.debug("save_weather - weather#" + weather.id)
+			@logger.debug("save_weather - weather#" + weather.id.to_s)
 		end
 	end
 	
