@@ -1,5 +1,21 @@
 ﻿require 'minitest'
 
+def validate_trainer(expected_trainer, actual_trainer, str_trainer_identifier)
+	assert_equal(expected_trainer.id, 	actual_trainer.id,		"Wrong id for " + str_trainer_identifier)
+	assert_equal(expected_trainer.name,	actual_trainer.name,	"Wrong name for " + str_trainer_identifier)
+end
+
+def validate_owner(expected_owner, actual_owner, str_owner_identifier)
+	assert_equal(expected_owner.id, 	actual_owner.id,	"Wrong id for " + str_owner_identifier)
+	assert_equal(expected_owner.name,	actual_owner.name,	"Wrong name for " + str_owner_identifier)
+end
+
+def validate_jockey(expected_jockey, actual_jockey, str_jockey_identifier)
+	assert_equal(expected_jockey.id, 		actual_jockey.id,		"Wrong id for " + str_jockey_identifier)
+	assert_equal(expected_jockey.name,		actual_jockey.name,		"Wrong name for " + str_jockey_identifier)
+	assert_equal(expected_jockey.jacket,	actual_jockey.jacket,	"Wrong jacket for " + str_jockey_identifier)
+end
+
 def validate_breeder(expected_breeder, actual_breeder, str_breeder_identifier)
 	assert_equal(expected_breeder.id, 	actual_breeder.id,		"Wrong id for " + str_breeder_identifier)
 	assert_equal(expected_breeder.name,	actual_breeder.name,	"Wrong name for " + str_breeder_identifier)
@@ -474,11 +490,12 @@ def validate_runner(expected_runner, actual_runner, str_runner_identifier)
 	assert_equal(expected_runner.earnings_current_year, 	actual_runner.earnings_current_year,	"Wrong earnings_current_year for " + str_runner_identifier)
 	assert_equal(expected_runner.earnings_last_year, 		actual_runner.earnings_last_year, 		"Wrong earnings_last_year for " + str_runner_identifier)
 	assert_equal(expected_runner.earnings_victory, 			actual_runner.earnings_victory, 		"Wrong earnings_victory for " + str_runner_identifier)
-	assert_equal(expected_runner.owner.name, 				actual_runner.owner.name, 				"Wrong owner.name for " + str_runner_identifier)
 	assert_equal(expected_runner.places, 					actual_runner.places, 					"Wrong places for " + str_runner_identifier)
 	assert_equal(expected_runner.races_run, 				actual_runner.races_run, 				"Wrong races_run for " + str_runner_identifier)
 	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 			"Wrong trainer.name for " + str_runner_identifier)
 	assert_equal(expected_runner.victories, 				actual_runner.victories, 				"Wrong victories for " + str_runner_identifier)
+	
+	validate_owner(expected_runner.owner, actual_runner.owner, 		"owner from " + str_runner_identifier)
 		
 	@logger.ok("Tests for " + str_runner_identifier + " OK.")
 end
@@ -493,7 +510,6 @@ def validate_runner_shallow(expected_runner, actual_runner, str_runner_identifie
 	assert_equal(expected_runner.history, 					actual_runner.history, 						"Wrong history for " + str_runner_identifier)
 	assert_equal(expected_runner.is_non_runner, 			actual_runner.is_non_runner, 				"Wrong is_favorite for " + str_runner_identifier)
 	assert_equal(expected_runner.is_substitute, 			actual_runner.is_substitute, 				"Wrong is_substitute for " + str_runner_identifier)
-	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 					"Wrong jockey.name for " + str_runner_identifier)
 	assert_equal(expected_runner.load_handicap, 			actual_runner.load_handicap, 				"Wrong load_handicap for " + str_runner_identifier)
 	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 					"Wrong horse.name for " + str_runner_identifier)
@@ -503,6 +519,9 @@ def validate_runner_shallow(expected_runner, actual_runner, str_runner_identifie
 	assert_equal(expected_runner.single_rating_before_race, actual_runner.single_rating_before_race, 	"Wrong single_rating for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex for " + str_runner_identifier)
 	assert_equal(expected_runner.url, 						actual_runner.url, 							"Wrong url for " + str_runner_identifier)
+	
+	validate_jockey(expected_runner.jockey, actual_runner.jockey, 	"jockey from " + str_runner_identifier)
+	
 	@logger.ok("Tests (shallow) for runner " + str_runner_identifier + " OK.")
 end
 
@@ -540,7 +559,6 @@ def validate_runner_from_runner_list(expected_runner, actual_runner, str_runner_
 	# assert_equal(expected_runner.disqualified, 		actual_runner.url, 					"Wrong url for " + str_runner_identifier)
 	assert_equal(expected_runner.victories, 			actual_runner.victories, 			"Wrong victories for " + str_runner_identifier)
 	assert_equal(expected_runner.breeder.name, 			actual_runner.breeder.name, 		"Wrong breeder.name for " + str_runner_identifier)
-	assert_equal(expected_runner.jockey.name, 			actual_runner.jockey.name, 			"Wrong jockey.name for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.breed, 			actual_runner.horse.breed, 			"Wrong horse.breed for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.coat, 			actual_runner.horse.coat, 			"Wrong horse.coat for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.father, 			actual_runner.horse.father, 		"Wrong horse.father for " + str_runner_identifier)
@@ -548,8 +566,10 @@ def validate_runner_from_runner_list(expected_runner, actual_runner, str_runner_
 	assert_equal(expected_runner.horse.mother.father, 	actual_runner.horse.mother.father, 	"Wrong horse.mother.father for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.name, 			actual_runner.horse.name, 			"Wrong horse.name for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.sex, 			actual_runner.horse.sex, 			"Wrong horse.sex for " + str_runner_identifier)
-	assert_equal(expected_runner.owner.name, 			actual_runner.owner.name, 			"Wrong owner.name for " + str_runner_identifier)
 	assert_equal(expected_runner.trainer.name,			actual_runner.trainer.name, 		"Wrong trainer.name for " + str_runner_identifier)
+	
+	validate_jockey(expected_runner.jockey, actual_runner.jockey, 	"jockey from " + str_runner_identifier)
+	validate_owner(expected_runner.owner, actual_runner.owner, 		"owner from " + str_runner_identifier)
 	
 	# nil values
 	assert_equal(nil, actual_runner.id, 						"Id not nil for " + str_runner_identifier)
@@ -633,15 +653,15 @@ def validate_joint_runner(expected_runner, actual_runner, str_runner_identifier)
 	assert_equal(expected_runner.url, 						actual_runner.url, 							"Wrong url for " + str_runner_identifier)
 	assert_equal(expected_runner.victories, 				actual_runner.victories, 					"Wrong victories for " + str_runner_identifier)
 	assert_equal(expected_runner.breeder.name, 				actual_runner.breeder.name, 				"Wrong breeder.name for " + str_runner_identifier)
-	assert_equal(expected_runner.jockey.name, 				actual_runner.jockey.name, 					"Wrong jockey.name for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex for " + str_runner_identifier)
-	assert_equal(expected_runner.owner.name, 				actual_runner.owner.name, 					"Wrong owner.name for " + str_runner_identifier)
 	assert_equal(expected_runner.trainer.name, 				actual_runner.trainer.name, 				"Wrong trainer.name for " + str_runner_identifier)
 	
 	
 	# assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
 	validate_race(expected_runner.race, 	actual_runner.race, 	"race from " + str_runner_identifier)
 	validate_horse(expected_runner.horse, 	actual_runner.horse, 	"horse from " + str_runner_identifier)
+	validate_jockey(expected_runner.jockey, actual_runner.jockey, 	"jockey from " + str_runner_identifier)
+	validate_owner(expected_runner.owner, actual_runner.owner, 		"owner from " + str_runner_identifier)
 	
 	@logger.ok("Tests (after joining) for " + str_runner_identifier + " OK.")
 end
