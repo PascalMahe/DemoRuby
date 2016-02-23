@@ -172,25 +172,23 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_job(job)
-		start_time = job.start_time.strftime
-			(@config[:gen][:database_date_time_format])
-			
+		format = @config[:gen][:database_date_time_format]
+		
+		start_time = job.start_time.strftime(format)
+		
 		loading_end_time = nil
 		if job.loading_end_time != nil then
-			loading_end_time = job.loading_end_time.strftime
-				(@config[:gen][:database_date_time_format])
+			loading_end_time = job.loading_end_time.strftime(format)
 		end
 		
 		crawling_end_time = nil
 		if job.crawling_end_time != nil then
-			crawling_end_time = job.crawling_end_time.strftime
-				(@config[:gen][:database_date_time_format])
+			crawling_end_time = job.crawling_end_time.strftime(format)
 		end
 		
 		computing_end_time = nil
 		if job.computing_end_time != nil then
-			computing_end_time = job.computing_end_time.strftime
-				(@config[:gen][:database_date_time_format])
+			computing_end_time = job.computing_end_time.strftime(format)
 		end
 		
 		values_hash = {

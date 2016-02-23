@@ -113,8 +113,6 @@ class TestSaver < TestSuite
 		
 		@logger.imp("Testing save horse")
 		begin
-			@logger.level = SimpleHtmlLogger::DEBUG
-			
 			# Counting number of Horse before test
 			old_horse_num = @dbi_select_tech.
 				select_count_from_table(
@@ -198,5 +196,82 @@ class TestSaver < TestSuite
 		@logger.ok("Tests for save horse OK.")
 	end
 	
+	
+	def test_save_job
+		
+		@logger.imp("Testing save job")
+		begin
+			@logger.level = SimpleHtmlLogger::DEBUG
+			
+			# Counting number of Jobs before test
+			old_job_num = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:job])
+					
+			# Getting last ID currently in Job
+			old_last_id = @dbi_select_tech.
+				select_last_id_from_table(
+					@config[:gen][:table_names][:job])
+			
+			# Creating a Job without id
+			start_time = DateTime.now
+			job_to_save = Job::new(start_time: start_time)
+			@logger.debug("test_save_job - job_to_save = " + job_to_save.to_s)
+			
+			# Saving it
+			saver = Saver::new(@dbi_insert, 
+								@dbi_select_tech, 
+								@dbi_select_biz)
+			saver.save_job(job_to_save)
+			
+			# Check that it has an ID
+			assert_operator(0, :<=, job_to_save.id)
+			# Check that its ID is one bigger than the old last one
+			assert_equal(old_last_id + 1, job_to_save.id)
+			
+			# Check that the number of Jobs in the DB incremented
+			job_num_after_first_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:job])
+			assert_equal(old_job_num + 1, 
+						job_num_after_first_save,
+						"Wrong number of Jobs in DB after first " + 
+							"attempt to save")
+			
+			# Check that if a Job is retrieved just on that ID,
+			# it's the same as the first
+			verification_job = @dbi_select_tech.
+				load_job_by_id(job_to_save.id)
+			@logger.debug("test_save_job - verification_job = " + 
+				verification_job.to_s)
+			validate_job(job_to_save, 
+							verification_job, 
+							"job to save")
+			
+			# Check that if a create the same Job (without ID)
+			# and try to save it, it retrieves the ID but doesn't save
+			# it (number of Job isn't incremented again)
+			job_to_fail_to_save = Job::new(start_time: start_time)
+			saver.save_job(job_to_fail_to_save)
+			
+			assert_equal(job_to_save,
+						job_to_fail_to_save,
+						"Wrong ID after attempt to fail to save")
+			
+			job_num_after_second_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:job])
+			assert_equal(job_num_after_first_save, 
+						job_num_after_second_save,
+						"Wrong number of Jobs in DB after first " + 
+							"attempt to save")
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for save job OK.")
+	end
 	
 end

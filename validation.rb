@@ -25,7 +25,7 @@ def validate_race(expected_race, actual_race, str_race_identifier)
 		if expected_race.runner_list == nil then
 			assert_equal(nil, actual_race.runner_list, 	"Wrong runner_list for " + str_race_identifier + " (should be nil)")
 		else
-			# actual_race.runner_list is not nil 
+			# expected_race.runner_list is not nil 
 			# but actual_race.runner_list is
 			# => error!
 			flunk("Wrong runner_list for " + str_race_identifier + " (should not be nil)")
@@ -276,12 +276,30 @@ def validate_weather(expected_weather, actual_weather, str_weather_identifier)
 end
 
 def validate_job(expected_job, actual_job, str_job_identifier)
-	assert_equal(expected_job.start_time,			actual_job.start_time,			"Wrong start_time for " + str_job_identifier)
-	assert_equal(expected_job.loading_end_time,		actual_job.loading_end_time,	"Wrong loading_end_time for " + str_job_identifier)
-	assert_equal(expected_job.crawling_end_time,	actual_job.crawling_end_time,	"Wrong crawling_end_time for " + str_job_identifier)
-	assert_equal(expected_job.computing_end_time,	actual_job.computing_end_time,	"Wrong computing_end_time for " + str_job_identifier)
+	
+	validate_time(expected_job.start_time, actual_job.start_time, "start_time", str_job_identifier)
+	validate_time(expected_job.loading_end_time, actual_job.loading_end_time, "loading_end_time", str_job_identifier)
+	validate_time(expected_job.crawling_end_time, actual_job.crawling_end_time, "crawling_end_time", str_job_identifier)
+	validate_time(expected_job.computing_end_time, actual_job.computing_end_time, "computing_end_time", str_job_identifier)
 	
 	@logger.ok("Tests for " + str_job_identifier + " OK.")
+end
+
+def validate_time(expected_time, actual_time, str_time_identifier, str_test_identifier)
+	if not (expected_time == nil) and 
+		not (actual_time == nil) then
+		abs_diff_between_start_times = (expected_time - actual_time).abs
+		assert_operator(0.0001, :>=, abs_diff_between_start_times, 	"Wrong " + str_time_identifier + " for " + str_test_identifier)
+	else
+		if expected_time == nil then
+			assert_equal(nil, actual_time, 	"Wrong " + str_time_identifier + " for " + str_test_identifier + " (should be nil)")
+		else
+			# expected_time is not nil 
+			# but actual_time is
+			# => error!
+			flunk("Wrong " + str_time_identifier + " for " + str_test_identifier + " (should not be nil)")
+		end
+	end
 end
 
 def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)

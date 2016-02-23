@@ -55,11 +55,28 @@ class Job
 	end
 	
 	def to_s()
+		format = $globalState.config[:gen][:default_date_time_format]
+		if loading_end_time != nil then
+			str_loading_end_time = loading_end_time.strftime(format)
+		else
+			str_loading_end_time = ""
+		end
+		if crawling_end_time != nil then
+			str_crawling_end_time = crawling_end_time.strftime(format)
+		else
+			str_crawling_end_time = ""
+		end
+		if computing_end_time != nil then
+			str_computing_end_time = computing_end_time.strftime(format)
+		else
+			str_computing_end_time = ""
+		end
+		
 		return "Job[id = " + id.to_s +
-		", start_time = " + start_time.to_s + 
-		", loading_end_time = " + loading_end_time.to_s +
-		", crawling_end_time = " + crawling_end_time.to_s +
-		", computing_end_time = " + computing_end_time.to_s + "]"
+			", start_time = " + start_time.strftime(format) + 
+			", loading_end_time = " + str_loading_end_time +
+			", crawling_end_time = " + str_crawling_end_time +
+			", computing_end_time = " + str_computing_end_time + "]"
 	end
 	
 	def ==(other_object)
