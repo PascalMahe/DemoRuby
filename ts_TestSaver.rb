@@ -434,7 +434,6 @@ class TestSaver < TestSuite
 	def test_save_race()
 		@logger.imp("Testing save race")
 		begin
-			@logger.level = SimpleHtmlLogger::INFO
 			# Counting number of Races before test
 			old_race_num = @dbi_select_tech.
 				select_count_from_table(
@@ -476,7 +475,7 @@ class TestSaver < TestSuite
 			test_runner_list = []
 			for i in 0..4 do
 				format = @config[:gen][:default_date_time_format]
-				differentiator = "" + DateTime.now.strftime(format)
+				differentiator = DateTime.now.strftime(format)
 				
 				breeder = Breeder::new(name: "Breeder" + differentiator)
 				
@@ -571,8 +570,8 @@ class TestSaver < TestSuite
 											runner_list: test_runner_list)
 			saver.save_race(race_to_fail_to_save)
 			
-			assert_equal(race_to_save,
-						race_to_fail_to_save,
+			assert_equal(race_to_save.id,
+						race_to_fail_to_save.id,
 						"Wrong ID after attempt to fail to save")
 			
 			for i in 0..4 do
@@ -611,7 +610,126 @@ class TestSaver < TestSuite
 	end
 	
 	def test_save_runner()
-		# TODO later 'cause it's hard (needs thinking and all...)
+		@logger.imp("Testing save runner")
+		begin
+			@logger.level = SimpleHtmlLogger::DEBUG
+			# Counting number of Runners before test
+			old_runner_num = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:runner])
+					
+			# Getting last ID currently in Runner
+			old_last_id = @dbi_select_tech.
+				select_last_id_from_table(
+					@config[:gen][:table_names][:runner])
+			
+			# Creating a Runner without ID
+			# for that we need a race WITH ID
+			# and for that we need a meeting WITH ID
+			# (Adding the date & time to the names so that they're unique
+			# even if the test is launched multiple times and the DB
+			# is not cleaned in between.)
+			
+			# Creating and inserting meeting
+			test_date = Date::new(2016, 02, 17)
+			test_racetrack = "Test Meeting for saving race" + 
+				DateTime.now.strftime(@config[:gen][:default_date_time_format])
+			meeting = Meeting::new(	date: test_date,
+									racetrack: test_racetrack)
+			
+			@dbi_insert.insert_meeting(meeting)
+			assert_operator(meeting.id, :!=, nil)
+			
+			# Creating and inserting race
+			test_number = -3
+			race = Race::new(meeting: meeting, 
+							number: test_number)
+			@dbi_insert.insert_race_with_result(race)
+			assert_operator(race.id, :!=, nil)
+			
+			# Creating runner
+			format = @config[:gen][:default_date_time_format]
+			differentiator = DateTime.now.strftime(format)
+			
+			breeder = Breeder::new(name: "Breeder" + differentiator)
+			
+			# still siblings...
+			father = @dbi_select_tech.load_horse_by_id(-5)
+			mother = @dbi_select_tech.load_horse_by_id(-6)
+			name = "Breeder" + differentiator
+			horse = Horse::new(father: father, 
+								mother: mother, 
+								name: name)
+								
+			jockey = Jockey::new(name: "Jockey" + differentiator)
+			owner = Owner::new(name: "Owner" + differentiator)
+			trainer = Trainer::new(name: "Trainer" + differentiator)
+			runner_to_save = Runner::new(breeder: breeder,
+								horse: horse,
+								jockey: jockey,
+								number: 1,
+								owner: owner,
+								race: race,
+								trainer: trainer)
+			
+			# Saving it
+			saver = Saver::new(@dbi_insert, 
+								@dbi_select_tech, 
+								@dbi_select_biz)
+			saver.save_runner(runner_to_save)
+			
+			# Check that it has an ID
+			assert_operator(0, :<=, runner_to_save.id)
+			# Check that its ID is one bigger than the old last one
+			assert_equal(old_last_id + 1, runner_to_save.id)
+			
+			# Check that the number of Runners in the DB incremented
+			runner_num_after_first_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:runner])
+			assert_equal(old_runner_num + 1, 
+						runner_num_after_first_save,
+						"Wrong number of Runners in DB after first " + 
+							"attempt to save")
+			
+			# Check that if a Runner is retrieved just on that ID,
+			# it's the same as the first
+			verification_runner = @dbi_select_tech.
+				load_runner_by_id(runner_to_save.id)
+			validate_runner(runner_to_save, 
+							verification_runner, 
+							"runner to save")
+			
+			# Check that if we create the same Runner (without ID)
+			# and try to save it, it retrieves the ID but doesn't save
+			# it (number of Runner isn't incremented again)
+			runner_to_fail_to_save = Runner::new(breeder: breeder,
+								horse: horse,
+								jockey: jockey,
+								number: 1,
+								owner: owner,
+								race: race,
+								trainer: trainer)
+			saver.save_runner(runner_to_fail_to_save)
+			
+			validate_runner(runner_to_save,
+						runner_to_fail_to_save,
+						"Wrong ID after attempt to fail to save")
+			
+			runner_num_after_second_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:runner])
+			assert_equal(runner_num_after_first_save, 
+						runner_num_after_second_save,
+						"Wrong number of Runners in DB after first " + 
+							"attempt to save")
+			
+		rescue Exception => err
+			@logger.error(err.inspect)
+			@logger.error(err.backtrace)
+			flunk(err.inspect)
+		end
+		@logger.ok("Tests for save runner OK.")
 	end
 	
 	def test_save_trainer
