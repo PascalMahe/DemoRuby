@@ -159,14 +159,14 @@ class Saver
 	def save_race(race)
 		if race.id == nil then
 			@logger.debug("save_race - no ID")
-			tech_id = @dbi.load_race_id(race)
+			tech_id = @dbi_select_biz.load_race_id(race)
 			if tech_id == nil then
 				@logger.debug("save_race - no tech ID retrieved, " +
 					"inserting race")
 				@dbi_insert.insert_race_with_result(race)
 				@logger.debug("save_race - race inserted")
 			else
-				meeting.id = tech_id
+				race.id = tech_id
 			end
 			@logger.debug("save_race - tech ID retrieved: " + race.id.to_s)
 		else
@@ -176,6 +176,13 @@ class Saver
 		# saving the runners
 		@logger.debug("save_race - saving runners")
 		race.runner_list.each do |runner|
+			# Making sure the races have the right
+			# race and race.id
+			if runner.race == nil then
+				runner.race = race
+			elsif runner.race.id == nil then
+				runner.race.id = race.id
+			end
 			save_runner(runner)
 		end
 	end
@@ -252,12 +259,12 @@ class Saver
 		
 		if runner.id == nil then
 			@logger.debug("save_runner - no ID")
-			tech_id = @dbi_select_biz.load_runner_id(trainer)
+			tech_id = @dbi_select_biz.load_runner_id(runner)
 			
 			if tech_id == nil then
 				@logger.debug("save_runner - no tech ID retrieved, " +
 					"inserting runner")
-				@dbi_insert.insert_runner(runner)
+				@dbi_insert.insert_runner_after_race(runner)
 				@logger.debug("save_runner - runner inserted")
 			else
 				runner.id = tech_id

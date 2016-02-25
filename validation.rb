@@ -283,21 +283,31 @@ def validate_race_R5_C5(fetched_race, meeting)
 end
 
 def validate_weather(expected_weather, actual_weather, str_weather_identifier)
-	assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier)
-	assert_equal(expected_weather.temperature,	actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier)
-	assert_equal(expected_weather.wind_speed,	actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier)
-	assert_equal(expected_weather.insolation,	actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier)
-	
+	if expected_weather != nil and actual_weather != nil then
+		# both not nil
+		assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier)
+		assert_equal(expected_weather.temperature,		actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier)
+		assert_equal(expected_weather.wind_speed,		actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier)
+		assert_equal(expected_weather.insolation,		actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier)
+	else
+		assert_equal(expected_weather, nil, "Wrong expected_weather for " + str_weather_identifier + " (should not be nil)")
+		assert_equal(actual_weather, nil, "Wrong actual_weather for " + str_weather_identifier + " (should not be nil)")
+	end
 	@logger.ok("Tests for " + str_weather_identifier + " OK.")
 end
 
 def validate_job(expected_job, actual_job, str_job_identifier)
 	
-	validate_time(expected_job.start_time, actual_job.start_time, "start_time", str_job_identifier)
-	validate_time(expected_job.loading_end_time, actual_job.loading_end_time, "loading_end_time", str_job_identifier)
-	validate_time(expected_job.crawling_end_time, actual_job.crawling_end_time, "crawling_end_time", str_job_identifier)
-	validate_time(expected_job.computing_end_time, actual_job.computing_end_time, "computing_end_time", str_job_identifier)
-	
+	if expected_job != nil and actual_job != nil then
+		# both not nil
+		validate_time(expected_job.start_time, actual_job.start_time, "start_time", str_job_identifier)
+		validate_time(expected_job.loading_end_time, actual_job.loading_end_time, "loading_end_time", str_job_identifier)
+		validate_time(expected_job.crawling_end_time, actual_job.crawling_end_time, "crawling_end_time", str_job_identifier)
+		validate_time(expected_job.computing_end_time, actual_job.computing_end_time, "computing_end_time", str_job_identifier)
+	else
+		assert_equal(expected_job, nil, "Wrong expected_job for " + str_job_identifier + " (should not be nil)")
+		assert_equal(actual_job, nil, "Wrong actual_job for " + str_job_identifier + " (should not be nil)")
+	end
 	@logger.ok("Tests for " + str_job_identifier + " OK.")
 end
 

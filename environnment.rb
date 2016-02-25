@@ -78,7 +78,7 @@ class Race
 	attr_accessor :race_type
 	attr_accessor :result
 	attr_accessor :result_insertion_time
-	attr_accessor :runner_list # transient
+	attr_accessor :runner_list # in Runner table
 	attr_accessor :time
 	attr_accessor :url
 	attr_accessor :value

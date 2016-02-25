@@ -4,9 +4,94 @@ require './ref.rb'
 require './DatabaseInterface.rb'
 
 class DatabaseInterfaceSelectByTechId < DatabaseInterface
+	# row to object methods
 	
-	#LOADING QUERIES
-	#REFERENCE OBJECT LISTS
+	def create_runner_from_row(row, parent_race: nil)
+		# Blinder : get from RefBlinder list
+		blinder_id = row["id_blinder"]
+		blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
+		
+		# Breeder
+		breeder_id = row["id_breeder"]
+		breeder = load_breeder_by_id(breeder_id)
+		
+		# Horse
+		horse_id = row["id_horse"]
+		horse = load_horse_by_id(horse_id)
+		
+		# Jockey
+		jockey_id = row["id_jockey"]
+		jockey = load_jockey_by_id(jockey_id)
+		
+		# Owner
+		owner_id = row["id_owner"]
+		owner = load_owner_by_id(owner_id)
+		
+		# Race
+		# avoiding infinite loop by providing the race
+		# (and thus avoiding to load the race, that then
+		# loads the runner that loads the race...)
+		if parent_race == nil then
+			race_id = row["id_race"]
+			race = load_race_by_id(race_id)
+		else
+			race = parent_race
+		end
+		
+		# Shoes : get from RefShoes list
+		shoes_id = row["id_shoes"]
+		shoes = @ref_list_hash[:ref_shoes_list].get(shoes_id)
+		
+		# Trainer
+		trainer_id = row["id_trainer"]
+		trainer = load_trainer_by_id(trainer_id)
+		
+		disqualified = boolean_load(row["disqualified"])
+		is_favorite = boolean_load(row["is_favorite"])
+		is_non_runner = boolean_load(row["is_non_runner"])
+		is_substitute = boolean_load(row["is_substitute"])
+		
+		runner = Runner::new(
+			age: row["age"],
+			blinder: blinder,
+			breeder: breeder,
+			commentary: row["commentary"],
+			description: row["description"],
+			disqualified: disqualified,
+			distance: row["distance"],
+			draw: row["draw"],
+			earnings_career: row["earnings_career"],
+			earnings_current_year: row["earnings_current_year"],
+			earnings_last_year: row["earnings_last_year"],
+			earnings_victory: row["earnings_victory"],
+			final_place: row["final_place"],
+			history: row["history"],
+			horse: horse,
+			id: row["id_runner"],
+			is_favorite: is_favorite,
+			is_non_runner: is_non_runner,
+			is_substitute: is_substitute,
+			jockey: jockey,
+			load_handicap: row["load_handicap"],
+			load_ride: row["load_ride"],
+			number: row["number"],
+			owner: owner,
+			places: row["places"],
+			race: race,
+			races_run: row["races_run"],
+			shoes: shoes,
+			single_rating_after_race: row["single_rating_after_race"],
+			single_rating_before_race: row["single_rating_before_race"],
+			time: row["time"],
+			trainer: trainer,
+			url: row["url"],
+			victories: row["victories"])
+		
+		return runner
+	end
+	
+	# LOADING QUERIES
+	# REFERENCE OBJECT LISTS
 	def load_ref_object_list(class_to_instanciate, query, statement)
 		ref_object_list = RefObjectContainer.new(class_to_instanciate, self)
 		rows = execute_select(
@@ -405,8 +490,11 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 								result_insertion_time: result_insertion_time, 
 								time: time, 
 								url: url, 
-								value: value
-								)
+								value: value)
+			
+			# runner_list
+			runner_list = load_runner_list_by_race(race)
+			race.runner_list = runner_list
 		else 
 			race = nil
 		end
@@ -421,84 +509,35 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			:id => id)
 		
 		if row != nil then
-			
-			# Blinder : get from RefBlinder list
-			blinder_id = row["id_blinder"]
-			blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
-			
-			# Breeder
-			breeder_id = row["id_breeder"]
-			breeder = load_breeder_by_id(breeder_id)
-			
-			# Horse
-			horse_id = row["id_horse"]
-			horse = load_horse_by_id(horse_id)
-			
-			# Jockey
-			jockey_id = row["id_jockey"]
-			jockey = load_jockey_by_id(jockey_id)
-			
-			# Owner
-			owner_id = row["id_owner"]
-			owner = load_owner_by_id(owner_id)
-			
-			# Race
-			race_id = row["id_race"]
-			race = load_race_by_id(race_id)
-			
-			# Shoes : get from RefShoes list
-			shoes_id = row["id_shoes"]
-			shoes = @ref_list_hash[:ref_shoes_list].get(shoes_id)
-			
-			# Trainer
-			trainer_id = row["id_trainer"]
-			trainer = load_trainer_by_id(trainer_id)
-			
-			disqualified = boolean_load(row["disqualified"])
-			is_favorite = boolean_load(row["is_favorite"])
-			is_non_runner = boolean_load(row["is_non_runner"])
-			is_substitute = boolean_load(row["is_substitute"])
-			
-			runner = Runner::new(
-				age: row["age"],
-				blinder: blinder,
-				breeder: breeder,
-				commentary: row["commentary"],
-				description: row["description"],
-				disqualified: disqualified,
-				distance: row["distance"],
-				draw: row["draw"],
-				earnings_career: row["earnings_career"],
-				earnings_current_year: row["earnings_current_year"],
-				earnings_last_year: row["earnings_last_year"],
-				earnings_victory: row["earnings_victory"],
-				final_place: row["final_place"],
-				history: row["history"],
-				horse: horse,
-				id: id,
-				is_favorite: is_favorite,
-				is_non_runner: is_non_runner,
-				is_substitute: is_substitute,
-				jockey: jockey,
-				load_handicap: row["load_handicap"],
-				load_ride: row["load_ride"],
-				number: row["number"],
-				owner: owner,
-				places: row["places"],
-				race: race,
-				races_run: row["races_run"],
-				shoes: shoes,
-				single_rating_after_race: row["single_rating_after_race"],
-				single_rating_before_race: row["single_rating_before_race"],
-				time: row["time"],
-				trainer: trainer,
-				url: row["url"],
-				victories: row["victories"]
-			)
+			runner = create_runner_from_row(row)
 		else 
 			runner = nil
 		end
 		return runner
+	end
+	
+	def load_runner_list_by_race(race)
+		result_set = execute_select(
+			@sql[:select][:runner_by_race_id], 
+			@stat_select_runner_by_race_id, 
+			:id => race.id)
+		
+		runner_list = []
+		row = result_set.next
+		while row != nil do
+			runner = create_runner_from_row(row, parent_race: race)
+			@logger.debug("load_runner_list_by_race - got Runner#" + 
+				runner.id.to_s)
+			runner_list.push(runner)
+			row = result_set.next
+		end
+		result_set.close
+		
+		# if no results, return nil
+		if runner_list.size == 0 then
+			runner_list = nil
+		end
+		return runner_list
 	end
 	
 	def load_trainer_by_id(id)
@@ -582,8 +621,9 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			stat_select_count, 
 			nil
 		)
-		
-		return row["MAX(id_" + table + ")"]
+		last_id = row["MAX(id_" + table + ")"]
+		@logger.debug("Got #" + last_id.to_s)
+		return last_id
 	end
 	
 end

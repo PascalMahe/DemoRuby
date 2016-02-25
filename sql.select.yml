@@ -27,7 +27,10 @@
  :trainer_by_id: "SELECT * FROM Trainer WHERE id_trainer = :id"
  :weather_by_id: "SELECT * FROM Weather WHERE id_weather = :id"
  :weight_by_id: "SELECT * FROM Weight WHERE id_weight = :id"
-
+ 
+ # BUSINESS TABLES BY OTHER TECH ID
+ :runner_by_race_id: "SELECT * FROM Runner WHERE id_race = :id"
+ 
  # BUSINESS IDs BY BUSINESS ID
  :breeder_id: "SELECT id_breeder FROM Breeder WHERE name = :name"
  :horse_id: "SELECT id_horse FROM Horse WHERE name = :name AND id_father = :id_father AND id_mother = :id_mother"

@@ -63,8 +63,8 @@ class RefObjectContainer < Hash
 		# cf. http://www.ruby-doc.org/core-2.0.0/Hash.html#method-i-select
 		new_hash = self.select{|k,v| v.id == key}
 		
-		$globalState.logger.debug("get - Looking for id = %s in :" % key)
-		$globalState.logger.debug("get - " + self.to_s)
+		# $globalState.logger.debug("get - Looking for id = %s in :" % key)
+		# $globalState.logger.debug("get - " + self.to_s)
 		
 		ref_with_right_ID = new_hash.shift()
 		if ref_with_right_ID == nil then

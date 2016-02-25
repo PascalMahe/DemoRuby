@@ -220,15 +220,28 @@ class DatabaseInterfaceInsert < DatabaseInterface
 
 	def insert_meeting(meeting)
 		@logger.debug("Seeking to insert meeting : " + meeting.to_s)
+		
+		if meeting.job != nil then
+			job_id = meeting.job.id
+		end
+		
+		if meeting.track_condition != nil then
+			track_condition_id = meeting.track_condition.id
+		end
+		
+		if meeting.weather != nil then
+			weather_id = meeting.weather.id
+		end
+		
 		values_hash = {
 			:country => meeting.country,
 			:date => meeting.date.
 				strftime(@config[:gen][:default_date_format]),
-			:job => meeting.job.id,
+			:job => job_id,
 			:number => meeting.number,
 			:racetrack => meeting.racetrack,
-			:track_condition => meeting.track_condition.id ,
-			:weather => meeting.weather.id
+			:track_condition => track_condition_id,
+			:weather => weather_id
 		}
 		meeting.id = execute_query(
 			@sql[:insert][:meeting], 
@@ -265,9 +278,14 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_race_with_result(race)
+		
+		if race.race_type != nil then
+			race_type_id = race.race_type.id
+		end
+	
 		values_hash = {
 			:meeting => race.meeting.id, 
-			:race_type => race.race_type.id,
+			:race_type => race_type_id,
 			:bets => race.bets,
 			:detailed_conditions => race.detailed_conditions,
 			:distance => race.distance,
@@ -311,14 +329,23 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_runner_after_race(runner)
+		
+		# optional parameters that are objects
+		if runner.blinder != nil then
+			blinder_id = runner.blinder.id
+		end
+		if runner.shoes != nil then
+			shoes_id = runner.shoes.id
+		end
+		
 		values_hash = {
-			:blinder => runner.blinder.id, 
+			:blinder => blinder_id, 
 			:breeder => runner.breeder.id,
 			:horse => runner.horse.id,
 			:jockey => runner.jockey.id,
 			:owner => runner.owner.id,
 			:race => runner.race.id, 
-			:shoes => runner.shoes.id,
+			:shoes => shoes_id,
 			:trainer => runner.trainer.id, 
 			:age => runner.age,
 			:commentary => runner.commentary,

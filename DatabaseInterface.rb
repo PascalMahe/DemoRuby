@@ -197,7 +197,8 @@ class DatabaseInterface
 			stat_select_count, 
 			nil
 		)
-		
-		return row["COUNT (*)"]
+		count = row["COUNT (*)"]
+		@logger.debug("Found " + count.to_s)
+		return count
 	end
 end
