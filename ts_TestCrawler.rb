@@ -1,7 +1,11 @@
 ﻿require './TestSuite.rb'
 require './ref.rb'
 require './Crawler.rb'
-require './validation.rb'
+require './validation-meeting.rb'
+require './validation-race.rb'
+require './validation-runner-joint.rb'
+require './validation-runner-list.rb'
+require './validation-runner-result.rb'
 
 class TestCrawler < TestSuite
 	
@@ -10,8 +14,8 @@ class TestCrawler < TestSuite
 	def setup
 		@logger = $globalState.logger
 		@config = $globalState.config
-		@dbi = $globalState.dbi
-		@ref_list_hash = @dbi.load_all_refs
+		@dbi_select = $globalState.dbi_select_by_tech_id
+		@ref_list_hash = @dbi_select.load_all_refs
 				
 		if @@crawler == nil then
 			@logger.info("Creating crawler for test.")
@@ -106,7 +110,7 @@ class TestCrawler < TestSuite
 				flunk("html_meeting_list is nil.")
 			end
 		
-			meeting_list = @crawler.fetch_meetings(html_meeting_list, date, job)
+			meeting_list = @crawler.fetch_meetings(html_meeting_list, job)
 			
 			# Checking the list has meetings in it and that those meetings
 			# have races
