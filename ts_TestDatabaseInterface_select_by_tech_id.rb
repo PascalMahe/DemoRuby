@@ -1,5 +1,5 @@
 ﻿require './TestSuite.rb'
-require './validation.rb'
+require './validation-core.rb'
 require './ref.rb'
 require './environnment.rb'
 require './prediction.rb'

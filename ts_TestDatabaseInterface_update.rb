@@ -4,7 +4,7 @@ require './environnment.rb'
 require './prediction.rb'
 require './people.rb'
 require './Runner.rb'
-require './validation.rb'
+require './validation-core.rb'
 
 class TestDatabaseInterfaceDelete < TestSuite
 	
