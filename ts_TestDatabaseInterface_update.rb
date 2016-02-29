@@ -51,9 +51,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			
 			@logger.ok("Tests for updating Forecast OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -97,9 +95,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			
 			@logger.ok("Tests for updating Race OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -192,9 +188,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			
 			@logger.ok("Tests for updating Runner OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end	
 end

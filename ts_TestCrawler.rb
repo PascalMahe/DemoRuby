@@ -84,9 +84,7 @@ class TestCrawler < TestSuite
 			
 			
 		# rescue Exception => err
-			# @logger.error(err.inspect)
-			# @logger.error(err.backtrace)
-			# flunk(err.inspect)
+			# log_flunking_test(err)
 		# end
 		# @logger.ok("Tests for crawl OK.")
 		# test_end_time = Time.now()
@@ -159,9 +157,7 @@ class TestCrawler < TestSuite
 			validate_race_R5_C5(r5_c5, r5)
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_meetings OK.")
 	end
@@ -218,9 +214,7 @@ class TestCrawler < TestSuite
 			validate_R5(meeting, job)
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_meeting_shallow OK.")
 	end
@@ -250,9 +244,7 @@ class TestCrawler < TestSuite
 			
 			assert_equal(8, meeting.race_list.size)
 					rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_meeting OK.")
 	end
@@ -299,9 +291,7 @@ class TestCrawler < TestSuite
 			
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_race OK.")
 	end
@@ -349,9 +339,7 @@ class TestCrawler < TestSuite
 			assert_equal(verification_weather, weather)
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_weather OK.")
 	end
@@ -615,9 +603,7 @@ class TestCrawler < TestSuite
 			validate_joint_R1_C7_N11(runner_to_check, race_to_test)
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for join_runner_list_and_result_list OK.")
 	end
@@ -679,9 +665,7 @@ class TestCrawler < TestSuite
 							"get_column_map for race: " + race_ID)
 			end
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for get_column_map OK.")
 	end
@@ -722,9 +706,7 @@ class TestCrawler < TestSuite
 			# is is_non_runner
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_runners OK.")
 	end
@@ -956,9 +938,7 @@ class TestCrawler < TestSuite
 			validate_runner_shallow(expected_runner, runner_to_check, "without draw but with load_ride and history")
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_runners_shallow OK.")
 	end
@@ -1113,9 +1093,7 @@ class TestCrawler < TestSuite
 			
 			@logger.ok("Tests for race with time OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_race_results OK.")
 	end
@@ -1292,9 +1270,7 @@ class TestCrawler < TestSuite
 			validate_runner(expected_runner, runner_to_check, "R2_C8_N3 (without earnings_current_year)")
 			
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_runner OK.")
 	end

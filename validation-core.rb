@@ -1,5 +1,12 @@
 ﻿require 'minitest'
 
+def log_flunking_test(err)
+	@logger.error(err.inspect)
+	@logger.error(err.backtrace)
+	final_message = err.inspect + " in: \n" + err.backtrace[0]
+	flunk(final_message)
+end
+
 def validate_trainer(expected_trainer, actual_trainer, str_trainer_identifier)
 	assert_equal(expected_trainer.id, 	actual_trainer.id,		"Wrong id for " + str_trainer_identifier)
 	assert_equal(expected_trainer.name,	actual_trainer.name,	"Wrong name for " + str_trainer_identifier)
@@ -151,9 +158,12 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 		actual_meeting.race_list != nil then
 		
 		assert_equal(expected_meeting.race_list.size, actual_meeting.race_list.size, "Wrong race_list.size for " + str_meeting_identifier)
+		@logger.debug("validate_meeting - race_list.size = " + expected_meeting.race_list.size.to_s)
 		for i in 0..expected_meeting.race_list.size do
 			expected_race = expected_meeting.race_list[i]
 			actual_race = actual_meeting.race_list[i]
+			assert_operator(expected_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in expected_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
+			assert_operator(actual_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
 			validate_race(expected_race, actual_race, "race from " + str_meeting_identifier)
 		end
 	else 

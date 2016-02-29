@@ -46,9 +46,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Breeder OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -81,9 +79,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Forecast OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -114,9 +110,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 
 			@logger.ok("Tests for insertion of Forecast (without matchrate) OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -177,9 +171,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Horse OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -228,9 +220,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Job OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -256,9 +246,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Jockey OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 
@@ -317,9 +305,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Meeting OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -348,9 +334,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Origin OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -375,9 +359,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Owner OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -446,9 +428,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Race OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -511,9 +491,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Race (without result) OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -618,9 +596,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of RefObject OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -710,9 +686,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Runner (after race) OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 
@@ -798,9 +772,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Runner (before race) OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -859,9 +831,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Weather OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	
@@ -892,9 +862,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			
 			@logger.ok("Tests for insertion of Weight OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			flunk(err.inspect)
+			log_flunking_test(err)
 		end
 	end
 	

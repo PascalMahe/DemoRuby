@@ -40,9 +40,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Breeder ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -63,9 +61,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Horse ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -111,9 +107,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Job ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -130,9 +124,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Jockey ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -150,9 +142,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Meeting ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -169,9 +159,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Owner ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -190,9 +178,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Race ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -211,9 +197,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Runner ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -230,9 +214,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Trainer ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
@@ -256,9 +238,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			
 			@logger.ok("Tests selection of Weather ID OK.")
 		rescue Exception => err
-			@logger.error(err.inspect)
-			@logger.error(err.backtrace)
-			
+			log_flunking_test(err)
 		end
 	end
 	
