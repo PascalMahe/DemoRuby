@@ -5,7 +5,7 @@ class Meeting
 	attr_accessor :job
 	attr_accessor :number
 	attr_accessor :racetrack
-	attr_accessor :race_list # transient
+	attr_accessor :race_list # in Race table
 	attr_accessor :track_condition
 	attr_accessor :urls_of_races_array # transient
 	attr_accessor :weather
@@ -16,6 +16,7 @@ class Meeting
 					job: nil, 
 					number: nil, 
 					racetrack: nil, 
+					race_list: nil, 
 					urls_of_races_array: nil, 
 					track_condition: nil, 
 					weather: nil)
@@ -25,10 +26,10 @@ class Meeting
 		@job = job
 		@number = number
 		@racetrack = racetrack
+		@race_list = race_list
 		@urls_of_races_array = urls_of_races_array
 		@track_condition = track_condition
 		@weather = weather
-		@race_list = []
 	end
 	
 	def to_s()
@@ -72,7 +73,7 @@ class Race
 	attr_accessor :distance
 	attr_accessor :id
 	attr_accessor :general_conditions
-	attr_accessor :meeting
+	# attr_accessor :meeting
 	attr_accessor :name
 	attr_accessor :number
 	attr_accessor :race_type
@@ -88,7 +89,7 @@ class Race
 					distance: nil, 
 					id: nil, 
 					general_conditions: nil,
-					meeting: nil, 
+					# meeting: nil, 
 					name: nil, 
 					number: nil, 
 					race_type: nil,
@@ -104,7 +105,7 @@ class Race
 		@distance = distance
 		@id = id
 		@general_conditions = general_conditions
-		@meeting = meeting
+		# @meeting = meeting
 		@name = name
 		@number = number
 		@race_type = race_type
@@ -122,7 +123,7 @@ class Race
 	
 	def to_s()
 		return "Race[id = " + nil_safe_to_s(@id) +
-		", meeting = " + nil_safe_to_s(@meeting) + 
+		# ", meeting = " + nil_safe_to_s(@meeting) + 
 		", race_type = " + nil_safe_to_s(@race_type) +
 		", time = " + nil_safe_to_s(@time) +
 		", number = " + nil_safe_to_s(@number) +
@@ -144,7 +145,7 @@ class Race
 			return false
 		end
 		if other_object.id == self.id and
-		other_object.meeting == self.meeting and
+		# other_object.meeting == self.meeting and
 		other_object.race_type == self.race_type and
 		other_object.time == self.time and
 		other_object.number == self.number and

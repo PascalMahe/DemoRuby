@@ -3,24 +3,10 @@
 def log_flunking_test(err)
 	@logger.error(err.inspect)
 	@logger.error(err.backtrace)
-	final_message = err.inspect + " in: \n" + err.backtrace[0]
-	flunk(final_message)
-end
-
-def validate_trainer(expected_trainer, actual_trainer, str_trainer_identifier)
-	assert_equal(expected_trainer.id, 	actual_trainer.id,		"Wrong id for " + str_trainer_identifier)
-	assert_equal(expected_trainer.name,	actual_trainer.name,	"Wrong name for " + str_trainer_identifier)
-end
-
-def validate_owner(expected_owner, actual_owner, str_owner_identifier)
-	assert_equal(expected_owner.id, 	actual_owner.id,	"Wrong id for " + str_owner_identifier)
-	assert_equal(expected_owner.name,	actual_owner.name,	"Wrong name for " + str_owner_identifier)
-end
-
-def validate_jockey(expected_jockey, actual_jockey, str_jockey_identifier)
-	assert_equal(expected_jockey.id, 		actual_jockey.id,		"Wrong id for " + str_jockey_identifier)
-	assert_equal(expected_jockey.name,		actual_jockey.name,		"Wrong name for " + str_jockey_identifier)
-	assert_equal(expected_jockey.jacket,	actual_jockey.jacket,	"Wrong jacket for " + str_jockey_identifier)
+	final_message = err.inspect + " in: \n" + 
+					err.backtrace[0] + "\n" +
+					err.backtrace[1]
+ 	flunk(final_message)
 end
 
 def validate_breeder(expected_breeder, actual_breeder, str_breeder_identifier)
@@ -28,81 +14,22 @@ def validate_breeder(expected_breeder, actual_breeder, str_breeder_identifier)
 	assert_equal(expected_breeder.name,	actual_breeder.name,	"Wrong name for " + str_breeder_identifier)
 end
 
-def validate_race(expected_race, actual_race, str_race_identifier)
-	assert_equal(expected_race.bets, 					actual_race.bets, 					"Wrong bets for " + str_race_identifier)
-	assert_equal(expected_race.detailed_conditions, 	actual_race.detailed_conditions, 	"Wrong detailed_conditions for " + str_race_identifier)
-	assert_equal(expected_race.distance, 				actual_race.distance, 				"Wrong distance for " + str_race_identifier)  
-	assert_equal(expected_race.general_conditions, 		actual_race.general_conditions, 	"Wrong general_conditions for " + str_race_identifier)
-	assert_equal(expected_race.name, 					actual_race.name, 					"Wrong name for " + str_race_identifier) 
-	assert_equal(expected_race.number, 					actual_race.number, 				"Wrong number for " + str_race_identifier) 
-	assert_equal(expected_race.race_type, 				actual_race.race_type, 				"Wrong race_type for " + str_race_identifier)
-	assert_equal(expected_race.result, 					actual_race.result, 				"Wrong result for " + str_race_identifier)
-	# assert_equal(expected_race.result_insertion_time, 	actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier)
-	
-	# Checking runner_list's value would be too costly (in term of tests' development) so,
-	# we just check its length
-	if not (expected_race.runner_list == nil) and 
-		not (actual_race.runner_list == nil) then
-		assert_equal(expected_race.runner_list.length, 	actual_race.runner_list.length, 	"Wrong runner_list.length for " + str_race_identifier)
-	else
-		if expected_race.runner_list == nil then
-			assert_equal(nil, actual_race.runner_list, 	"Wrong runner_list for " + str_race_identifier + " (should be nil)")
-		else
-			# expected_race.runner_list is not nil 
-			# but actual_race.runner_list is
-			# => error!
-			flunk("Wrong runner_list for " + str_race_identifier + " (should not be nil)")
-		end
-	end
-	assert_equal(expected_race.time, 					actual_race.time, 					"Wrong time for " + str_race_identifier)
-	assert_equal(expected_race.url, 					actual_race.url, 					"Wrong url for " + str_race_identifier)  
-	assert_equal(expected_race.value, 					actual_race.value, 					"Wrong value for " + str_race_identifier)  
-	
-	if not (expected_race.result_insertion_time == nil) and 
-		not (actual_race.result_insertion_time == nil) then
-		@logger.debug("validate_race - expected RIT : " + expected_race.result_insertion_time.to_time.to_s)
-		@logger.debug("validate_race - actual RIT : " + actual_race.result_insertion_time.to_time.to_s)
-		assert_operator(120, :>=, ((expected_race.result_insertion_time.to_time - actual_race.result_insertion_time.to_time)).abs, 	"Wrong result_insertion_time for " + str_race_identifier)
-	else
-		if expected_race.result_insertion_time == nil then
-			assert_equal(nil, actual_race.result_insertion_time, 	"Wrong result_insertion_time for " + str_race_identifier + " (should be nil)")
-		else
-			# actual_race.result_insertion_time is not nil 
-			# but actual_race.result_insertion_time is
-			# => error!
-			flunk("Wrong result_insertion_time for " + str_race_identifier + " (should not be nil)")
-		end
-	end
-	
-	if not (expected_race.meeting == nil) and 
-		not (actual_race.meeting == nil) then
-		validate_meeting(expected_race.meeting, 		actual_race.meeting, 			"meeting from " + str_race_identifier) 
-	else
-		if expected_race.meeting == nil then
-			assert_equal(nil, actual_race.meeting, 	"Wrong meeting for " + str_race_identifier + " (should be nil)")
-		else
-			# actual_race.meeting is not nil 
-			# but actual_race.meeting is
-			# => error!
-			flunk("Wrong meeting for " + str_race_identifier + " (should not be nil)")
-		end
-	end
-	
-	@logger.ok("Tests for " + str_race_identifier + " OK.")
-end
+def validate_horse(expected_horse, actual_horse, str_horse_identifier)
 
-def validate_weather(expected_weather, actual_weather, str_weather_identifier)
-	if expected_weather != nil and actual_weather != nil then
-		# both not nil
-		assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier)
-		assert_equal(expected_weather.temperature,		actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier)
-		assert_equal(expected_weather.wind_speed,		actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier)
-		assert_equal(expected_weather.insolation,		actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier)
-	else
-		assert_equal(expected_weather, nil, "Wrong expected_weather for " + str_weather_identifier + " (should not be nil)")
-		assert_equal(actual_weather, nil, "Wrong actual_weather for " + str_weather_identifier + " (should not be nil)")
+	if expected_horse != nil and actual_horse != nil then
+		assert_equal(expected_horse.breed, 	actual_horse.breed, "Wrong breed for " + str_horse_identifier)
+		assert_equal(expected_horse.coat, 	actual_horse.coat, 	"Wrong coat for " + str_horse_identifier)
+		assert_equal(expected_horse.name, 	actual_horse.name, 	"Wrong name for " + str_horse_identifier)
+		assert_equal(expected_horse.sex, 	actual_horse.sex, 	"Wrong sex for " + str_horse_identifier)
+		
+		validate_horse(expected_horse.father, actual_horse.father, "father from " + str_horse_identifier)
+		validate_horse(expected_horse.mother, actual_horse.mother, "mother from " + str_horse_identifier)
+	elsif expected_horse == nil and actual_horse != nil then
+		flunk("expected_horse is nil, actual_horse is not.")
+	elsif expected_horse != nil and actual_horse == nil then
+		flunk("actual_horse is nil, expected_horse is not.")
 	end
-	@logger.ok("Tests for " + str_weather_identifier + " OK.")
+	@logger.ok("Tests for " + str_horse_identifier + " OK.")
 end
 
 def validate_job(expected_job, actual_job, str_job_identifier)
@@ -120,21 +47,10 @@ def validate_job(expected_job, actual_job, str_job_identifier)
 	@logger.ok("Tests for " + str_job_identifier + " OK.")
 end
 
-def validate_time(expected_time, actual_time, str_time_identifier, str_test_identifier)
-	if not (expected_time == nil) and 
-		not (actual_time == nil) then
-		abs_diff_between_start_times = (expected_time - actual_time).abs
-		assert_operator(0.0001, :>=, abs_diff_between_start_times, 	"Wrong " + str_time_identifier + " for " + str_test_identifier)
-	else
-		if expected_time == nil then
-			assert_equal(nil, actual_time, 	"Wrong " + str_time_identifier + " for " + str_test_identifier + " (should be nil)")
-		else
-			# expected_time is not nil 
-			# but actual_time is
-			# => error!
-			flunk("Wrong " + str_time_identifier + " for " + str_test_identifier + " (should not be nil)")
-		end
-	end
+def validate_jockey(expected_jockey, actual_jockey, str_jockey_identifier)
+	assert_equal(expected_jockey.id, 		actual_jockey.id,		"Wrong id for " + str_jockey_identifier)
+	assert_equal(expected_jockey.name,		actual_jockey.name,		"Wrong name for " + str_jockey_identifier)
+	assert_equal(expected_jockey.jacket,	actual_jockey.jacket,	"Wrong jacket for " + str_jockey_identifier)
 end
 
 def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
@@ -162,9 +78,16 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 		for i in 0..expected_meeting.race_list.size do
 			expected_race = expected_meeting.race_list[i]
 			actual_race = actual_meeting.race_list[i]
-			assert_operator(expected_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in expected_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
-			assert_operator(actual_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
-			validate_race(expected_race, actual_race, "race from " + str_meeting_identifier)
+			if expected_race != nil then
+				assert_operator(actual_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
+				validate_race(expected_race, 
+							actual_race, 
+							"race from " + str_meeting_identifier,
+							called_from_validate_meeting: true)
+			else
+				assert_equal(actual_race, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should be nil)")
+			end
+			
 		end
 	else 
 		assert_equal(nil, expected_meeting.race_list, "Wrong expected_meeting.race_list for " + str_meeting_identifier + " (should be nil)")
@@ -173,22 +96,96 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 	@logger.ok("Tests for " + str_meeting_identifier + " OK.")
 end
 
-def validate_horse(expected_horse, actual_horse, str_horse_identifier)
+def validate_owner(expected_owner, actual_owner, str_owner_identifier)
+	assert_equal(expected_owner.id, 	actual_owner.id,	"Wrong id for " + str_owner_identifier)
+	assert_equal(expected_owner.name,	actual_owner.name,	"Wrong name for " + str_owner_identifier)
+end
 
-	if expected_horse != nil and actual_horse != nil then
-		assert_equal(expected_horse.breed, 	actual_horse.breed, "Wrong breed for " + str_horse_identifier)
-		assert_equal(expected_horse.coat, 	actual_horse.coat, 	"Wrong coat for " + str_horse_identifier)
-		assert_equal(expected_horse.name, 	actual_horse.name, 	"Wrong name for " + str_horse_identifier)
-		assert_equal(expected_horse.sex, 	actual_horse.sex, 	"Wrong sex for " + str_horse_identifier)
+def validate_race(expected_race, 
+					actual_race, 
+					str_race_identifier, 
+					called_from_validate_meeting: false)
+	assert_equal(expected_race.bets, 					actual_race.bets, 					"Wrong bets for " + str_race_identifier)
+	assert_equal(expected_race.detailed_conditions, 	actual_race.detailed_conditions, 	"Wrong detailed_conditions for " + str_race_identifier)
+	assert_equal(expected_race.distance, 				actual_race.distance, 				"Wrong distance for " + str_race_identifier)  
+	assert_equal(expected_race.general_conditions, 		actual_race.general_conditions, 	"Wrong general_conditions for " + str_race_identifier)
+	assert_equal(expected_race.name, 					actual_race.name, 					"Wrong name for " + str_race_identifier) 
+	assert_equal(expected_race.number, 					actual_race.number, 				"Wrong number for " + str_race_identifier) 
+	assert_equal(expected_race.race_type, 				actual_race.race_type, 				"Wrong race_type for " + str_race_identifier)
+	assert_equal(expected_race.result, 					actual_race.result, 				"Wrong result for " + str_race_identifier)
+	assert_equal(expected_race.time, 					actual_race.time, 					"Wrong time for " + str_race_identifier)
+	assert_equal(expected_race.url, 					actual_race.url, 					"Wrong url for " + str_race_identifier)  
+	assert_equal(expected_race.value, 					actual_race.value, 					"Wrong value for " + str_race_identifier)  
+	
+	@logger.debug("validate_race - expected_race.result_insertion_time = " + 
+		expected_race.result_insertion_time.to_s)
 		
-		validate_horse(expected_horse.father, actual_horse.father, "father from " + str_horse_identifier)
-		validate_horse(expected_horse.mother, actual_horse.mother, "mother from " + str_horse_identifier)
-	elsif expected_horse == nil and actual_horse != nil then
-		flunk("expected_horse is nil, actual_horse is not.")
-	elsif expected_horse != nil and actual_horse == nil then
-		flunk("actual_horse is nil, expected_horse is not.")
+	@logger.debug("validate_race - expected_race.result_insertion_time = " + 
+		expected_race.result_insertion_time.to_s)
+	validate_time(expected_race.result_insertion_time, 	actual_race.result_insertion_time,  "result_insertion_time", str_race_identifier)
+	
+	# Checking runner_list's value would be too costly (in term of tests' development) so,
+	# we just check its length
+	if expected_race.runner_list != nil then
+		assert_operator(actual_race.runner_list, :!=, nil, "Wrong runner_list for " + str_race_identifier + " (should not be nil)")
+		assert_equal(actual_race.runner_list.length, 	actual_race.runner_list.length, 	"Wrong runner_list.length for " + str_race_identifier)
+	else
+		assert_equal(nil, actual_race.runner_list, 	"Wrong runner_list for " + str_race_identifier + " (should be nil)")
 	end
-	@logger.ok("Tests for " + str_horse_identifier + " OK.")
+	
+	# if not called_from_validate_meeting then
+		# if expected_race.meeting != nil then
+			# assert_operator(actual_race.meeting, :!=, nil, "Wrong meeting for " + str_race_identifier + " (should not be nil)")
+			# validate_meeting(actual_race.meeting, actual_race.meeting, "meeting from " + str_race_identifier) 
+		# else
+			# assert_equal(nil, actual_race.meeting, 	"Wrong meeting for " + str_race_identifier + " (should be nil)")
+		# end
+	# end 
+	@logger.ok("Tests for " + str_race_identifier + " OK.")
+end
+
+def validate_time(expected_time, actual_time, str_time_identifier, str_test_identifier)
+	if expected_time != nil then
+		assert_operator(actual_time, :!=, nil, "Wrong " + str_time_identifier + " for " + str_test_identifier + " (should not be nil)")
+		# making sure expected_time and actual_time
+		# are, in fact, times
+		if not expected_time.is_a? Numeric then
+			expected_time_as_time = expected_time.to_time
+		else
+			expected_time_as_time = expected_time
+		end
+		if not actual_time.is_a? Numeric then
+			actual_time_as_time = actual_time.to_time
+		else
+			actual_time_as_time = actual_time
+		end
+		
+		# actual test
+		abs_diff_between_start_times = (expected_time_as_time - actual_time_as_time).abs
+		assert_operator(60.00, :>=, abs_diff_between_start_times, 	"Wrong " + str_time_identifier + " for " + str_test_identifier)
+	else
+		assert_equal(nil, actual_time, 	"Wrong " + str_time_identifier + " for " + str_test_identifier + " (should be nil)")		
+	end
+	
+end
+
+def validate_trainer(expected_trainer, actual_trainer, str_trainer_identifier)
+	assert_equal(expected_trainer.id, 	actual_trainer.id,		"Wrong id for " + str_trainer_identifier)
+	assert_equal(expected_trainer.name,	actual_trainer.name,	"Wrong name for " + str_trainer_identifier)
+end
+
+def validate_weather(expected_weather, actual_weather, str_weather_identifier)
+	if expected_weather != nil and actual_weather != nil then
+		# both not nil
+		assert_equal(expected_weather.wind_direction,	actual_weather.wind_direction,	"Wrong wind_direction for " + str_weather_identifier)
+		assert_equal(expected_weather.temperature,		actual_weather.temperature,	"Wrong temperature for " + str_weather_identifier)
+		assert_equal(expected_weather.wind_speed,		actual_weather.wind_speed,	"Wrong wind_speed for " + str_weather_identifier)
+		assert_equal(expected_weather.insolation,		actual_weather.insolation,	"Wrong insolation for " + str_weather_identifier)
+	else
+		assert_equal(expected_weather, nil, "Wrong expected_weather for " + str_weather_identifier + " (should not be nil)")
+		assert_equal(actual_weather, nil, "Wrong actual_weather for " + str_weather_identifier + " (should not be nil)")
+	end
+	@logger.ok("Tests for " + str_weather_identifier + " OK.")
 end
 
 def validate_runner(expected_runner, actual_runner, str_runner_identifier)
@@ -224,7 +221,7 @@ def validate_runner_shallow(expected_runner, actual_runner, str_runner_identifie
 	assert_equal(expected_runner.load_ride, 				actual_runner.load_ride, 					"Wrong load_ride for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.name, 				actual_runner.horse.name, 					"Wrong horse.name for " + str_runner_identifier)
 	assert_equal(expected_runner.number, 					actual_runner.number, 						"Wrong number for " + str_runner_identifier)
-	assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
+	# assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
 	assert_equal(expected_runner.shoes, 					actual_runner.shoes, 						"Wrong shoes for " + str_runner_identifier)
 	assert_equal(expected_runner.single_rating_before_race, actual_runner.single_rating_before_race, 	"Wrong single_rating for " + str_runner_identifier)
 	assert_equal(expected_runner.horse.sex, 				actual_runner.horse.sex, 					"Wrong horse.sex for " + str_runner_identifier)
@@ -257,7 +254,7 @@ def validate_runner_from_runner_list(expected_runner, actual_runner, str_runner_
 	assert_equal(expected_runner.load_ride, 			actual_runner.load_ride, 			"Wrong load_ride for " + str_runner_identifier)
 	assert_equal(expected_runner.number, 				actual_runner.number, 				"Wrong number for " + str_runner_identifier)
 	assert_equal(expected_runner.places, 				actual_runner.places, 				"Wrong places for " + str_runner_identifier)
-	assert_equal(expected_runner.race, 					actual_runner.race, 				"Wrong race for " + str_runner_identifier)
+	# assert_equal(expected_runner.race, 					actual_runner.race, 				"Wrong race for " + str_runner_identifier)
 	assert_equal(expected_runner.races_run, 			actual_runner.races_run, 			"Wrong races_run for " + str_runner_identifier)
 	assert_equal(expected_runner.shoes, 				actual_runner.shoes, 				"Wrong shoes for " + str_runner_identifier)
 	assert_equal(expected_runner.single_rating_before_race, 			
@@ -321,7 +318,7 @@ def validate_runner_from_result_list(expected_runner, actual_runner, str_runner_
 	assert_equal(nil, actual_runner.load_ride, 					"Load_ride not nil for " + str_runner_identifier)
 	assert_equal(nil, actual_runner.owner, 						"Owner not nil for " + str_runner_identifier)
 	assert_equal(nil, actual_runner.places, 					"Places not nil for " + str_runner_identifier)
-	assert_equal(nil, actual_runner.race, 						"Race not nil for " + str_runner_identifier)
+	# assert_equal(nil, actual_runner.race, 						"Race not nil for " + str_runner_identifier)
 	assert_equal(nil, actual_runner.races_run, 					"Races_run not nil for " + str_runner_identifier)
 	assert_equal(nil, actual_runner.shoes, 						"Shoes not nil for " + str_runner_identifier)
 	assert_equal(nil, actual_runner.single_rating_before_race,	"Single_rating_before_race not nil for " + str_runner_identifier)
@@ -367,7 +364,7 @@ def validate_joint_runner(expected_runner, actual_runner, str_runner_identifier)
 	
 	
 	# assert_equal(expected_runner.race, 						actual_runner.race, 						"Wrong race for " + str_runner_identifier)
-	validate_race(expected_runner.race, 	actual_runner.race, 	"race from " + str_runner_identifier)
+	# validate_race(expected_runner.race, 	actual_runner.race, 	"race from " + str_runner_identifier)
 	validate_horse(expected_runner.horse, 	actual_runner.horse, 	"horse from " + str_runner_identifier)
 	validate_jockey(expected_runner.jockey, actual_runner.jockey, 	"jockey from " + str_runner_identifier)
 	validate_owner(expected_runner.owner, actual_runner.owner, 		"owner from " + str_runner_identifier)

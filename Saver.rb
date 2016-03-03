@@ -126,7 +126,7 @@ class Saver
 		# saving the races
 		@logger.debug("save_meeting - saving races")
 		meeting.race_list.each do |race|
-			save_race(race)
+			save_race(race, meeting.id)
 		end
 	end
 	
@@ -156,14 +156,14 @@ class Saver
 		end
 	end
 	
-	def save_race(race)
+	def save_race(race, id_meeting)
 		if race.id == nil then
 			@logger.debug("save_race - no ID")
-			tech_id = @dbi_select_biz.load_race_id(race)
+			tech_id = @dbi_select_biz.load_race_id(race, id_meeting)
 			if tech_id == nil then
 				@logger.debug("save_race - no tech ID retrieved, " +
 					"inserting race")
-				@dbi_insert.insert_race_with_result(race)
+				@dbi_insert.insert_race_with_result(race, id_meeting)
 				@logger.debug("save_race - race inserted")
 			else
 				race.id = tech_id
@@ -173,21 +173,18 @@ class Saver
 			@logger.debug("save_race - race#" + race.id.to_s)
 		end
 		
-		# saving the runners
-		@logger.debug("save_race - saving runners")
-		race.runner_list.each do |runner|
-			# Making sure the races have the right
-			# race and race.id
-			if runner.race == nil then
-				runner.race = race
-			elsif runner.race.id == nil then
-				runner.race.id = race.id
+		# saving the runners, if necessary
+		if race.runner_list != nil then
+			@logger.debug("save_race - saving runners")
+			race.runner_list.each do |runner|
+				save_runner(runner, race.id)
 			end
-			save_runner(runner)
+		else
+			@logger.debug("save_race - no runners to save")
 		end
 	end
 	
-	def save_runner(runner)
+	def save_runner(runner, id_race)
 		
 		# objects that have already been saved
 		# blinder (ref)
@@ -259,12 +256,12 @@ class Saver
 		
 		if runner.id == nil then
 			@logger.debug("save_runner - no ID")
-			tech_id = @dbi_select_biz.load_runner_id(runner)
+			tech_id = @dbi_select_biz.load_runner_id(runner, id_race)
 			
 			if tech_id == nil then
 				@logger.debug("save_runner - no tech ID retrieved, " +
 					"inserting runner")
-				@dbi_insert.insert_runner_after_race(runner)
+				@dbi_insert.insert_runner_after_race(runner, id_race)
 				@logger.debug("save_runner - runner inserted")
 			else
 				runner.id = tech_id

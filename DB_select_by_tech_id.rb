@@ -5,8 +5,78 @@ require './DatabaseInterface.rb'
 
 class DatabaseInterfaceSelectByTechId < DatabaseInterface
 	# row to object methods
+	def create_race_from_row(row)
+		# simple values
+		bets = row["bets"]
+		detailed_conditions = row["detailed_conditions"]
+		distance = row["distance"]
+		general_conditions = row["general_conditions"]
+		id = row["id_race"]
+		name = row["name"]
+		number = row["number"]
+		result = row["result"]
+		result_insertion_time = row["result_insertion_time"]
+		
+		if result_insertion_time != nil then
+		
+			@logger.debug("load_race_by_id - result_insertion_time : " + result_insertion_time.to_s)
+			result_insertion_time = result_insertion_time.to_time
+			@logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
+			@logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
+			@logger.debug("load_race_by_id - result_insertion_time.utc? " + result_insertion_time.utc?.to_s)
+			if result_insertion_time.utc? then
+				result_insertion_time = result_insertion_time.localtime
+				@logger.debug("load_race_by_id - result_insertion_time (after .localtime) : " + result_insertion_time.to_s)
+			end
+			
+		end
+		# result_insertion_time = Time.parse(str_result_insertion_time, 
+											# @config[:gen][:database_date_time_format])
+		time = row["time"]
+		url = row["url"]
+		value = row["value"]
+		
+		# race_type : get from RefRaceType list
+		race_type_id = row["id_race_type"]
+		race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id)
+		
+		# objects
+		
+		# Meeting
+		# avoiding infinite loop by providing the meeting
+		# (and thus avoiding to load the meeting, that then
+		# loads the race that loads the meeting...)
+		# if parent_meeting == nil then
+			# meeting_id = row["id_meeting"]
+			# meeting = load_meeting_by_id(meeting_id)
+		# else
+			# meeting = parent_meeting
+		# end
+		 
+		race = Race::new(	bets: bets,
+							detailed_conditions: detailed_conditions,
+							distance: distance, 
+							general_conditions: general_conditions,
+							id: id,
+							# meeting: meeting, 
+							name: name, 
+							number: number, 
+							race_type: race_type, 
+							result: result, 
+							result_insertion_time: result_insertion_time, 
+							time: time, 
+							url: url, 
+							value: value)
+		
+		# runner_list
+		runner_list = load_runner_list_by_race(race)
+		race.runner_list = runner_list
+		
+		return race
+	end
 	
-	def create_runner_from_row(row, parent_race: nil)
+	# def create_runner_from_row(row, parent_race: nil)
+	def create_runner_from_row(row)
 		# Blinder : get from RefBlinder list
 		blinder_id = row["id_blinder"]
 		blinder = @ref_list_hash[:ref_blinder_list].get(blinder_id)
@@ -31,12 +101,12 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		# avoiding infinite loop by providing the race
 		# (and thus avoiding to load the race, that then
 		# loads the runner that loads the race...)
-		if parent_race == nil then
-			race_id = row["id_race"]
-			race = load_race_by_id(race_id)
-		else
-			race = parent_race
-		end
+		# if parent_race == nil then
+			# race_id = row["id_race"]
+			# race = load_race_by_id(race_id)
+		# else
+			# race = parent_race
+		# end
 		
 		# Shoes : get from RefShoes list
 		shoes_id = row["id_shoes"]
@@ -77,7 +147,7 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			number: row["number"],
 			owner: owner,
 			places: row["places"],
-			race: race,
+			# race: race,
 			races_run: row["races_run"],
 			shoes: shoes,
 			single_rating_after_race: row["single_rating_after_race"],
@@ -93,7 +163,8 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 	# LOADING QUERIES
 	# REFERENCE OBJECT LISTS
 	def load_ref_object_list(class_to_instanciate, query, statement)
-		ref_object_list = RefObjectContainer.new(class_to_instanciate, self)
+		ref_object_list = RefObjectContainer.new(class_to_instanciate, 
+							$globalState.dbi_insert)
 		rows = execute_select(
 			query,
 			statement,
@@ -392,6 +463,11 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 						track_condition: track_condition,
 						weather: weather)
 			meeting.id = id
+			
+			
+			# race_list
+			race_list = load_race_list_by_meeting(meeting)
+			meeting.race_list = race_list
 		else 
 			meeting = nil
 		end		
@@ -441,64 +517,36 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			:id => id)
 		
 		if row != nil then
-			# simple values
-			bets = row["bets"]
-			detailed_conditions = row["detailed_conditions"]
-			distance = row["distance"]
-			general_conditions = row["general_conditions"]
-			name = row["name"]
-			number = row["number"]
-			result = row["result"]
-			result_insertion_time = row["result_insertion_time"]
-			# TODO convert from UTC to local time
-			if result_insertion_time != nil then
-			
-				@logger.debug("load_race_by_id - result_insertion_time : " + result_insertion_time.to_s)
-				result_insertion_time = result_insertion_time.to_time
-				@logger.debug("load_race_by_id - result_insertion_time (after .to_time) : " + result_insertion_time.to_s)
-				@logger.debug("load_race_by_id - result_insertion_time.utc? " + result_insertion_time.utc?.to_s)
-				if result_insertion_time.utc? then
-					result_insertion_time = result_insertion_time.localtime
-					@logger.debug("load_race_by_id - result_insertion_time (after .localtime) : " + result_insertion_time.to_s)
-				end
-				
-			end
-			# result_insertion_time = Time.parse(str_result_insertion_time, 
-												# @config[:gen][:database_date_time_format])
-			time = row["time"]
-			url = row["url"]
-			value = row["value"]
-			
-			# race_type : get from RefRaceType list
-			race_type_id = row["id_race_type"]
-			race_type = @ref_list_hash[:ref_race_type_list].get(race_type_id)
-			
-			# objects
-			meeting_id = row["id_meeting"]
-			meeting = load_meeting_by_id(meeting_id)
-			
-			race = Race::new(	bets: bets,
-								detailed_conditions: detailed_conditions,
-								distance: distance, 
-								general_conditions: general_conditions,
-								id: id,
-								meeting: meeting, 
-								name: name, 
-								number: number, 
-								race_type: race_type, 
-								result: result, 
-								result_insertion_time: result_insertion_time, 
-								time: time, 
-								url: url, 
-								value: value)
-			
-			# runner_list
-			runner_list = load_runner_list_by_race(race)
-			race.runner_list = runner_list
+			race = create_race_from_row(row)
 		else 
 			race = nil
 		end
 		return race
+	end
+	
+	def load_race_list_by_meeting(meeting)
+		result_set = execute_select(
+			@sql[:select][:race_by_meeting_id], 
+			@stat_select_race_by_meeting_id, 
+			:id => meeting.id)
+		
+		race_list = []
+		row = result_set.next
+		while row != nil do
+			# race = create_race_from_row(row, parent_meeting: meeting)
+			race = create_race_from_row(row)
+			@logger.debug("load_race_list_by_meeting - got Race#" + 
+				race.id.to_s)
+			race_list.push(race)
+			row = result_set.next
+		end
+		result_set.close
+		
+		# if no results, return nil
+		if race_list.size == 0 then
+			race_list = nil
+		end
+		return race_list
 	end
 	
 	def load_runner_by_id(id)
@@ -525,7 +573,8 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		runner_list = []
 		row = result_set.next
 		while row != nil do
-			runner = create_runner_from_row(row, parent_race: race)
+			# runner = create_runner_from_row(row, parent_race: race)
+			runner = create_runner_from_row(row)
 			@logger.debug("load_runner_list_by_race - got Runner#" + 
 				runner.id.to_s)
 			runner_list.push(runner)

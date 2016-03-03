@@ -69,7 +69,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 				bets: -10,
 				detailed_conditions: "Test Race 10 update detailed conditions",
 				distance: -10,
-				meeting: @dbi_select.load_meeting_by_id(-1),
+				# meeting: @dbi_select.load_meeting_by_id(-1),
 				name: "Test Race 10 update name",
 				number: -10,
 				time: "Test Race 10 update time",
@@ -131,7 +131,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			assert_equal(-10, 							selected_runner.number)
 			assert_equal(-1, 							selected_runner.owner.id)
 			assert_equal(-10, 							selected_runner.places)
-			assert_equal(-1, 							selected_runner.race.id)
+			# assert_equal(-1, 							selected_runner.race.id)
 			assert_equal(-10, 							selected_runner.races_run)
 			assert_equal(-1, 							selected_runner.shoes.id)
 			assert_equal(-10.1, 						selected_runner.single_rating_before_race)
@@ -174,7 +174,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			assert_equal(selected_runner.number,					updated_runner.number)
 			assert_equal(selected_runner.owner.id,					updated_runner.owner.id)
 			assert_equal(selected_runner.places,					updated_runner.places)
-			assert_equal(selected_runner.race.id,					updated_runner.race.id)
+			# assert_equal(selected_runner.race.id,					updated_runner.race.id)
 			assert_equal(selected_runner.races_run,					updated_runner.races_run)
 			assert_equal(selected_runner.shoes.id,					updated_runner.shoes.id)
 			assert_equal(selected_runner.single_rating_before_race,	updated_runner.single_rating_before_race)

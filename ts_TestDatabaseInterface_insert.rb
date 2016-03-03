@@ -373,7 +373,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			general_conditions = "Internationale - Autostart Corde à gauche"
-			meeting = @dbi_select.load_meeting_by_id(-1)
+			# meeting = @dbi_select.load_meeting_by_id(-1)
+			id_meeting = -1
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
 			race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions"]
@@ -388,7 +389,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
 					general_conditions: general_conditions,
-					meeting: meeting, 
+					# meeting: meeting, 
 					name: name, 
 					number: number, 
 					race_type: race_type, 
@@ -399,7 +400,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 					value: value
 			)
 			
-			@dbi_insert.insert_race_with_result(race)
+			@dbi_insert.insert_race_with_result(race, id_meeting)
 
 			# Checking insert by value
 			selected_race = @dbi_select.load_race_by_id(race.id)
@@ -408,7 +409,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
 			assert_equal(race.distance, 			selected_race.distance)
 			assert_equal(race.general_conditions, 	selected_race.general_conditions)
-			assert_equal(race.meeting, 				selected_race.meeting)
+			# assert_equal(race.meeting, 				selected_race.meeting)
 			assert_equal(race.name, 				selected_race.name)
 			assert_equal(race.number, 				selected_race.number)
 			assert_equal(race.race_type, 			selected_race.race_type)
@@ -436,6 +437,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 		@logger.imp("Testing insertion of Race (without result)")
 		
 		begin
+			@logger.level = SimpleHtmlLogger::DEBUG
 			# Counting number of Races before test
 			old_race_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:race])
 			
@@ -443,7 +445,8 @@ class TestDatabaseInterfaceInsert < TestSuite
 			detailed_conditions = "PRIX SECF Course 02 Départ à l'Autostart 7.200 - Attelé. - 2850 mètres. 3.000, 1.500, 720, 480, 300. et 1.200 au fonds d'élevage. Pour 5 à 6 ans n'ayant pas gagné 28.000."
 			distance = 2850
 			general_conditions = "Internationale - Autostart Corde à gauche"
-			meeting = @dbi_select.load_meeting_by_id(-1)
+			# meeting = @dbi_select.load_meeting_by_id(-1)
+			id_meeting = -1
 			name = "ALL TO COME MAIDEN JUVENILE PLATE"
 			number = 2
 			race_type = @ref_list_hash[:ref_race_type_list]["Haies course à conditions"]
@@ -456,7 +459,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 					detailed_conditions: detailed_conditions, 
 					distance: distance, 
 					general_conditions: general_conditions, 
-					meeting: meeting, 
+					# meeting: meeting, 
 					name: name, 
 					number: number, 
 					race_type: race_type, 
@@ -464,24 +467,10 @@ class TestDatabaseInterfaceInsert < TestSuite
 					url: url, 
 					value: value)
 			
-			@dbi_insert.insert_race_without_result(race)
+			@dbi_insert.insert_race_without_result(race, id_meeting)
 
 			# Checking insert by value
 			selected_race = @dbi_select.load_race_by_id(race.id)
-			
-			assert_equal(race.bets, 				selected_race.bets)
-			assert_equal(race.detailed_conditions, 	selected_race.detailed_conditions)
-			assert_equal(race.distance, 			selected_race.distance)
-			assert_equal(race.general_conditions, 	selected_race.general_conditions)
-			assert_equal(race.meeting, 				selected_race.meeting)
-			assert_equal(race.name, 				selected_race.name)
-			assert_equal(race.number, 				selected_race.number)
-			assert_equal(race.race_type, 			selected_race.race_type)
-			assert_equal(nil, 						selected_race.result)
-			assert_equal(nil, 						selected_race.result_insertion_time)
-			assert_equal(race.time, 				selected_race.time)
-			assert_equal(race.url, 					selected_race.url)
-			assert_equal(race.value, 				selected_race.value)
 			
 			validate_race(race, selected_race, "insertion of race")
 			
@@ -606,13 +595,14 @@ class TestDatabaseInterfaceInsert < TestSuite
 			# Counting number of runners before test
 			old_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
 			
+			id_race = -1
 			runner = Runner::new(
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
 				breeder: @dbi_select.load_breeder_by_id(-1),
 				horse: @dbi_select.load_horse_by_id(-1),
 				jockey: @dbi_select.load_jockey_by_id(-1),
 				owner: @dbi_select.load_owner_by_id(-1),
-				race: @dbi_select.load_race_by_id(-1),
+				# race: @dbi_select.load_race_by_id(-1),
 				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
 				trainer: @dbi_select.load_trainer_by_id(-1),
 				age: 5,
@@ -640,7 +630,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
 				victories: 6
 			)
-			@dbi_insert.insert_runner_after_race(runner)
+			@dbi_insert.insert_runner_after_race(runner, id_race)
 
 			# Checking by value
 			selected_runner = @dbi_select.load_runner_by_id(runner.id)
@@ -650,7 +640,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(runner.horse, 						selected_runner.horse)
 			assert_equal(runner.jockey, 					selected_runner.jockey)
 			assert_equal(runner.owner, 						selected_runner.owner)
-			assert_equal(runner.race, 						selected_runner.race)
+			# assert_equal(runner.race, 						selected_runner.race)
 			assert_equal(runner.shoes, 						selected_runner.shoes)
 			assert_equal(runner.trainer, 					selected_runner.trainer)
 			
@@ -697,6 +687,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 		begin
 			# Counting number of runners before test
 			old_runner_num = @dbi_select.select_count_from_table(@config[:gen][:table_names][:runner])
+			id_race = -1
 			
 			runner = Runner::new(
 				blinder: @ref_list_hash[:ref_blinder_list]["http://ressources0.pmu.fr/turf/cb3590072752/img/design/oeillere.gif"],
@@ -704,7 +695,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 				horse: @dbi_select.load_horse_by_id(-1),
 				jockey: @dbi_select.load_jockey_by_id(-1),
 				owner: @dbi_select.load_owner_by_id(-1),
-				race: @dbi_select.load_race_by_id(-1),
+				# race: @dbi_select.load_race_by_id(-1),
 				shoes: @ref_list_hash[:ref_shoes_list]["http://ressources0.pmu.fr/turf/cb603952032/img/pictos_courses/defer/Da.gif"],
 				trainer: @dbi_select.load_trainer_by_id(-1),
 				age: 5,
@@ -729,7 +720,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 				url: "/turf/01112013/reunion-1-SAINT_CLOUD/course-8-DU_CHAROLAIS/partant-6-ROSEAL_DES_BOIS/index.html",
 				victories: 6
 			)
-			@dbi_insert.insert_runner_before_race(runner)
+			@dbi_insert.insert_runner_before_race(runner, id_race)
 
 			# Checking by value
 			selected_runner = @dbi_select.load_runner_by_id(runner.id)
@@ -739,7 +730,7 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(runner.horse, 						selected_runner.horse)
 			assert_equal(runner.jockey, 					selected_runner.jockey)
 			assert_equal(runner.owner, 						selected_runner.owner)
-			assert_equal(runner.race, 						selected_runner.race)
+			# assert_equal(runner.race, 						selected_runner.race)
 			assert_equal(runner.shoes, 						selected_runner.shoes)
 			assert_equal(runner.trainer, 					selected_runner.trainer)
 			

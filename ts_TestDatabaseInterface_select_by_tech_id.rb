@@ -64,32 +64,32 @@ class TestDatabaseInterfaceSelect < TestSuite
 									wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
 									wind_speed: -1)
 			
-			meeting = Meeting::new(country: "Test Meeting 1 country",
-									date: Date.new(2015, 01, 01),
-									id: -1,
-									job: job,
-									number: -1,
-									racetrack: "Test Meeting 1 racetrack",
-									track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
-									weather: weather)
+			# meeting = Meeting::new(country: "Test Meeting 1 country",
+									# date: Date.new(2015, 01, 01),
+									# id: -1,
+									# job: job,
+									# number: -1,
+									# racetrack: "Test Meeting 1 racetrack",
+									# track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
+									# weather: weather)
 			
-			expected_race = Race::new(bets: -1,
-							detailed_conditions: "Test Race 1 detailed conditions",
-							distance: -1,
-							id: -1,
-							meeting: meeting,
-							name: "Test Race 1 name",
-							number: -1,
-							general_conditions: "Test Race 1 general conditions",
+			expected_race = Race::new(bets: -3,
+							detailed_conditions: "Test Race 3 detailed conditions",
+							distance: -3,
+							id: -3,
+							# meeting: meeting,
+							name: "Test Race 3 name",
+							number: -3,
+							general_conditions: "Test Race 3 general conditions",
 							race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
-							result: "Test Race 1 result",
+							result: "Test Race 3 result",
 							# result_insertion_time: "01/01/2015 00:00",
-							result_insertion_time: DateTime.new(2015, 01, 01, 00, 00, 00, '+00'),
-							time: "Test Race 1 time",
-							url: "Test Race 1 URL",
-							value: -1)
+							result_insertion_time: DateTime.new(2015, 03, 03, 00, 00, 00, '+00'),
+							time: "Test Race 3 time",
+							url: "Test Race 3 URL",
+							value: -3)
 							
-			validate_race(expected_race, selected_forecast.race, "selection of race")
+			validate_race(expected_race, selected_forecast.race, "selection of forecast")
 			
 			@logger.ok("Tests selection of Forecast OK.")
 		rescue Exception => err
@@ -194,7 +194,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	def test_select_meeting
 		@logger.imp("Testing selection of Meeting")
 		begin
-			test_id = -1
+			test_id = -2
 			selected_meeting = @dbi_select.load_meeting_by_id(test_id)
 			
 			job = Job::new(id: -1,
@@ -209,15 +209,15 @@ class TestDatabaseInterfaceSelect < TestSuite
 									wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
 									wind_speed: -1)
 			
-			meeting = Meeting::new(country: "Test Meeting 1 country",
-									date: Date.new(2015, 01, 01),
-									id: -1,
+			meeting = Meeting::new(country: "Test Meeting 2 country",
+									date: Date.new(2015, 02, 02),
+									id: -2,
 									job: job,
-									number: -1,
-									racetrack: "Test Meeting 1 racetrack",
+									number: -2,
+									racetrack: "Test Meeting 2 racetrack",
 									track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
 									weather: weather)
-									
+			
 			validate_meeting(meeting, selected_meeting, "selection of Meeting")
 			
 			@logger.ok("Tests selection of Meeting OK.")
@@ -263,7 +263,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 	def test_select_race
 		@logger.imp("Testing selection of Race")
 		begin
-			test_id = -1
+			test_id = -3
 			selected_race = @dbi_select.load_race_by_id(test_id)
 			
 			# Checking value
@@ -279,30 +279,30 @@ class TestDatabaseInterfaceSelect < TestSuite
 									wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
 									wind_speed: -1)
 			
-			meeting = Meeting::new(country: "Test Meeting 1 country",
-									date: Date.new(2015, 01, 01),
-									id: -1,
-									job: job,
-									number: -1,
-									racetrack: "Test Meeting 1 racetrack",
-									track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
-									weather: weather)
+			# meeting = Meeting::new(country: "Test Meeting 1 country",
+									# date: Date.new(2015, 01, 01),
+									# id: -1,
+									# job: job,
+									# number: -1,
+									# racetrack: "Test Meeting 1 racetrack",
+									# track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
+									# weather: weather)
 			
-			expected_race = Race::new(bets: -1,
-							detailed_conditions: "Test Race 1 detailed conditions",
-							distance: -1,
-							id: -1,
-							meeting: meeting,
-							name: "Test Race 1 name",
-							number: -1,
-							general_conditions: "Test Race 1 general conditions",
+			expected_race = Race::new(bets: -3,
+							detailed_conditions: "Test Race 3 detailed conditions",
+							distance: -3,
+							id: -3,
+							# meeting: meeting,
+							name: "Test Race 3 name",
+							number: -3,
+							general_conditions: "Test Race 3 general conditions",
 							race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
-							result: "Test Race 1 result",
+							result: "Test Race 3 result",
 							# result_insertion_time: "01/01/2015 00:00",
-							result_insertion_time: DateTime.new(2015, 01, 01, 00, 00, 00, '+00'),
-							time: "Test Race 1 time",
-							url: "Test Race 1 URL",
-							value: -1)
+							result_insertion_time: DateTime.new(2015, 03, 03, 00, 00, 00, '+00'),
+							time: "Test Race 3 time",
+							url: "Test Race 3 URL",
+							value: -3)
 							
 			validate_race(expected_race, selected_race, "selection of race")
 			
@@ -439,32 +439,32 @@ class TestDatabaseInterfaceSelect < TestSuite
 									wind_direction: @ref_list_hash[:ref_direction_list]["Test Direction"],
 									wind_speed: -1)
 			
-			meeting = Meeting::new(country: "Test Meeting 1 country",
-									date: Date.new(2015, 01, 01),
-									id: -1,
-									job: job,
-									number: -1,
-									racetrack: "Test Meeting 1 racetrack",
-									track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
-									weather: weather)
+			# meeting = Meeting::new(country: "Test Meeting 1 country",
+									# date: Date.new(2015, 01, 01),
+									# id: -1,
+									# job: job,
+									# number: -1,
+									# racetrack: "Test Meeting 1 racetrack",
+									# track_condition: @ref_list_hash[:ref_track_condition_list]["Test Track Condition"],
+									# weather: weather)
 									
 			owner = Owner::new(id: -1, name: "Test Owner 1 name")
 			
-			race = Race::new(bets: -1,
-							detailed_conditions: "Test Race 1 detailed conditions",
-							distance: -1,
-							id: -1,
-							meeting: meeting,
-							name: "Test Race 1 name",
-							number: -1,
-							general_conditions: "Test Race 1 general conditions",
-							race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
-							result: "Test Race 1 result",
+			# race = Race::new(bets: -1,
+							# detailed_conditions: "Test Race 1 detailed conditions",
+							# distance: -1,
+							# id: -1,
+							# meeting: meeting,
+							# name: "Test Race 1 name",
+							# number: -1,
+							# general_conditions: "Test Race 1 general conditions",
+							# race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
+							# result: "Test Race 1 result",
 							# result_insertion_time: "01/01/2015 00:00",
-							result_insertion_time: DateTime.new(2015, 01, 01, 00, 00, 00, '+00'),
-							time: "Test Race 1 time",
-							url: "Test Race 1 URL",
-							value: -1)
+							# result_insertion_time: DateTime.new(2015, 01, 01, 00, 00, 00, '+00'),
+							# time: "Test Race 1 time",
+							# url: "Test Race 1 URL",
+							# value: -1)
 							
 			trainer = Trainer::new(id: -1, name: "Test Trainer 1 name")
 			
@@ -474,7 +474,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 				horse: horse,
 				jockey: jockey,
 				owner: owner,
-				race: race,
+				# race: race,
 				shoes: @ref_list_hash[:ref_shoes_list]["Test Shoes"],
 				trainer: trainer,
 				age: -1,
@@ -569,79 +569,79 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(-1.1, 									selected_weight.forecast.normalised_result_match_rate)
 			
 			# Nested value (2nd level) : race
-			assert_equal(-1, 						selected_weight.forecast.race.id)
-			assert_equal("Test Race 1 time", 		selected_weight.forecast.race.time)
-			assert_equal(-1, 						selected_weight.forecast.race.number)
-			assert_equal("Test Race 1 name", 		selected_weight.forecast.race.name)
-			assert_equal("Test Race 1 result", 		selected_weight.forecast.race.result)
-			default_time = Date.new(2015, 01, 01)
+			assert_equal(-3, 						selected_weight.forecast.race.id)
+			assert_equal("Test Race 3 time", 		selected_weight.forecast.race.time)
+			assert_equal(-3, 						selected_weight.forecast.race.number)
+			assert_equal("Test Race 3 name", 		selected_weight.forecast.race.name)
+			assert_equal("Test Race 3 result", 		selected_weight.forecast.race.result)
+			default_time = Date.new(2015, 03, 03)
 			str_default_time = default_time.strftime(@config[:gen][:default_date_format])
 			assert_equal(
 				str_default_time,
 				selected_weight.forecast.race.result_insertion_time.strftime(@config[:gen][:default_date_format])
 			)
-			assert_equal(-1, selected_weight.forecast.race.distance)
-			assert_equal("Test Race 1 detailed conditions", selected_weight.forecast.race.detailed_conditions)
-			assert_equal("Test Race 1 general conditions", selected_weight.forecast.race.general_conditions)
-			assert_equal(-1, selected_weight.forecast.race.bets)
-			assert_equal(-1, selected_weight.forecast.race.value)
-			assert_equal("Test Race 1 URL", selected_weight.forecast.race.url)
+			assert_equal(-3, selected_weight.forecast.race.distance)
+			assert_equal("Test Race 3 detailed conditions", selected_weight.forecast.race.detailed_conditions)
+			assert_equal("Test Race 3 general conditions", selected_weight.forecast.race.general_conditions)
+			assert_equal(-3, selected_weight.forecast.race.bets)
+			assert_equal(-3, selected_weight.forecast.race.value)
+			assert_equal("Test Race 3 URL", selected_weight.forecast.race.url)
 						
 			# Nested value (3rd level) : race_type
 			assert_equal(-1,				selected_weight.forecast.race.race_type.id)
 			assert_equal("Test Race Type", 	selected_weight.forecast.race.race_type.text)
 			
 			# Nested value (3rd level) : meeting
-			assert_equal(-1, selected_weight.forecast.race.meeting.id)
-			assert_equal(
-				str_default_time,
-				selected_weight.forecast.race.meeting.date.strftime(@config[:gen][:default_date_format])
-			)
-			assert_equal("Test Meeting 1 country", 		selected_weight.forecast.race.meeting.country)
-			assert_equal("Test Meeting 1 racetrack", 	selected_weight.forecast.race.meeting.racetrack)
-			assert_equal(-1, selected_weight.forecast.race.meeting.number)
-			assert_equal(nil, selected_weight.forecast.race.meeting.urls_of_races_array)
+			# assert_equal(-1, selected_weight.forecast.race.meeting.id)
+			# assert_equal(
+				# str_default_time,
+				# selected_weight.forecast.race.meeting.date.strftime(@config[:gen][:default_date_format])
+			# )
+			# assert_equal("Test Meeting 1 country", 		selected_weight.forecast.race.meeting.country)
+			# assert_equal("Test Meeting 1 racetrack", 	selected_weight.forecast.race.meeting.racetrack)
+			# assert_equal(-1, selected_weight.forecast.race.meeting.number)
+			# assert_equal(nil, selected_weight.forecast.race.meeting.urls_of_races_array)
 			
 			# Nested value (4th level) : track_condition
-			assert_equal(-1, 						selected_weight.forecast.race.meeting.track_condition.id)
-			assert_equal("Test Track Condition", 	selected_weight.forecast.race.meeting.track_condition.text)
+			# assert_equal(-1, 						selected_weight.forecast.race.meeting.track_condition.id)
+			# assert_equal("Test Track Condition", 	selected_weight.forecast.race.meeting.track_condition.text)
 			
 			# Nested value (4th level) : job
-			assert_equal(-1, selected_weight.forecast.race.meeting.job.id)
+			# assert_equal(-1, selected_weight.forecast.race.meeting.job.id)
 
-			expected_start_time = 			DateTime.new(2015, 01, 27, 17, 35, 0.250)
-			assert_equal(
-				expected_start_time, 
-				selected_weight.forecast.race.meeting.job.start_time
-			)
+			# expected_start_time = 			DateTime.new(2015, 01, 27, 17, 35, 0.250)
+			# assert_equal(
+				# expected_start_time, 
+				# selected_weight.forecast.race.meeting.job.start_time
+			# )
 			
-			expected_loading_end_time = 	DateTime.new(2015, 01, 27, 18, 36, 1.500)
-			assert_equal(
-				expected_loading_end_time, 
-				selected_weight.forecast.race.meeting.job.loading_end_time
-			)
+			# expected_loading_end_time = 	DateTime.new(2015, 01, 27, 18, 36, 1.500)
+			# assert_equal(
+				# expected_loading_end_time, 
+				# selected_weight.forecast.race.meeting.job.loading_end_time
+			# )
 			
-			expected_crawling_end_time = 	DateTime.new(2015, 01, 27, 19, 37, 2.750)
-			assert_equal(
-				expected_crawling_end_time, 
-				selected_weight.forecast.race.meeting.job.crawling_end_time
-			)
+			# expected_crawling_end_time = 	DateTime.new(2015, 01, 27, 19, 37, 2.750)
+			# assert_equal(
+				# expected_crawling_end_time, 
+				# selected_weight.forecast.race.meeting.job.crawling_end_time
+			# )
 			
-			expected_computing_end_time = 	DateTime.new(2015, 01, 27, 20, 38, 3.999)
-			assert_equal(
-				expected_computing_end_time, 
-				selected_weight.forecast.race.meeting.job.computing_end_time
-			)
+			# expected_computing_end_time = 	DateTime.new(2015, 01, 27, 20, 38, 3.999)
+			# assert_equal(
+				# expected_computing_end_time, 
+				# selected_weight.forecast.race.meeting.job.computing_end_time
+			# )
 			
 			# Nested value (4th level) : weather
-			assert_equal(-1,							selected_weight.forecast.race.meeting.weather.id)
-			assert_equal(-1, 							selected_weight.forecast.race.meeting.weather.temperature)
-			assert_equal(-1,						 	selected_weight.forecast.race.meeting.weather.wind_speed)
-			assert_equal("Test Weather 1 insolation", 	selected_weight.forecast.race.meeting.weather.insolation)
+			# assert_equal(-1,							selected_weight.forecast.race.meeting.weather.id)
+			# assert_equal(-1, 							selected_weight.forecast.race.meeting.weather.temperature)
+			# assert_equal(-1,						 	selected_weight.forecast.race.meeting.weather.wind_speed)
+			# assert_equal("Test Weather 1 insolation", 	selected_weight.forecast.race.meeting.weather.insolation)
 			
 			# Nested value (5th level) : wind_direction
-			assert_equal(-1, 				selected_weight.forecast.race.meeting.weather.wind_direction.id)
-			assert_equal("Test Direction", 	selected_weight.forecast.race.meeting.weather.wind_direction.text)
+			# assert_equal(-1, 				selected_weight.forecast.race.meeting.weather.wind_direction.id)
+			# assert_equal("Test Direction", 	selected_weight.forecast.race.meeting.weather.wind_direction.text)
 			
 			@logger.ok("Tests selection of Weight OK.")
 		rescue Exception => err

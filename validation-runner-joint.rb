@@ -1,6 +1,6 @@
 ﻿require './validation-core.rb'
 
-def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
+def validate_joint_R4_C5_N2(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 	coat = @ref_list_hash[:ref_coat_list][""]
@@ -43,7 +43,7 @@ def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 						load_ride: 0.0,
 						number: 2,
 						places: 14,
-						race: race_to_test,
+						# race: race_to_test,
 						races_run: 23,
 						shoes: shoes,
 						single_rating_after_race: 2.9,
@@ -61,7 +61,7 @@ def validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N2 (10th, with dist)")
 end
 
-def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
+def validate_joint_R4_C5_N4(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -103,7 +103,7 @@ def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 4,
 					places: 5,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 12,
 					shoes: shoes,
 					single_rating_after_race: 13.9,
@@ -121,7 +121,7 @@ def validate_joint_R4_C5_N4(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N4(no place, no dist)")
 end
 
-def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
+def validate_joint_R4_C5_N5(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -164,7 +164,7 @@ def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 5,
 					places: 15,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 43,
 					shoes: shoes,
 					single_rating_after_race: 9.6,
@@ -182,7 +182,7 @@ def validate_joint_R4_C5_N5(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N5 (10th, with dist)")
 end
 
-def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
+def validate_joint_R4_C5_N17(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -223,7 +223,7 @@ def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 17,
 					places: 8,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 16,
 					shoes: shoes,
 					single_rating_after_race: 0.0,
@@ -241,7 +241,7 @@ def validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R4_C5_N17(non runner)")
 end
 
-def validate_joint_R1_C1_N4(runner_to_check, race_to_test)
+def validate_joint_R1_C1_N4(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -283,7 +283,7 @@ def validate_joint_R1_C1_N4(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 4,
 					places: 8,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 23,
 					shoes: shoes,
 					single_rating_after_race: 4.2,
@@ -301,7 +301,7 @@ def validate_joint_R1_C1_N4(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N4(disqualified)")
 end
 
-def validate_joint_R1_C1_N5(runner_to_check, race_to_test)
+def validate_joint_R1_C1_N5(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -343,7 +343,7 @@ def validate_joint_R1_C1_N5(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 5,
 					places: 6,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 16,
 					shoes: shoes,
 					single_rating_after_race: 8.4,
@@ -361,7 +361,7 @@ def validate_joint_R1_C1_N5(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N5(1st)")
 end
 
-def validate_joint_R1_C1_N9(runner_to_check, race_to_test)
+def validate_joint_R1_C1_N9(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -403,7 +403,7 @@ def validate_joint_R1_C1_N9(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 9,
 					places: 11,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 28,
 					shoes: shoes,
 					single_rating_after_race: 2.5,
@@ -420,7 +420,7 @@ def validate_joint_R1_C1_N9(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R1_C1_N9(favorite)")
 end
 
-def validate_joint_R2_C7_N1(runner_to_check, race_to_test)
+def validate_joint_R2_C7_N1(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -462,7 +462,7 @@ def validate_joint_R2_C7_N1(runner_to_check, race_to_test)
 					load_ride: 68.0,
 					number: 1,
 					places: 3,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 9,
 					shoes: shoes,
 					single_rating_after_race: 2.6,
@@ -479,7 +479,7 @@ def validate_joint_R2_C7_N1(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N1(favorite)")
 end
 
-def validate_joint_R2_C7_N4(runner_to_check, race_to_test)
+def validate_joint_R2_C7_N4(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -521,7 +521,7 @@ def validate_joint_R2_C7_N4(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 4,
 					places: 4,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 13,
 					shoes: shoes,
 					single_rating_after_race: 17.6,
@@ -538,7 +538,7 @@ def validate_joint_R2_C7_N4(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N4(12th)")
 end
 
-def validate_joint_R2_C7_N11(runner_to_check, race_to_test)
+def validate_joint_R2_C7_N11(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -580,7 +580,7 @@ def validate_joint_R2_C7_N11(runner_to_check, race_to_test)
 					load_ride: 61.0,
 					number: 11,
 					places: 6,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 19,
 					shoes: shoes,
 					single_rating_after_race: 93.6,
@@ -597,7 +597,7 @@ def validate_joint_R2_C7_N11(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N11(1st)")
 end
 
-def validate_joint_R2_C7_N12(runner_to_check, race_to_test)
+def validate_joint_R2_C7_N12(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_AUSTRALIENNES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -639,7 +639,7 @@ def validate_joint_R2_C7_N12(runner_to_check, race_to_test)
 					load_ride: 65.0,
 					number: 12,
 					places: 4,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 13,
 					shoes: shoes,
 					single_rating_after_race: 22.3,
@@ -656,7 +656,7 @@ def validate_joint_R2_C7_N12(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R2_C7_N12(favorite)")
 end
 
-def validate_joint_R1_C7_N1(runner_to_check, race_to_test)
+def validate_joint_R1_C7_N1(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
@@ -698,7 +698,7 @@ def validate_joint_R1_C7_N1(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 1,
 					places: 0,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 0,
 					shoes: shoes,
 					single_rating_after_race: 3.5,
@@ -716,7 +716,7 @@ def validate_joint_R1_C7_N1(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R1_C7_N1(favorite)")
 end
 
-def validate_joint_R1_C7_N3(runner_to_check, race_to_test)
+def validate_joint_R1_C7_N3(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
@@ -758,7 +758,7 @@ def validate_joint_R1_C7_N3(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 3,
 					places: 0,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 0,
 					shoes: shoes,
 					single_rating_after_race: 11.6,
@@ -776,7 +776,7 @@ def validate_joint_R1_C7_N3(runner_to_check, race_to_test)
 	validate_joint_runner(expected_runner, runner_to_check, "R1_C7_N3(1st)")
 end
 
-def validate_joint_R1_C7_N11(runner_to_check, race_to_test)
+def validate_joint_R1_C7_N11(runner_to_check)
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
@@ -818,7 +818,7 @@ def validate_joint_R1_C7_N11(runner_to_check, race_to_test)
 					load_ride: 0.0,
 					number: 11,
 					places: 1,
-					race: race_to_test,
+					# race: race_to_test,
 					races_run: 2,
 					shoes: shoes,
 					single_rating_after_race: 32.6,

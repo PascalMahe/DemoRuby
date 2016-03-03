@@ -28,7 +28,7 @@
 				normalised_result_match_rate
 			) VALUES (
 				-1, /* id_forecast */
-				-1, /* race */
+				-3, /* race */
 				-1, /* origin */
 				"Test Forecast 1 Expected result",
 				-1.1, /* result_match_rate */
@@ -105,7 +105,7 @@
 				"Test Jockey 1 jacket"
 			)'
 
- :meeting: 'INSERT INTO Meeting(
+ :meeting: 'INSERT INTO Meeting( /* Meeting for insertion of other data */
 				id_meeting,
 				id_track_condition,
 				id_job,
@@ -123,6 +123,26 @@
 				"01/01/2015", /* date */
 				-1, /* number */
 				"Test Meeting 1 racetrack"
+			)'
+
+ :meeting_solo: 'INSERT INTO Meeting( /* Meeting for selection of meeting */
+				id_meeting,
+				id_track_condition,
+				id_job,
+				id_weather,
+				country,				
+				date,
+				number,
+				racetrack
+			) VALUES (
+				-2, /* id_meeting */
+				-1, /* track_condition */
+				-1, /* job */
+				-1, /* weather */
+				"Test Meeting 2 country", /* country */
+				"02/02/2015", /* date */
+				-2, /* number */
+				"Test Meeting 2 racetrack"
 			)'
 
  :origin: 'INSERT INTO Origin(
@@ -201,6 +221,38 @@
 			-2, /* bets */ 
 			"Test Race 2 URL",
 			-2 /* value */ 
+		)'
+
+ :race_solo: 'INSERT INTO Race(
+			id_race,
+			id_meeting,
+			id_race_type,
+			bets,
+			detailed_conditions,
+			distance,
+			general_conditions,
+			name,
+			number,
+			result,
+			result_insertion_time,
+			time,
+			url,
+			value
+		) VALUES (
+			-3, /* id_race */
+			-1, /* id_meeting */
+			-1, /* id_race_type */
+			-3, /* bets */ 
+			"Test Race 3 detailed conditions",
+			-3, /* distance */
+			"Test Race 3 general conditions",
+			"Test Race 3 name",
+			-3, /* number */
+			"Test Race 3 result",
+			"03/03/2015 00:00:00", /* result_insertion_time */
+			"Test Race 3 time",
+			"Test Race 3 URL",
+			-3 /* value */ 
 		)'
 
  :runner_after_race: 'INSERT INTO Runner(
@@ -608,14 +660,14 @@
 				number,
 				racetrack
 			) VALUES (
-				-2, /* id_meeting */
+				-3, /* id_meeting */
 				-1, /* track_condition */
 				-2, /* job */
 				-1, /* weather */
-				"Test Meeting 2 country", /* country */
+				"Test Meeting 3 country", /* country */
 				"17/02/2016", /* date */
 				-1, /* number */
-				"Test Meeting 2 racetrack"
+				"Test Meeting 3 racetrack"
 			)'
 
  :owner: 'INSERT INTO Owner(
@@ -639,17 +691,17 @@
 				url,
 				value
 			) VALUES (
-				-3, /* id_race */
-				-2,/* meeting */
+				-4, /* id_race */
+				-4, /* meeting */
 				-1, /* race_type */
-				"Test Race 3 time",
-				-3, /* number */
-				"Test Race 3 name",
-				-3, /* distance */
-				"Test Race 3 detailed conditions",
-				-3, /* bets */ 
-				"Test Race 3 URL",
-				-3 /* value */ 
+				"Test Race 4 time",
+				-4, /* number */
+				"Test Race 4 name",
+				-4, /* distance */
+				"Test Race 4 detailed conditions",
+				-4, /* bets */ 
+				"Test Race 4 URL",
+				-4 /* value */ 
 			)'
 
  :runner_after_race: 'INSERT INTO Runner(
@@ -694,7 +746,7 @@
 				-1, /* id_jockey */
 				-4, /* id_horse */
 				-2, /* id_owner */
-				-3, /* id_race */
+				-4, /* id_race */
 				-1, /* id_shoes */
 				-1, /* id_trainer */
 				-1, /* age */

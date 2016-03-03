@@ -28,11 +28,11 @@ end
 class RefObjectContainer < Hash
 	
 	attr_accessor :class
-	attr_accessor :database_interface
-
-	def initialize(class_to_instanciate, database_interface)
+	attr_accessor :dbi_insert
+	
+	def initialize(class_to_instanciate, dbi_insert)
 		@class = class_to_instanciate
-		@database_interface = database_interface
+		@dbi_insert = dbi_insert
 	end
 	
 	# fetches from text
@@ -43,7 +43,7 @@ class RefObjectContainer < Hash
 			$globalState.logger.debug(self)
 			
 			ref_to_add = @class.new(text)
-			ref_to_add.id = @database_interface.insert_ref_object(@class, ref_to_add)
+			ref_to_add.id = @dbi_insert.insert_ref_object(@class, ref_to_add)
 			self[text] = ref_to_add
 			
 			

@@ -111,9 +111,9 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 		return tech_id
 	end
 	
-	def load_race_id(race)
+	def load_race_id(race, id_meeting)
 		values_hash = {
-			:id_meeting => race.meeting.id,
+			:id_meeting => id_meeting,
 			:number => race.number
 		}
 		row = execute_select_w_one_result(
@@ -128,9 +128,9 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 		return tech_id
 	end
 	
-	def load_runner_id(runner)
+	def load_runner_id(runner, id_race)
 		values_hash = {
-			:id_race => runner.race.id,
+			:id_race => id_race,
 			:number => runner.number
 		}
 		row = execute_select_w_one_result(

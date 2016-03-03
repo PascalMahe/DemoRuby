@@ -277,14 +277,14 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		)
 	end
 
-	def insert_race_with_result(race)
+	def insert_race_with_result(race, id_meeting)
 		
 		if race.race_type != nil then
 			race_type_id = race.race_type.id
 		end
 	
 		values_hash = {
-			:meeting => race.meeting.id, 
+			:meeting => id_meeting, 
 			:race_type => race_type_id,
 			:bets => race.bets,
 			:detailed_conditions => race.detailed_conditions,
@@ -306,9 +306,9 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		)
 	end
 
-	def insert_race_without_result(race)
+	def insert_race_without_result(race, id_meeting)
 		values_hash = {
-			:meeting => race.meeting.id, 
+			:meeting => id_meeting, 
 			:race_type => race.race_type.id,
 			:bets => race.bets,
 			:detailed_conditions => race.detailed_conditions,
@@ -328,7 +328,7 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		)
 	end
 
-	def insert_runner_after_race(runner)
+	def insert_runner_after_race(runner, id_race)
 		
 		# optional parameters that are objects
 		if runner.blinder != nil then
@@ -344,7 +344,7 @@ class DatabaseInterfaceInsert < DatabaseInterface
 			:horse => runner.horse.id,
 			:jockey => runner.jockey.id,
 			:owner => runner.owner.id,
-			:race => runner.race.id, 
+			:race => id_race, 
 			:shoes => shoes_id,
 			:trainer => runner.trainer.id, 
 			:age => runner.age,
@@ -381,7 +381,7 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		)
 	end
 
-	def insert_runner_before_race(runner)
+	def insert_runner_before_race(runner, id_race)
 	# no final_place, disqualified or single_rating_after_race
 		values_hash = {
 			:blinder => runner.blinder.id, 
@@ -389,7 +389,7 @@ class DatabaseInterfaceInsert < DatabaseInterface
 			:jockey => runner.jockey.id,
 			:horse => runner.horse.id,
 			:owner => runner.owner.id,
-			:race => runner.race.id, 
+			:race => id_race, 
 			:shoes => runner.shoes.id,
 			:trainer => runner.trainer.id, 
 			:age => runner.age,

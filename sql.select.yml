@@ -29,6 +29,7 @@
  :weight_by_id: "SELECT * FROM Weight WHERE id_weight = :id"
  
  # BUSINESS TABLES BY OTHER TECH ID
+ :race_by_meeting_id: "SELECT * FROM Race WHERE id_meeting = :id"
  :runner_by_race_id: "SELECT * FROM Runner WHERE id_race = :id"
  
  # BUSINESS IDs BY BUSINESS ID

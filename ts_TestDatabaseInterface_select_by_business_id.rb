@@ -132,12 +132,12 @@ class TestDatabaseInterfaceSelect < TestSuite
 		@logger.imp("Testing selection of Meeting ID")
 		begin
 			test_date = Date::new(2016, 02, 17)
-			test_racetrack = "Test Meeting 2 racetrack"
+			test_racetrack = "Test Meeting 3 racetrack"
 			meeting = Meeting::new(date: test_date, racetrack: test_racetrack)
 			selected_id = @dbi_select.load_meeting_id(meeting)
 			
 			# Checking value
-			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
+			assert_equal(selected_id, -3, "Wrong tech ID retrieved " +
 								 "while testing selection of Meeting ID")
 			
 			@logger.ok("Tests selection of Meeting ID OK.")
@@ -154,7 +154,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			selected_id = @dbi_select.load_owner_id(owner)
 			
 			# Checking value
-			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
+			assert_equal(-2, selected_id, "Wrong tech ID retrieved " +
 								 "while testing selection of Owner ID")
 			
 			@logger.ok("Tests selection of Owner ID OK.")
@@ -166,14 +166,14 @@ class TestDatabaseInterfaceSelect < TestSuite
 	def test_load_race_id
 		@logger.imp("Testing selection of Race ID")
 		begin
-			meeting_id = -2
+			meeting_id = -4
 			meeting = Meeting::new(id: meeting_id)
-			number = -3
-			race = Race::new(meeting: meeting, number: number)
-			selected_id = @dbi_select.load_race_id(race)
+			number = -4
+			race = Race::new(number: number)
+			selected_id = @dbi_select.load_race_id(race, meeting.id)
 			
 			# Checking value
-			assert_equal(selected_id, -3, "Wrong tech ID retrieved " +
+			assert_equal(-4, selected_id, "Wrong tech ID retrieved " +
 								 "while testing selection of Race ID")
 			
 			@logger.ok("Tests selection of Race ID OK.")
@@ -185,11 +185,11 @@ class TestDatabaseInterfaceSelect < TestSuite
 	def test_load_runner_id
 		@logger.imp("Testing selection of Runner ID")
 		begin
-			race_id = -3
+			race_id = -4
 			race = Race::new(id: race_id)
 			number = -3
-			runner = Runner::new(number: number, race: race)
-			selected_id = @dbi_select.load_runner_id(runner)
+			runner = Runner::new(number: number)
+			selected_id = @dbi_select.load_runner_id(runner, race.id)
 			
 			# Checking value
 			assert_equal(selected_id, -3, "Wrong tech ID retrieved " +

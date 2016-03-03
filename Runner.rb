@@ -25,7 +25,7 @@ class Runner
 	attr_accessor :number
 	attr_accessor :owner
 	attr_accessor :places
-	attr_accessor :race
+	# attr_accessor :race
 	attr_accessor :races_run
 	attr_accessor :shoes
 	attr_accessor :single_rating_after_race
@@ -61,7 +61,7 @@ class Runner
 			number: nil,
 			owner: nil,
 			places: nil,
-			race: nil,
+			# race: nil,
 			races_run: nil,
 			shoes: nil,
 			single_rating_after_race: nil,
@@ -96,7 +96,7 @@ class Runner
 		@number = number
 		@owner = owner
 		@places = places
-		@race = race
+		# @race = race
 		@races_run = races_run
 		@shoes = shoes
 		@single_rating_after_race = single_rating_after_race
@@ -183,9 +183,9 @@ class Runner
 		# int
 		@places = choose_good_int(@places, other_runner.places)
 		# object
-		if @race == nil then 
-			@race = other_runner.race 
-		end
+		# if @race == nil then 
+			# @race = other_runner.race 
+		# end
 		# int
 		@races_run = choose_good_int(@races_run, other_runner.races_run)
 		
@@ -272,7 +272,7 @@ class Runner
 		", number = " + nil_safe_to_s(number) +
 		", owner = " + nil_safe_to_s(owner) +
 		", places = " + nil_safe_to_s(places) +
-		", race = " + nil_safe_to_s(race) +
+		# ", race = " + nil_safe_to_s(race) +
 		", races_run = " + nil_safe_to_s(races_run) +
 		", single_rating_after_race = " + nil_safe_to_s(single_rating_after_race) +
 		", single_rating_before_race = " + nil_safe_to_s(single_rating_before_race) +
