@@ -23,7 +23,7 @@ class TestCrawler < TestSuite
 		end
 		@crawler = @@crawler
 		
-		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.level = SimpleHtmlLogger::INFO
 		
 		@test_start_time = Time.now()
 	end
@@ -95,7 +95,7 @@ class TestCrawler < TestSuite
 			# "s.)")
 	# end
 	
-	def test_fetch_meetings
+	def not_test_fetch_meetings
 		
 		@logger.imp("Testing fetch meetings")
 		begin
@@ -126,35 +126,35 @@ class TestCrawler < TestSuite
 			validate_R1(r1, job, date)
 			
 			r1_c7 = r1.race_list[6]
-			validate_race_R1_C7(r1_c7, r1)
+			validate_race_R1_C7(r1_c7)
 			
 			# R2
 			r2 = meeting_list[1]
 			validate_R2(r2, job, date)
 			
 			r2_c7 = r2.race_list[6]
-			validate_race_R2_C7(r2_c7, r2)
+			validate_race_R2_C7(r2_c7)
 			
 			# R3
 			r3 = meeting_list[2]
 			validate_R3(r3, job, date)
 			
 			r3_c1 = r3.race_list[0]
-			validate_race_R3_C1(r3_c1, r3)
+			validate_race_R3_C1(r3_c1)
 			
 			# R4
 			r4 = meeting_list[3]
 			validate_R4(r4, job, date)
 			
 			r4_c3 = r4.race_list[2]
-			validate_race_R4_C3(r4_c3, r4)
+			validate_race_R4_C3(r4_c3)
 			
 			# R5
 			r5 = meeting_list[0]
 			validate_R5(r5, job, date)
 			
 			r5_c5 = r5.race_list[4]
-			validate_race_R5_C5(r5_c5, r5)
+			validate_race_R5_C5(r5_c5)
 			
 		rescue Exception => err
 			log_flunking_test(err)
@@ -162,7 +162,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meetings OK.")
 	end
 	
-	def not_test_fetch_meeting_shallow
+	def test_fetch_meeting_shallow
 		
 		@logger.imp("Testing fetch meeting shallow")
 		test_start_time = Time.now()
@@ -219,7 +219,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meeting_shallow OK.")
 	end
 	
-	def not_test_fetch_meeting
+	def test_fetch_meeting
 		
 		@logger.imp("Testing fetch meeting")
 		test_start_time = Time.now()
@@ -237,22 +237,23 @@ class TestCrawler < TestSuite
 			
 			html_meeting_to_test = Meeting::new(urls_of_races_array: urls_of_races_array)
 			
-			assert_equal(0, html_meeting_to_test.race_list.size)
+			assert_equal(nil, html_meeting_to_test.race_list)
 			
 			# The function to test
 			meeting = @crawler.fetch_meeting(html_meeting_to_test)
 			
 			assert_equal(8, meeting.race_list.size)
-					rescue Exception => err
+		rescue Exception => err
 			log_flunking_test(err)
 		end
 		@logger.ok("Tests for fetch_meeting OK.")
 	end
 	
-	def not_test_fetch_race
+	def test_fetch_race
 		@logger.imp("Testing fetch race")
 		test_start_time = Time.now()
 		begin
+			@logger.level = SimpleHtmlLogger::DEBUG
 			# Setting up 
 			# -> Getting the page
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
@@ -287,7 +288,7 @@ class TestCrawler < TestSuite
 			meeting = Meeting::new(job: Job::new, weather: Weather:: new)
 			fetched_race = @crawler.fetch_race(url_to_race, meeting)
 			# @logger.debug("test_fetch_race - fetched_race: " + fetched_race.to_s)
-			validate_race_R1_C7(fetched_race, meeting)
+			validate_race_R1_C7(fetched_race)
 			
 			
 		rescue Exception => err
@@ -296,7 +297,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race OK.")
 	end
 	
-	def not_test_fetch_weather
+	def test_fetch_weather
 		
 		@logger.imp("Testing fetch weather")
 		test_start_time = Time.now()
@@ -344,7 +345,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_weather OK.")
 	end
 	
-	def not_test_join_runner_list_and_result_list
+	def test_join_runner_list_and_result_list
 		@logger.imp("Testing join runner list and result list")
 		test_start_time = Time.now()
 		begin
@@ -361,13 +362,13 @@ class TestCrawler < TestSuite
 			race_to_test.url = url
 			
 			# getting the runner_list 
-			result_list = @crawler.fetch_race_results(race_to_test)
+			result_list = @crawler.fetch_race_results()
 			
 			# go to runners' page
 			@crawler.go_to_runners_page()
 			
 			# getting the runner_list
-			list_runners = @crawler.fetch_list_runners(race_to_test)
+			list_runners = @crawler.fetch_list_runners()
 			
 			# Checking the data beforehand
 			# First place (no distance) & favorite
@@ -375,28 +376,32 @@ class TestCrawler < TestSuite
 			validate_result_R4_C5_N2(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[2]
-			validate_runner_R4_C5_N2(runner_from_list_runners, race_to_test)
+			# validate_runner_R4_C5_N2(runner_from_list_runners, race_to_test)
+			validate_runner_R4_C5_N2(runner_from_list_runners)
 			
 			# 10th Place (and  distance)
 			runner_from_result_list = result_list[5]
 			validate_result_R4_C5_N5(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[5]
-			validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
+			# validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
+			validate_runner_R4_C5_N5(runner_from_list_runners)
 			
 			# No Place (and no distance)
 			runner_from_result_list = result_list[4]
 			validate_result_R4_C5_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			validate_runner_R4_C5_N4(runner_from_list_runners, race_to_test)
+			# validate_runner_R4_C5_N4(runner_from_list_runners, race_to_test)
+			validate_runner_R4_C5_N4(runner_from_list_runners)
 			
 			# Non runner
 			runner_from_result_list = result_list[17]
 			validate_result_R4_C5_N17(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[17]
-			validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
+			# validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
+			validate_runner_R4_C5_N17(runner_from_list_runners)
 			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
@@ -404,19 +409,23 @@ class TestCrawler < TestSuite
 			# Checking the data aftwerward
 			
 			runner_to_check = joint_list[2]
-			validate_joint_R4_C5_N2(runner_to_check, race_to_test)
+			# validate_joint_R4_C5_N2(runner_to_check, race_to_test)
+			validate_joint_R4_C5_N2(runner_to_check)
 			
 			# 10th place (with distance)
 			runner_to_check = joint_list[5]
-			validate_joint_R4_C5_N5(runner_to_check, race_to_test)
+			# validate_joint_R4_C5_N5(runner_to_check, race_to_test)
+			validate_joint_R4_C5_N5(runner_to_check)
 			
 			# no place (and no distance)
 			runner_to_check = joint_list[4]
-			validate_joint_R4_C5_N4(runner_to_check, race_to_test)
+			# validate_joint_R4_C5_N4(runner_to_check, race_to_test)
+			validate_joint_R4_C5_N4(runner_to_check)
 			
 			# non runner
 			runner_to_check = joint_list[17]
-			validate_joint_R4_C5_N17(runner_to_check, race_to_test)
+			# validate_joint_R4_C5_N17(runner_to_check, race_to_test)
+			validate_joint_R4_C5_N17(runner_to_check)
 			
 			# Getting the second page
 			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1.htm"
@@ -429,34 +438,37 @@ class TestCrawler < TestSuite
 			race_to_test.url = url
 			
 			# getting the runner_list 
-			result_list = @crawler.fetch_race_results(race_to_test)
+			result_list = @crawler.fetch_race_results()
 			
 			# go to runners' page
 			@crawler.go_to_runners_page()
 			
 			# getting the runner_list
-			list_runners = @crawler.fetch_list_runners(race_to_test)
+			list_runners = @crawler.fetch_list_runners()
 			
 			# First
 			runner_from_result_list = result_list[5]
 			validate_result_R1_C1_N5(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[5]
-			validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C1_N5(runner_from_list_runners)
 			
 			# Favorite
 			runner_from_result_list = result_list[9]
 			validate_result_R1_C1_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[9]
-			validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C1_N4(runner_from_list_runners)
 			
 			# Disqualified
 			runner_from_result_list = result_list[4]
 			validate_result_R1_C1_N9(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C1_N9(runner_from_list_runners)
 			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
@@ -465,15 +477,18 @@ class TestCrawler < TestSuite
 			
 			# First place
 			runner_to_check = joint_list[5]
-			validate_joint_R1_C1_N5(runner_to_check, race_to_test)
+			# validate_joint_R1_C1_N5(runner_to_check, race_to_test)
+			validate_joint_R1_C1_N5(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[9]
-			validate_joint_R1_C1_N9(runner_to_check, race_to_test)
+			# validate_joint_R1_C1_N9(runner_to_check, race_to_test)
+			validate_joint_R1_C1_N9(runner_to_check)
 			
 			# Disqualified
 			runner_to_check = joint_list[4]
-			validate_joint_R1_C1_N4(runner_to_check, race_to_test)
+			# validate_joint_R1_C1_N4(runner_to_check, race_to_test)
+			validate_joint_R1_C1_N4(runner_to_check)
 			
 			# Third page : R2_C7 (no draw)
 			
@@ -487,13 +502,13 @@ class TestCrawler < TestSuite
 			race_to_test.url = url
 			
 			# getting the runner_list 
-			result_list = @crawler.fetch_race_results(race_to_test)
+			result_list = @crawler.fetch_race_results()
 			
 			# go to runners' page
 			@crawler.go_to_runners_page()
 			
 			# getting the runner_list
-			list_runners = @crawler.fetch_list_runners(race_to_test)
+			list_runners = @crawler.fetch_list_runners()
 			
 			# First
 			
@@ -501,28 +516,32 @@ class TestCrawler < TestSuite
 			validate_result_R2_C7_N11(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[11]
-			validate_runner_R2_C7_N11(runner_from_list_runners, race_to_test)
+			# validate_runner_R2_C7_N11(runner_from_list_runners, race_to_test)
+			validate_runner_R2_C7_N11(runner_from_list_runners)
 			
 			# Favorite
 			runner_from_result_list = result_list[1]
 			validate_result_R2_C7_N1(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[1]
-			validate_runner_R2_C7_N1(runner_from_list_runners, race_to_test)
+			# validate_runner_R2_C7_N1(runner_from_list_runners, race_to_test)
+			validate_runner_R2_C7_N1(runner_from_list_runners)
 			
 			# Substitute
 			runner_from_result_list = result_list[12]
 			validate_result_R2_C7_N12(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[12]
-			validate_runner_R2_C7_N12(runner_from_list_runners, race_to_test)
+			# validate_runner_R2_C7_N12(runner_from_list_runners, race_to_test)
+			validate_runner_R2_C7_N12(runner_from_list_runners)
 			
 			# 12th place
 			runner_from_result_list = result_list[4]
 			validate_result_R2_C7_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			validate_runner_R2_C7_N4(runner_from_list_runners, race_to_test)
+			# validate_runner_R2_C7_N4(runner_from_list_runners, race_to_test)
+			validate_runner_R2_C7_N4(runner_from_list_runners)
 			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
@@ -531,15 +550,18 @@ class TestCrawler < TestSuite
 			
 			# First place
 			runner_to_check = joint_list[11]
-			validate_joint_R2_C7_N11(runner_to_check, race_to_test)
+			# validate_joint_R2_C7_N11(runner_to_check, race_to_test)
+			validate_joint_R2_C7_N11(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[1]
-			validate_joint_R2_C7_N1(runner_to_check, race_to_test)
+			# validate_joint_R2_C7_N1(runner_to_check, race_to_test)
+			validate_joint_R2_C7_N1(runner_to_check)
 			
 			# Substitute
 			runner_to_check = joint_list[12]
-			validate_joint_R2_C7_N12(runner_to_check, race_to_test)
+			# validate_joint_R2_C7_N12(runner_to_check, race_to_test)
+			validate_joint_R2_C7_N12(runner_to_check)
 			
 			# 12th place
 			runner_to_check = joint_list[4]
@@ -556,34 +578,40 @@ class TestCrawler < TestSuite
 			race_to_test.url = url
 			
 			# getting the runner_list 
-			result_list = @crawler.fetch_race_results(race_to_test)
+			result_list = @crawler.fetch_race_results()
 			
 			# go to runners' page
 			@crawler.go_to_runners_page()
 			
 			# getting the runner_list
-			list_runners = @crawler.fetch_list_runners(race_to_test)
+			list_runners = @crawler.fetch_list_runners()
 			
+			@logger.level = SimpleHtmlLogger::DEBUG
+			@logger.debug("test_join_runner_list_and_result_list - " + 
+				"result_list.size = " + result_list.size)
 			# First place
 			runner_from_result_list = result_list[3]
 			validate_result_R1_C7_N3(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[3]
-			validate_runner_R1_C7_N3(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C7_N3(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C7_N3(runner_from_list_runners)
 			
 			# Favorite
 			runner_from_result_list = result_list[1]
 			validate_result_R1_C7_N1(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[1]
-			validate_runner_R1_C7_N1(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C7_N1(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C7_N1(runner_from_list_runners)
 			
 			# Disqualified
 			runner_from_result_list = result_list[11]
 			validate_result_R1_C7_N11(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[11]
-			validate_runner_R1_C7_N11(runner_from_list_runners, race_to_test)
+			# validate_runner_R1_C7_N11(runner_from_list_runners, race_to_test)
+			validate_runner_R1_C7_N11(runner_from_list_runners)
 			
 			# Joining the lists
 			joint_list = @crawler.join_runner_list_and_result_list(list_runners, result_list)
@@ -592,15 +620,18 @@ class TestCrawler < TestSuite
 			
 			# First place
 			runner_to_check = joint_list[3]
-			validate_joint_R1_C7_N3(runner_to_check, race_to_test)
+			# validate_joint_R1_C7_N3(runner_to_check, race_to_test)
+			validate_joint_R1_C7_N3(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[1]
-			validate_joint_R1_C7_N1(runner_to_check, race_to_test)
+			# validate_joint_R1_C7_N1(runner_to_check, race_to_test)
+			validate_joint_R1_C7_N1(runner_to_check)
 			
 			# Disqualified		
 			runner_to_check = joint_list[11]
-			validate_joint_R1_C7_N11(runner_to_check, race_to_test)
+			# validate_joint_R1_C7_N11(runner_to_check, race_to_test)
+			validate_joint_R1_C7_N11(runner_to_check)
 			
 		rescue Exception => err
 			log_flunking_test(err)
@@ -608,7 +639,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for join_runner_list_and_result_list OK.")
 	end
 	
-	def not_test_get_column_map()
+	def test_get_column_map()
 		
 		@logger.imp("Testing getting the right column map")
 		test_start_time = Time.now()
@@ -670,7 +701,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for get_column_map OK.")
 	end
 	
-	def not_test_fetch_runners
+	def test_fetch_runners
 		
 		@logger.imp("Testing fetch runners")
 		test_start_time = Time.now()
@@ -696,7 +727,8 @@ class TestCrawler < TestSuite
 			
 			# is_favorite
 			runner_to_check = runner_list[2]
-			validate_joint_R4_C5_N2(runner_to_check, race_to_test)
+			# validate_joint_R4_C5_N2(runner_to_check, race_to_test)
+			validate_joint_R4_C5_N2(runner_to_check)
 			
 			
 			# is between 1 and 10
@@ -711,7 +743,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_runners OK.")
 	end
 	
-	def not_test_fetch_runners_shallow
+	def test_fetch_runners_shallow
 		
 		@logger.imp("Testing fetch runners shallow")
 		test_start_time = Time.now()
@@ -720,11 +752,11 @@ class TestCrawler < TestSuite
 			# -> Getting the first race (with distance)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C3_runners.htm")
 			
-			race_to_test = Race::new() # R4_C3
+			# race_to_test = Race::new() # R4_C3
 			runner = nil
 			
 			# the function to test
-			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			runner_hash = @crawler.fetch_runners_shallow()
 			
 			# Checking we did get a list and the right one
 			assert("Runner list is nil", runner_hash != nil)
@@ -749,7 +781,7 @@ class TestCrawler < TestSuite
 								load_handicap: 60.5,
 								load_ride: 0.0,
 								number: 1,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""],
 								url: "")
@@ -771,7 +803,7 @@ class TestCrawler < TestSuite
 								load_handicap: 0.0,
 								load_ride: 0.0,
 								number: 8,			
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								shoes: @ref_list_hash[:ref_shoes_list][""],
 								url: "")
@@ -780,10 +812,10 @@ class TestCrawler < TestSuite
 			# -> Getting the second race (with time)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7_runners.htm")
 			
-			race_to_test = Race::new() # R1_C7
+			# race_to_test = Race::new() # R1_C7
 			
 			# the function to test
-			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			runner_hash = @crawler.fetch_runners_shallow()
 			
 			# Checking we did get a list and the right one
 			assert_equal(12, runner_hash.size, "Wrong number of runners fetched")
@@ -804,7 +836,7 @@ class TestCrawler < TestSuite
 								load_handicap: 0.0,
 								load_ride: 0.0,
 								number: 9,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: 2100,
@@ -827,7 +859,7 @@ class TestCrawler < TestSuite
 								load_handicap: 0.0,
 								load_ride: 0.0,
 								number: 3,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: 2100,
@@ -849,7 +881,7 @@ class TestCrawler < TestSuite
 								load_handicap: 0.0,
 								load_ride: 0.0,
 								number: 11,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: 2100,
@@ -860,10 +892,10 @@ class TestCrawler < TestSuite
 			# -> Getting the third race (without draw)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
 			
-			race_to_test = Race::new() # R2_C8
+			# race_to_test = Race::new() # R2_C8
 			
 			# the function to test
-			runner_hash = @crawler.fetch_runners_shallow(race_to_test)
+			runner_hash = @crawler.fetch_runners_shallow()
 			
 			# Checking we did get a list and the right one
 			assert_equal(11, runner_hash.size, "Wrong number of runners fetched")
@@ -883,7 +915,7 @@ class TestCrawler < TestSuite
 								load_handicap: 66,
 								load_ride: 64,
 								number: 8,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: nil,
@@ -905,7 +937,7 @@ class TestCrawler < TestSuite
 								load_handicap: 66,
 								load_ride: 64,
 								number: 9,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: nil,
@@ -929,7 +961,7 @@ class TestCrawler < TestSuite
 								load_handicap: 67,
 								load_ride: 0.0,
 								number: 4,
-								race: race_to_test,
+								# race: race_to_test,
 								single_rating_before_race: 0.0,
 								url: "",
 								distance: nil,
@@ -943,7 +975,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_runners_shallow OK.")
 	end
 	
-	def not_test_fetch_race_results()
+	def test_fetch_race_results()
 		
 		@logger.imp("Testing fetch race results")
 		test_start_time = DateTime.now()
@@ -957,7 +989,7 @@ class TestCrawler < TestSuite
 			runner = nil
 			
 			# the function to test
-			runner_hash = @crawler.fetch_race_results(race_to_test)
+			runner_hash = @crawler.fetch_race_results()
 			
 			# Checking we did get a list and the right one
 			assert("Runner list is nil", runner_hash != nil)
@@ -1046,7 +1078,7 @@ class TestCrawler < TestSuite
 			race_to_test = Race::new() # R3_C1
 			
 			# the function to test
-			runner_hash = @crawler.fetch_race_results(race_to_test)
+			runner_hash = @crawler.fetch_race_results()
 			
 			# Checking we did get a list and the right one
 			assert_equal(14, runner_hash.size)
@@ -1098,7 +1130,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race_results OK.")
 	end
 	
-	def not_test_fetch_runner()
+	def test_fetch_runner()
 		
 		@logger.imp("Testing fetch runner")
 		test_start_time = Time.now()
@@ -1111,7 +1143,7 @@ class TestCrawler < TestSuite
 			runner = nil
 			
 			# fetching the hash of runners (to get the URLs)
-			runner_results_hash = @crawler.fetch_race_results(race_to_test)
+			runner_results_hash = @crawler.fetch_race_results()
 			
 			# Checking we did get a list and the right one
 			assert("Runner list is nil", runner_results_hash != nil)
@@ -1119,7 +1151,7 @@ class TestCrawler < TestSuite
 			
 			# fetching the runners' shallow data (as if we're in the fetch_runners function)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4_runners.htm")
-			runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
+			runner_shallow_hash = @crawler.fetch_runners_shallow()
 			
 			assert_equal(17, runner_shallow_hash.size, "Wrong number of runners shallow fetched")
 			
@@ -1214,7 +1246,7 @@ class TestCrawler < TestSuite
 			runner = nil
 			
 			# fetching the hash of runners (to get the URLs)
-			runner_results_hash = @crawler.fetch_race_results(race_to_test)
+			runner_results_hash = @crawler.fetch_race_results()
 			
 			# Checking we did get a list and the right one
 			assert("Runner list is nil", runner_results_hash != nil)
@@ -1222,7 +1254,7 @@ class TestCrawler < TestSuite
 			
 			# fetching the runners' shallow data (as if we're in the fetch_runners function)
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8_runners.htm")
-			runner_shallow_hash = @crawler.fetch_runners_shallow(race_to_test)
+			runner_shallow_hash = @crawler.fetch_runners_shallow()
 			
 			# putting each runner's URL
 			runner_shallow_hash.each do |key, shallow_runner|
