@@ -9,15 +9,11 @@ require './validation-core.rb'
 class TestDatabaseInterfaceDelete < TestSuite
 	
 	def setup
-		@logger = $globalState.logger
-		@config = $globalState.config
-		@dbi_select = $globalState.dbi_select_by_tech_id
-		@dbi_update = $globalState.dbi_update
-		if(@ref_list_hash == nil) then 
-			@ref_list_hash = @dbi_select.load_all_refs
-		end
-		
-		@logger.level = SimpleHtmlLogger::INFO
+		testSetup()
+	end
+	
+	def teardown
+		testTearDown()
 	end
 	
 	##################
@@ -28,7 +24,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 		@logger.imp("Testing update of Forecast with match rate")
 		begin
 			test_id = -10 # forecast without match rate
-			selected_forecast = @dbi_select.load_forecast_by_id(test_id)
+			selected_forecast = @dbi_select_tech.load_forecast_by_id(test_id)
 			
 			# check that there is no match rate
 			assert_equal("Test Forecast 10 update Expected result", selected_forecast.expected_result)
@@ -43,7 +39,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			@dbi_update.update_forecast_with_match_rate(selected_forecast)
 			
 			# reload and check
-			updated_forecast = @dbi_select.load_forecast_by_id(test_id)
+			updated_forecast = @dbi_select_tech.load_forecast_by_id(test_id)
 			
 			assert_equal(selected_forecast.expected_result, 				updated_forecast.expected_result)
 			assert_equal(selected_forecast.result_match_rate, 				updated_forecast.result_match_rate)
@@ -60,7 +56,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 		@logger.imp("Testing update of Race with results")
 		begin
 			test_id = -10 # race without results
-			selected_race = @dbi_select.load_race_by_id(test_id)
+			selected_race = @dbi_select_tech.load_race_by_id(test_id)
 			
 			# check that there is no match rate
 			# Checking value
@@ -69,7 +65,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 				bets: -10,
 				detailed_conditions: "Test Race 10 update detailed conditions",
 				distance: -10,
-				# meeting: @dbi_select.load_meeting_by_id(-1),
+				# meeting: @dbi_select_tech.load_meeting_by_id(-1),
 				name: "Test Race 10 update name",
 				number: -10,
 				time: "Test Race 10 update time",
@@ -89,7 +85,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			@dbi_update.update_race_with_result(selected_race)
 			
 			# reload and check
-			updated_race = @dbi_select.load_race_by_id(test_id)
+			updated_race = @dbi_select_tech.load_race_by_id(test_id)
 			
 			validate_race(selected_race, updated_race, "update of Race (with results), updated race")
 			
@@ -105,7 +101,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 		
 		begin
 			test_id = -10 # runner without final place
-			selected_runner = @dbi_select.load_runner_by_id(test_id)
+			selected_runner = @dbi_select_tech.load_runner_by_id(test_id)
 			
 			# check that there is no final_place
 			# Checking value
@@ -152,7 +148,7 @@ class TestDatabaseInterfaceDelete < TestSuite
 			@dbi_update.update_runner_after_race(selected_runner) 
 			
 			# reload and check
-			updated_runner = @dbi_select.load_runner_by_id(test_id)
+			updated_runner = @dbi_select_tech.load_runner_by_id(test_id)
 			
 			assert_equal(selected_runner.blinder.id, 				updated_runner.blinder.id) 
 			assert_equal(selected_runner.breeder.id,				updated_runner.breeder.id)

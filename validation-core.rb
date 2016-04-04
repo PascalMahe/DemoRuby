@@ -9,10 +9,14 @@ def log_flunking_test(err)
  	flunk(final_message)
 end
 
+def validate_blinder(expected_blinder, actual_blinder, str_blinder_identifier)
+	validate_ref(expected_blinder, actual_blinder, "Blinder " + str_blinder_identifier)
+end
+
 def validate_breeder(expected_breeder, actual_breeder, str_breeder_identifier)
 	assert_equal(expected_breeder.id, 	actual_breeder.id,		"Wrong id for " + str_breeder_identifier)
 	assert_equal(expected_breeder.name,	actual_breeder.name,	"Wrong name for " + str_breeder_identifier)
-end
+end	
 
 def validate_horse(expected_horse, actual_horse, str_horse_identifier)
 
@@ -144,6 +148,11 @@ def validate_race(expected_race,
 	@logger.ok("Tests for " + str_race_identifier + " OK.")
 end
 
+def validate_ref(expected_ref, actual_ref, str_ref_identifier)	
+	assert_equal(expected_ref.id, 	actual_ref.id,		"Wrong id for " + str_ref_identifier)
+	assert_equal(expected_ref.text,	actual_ref.text,	"Wrong text for " + str_ref_identifier)
+end
+
 def validate_time(expected_time, actual_time, str_time_identifier, str_test_identifier)
 	if expected_time != nil then
 		assert_operator(actual_time, :!=, nil, "Wrong " + str_time_identifier + " for " + str_test_identifier + " (should not be nil)")
@@ -166,7 +175,6 @@ def validate_time(expected_time, actual_time, str_time_identifier, str_test_iden
 	else
 		assert_equal(nil, actual_time, 	"Wrong " + str_time_identifier + " for " + str_test_identifier + " (should be nil)")		
 	end
-	
 end
 
 def validate_trainer(expected_trainer, actual_trainer, str_trainer_identifier)

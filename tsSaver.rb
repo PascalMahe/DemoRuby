@@ -7,26 +7,11 @@ require 'json'
 class TestSaver < TestSuite
 	
 	def setup
-		@logger = $globalState.logger
-		@config = $globalState.config
-		@dbi_insert = $globalState.dbi_insert
-		@dbi_select_tech = $globalState.dbi_select_by_tech_id
-		@dbi_select_biz = $globalState.dbi_select_by_business_id
-		@ref_list_hash = @dbi_select_tech.load_all_refs
-		
-		@test_start_time = Time.now()
+		testSetup()
 	end
 	
 	def teardown
-		test_end_time = Time.now()
-		
-		test_duration_in_s = test_end_time - @test_start_time
-		@logger.ok("(Test took " + 
-			format_time_diff(test_duration_in_s) + 
-			".)")
-	
-		@logger.debug("Teardown")
-		@logger.level = SimpleHtmlLogger::INFO
+		testTearDown()
 	end
 	
 	############################

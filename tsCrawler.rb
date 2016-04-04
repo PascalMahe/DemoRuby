@@ -9,47 +9,18 @@ require './validation-runner-result.rb'
 
 class TestCrawler < TestSuite
 	
-	@@crawler = nil
-	
 	def setup
-		@logger = $globalState.logger
-		@config = $globalState.config
-		@dbi_select = $globalState.dbi_select_by_tech_id
-		@ref_list_hash = @dbi_select.load_all_refs
-				
-		if @@crawler == nil then
-			@logger.info("Creating crawler for test.")
-			@@crawler = Crawler::new(@logger, @ref_list_hash, @config)
-		end
-		@crawler = @@crawler
-		
-		@logger.level = SimpleHtmlLogger::INFO
-		
-		@test_start_time = Time.now()
+		testSetup()
 	end
 	
 	def teardown
-		test_end_time = Time.now()
-		
-		test_duration_in_s = test_end_time - @test_start_time
-		
-		# @logger.debug("teardown - test_start_time : " + @test_start_time.to_s)
-		# @logger.debug("teardown - test_end_time : " + test_end_time.to_s)
-		# @logger.debug("teardown - test_duration_in_s : " + test_duration_in_s.to_s)
-		@logger.ok("(Test took " + 
-			format_time_diff(test_duration_in_s) + 
-			".)")
-	
-		@logger.debug("Teardown")
-		# @crawler.close_driver()
-		@logger.level = SimpleHtmlLogger::INFO
+		testTearDown()
 	end
-	
 	
 	##################
 	#      Tests     #
 	##################
-	# def testcrawl
+	# def not_testcrawl
 		
 		# @logger.imp("Testing fetch meetings")
 		# test_start_time = Time.now()
@@ -95,7 +66,7 @@ class TestCrawler < TestSuite
 			# "s.)")
 	# end
 	
-	def not_test_fetch_meetings
+	def sill_not_test_fetch_meetings
 		
 		@logger.imp("Testing fetch meetings")
 		begin
@@ -162,7 +133,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meetings OK.")
 	end
 	
-	def test_fetch_meeting_shallow
+	def not_test_fetch_meeting_shallow
 		
 		@logger.imp("Testing fetch meeting shallow")
 		test_start_time = Time.now()
@@ -219,7 +190,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meeting_shallow OK.")
 	end
 	
-	def test_fetch_meeting
+	def not_test_fetch_meeting
 		
 		@logger.imp("Testing fetch meeting")
 		test_start_time = Time.now()
@@ -253,7 +224,6 @@ class TestCrawler < TestSuite
 		@logger.imp("Testing fetch race")
 		test_start_time = Time.now()
 		begin
-			@logger.level = SimpleHtmlLogger::DEBUG
 			# Setting up 
 			# -> Getting the page
 			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
@@ -297,7 +267,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race OK.")
 	end
 	
-	def test_fetch_weather
+	def not_test_fetch_weather
 		
 		@logger.imp("Testing fetch weather")
 		test_start_time = Time.now()
@@ -345,7 +315,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_weather OK.")
 	end
 	
-	def test_join_runner_list_and_result_list
+	def not_test_join_runner_list_and_result_list
 		@logger.imp("Testing join runner list and result list")
 		test_start_time = Time.now()
 		begin
@@ -376,7 +346,6 @@ class TestCrawler < TestSuite
 			validate_result_R4_C5_N2(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[2]
-			# validate_runner_R4_C5_N2(runner_from_list_runners, race_to_test)
 			validate_runner_R4_C5_N2(runner_from_list_runners)
 			
 			# 10th Place (and  distance)
@@ -384,7 +353,6 @@ class TestCrawler < TestSuite
 			validate_result_R4_C5_N5(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[5]
-			# validate_runner_R4_C5_N5(runner_from_list_runners, race_to_test)
 			validate_runner_R4_C5_N5(runner_from_list_runners)
 			
 			# No Place (and no distance)
@@ -392,7 +360,6 @@ class TestCrawler < TestSuite
 			validate_result_R4_C5_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			# validate_runner_R4_C5_N4(runner_from_list_runners, race_to_test)
 			validate_runner_R4_C5_N4(runner_from_list_runners)
 			
 			# Non runner
@@ -400,7 +367,6 @@ class TestCrawler < TestSuite
 			validate_result_R4_C5_N17(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[17]
-			# validate_runner_R4_C5_N17(runner_from_list_runners, race_to_test)
 			validate_runner_R4_C5_N17(runner_from_list_runners)
 			
 			# Joining the lists
@@ -409,22 +375,18 @@ class TestCrawler < TestSuite
 			# Checking the data aftwerward
 			
 			runner_to_check = joint_list[2]
-			# validate_joint_R4_C5_N2(runner_to_check, race_to_test)
 			validate_joint_R4_C5_N2(runner_to_check)
 			
 			# 10th place (with distance)
 			runner_to_check = joint_list[5]
-			# validate_joint_R4_C5_N5(runner_to_check, race_to_test)
 			validate_joint_R4_C5_N5(runner_to_check)
 			
 			# no place (and no distance)
 			runner_to_check = joint_list[4]
-			# validate_joint_R4_C5_N4(runner_to_check, race_to_test)
 			validate_joint_R4_C5_N4(runner_to_check)
 			
 			# non runner
 			runner_to_check = joint_list[17]
-			# validate_joint_R4_C5_N17(runner_to_check, race_to_test)
 			validate_joint_R4_C5_N17(runner_to_check)
 			
 			# Getting the second page
@@ -451,7 +413,6 @@ class TestCrawler < TestSuite
 			validate_result_R1_C1_N5(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[5]
-			# validate_runner_R1_C1_N5(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C1_N5(runner_from_list_runners)
 			
 			# Favorite
@@ -459,7 +420,6 @@ class TestCrawler < TestSuite
 			validate_result_R1_C1_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[9]
-			# validate_runner_R1_C1_N4(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C1_N4(runner_from_list_runners)
 			
 			# Disqualified
@@ -467,7 +427,6 @@ class TestCrawler < TestSuite
 			validate_result_R1_C1_N9(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			# validate_runner_R1_C1_N9(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C1_N9(runner_from_list_runners)
 			
 			# Joining the lists
@@ -477,17 +436,14 @@ class TestCrawler < TestSuite
 			
 			# First place
 			runner_to_check = joint_list[5]
-			# validate_joint_R1_C1_N5(runner_to_check, race_to_test)
 			validate_joint_R1_C1_N5(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[9]
-			# validate_joint_R1_C1_N9(runner_to_check, race_to_test)
 			validate_joint_R1_C1_N9(runner_to_check)
 			
 			# Disqualified
 			runner_to_check = joint_list[4]
-			# validate_joint_R1_C1_N4(runner_to_check, race_to_test)
 			validate_joint_R1_C1_N4(runner_to_check)
 			
 			# Third page : R2_C7 (no draw)
@@ -516,7 +472,6 @@ class TestCrawler < TestSuite
 			validate_result_R2_C7_N11(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[11]
-			# validate_runner_R2_C7_N11(runner_from_list_runners, race_to_test)
 			validate_runner_R2_C7_N11(runner_from_list_runners)
 			
 			# Favorite
@@ -524,7 +479,6 @@ class TestCrawler < TestSuite
 			validate_result_R2_C7_N1(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[1]
-			# validate_runner_R2_C7_N1(runner_from_list_runners, race_to_test)
 			validate_runner_R2_C7_N1(runner_from_list_runners)
 			
 			# Substitute
@@ -532,7 +486,6 @@ class TestCrawler < TestSuite
 			validate_result_R2_C7_N12(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[12]
-			# validate_runner_R2_C7_N12(runner_from_list_runners, race_to_test)
 			validate_runner_R2_C7_N12(runner_from_list_runners)
 			
 			# 12th place
@@ -540,7 +493,6 @@ class TestCrawler < TestSuite
 			validate_result_R2_C7_N4(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[4]
-			# validate_runner_R2_C7_N4(runner_from_list_runners, race_to_test)
 			validate_runner_R2_C7_N4(runner_from_list_runners)
 			
 			# Joining the lists
@@ -550,17 +502,14 @@ class TestCrawler < TestSuite
 			
 			# First place
 			runner_to_check = joint_list[11]
-			# validate_joint_R2_C7_N11(runner_to_check, race_to_test)
 			validate_joint_R2_C7_N11(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[1]
-			# validate_joint_R2_C7_N1(runner_to_check, race_to_test)
 			validate_joint_R2_C7_N1(runner_to_check)
 			
 			# Substitute
 			runner_to_check = joint_list[12]
-			# validate_joint_R2_C7_N12(runner_to_check, race_to_test)
 			validate_joint_R2_C7_N12(runner_to_check)
 			
 			# 12th place
@@ -586,15 +535,14 @@ class TestCrawler < TestSuite
 			# getting the runner_list
 			list_runners = @crawler.fetch_list_runners()
 			
-			@logger.level = SimpleHtmlLogger::DEBUG
+			# @logger.level = SimpleHtmlLogger::DEBUG
 			@logger.debug("test_join_runner_list_and_result_list - " + 
-				"result_list.size = " + result_list.size)
+				"result_list.size = " + result_list.size.to_s)
 			# First place
 			runner_from_result_list = result_list[3]
 			validate_result_R1_C7_N3(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[3]
-			# validate_runner_R1_C7_N3(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C7_N3(runner_from_list_runners)
 			
 			# Favorite
@@ -602,7 +550,6 @@ class TestCrawler < TestSuite
 			validate_result_R1_C7_N1(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[1]
-			# validate_runner_R1_C7_N1(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C7_N1(runner_from_list_runners)
 			
 			# Disqualified
@@ -610,7 +557,6 @@ class TestCrawler < TestSuite
 			validate_result_R1_C7_N11(runner_from_result_list)
 			
 			runner_from_list_runners = list_runners[11]
-			# validate_runner_R1_C7_N11(runner_from_list_runners, race_to_test)
 			validate_runner_R1_C7_N11(runner_from_list_runners)
 			
 			# Joining the lists
@@ -621,16 +567,15 @@ class TestCrawler < TestSuite
 			# First place
 			runner_to_check = joint_list[3]
 			# validate_joint_R1_C7_N3(runner_to_check, race_to_test)
+			
 			validate_joint_R1_C7_N3(runner_to_check)
 			
 			# Favorite
 			runner_to_check = joint_list[1]
-			# validate_joint_R1_C7_N1(runner_to_check, race_to_test)
 			validate_joint_R1_C7_N1(runner_to_check)
 			
 			# Disqualified		
 			runner_to_check = joint_list[11]
-			# validate_joint_R1_C7_N11(runner_to_check, race_to_test)
 			validate_joint_R1_C7_N11(runner_to_check)
 			
 		rescue Exception => err
@@ -639,7 +584,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for join_runner_list_and_result_list OK.")
 	end
 	
-	def test_get_column_map()
+	def not_test_get_column_map()
 		
 		@logger.imp("Testing getting the right column map")
 		test_start_time = Time.now()
@@ -701,7 +646,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for get_column_map OK.")
 	end
 	
-	def test_fetch_runners
+	def not_test_fetch_runners
 		
 		@logger.imp("Testing fetch runners")
 		test_start_time = Time.now()
@@ -743,7 +688,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_runners OK.")
 	end
 	
-	def test_fetch_runners_shallow
+	def not_test_fetch_runners_shallow
 		
 		@logger.imp("Testing fetch runners shallow")
 		test_start_time = Time.now()
@@ -975,7 +920,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_runners_shallow OK.")
 	end
 	
-	def test_fetch_race_results()
+	def test_fetch_a_race_results()
 		
 		@logger.imp("Testing fetch race results")
 		test_start_time = DateTime.now()
@@ -1130,7 +1075,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race_results OK.")
 	end
 	
-	def test_fetch_runner()
+	def not_test_fetch_runner()
 		
 		@logger.imp("Testing fetch runner")
 		test_start_time = Time.now()
@@ -1175,7 +1120,6 @@ class TestCrawler < TestSuite
 			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 			coat = @ref_list_hash[:ref_coat_list][""]
 			sex = @ref_list_hash[:ref_sex_list]["F"]
-			
 			father = Horse::new(name: "antonius pius")
 			grand_father = Horse::new(name: "goldkeeper")
 			mother = Horse::new(name: "cherry flower", father: grand_father)
@@ -1209,7 +1153,7 @@ class TestCrawler < TestSuite
 			# runner without earnings, victories or places
 			breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
 			coat = @ref_list_hash[:ref_coat_list][""]
-			
+						
 			father = Horse::new(name: "casey tibbs")
 			grand_father = Horse::new(name: "dahar")
 			mother = Horse::new(name: "dahlia's legacy", father: grand_father)

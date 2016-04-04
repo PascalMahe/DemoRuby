@@ -32,6 +32,17 @@ def format_time_diff(sec_with_frac)
 	return tDif.strftime(format) + " " + suffix
 end
 
+def log_object_and_ref(obj)
+	logger = $globalState.logger
+	level_before = logger.level
+	logger.level = SimpleHtmlLogger::DEBUG
+	
+	logger.debug("Currently inside a : " + obj.class.to_s)
+	logger.debug("Current @ref_list_hash : " + obj.ref_list_hash.to_s)
+	
+	logger.level = level_before
+end
+
 class GlobalState
 	attr_accessor :config
 	attr_accessor :logger

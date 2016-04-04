@@ -1,194 +1,301 @@
 ﻿require './TestSuite.rb'
 require './ref.rb'
-require './environnment.rb'
-require './prediction.rb'
-require './people.rb'
-require './Runner.rb'
 require './validation-core.rb'
 
-class TestDatabaseInterfaceDelete < TestSuite
+class TestRef < TestSuite
 	
 	def setup
-		@logger = $globalState.logger
-		@config = $globalState.config
-		@dbi_select = $globalState.dbi_select_by_tech_id
-		@dbi_update = $globalState.dbi_update
-		if(@ref_list_hash == nil) then 
-			@ref_list_hash = @dbi_select.load_all_refs
-		end
-		
-		@logger.level = SimpleHtmlLogger::INFO
+		testSetup()
+	end
+	
+	def teardown
+		testTearDown()
 	end
 	
 	##################
 	#      Tests     #
 	##################
-	def test_update_forecast_with_match_rate
-		
-		@logger.imp("Testing update of Forecast with match rate")
+	def test_load_all_refs
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.imp("Testing loading all reference objects")
 		begin
-			test_id = -10 # forecast without match rate
-			selected_forecast = @dbi_select.load_forecast_by_id(test_id)
+			ref_list = @dbi_select.load_all_refs
 			
-			# check that there is no match rate
-			assert_equal("Test Forecast 10 update Expected result", selected_forecast.expected_result)
-			assert_equal(nil, 										selected_forecast.result_match_rate)
-			assert_equal(nil, 										selected_forecast.normalised_result_match_rate)
+			assert_equal(9, ref_list.size, "Wrong number of refObjectContainer loaded")
 			
-			# put match rate in
-			selected_forecast.result_match_rate = -10.2
-			selected_forecast.normalised_result_match_rate = -10.2
+			@logger.debug("test_load_all_refs - list_blinder.size = " + 
+							ref_list[:ref_blinder_list].to_s)
+			expected_ref_blinder_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_blinder])
+			assert_equal(expected_ref_blinder_list_size, 
+						ref_list[:ref_blinder_list].size,
+						"Wrong number of RefBlinder loaded by load_all_refs")
 			
-			# call update method
-			@dbi_update.update_forecast_with_match_rate(selected_forecast)
+			expected_ref_breed_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_breed])
+			assert_equal(expected_ref_breed_list_size, 
+						ref_list[:ref_breed_list].size,
+						"Wrong number of RefBreed loaded by load_all_refs")
 			
-			# reload and check
-			updated_forecast = @dbi_select.load_forecast_by_id(test_id)
+			expected_ref_coat_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_coat])
+			assert_equal(expected_ref_coat_list_size, 
+						ref_list[:ref_coat_list].size,
+						"Wrong number of RefCoat loaded by load_all_refs")
 			
-			assert_equal(selected_forecast.expected_result, 				updated_forecast.expected_result)
-			assert_equal(selected_forecast.result_match_rate, 				updated_forecast.result_match_rate)
-			assert_equal(selected_forecast.normalised_result_match_rate, 	updated_forecast.normalised_result_match_rate)
+			expected_ref_column_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_column])
+			assert_equal(expected_ref_column_list_size, 
+						ref_list[:ref_column_list].size,
+						"Wrong number of RefColumn loaded by load_all_refs")
 			
-			@logger.ok("Tests for updating Forecast OK.")
+			expected_ref_direction_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_direction])
+			assert_equal(expected_ref_direction_list_size, 
+						ref_list[:ref_direction_list].size,
+						"Wrong number of RefDirection loaded by load_all_refs")
+			
+			expected_ref_race_type_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_race_type])
+			assert_equal(expected_ref_race_type_list_size, 
+						ref_list[:ref_race_type_list].size,
+						"Wrong number of RefRaceType loaded by load_all_refs")
+			
+			expected_ref_sex_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_sex])
+			assert_equal(expected_ref_sex_list_size, 
+						ref_list[:ref_sex_list].size,
+						"Wrong number of RefSex loaded by load_all_refs")
+			
+			expected_ref_shoes_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_shoes])
+			assert_equal(expected_ref_shoes_list_size, 
+						ref_list[:ref_shoes_list].size,
+						"Wrong number of RefShoes loaded by load_all_refs")
+			
+			expected_ref_track_condition_list_size = 
+				@dbi_select.select_count_from_table(
+					@config[:gen][:table_names][:ref_track_condition])
+			assert_equal(expected_ref_track_condition_list_size, 
+						ref_list[:ref_track_condition_list].size,
+						"Wrong number of RefTrackCondition loaded " + 
+						 "by load_all_refs")
+			
+			@logger.ok("Tests for loading all reference objects OK.")
 		rescue Exception => err
 			log_flunking_test(err)
 		end
 	end
 	
-	def test_update_race_with_result
-		
-		@logger.imp("Testing update of Race with results")
+	def test_get
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.imp("Testing get of RefContainerObject")
 		begin
-			test_id = -10 # race without results
-			selected_race = @dbi_select.load_race_by_id(test_id)
+			# Getting the number of blinders beforehand
+			first_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
+		
+			ref_blinder_list = @dbi_select.load_ref_blinder_list()
 			
-			# check that there is no match rate
-			# Checking value
-			expected_race = Race::new(
-				id: test_id,
-				bets: -10,
-				detailed_conditions: "Test Race 10 update detailed conditions",
-				distance: -10,
-				# meeting: @dbi_select.load_meeting_by_id(-1),
-				name: "Test Race 10 update name",
-				number: -10,
-				time: "Test Race 10 update time",
-				url: "Test Race 10 update URL",
-				value: -10,
-				race_type: @ref_list_hash[:ref_race_type_list]["Test Race Type"],
-				result: nil,
-				result_insertion_time: nil
-			)
-			validate_race(expected_race, selected_race, "update of Race (with results), select before update")
+			test_blinder = ref_blinder_list.get(-1)
 			
-			# put results in
-			selected_race.result = "1 - 2 - 3 - 4 - 5"
-			selected_race.result_insertion_time = DateTime.now
+			expected_blinder = RefBlinder::new(-1, "Test Blinder")
 			
-			# call update method
-			@dbi_update.update_race_with_result(selected_race)
+			validate_blinder(expected_blinder, test_blinder, " from testing " + 
+								"of get of RefContainerObject")
 			
-			# reload and check
-			updated_race = @dbi_select.load_race_by_id(test_id)
+			# Getting the number of blinders after the first try
+			second_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
 			
-			validate_race(selected_race, updated_race, "update of Race (with results), updated race")
+			# Checking that the number hasn't changed
+			assert_equal(first_nb_of_blinder, 
+						second_nb_of_blinder,
+						"Wrong number of blinders after get")
 			
-			@logger.ok("Tests for updating Race OK.")
+			expected_nil = ref_blinder_list.get(-1000)
+			
+			assert_equal(nil, 
+						expected_nil,
+						"Wrong blinder after second try: should be nil")
+			
+			# Getting the number of blinders after the second (failed) try
+			third_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
+			
+			# Checking that the number hasn't changed
+			assert_equal(second_nb_of_blinder, 
+						third_nb_of_blinder,
+						"Wrong number of blinders after failed get")
+			
+			@logger.ok("Tests for get of RefContainerObject OK.")
 		rescue Exception => err
 			log_flunking_test(err)
 		end
 	end
 	
-	def test_update_runner_with_final_place
-		
-		@logger.imp("Testing update of Runner with final place")
-		
+	def test_look_up
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.imp("Testing look up of RefContainerObject")
 		begin
-			test_id = -10 # runner without final place
-			selected_runner = @dbi_select.load_runner_by_id(test_id)
+			# Getting the number of blinders beforehand
+			first_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
 			
-			# check that there is no final_place
-			# Checking value
-			# objects get a Q&D test, I don't really care about the value, I 
-			# just want to be sure that it's been loaded
-			assert_equal(-1, 							selected_runner.blinder.id) 
-			assert_equal(-1, 							selected_runner.breeder.id)
-			assert_equal("Test Runner 10 description",	selected_runner.description)
-			assert_equal(-10, 							selected_runner.distance)
-			assert_equal(-10, 							selected_runner.draw)
-			assert_equal(-10, 							selected_runner.earnings_career)
-			assert_equal(-10, 							selected_runner.earnings_current_year)
-			assert_equal(-10, 							selected_runner.earnings_last_year)
-			assert_equal(-10, 							selected_runner.earnings_victory)
-			assert_equal("Test Runner 10 history",		selected_runner.history)
-			assert_equal(-1, 							selected_runner.horse.id)
-			assert_equal(-1, 							selected_runner.jockey.id)
-			assert_equal(-10.1, 						selected_runner.load_handicap)
-			assert_equal(-10.1, 						selected_runner.load_ride)
-			assert_equal(false, 						selected_runner.is_favorite)
-			assert_equal(false, 						selected_runner.is_non_runner)
-			assert_equal(false, 						selected_runner.is_substitute)
-			assert_equal(-10, 							selected_runner.number)
-			assert_equal(-1, 							selected_runner.owner.id)
-			assert_equal(-10, 							selected_runner.places)
-			# assert_equal(-1, 							selected_runner.race.id)
-			assert_equal(-10, 							selected_runner.races_run)
-			assert_equal(-1, 							selected_runner.shoes.id)
-			assert_equal(-10.1, 						selected_runner.single_rating_before_race)
-			assert_equal(-1, 							selected_runner.trainer.id)
-			assert_equal("Test Runner 10 url",			selected_runner.url)
-			assert_equal(-10, 							selected_runner.victories)
+			# Getting last ID
+			old_last_blinder_id = @dbi_select.select_last_id_from_table(
+									@config[:gen][:table_names][:ref_blinder])
 			
-			assert_equal(nil, 							selected_runner.disqualified)
-			assert_equal(nil, 							selected_runner.final_place)
-			assert_equal(nil, 							selected_runner.single_rating_after_race)
+			ref_blinder_list = @dbi_select.load_ref_blinder_list()
 			
-			# put results in
-			selected_runner.disqualified = true
-			selected_runner.final_place = 4
-			selected_runner.single_rating_after_race = 20.4
+			diferentiator = 
+				DateTime.now.strftime(@config[:gen][:default_date_time_format])
+			test_blinder = ref_blinder_list["Testing look up" + 
+													diferentiator]
 			
-			# call update method
-			@dbi_update.update_runner_after_race(selected_runner) 
+			expected_blinder = RefBlinder::new(old_last_blinder_id + 1, 
+												"Testing look up" + 
+													diferentiator)
 			
-			# reload and check
-			updated_runner = @dbi_select.load_runner_by_id(test_id)
+			validate_blinder(expected_blinder, test_blinder, " from testing " + 
+								"of get of RefContainerObject")
 			
-			assert_equal(selected_runner.blinder.id, 				updated_runner.blinder.id) 
-			assert_equal(selected_runner.breeder.id,				updated_runner.breeder.id)
-			assert_equal(selected_runner.description,				updated_runner.description)
-			assert_equal(selected_runner.distance,					updated_runner.distance)
-			assert_equal(selected_runner.draw,						updated_runner.draw)
-			assert_equal(selected_runner.earnings_career,			updated_runner.earnings_career)
-			assert_equal(selected_runner.earnings_current_year,		updated_runner.earnings_current_year)
-			assert_equal(selected_runner.earnings_last_year,		updated_runner.earnings_last_year)
-			assert_equal(selected_runner.earnings_victory,			updated_runner.earnings_victory)
-			assert_equal(selected_runner.history,					updated_runner.history)
-			assert_equal(selected_runner.horse.id,					updated_runner.horse.id)
-			assert_equal(selected_runner.jockey.id,					updated_runner.jockey.id)
-			assert_equal(selected_runner.load_handicap,				updated_runner.load_handicap)
-			assert_equal(selected_runner.load_ride,					updated_runner.load_ride)
-			assert_equal(selected_runner.is_favorite,				updated_runner.is_favorite)
-			assert_equal(selected_runner.is_non_runner,				updated_runner.is_non_runner)
-			assert_equal(selected_runner.is_substitute,				updated_runner.is_substitute)
-			assert_equal(selected_runner.number,					updated_runner.number)
-			assert_equal(selected_runner.owner.id,					updated_runner.owner.id)
-			assert_equal(selected_runner.places,					updated_runner.places)
-			# assert_equal(selected_runner.race.id,					updated_runner.race.id)
-			assert_equal(selected_runner.races_run,					updated_runner.races_run)
-			assert_equal(selected_runner.shoes.id,					updated_runner.shoes.id)
-			assert_equal(selected_runner.single_rating_before_race,	updated_runner.single_rating_before_race)
-			assert_equal(selected_runner.trainer.id,				updated_runner.trainer.id)
-			assert_equal(selected_runner.url,						updated_runner.url)
-			assert_equal(selected_runner.victories,					updated_runner.victories)
-			             
-			assert_equal(selected_runner.disqualified,				updated_runner.disqualified)
-			assert_equal(selected_runner.final_place,				updated_runner.final_place)
-			assert_equal(selected_runner.single_rating_after_race,	updated_runner.single_rating_after_race)
+			# Getting the number of blinders after the first try
+			second_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
 			
-			@logger.ok("Tests for updating Runner OK.")
+			# Checking that the number hasn't changed
+			assert_equal(first_nb_of_blinder + 1, 
+						second_nb_of_blinder,
+						"Wrong number of blinders after look up")
+			
+			# Retry on the same to check that it doesn't insert again
+			retry_blinder = ref_blinder_list["Testing look up" + 
+													diferentiator]
+			
+			validate_blinder(expected_blinder, test_blinder, " from testing " + 
+								"of get of RefContainerObject")
+			
+			# Getting the number of blinders after the second (failed) try
+			third_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
+			
+			# Checking that the number hasn't changed
+			assert_equal(second_nb_of_blinder, 
+						third_nb_of_blinder,
+						"Wrong number of blinders after failed look up")
+			
+			# Tests with special characters: _,ç...
+			special_blinder = ref_blinder_list["PUR-SA_çàè&NG"]
+													
+			expected_special_blinder = RefBlinder::new(expected_blinder.id + 1,
+													"PUR-SA_çàè&NG")
+			
+			# Getting the number of blinders after the third try
+			fourth_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
+			
+			# Checking that the number has incremented
+			assert_equal(third_nb_of_blinder + 1, 
+						fourth_nb_of_blinder,
+						"Wrong number of blinders after lookup with " + 
+						"special chars.")
+			
+			validate_blinder(expected_special_blinder, 
+							special_blinder,
+							"Wrong Blinder after look up with special chars.")
+			
+			# Retry to check it isn't added a second time
+			retry_special_blinder = ref_blinder_list["PUR-SA_çàè&NG"]
+													
+			
+			validate_blinder(expected_special_blinder, 
+							retry_special_blinder,
+							"Wrong Blinder after second look up with " + 
+							"special chars.")
+			
+			# Getting the number of blinders after the fourth (failed) try
+			fifth_nb_of_blinder = @dbi_select.select_count_from_table(
+									@config[:gen][:table_names][:ref_blinder])
+			
+			# Checking that the number hasn't incremented
+			assert_equal(fourth_nb_of_blinder, 
+						fifth_nb_of_blinder,
+						"Wrong number of blinders after lookup with " + 
+						"special chars.")
+			
+			
+			@logger.ok("Tests for look up of RefContainerObject OK.")
 		rescue Exception => err
 			log_flunking_test(err)
 		end
-	end	
+	end
+	
+	def test_has_key()
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.imp("Testing has_key of RefContainerObject")
+		begin
+			refOC = RefObjectContainer::new(:refblinder, @dbi_insert)
+			
+			key_to_search = "keykey"
+			
+			assert_equal(true, 
+						refOC.empty?, 
+						"refOC should be empty.")
+							
+			assert_equal(false, 
+						refOC.has_key?(key_to_search), 
+						"Wrong key in refOC: " + key_to_search + 
+							" shouldn't be in it.")
+							
+			refOC[key_to_search] = key_to_search
+			
+			assert_equal(false, 
+						refOC.empty?, 
+						"refOC shouldn't be empty.")
+							
+			assert_equal(true, 
+						refOC.has_key?(key_to_search), 
+						"Wrong key in refOC: " + key_to_search + 
+							" should be in it.")
+			
+			@logger.debug("test_has_key - refOC : " + refOC.to_s)
+			
+			text1 = "kiki"
+			text2 = "totoro"
+			text3 = "porco rosso"
+			text4 = "ponyo!"
+			
+			refBlinder1 = RefBlinder::new(text1)
+			refBlinder2 = RefBlinder::new(text2)
+			refBlinder3 = RefBlinder::new(text3)
+			refBlinder4 = RefBlinder::new(text4)
+			trip_up_ref = RefBlinder::new(text4)
+			
+			refOC[text1] = refBlinder1
+			refOC[text2] = refBlinder2
+			refOC[text3] = refBlinder3
+			refOC[text4] = refBlinder4
+			keys_array = refOC.keys
+			
+			@logger.debug("test_has_key - " + keys_array.to_s)
+			
+			ref_trip_check = refOC[text4]
+			assert_equal(refBlinder4.id, ref_trip_check.id)
+			assert_equal(refBlinder4.text, ref_trip_check.text)
+			
+			
+			@logger.ok("Tests for has_key of RefContainerObject OK.")
+		rescue Exception => err
+			log_flunking_test(err)
+		end
+	end
 end

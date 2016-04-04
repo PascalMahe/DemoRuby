@@ -83,7 +83,7 @@ class DatabaseInterface
 		boolean_cleanup(values_hash)
 		date_cleanup(values_hash)
 		
-		log_nicely("Executing query : ", query, values_hash)
+		log_nicely("execute_query - Executing query: ", query, values_hash)
 		
 		if statement == nil then
 			statement = @db.prepare(query)
@@ -113,7 +113,7 @@ class DatabaseInterface
 			statement = @db.prepare(query)
 		end
 		
-		log_nicely("Executing query : ", query, values_hash)
+		log_nicely("execute_select - Executing query: ", query, values_hash)
 		
 		begin
 			statement.bind_params(values_hash)
@@ -130,7 +130,7 @@ class DatabaseInterface
 		# Cleanups
 		date_cleanup(values_hash)
 		
-		log_nicely("Fetching first result of query : ", query, values_hash)
+		log_nicely("execute_select_w_one_result - Fetching first result of query : ", query, values_hash)
 			
 		if statement == nil then
 			statement = @db.prepare(query)			
@@ -182,23 +182,68 @@ class DatabaseInterface
 		
 		query = @sql[:gen][:count_all]
 		
+		@logger.debug("select_count_from_table - Counting rows in: " + table.to_s)
+		
 		# Replace :table parameter in query with table
 		# For security reasons, checking if table is in the table list
 		if @config[:gen][:table_names].has_value?(table) then
 			query = query.gsub(':table', table)
+			
+			# Note : the statement is not a attribute of the DatabaseInterface object
+			# (not @) because the query can change (query for RefSex, Breeder...)
+			stat_select_count = @db.prepare(query)
+					
+			row = execute_select_w_one_result(
+				query, 
+				stat_select_count, 
+				nil
+			)
+			count = row["COUNT (*)"]
+		else
+			@logger.info("select_count_from_table - " + table.to_s + " is not in the table list. " + 
+						"Returning 0.")
+			count = 0
 		end
 		
+		@logger.debug("select_count_from_table - Found " + count.to_s)
+		return count
+	end
+	
+	# Detect duplicate texts in RefTables
+	def detect_duplicates(refTable)
+		
+		query = @sql[:gen][:duplicate_detection]
+		
+		@logger.debug("detect_duplicates - Getting IDs that are duplicates in: " + refTable.to_s)
+		id_list = []
+		
+		query = query.gsub(':table', refTable.to_s)
+			
 		# Note : the statement is not a attribute of the DatabaseInterface object
 		# (not @) because the query can change (query for RefSex, Breeder...)
-		stat_select_count = @db.prepare(query)
+		stat_duplicates = @db.prepare(query)
 				
-		row = execute_select_w_one_result(
+		result_set = execute_select(
 			query, 
-			stat_select_count, 
-			nil
+			stat_duplicates, 
+			{}
 		)
-		count = row["COUNT (*)"]
-		@logger.debug("Found " + count.to_s)
-		return count
+		
+		row = result_set.next
+		while row != nil do
+			id = row["ID"]
+			id_list.push(id)
+			row = result_set.next
+		end
+		result_set.close
+		
+		
+		plural = ""
+		if id_list.size > 1 then
+			plural = "s"
+		end
+		@logger.debug("detect_duplicates - Found " + id_list.size.to_s + " duplicate"  + 
+						plural + " in " + refTable.to_s + ".")
+		return id_list
 	end
 end

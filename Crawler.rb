@@ -129,6 +129,27 @@ class Crawler
 	end
 	
 	################################################
+	#############       FOR TEST       #############
+	################################################
+	
+	def getRef()
+		return @ref_list_hash[:ref_race_type_list]
+	end
+	
+	
+	def getTraCon()
+		ref_to_ret = @ref_list_hash[:ref_race_type_list]["Attelé"]
+		
+		@logger.level = SimpleHtmlLogger::DEBUG
+		@logger.debug("getTraCon - ")
+		@logger.debug(@ref_list_hash[:ref_race_type_list])
+		@logger.level = SimpleHtmlLogger::INFO
+		
+		return ref_to_ret
+	end
+	
+	
+	################################################
 	#############       CRAWLING       #############
 	################################################
 	
@@ -259,6 +280,7 @@ class Crawler
 		
 		# track_condition
 		track_condition = @ref_list_hash[:ref_track_condition_list][""]
+		
 		begin # try/catch block for NoSuchElementError if not track_condition
 			span_tag_for_track_condition = html_meeting.
 					find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
@@ -266,6 +288,7 @@ class Crawler
 			track_condition_text = span_tag_for_track_condition.text
 			# @logger.debug("Track condition text : " + track_condition_text)
 			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_text]
+			
 			# @logger.debug("Track condition : " + track_condition.to_s)
 		rescue
 			@logger.debug("No element found for track condition in meeting " +
@@ -291,6 +314,9 @@ class Crawler
 		
 		meeting.urls_of_races_array.each do |url_of_race|
 			race = fetch_race(url_of_race, meeting)
+			if meeting.race_list == nil then
+				meeting.race_list = []
+			end
 			meeting.race_list.push(race)
 		end
 		return meeting
@@ -342,7 +368,7 @@ class Crawler
 			wind_speed = str_wind_speed.to_i
 		end
 		
-		# TODO: hide the pop-in (so that it doesn't fuck up the tests)
+		# hide the pop-in (so that it doesn't fuck up the tests)
 		# -> by moving the mouse to the calendar above the meetings
 		todayElmt = @driver.find_element(:id, "calendar-input")
 		@driver.action.move_to(todayElmt).perform
@@ -459,6 +485,7 @@ class Crawler
 		# split#0
 		race_type_raw = general_cond_array[0].strip()
 		race_type = @ref_list_hash[:ref_race_type_list][race_type_raw]
+		
 		# @logger.debug("race_type : " + race_type.to_s)
 		
 		# result
@@ -470,9 +497,10 @@ class Crawler
 		# result_insertion_time
 		if result != '' then
 			result_insertion_time = Time::new
-			# @logger.debug("result_insertion_time : " + 
-				# result_insertion_time.strftime(@config[:gen][:default_date_time_format])
-			# )
+			@logger.debug("fetch_race - result_insertion_time : " + 
+				result_insertion_time.
+					strftime(@config[:gen][:default_date_time_format])
+			)
 		else 
 			result_insertion_time = nil
 			# @logger.debug("result_insertion_time : nil")
@@ -512,7 +540,7 @@ class Crawler
 					detailed_conditions: detailed_cond,
 					distance: distance,  
 					general_conditions: general_conditions,
-					meeting: meeting, 
+					# meeting: meeting, 
 					name: name, 
 					number: number, 
 					race_type: race_type,
@@ -529,6 +557,7 @@ class Crawler
 		@logger.debug("fetch_race - Fetching runners.")
 		race.runner_list = fetch_runners(race)
 		# @logger.debug("runner_list : " + runner_list.to_s)
+		
 		return race
 	end
 
@@ -552,15 +581,16 @@ class Crawler
 		html_info_arrivee = @driver.find_elements(:id, "infos-arrivee")
 		if html_info_arrivee.length > 0 then
 			@logger.info("fetch_runners - Fetching race results.")
-			result_list = fetch_race_results(race)
+			# result_list = fetch_race_results(race)
+			result_list = fetch_race_results()
 			go_to_runners_page()
 		end
 		
 		@logger.info("fetch_runners - Fetching runners (shallow & deep).")
-		list_runners = fetch_list_runners(race)
+		list_runners = fetch_list_runners()
 		
 		if not result_list.empty? then
-			@logger.info("fetch_runners - joining before and after race runners.")
+			@logger.info("fetch_runners - Joining before and after race runners.")
 			list_runners = join_runner_list_and_result_list(list_runners, result_list)
 		end
 		
@@ -617,9 +647,9 @@ class Crawler
 		# @logger.debug("go_and_fetch_runner - Went back to: " + driver.current_url)
 	end
 	
-	def fetch_list_runners(race)
+	def fetch_list_runners()
 		@logger.info("fetch_list_runners - Fetching runners (shallow).")
-		list_runners = fetch_runners_shallow(race)
+		list_runners = fetch_runners_shallow()
 				
 		if $globalState.is_test then
 			# in the tests, we have to go back to the results' page to 
@@ -731,8 +761,7 @@ class Crawler
 		return column_map
 	end
 	
-	def fetch_runners_shallow(race)
-		# Parameter: a race
+	def fetch_runners_shallow()
 		# Fields to fill:
 		# - age (runner)							
 		# - blinder (runner)
@@ -748,7 +777,7 @@ class Crawler
 		# - name (horse)
 
 		# - number (runner)
-		# - race (runner)
+		# X race (runner)
 		# - shirt (?) -> nobody cares...
 		# - shoes (runner)
 		# - single_rating_before_race (runner)
@@ -972,12 +1001,13 @@ class Crawler
 					horse = Horse::new(name: horse_name)
 					
 					jockey = Jockey::new(name: jockey_name)
-					
 					sex = @ref_list_hash[:ref_sex_list][sex_text]
+					
 				end
 				# @logger.trace("fetch_runners_shallow - back to main branch ")
 				horse.sex = sex
 				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+				
 				# @logger.debug("fetch_runners_shallow - shoes_text : " + shoes_text)
 				blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
 				
@@ -995,7 +1025,7 @@ class Crawler
 					load_handicap: load_handicap,
 					load_ride: load_ride,
 					number: number,
-					race: race,
+					# race: race,
 					single_rating_before_race: single_rating_before_race,
 					shoes: shoes,
 					url: url
@@ -1014,8 +1044,7 @@ class Crawler
 		return result
 	end
 
-	def fetch_race_results(race)
-		# Parameter: a Race
+	def fetch_race_results()
 		# Fields to fill:
 		# - commentary (runner)
 		# - disqualified (runner)
@@ -1040,7 +1069,7 @@ class Crawler
 		# - name (horse)
 		# - is_non_runner (runner)
 		# - number (runner)
-		# - race (runner)
+		# X race (runner)
 		# - shirt (?) -> nobody cares...
 		# - shoes (?) -> nobody cares...
 		# - single_rating (runner)
@@ -1148,7 +1177,9 @@ class Crawler
 			url = html_link_to_runner.attribute("href")
 			
 			# number (== hash key)
+			
 			number = get_runner_number_from_result_page(html_runner)
+			@logger.debug("fetch_race_results - number = " + number.to_s)
 			
 			runner = Runner::new(
 				commentary: commentary,
@@ -1164,7 +1195,7 @@ class Crawler
 			)
 			
 			# @logger.debug("fetch_race_results - runner.URL : " + runner.url)
-			
+		
 			result[number] = runner
 		end
 		
@@ -1203,7 +1234,7 @@ class Crawler
 		# - name (horse)
 		# - is_non_runner (runner)
 		# - number (runner)
-		# - race (runner)
+		# X race (runner)
 		# - shirt (?) -> nobody cares...
 		# - shoes (?) -> nobody cares...
 		# - single_rating_before_race (runner)

@@ -9,19 +9,11 @@ require './Runner.rb'
 class TestDatabaseInterfaceSelect < TestSuite
 	
 	def setup
-		@logger = $globalState.logger
-		@config = $globalState.config
-		@dbi_select_tech = $globalState.dbi_select_by_tech_id
-		@dbi_select = $globalState.dbi_select_by_business_id
-		@dbi_insert = $globalState.dbi_insert
-		if(@ref_list_hash == nil) then 
-			@ref_list_hash = @dbi_select_tech.load_all_refs
-		end
-		@logger.level = SimpleHtmlLogger::INFO
+		testSetup()
 	end
 	
 	def teardown
-		
+		testTearDown()
 	end
 	
 	##################
@@ -32,7 +24,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		begin
 			test_name = "Test Breeder 2 Name"
 			breeder = Breeder::new(name: test_name)
-			selected_id = @dbi_select.load_breeder_id(breeder)
+			selected_id = @dbi_select_biz.load_breeder_id(breeder)
 			
 			# Checking value
 			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
@@ -53,7 +45,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			horse = Horse::new(	father: father, 
 								mother: mother, 
 								name: test_name)
-			selected_id = @dbi_select.load_horse_id(horse)
+			selected_id = @dbi_select_biz.load_horse_id(horse)
 			
 			# Checking value
 			assert_equal(selected_id, -4, "Wrong tech ID retrieved " +
@@ -79,7 +71,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			job = Job::new(start_time: test_start_time)
 			
 			@logger.debug("test_load_job_id - job = " + job.to_s)
-			selected_id = @dbi_select.load_job_id(job)
+			selected_id = @dbi_select_biz.load_job_id(job)
 			
 			# Checking value
 			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
@@ -99,7 +91,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 				inserted_job.to_s)
 			
 			loaded_job = Job::new(start_time: test_start_time)
-			selected_id = @dbi_select.load_job_id(job)
+			selected_id = @dbi_select_biz.load_job_id(job)
 			
 			# Checking value
 			validate_job(inserted_job, loaded_job, 
@@ -116,7 +108,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		begin
 			test_name = "Test Jockey 2 name"
 			jockey = Jockey::new(name: test_name)
-			selected_id = @dbi_select.load_jockey_id(jockey)
+			selected_id = @dbi_select_biz.load_jockey_id(jockey)
 			
 			# Checking value
 			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
@@ -134,7 +126,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			test_date = Date::new(2016, 02, 17)
 			test_racetrack = "Test Meeting 3 racetrack"
 			meeting = Meeting::new(date: test_date, racetrack: test_racetrack)
-			selected_id = @dbi_select.load_meeting_id(meeting)
+			selected_id = @dbi_select_biz.load_meeting_id(meeting)
 			
 			# Checking value
 			assert_equal(selected_id, -3, "Wrong tech ID retrieved " +
@@ -151,7 +143,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		begin
 			test_name = "Test Owner 2 name"
 			owner = Owner::new(name: test_name)
-			selected_id = @dbi_select.load_owner_id(owner)
+			selected_id = @dbi_select_biz.load_owner_id(owner)
 			
 			# Checking value
 			assert_equal(-2, selected_id, "Wrong tech ID retrieved " +
@@ -170,7 +162,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			meeting = Meeting::new(id: meeting_id)
 			number = -4
 			race = Race::new(number: number)
-			selected_id = @dbi_select.load_race_id(race, meeting.id)
+			selected_id = @dbi_select_biz.load_race_id(race, meeting.id)
 			
 			# Checking value
 			assert_equal(-4, selected_id, "Wrong tech ID retrieved " +
@@ -189,7 +181,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 			race = Race::new(id: race_id)
 			number = -3
 			runner = Runner::new(number: number)
-			selected_id = @dbi_select.load_runner_id(runner, race.id)
+			selected_id = @dbi_select_biz.load_runner_id(runner, race.id)
 			
 			# Checking value
 			assert_equal(selected_id, -3, "Wrong tech ID retrieved " +
@@ -206,7 +198,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 		begin
 			test_name = "Test Trainer 2 name"
 			trainer = Trainer::new(name: test_name)
-			selected_id = @dbi_select.load_trainer_id(trainer)
+			selected_id = @dbi_select_biz.load_trainer_id(trainer)
 			
 			# Checking value
 			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +
@@ -230,7 +222,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 									wind_direction: test_wind_direction,
 									wind_speed: test_wind_speed
 			)
-			selected_id = @dbi_select.load_weather_id(weather)
+			selected_id = @dbi_select_biz.load_weather_id(weather)
 			
 			# Checking value
 			assert_equal(selected_id, -2, "Wrong tech ID retrieved " +

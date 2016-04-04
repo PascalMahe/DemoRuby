@@ -172,7 +172,7 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		)
 		rows.each do |row|
 			ref_dir = class_to_instanciate.new(row["id"], row["text"])
-			ref_object_list[ref_dir.text] = ref_dir
+			ref_object_list.store(ref_dir.text, ref_dir)
 		end
 		return ref_object_list
 	end
@@ -251,53 +251,59 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 	
 	def load_all_refs()
 		@logger.info("Loading all reference objects")
-		# @logger.info("RefDirection")
-		ref_dir_list = load_ref_direction_list()
-		# @logger.debug(ref_dir_list.to_s)
-
-		# @logger.info("RefTrackCondition")
-		ref_track_condition_list = load_ref_track_condition_list()
-		# @logger.debug(ref_track_condition_list)
-
-		# @logger.info("RefRaceType")
-		ref_race_type_list = load_ref_race_type_list()
-		# @logger.debug(ref_race_type_list)
-
-		# @logger.info("RefColumn")
-		ref_column_list = load_ref_column_list()
-		# @logger.debug(ref_column_list)
-
-		# @logger.info("RefSex")
-		ref_sex_list = load_ref_sex_list()
-		# @logger.debug(ref_sex_list)
-
-		# @logger.info("RefBreed")
-		ref_breed_list = load_ref_breed_list()
-		# @logger.debug(ref_breed_list)
-
-		# @logger.info("RefCoat")
-		ref_coat_list = load_ref_coat_list()
-		# @logger.debug(ref_coat_list)
-
-		# @logger.info("RefBlinder")
+		
 		ref_blinder_list = load_ref_blinder_list()
+		ref_breed_list = load_ref_breed_list()
+		ref_coat_list = load_ref_coat_list()
+		ref_column_list = load_ref_column_list()
+		ref_dir_list = load_ref_direction_list()
+		ref_race_type_list = load_ref_race_type_list()
+		ref_sex_list = load_ref_sex_list()
+		ref_shoes_list = load_ref_shoes_list()
+		ref_track_condition_list = load_ref_track_condition_list()
+		
+		# level_before = @logger.level
+		# @logger.level = SimpleHtmlLogger::DEBUG
+		
+		# @logger.debug("RefBlinder")
 		# @logger.debug(ref_blinder_list)
 
-		# @logger.info("RefShoes")
-		ref_shoes_list = load_ref_shoes_list()
+		# @logger.debug("RefBreed")
+		# @logger.debug(ref_breed_list)
+
+		# @logger.debug("RefCoat")
+		# @logger.debug(ref_coat_list)
+
+		# @logger.debug("RefColumn")
+		# @logger.debug(ref_column_list)
+
+		# @logger.debug("RefDirection")
+		# @logger.debug(ref_dir_list.to_s)
+
+		# @logger.debug("RefRaceType")
+		# @logger.debug(ref_race_type_list)
+
+		# @logger.debug("RefSex")
+		# @logger.debug(ref_sex_list)
+
+		# @logger.debug("RefShoes")
 		# @logger.debug(ref_shoes_list)
 
+		# @logger.debug("RefTrackCondition")
+		# @logger.debug(ref_track_condition_list)
+		
+		# @logger.level = level_before
+
 		@ref_list_hash = {
-			:ref_direction_list => ref_dir_list,
-			:ref_track_condition_list => ref_track_condition_list,
-			:ref_race_type_list => ref_race_type_list,
-			:ref_column_list => ref_column_list,
-			:ref_sex_list => ref_sex_list,
+			:ref_blinder_list => ref_blinder_list,
 			:ref_breed_list => ref_breed_list,
 			:ref_coat_list => ref_coat_list,
-			:ref_blinder_list => ref_blinder_list,
-			:ref_shoes_list => ref_shoes_list	
-		}
+			:ref_column_list => ref_column_list,
+			:ref_direction_list => ref_dir_list,
+			:ref_race_type_list => ref_race_type_list,
+			:ref_sex_list => ref_sex_list,
+			:ref_shoes_list => ref_shoes_list,	
+			:ref_track_condition_list => ref_track_condition_list}
 		return @ref_list_hash
 	end
 	
@@ -659,19 +665,38 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		# For security reasons, checking if table is in the table list
 		if @config[:gen][:table_names].has_value?(table) then
 			query = query.gsub(':table', table)
+			
+			# @logger.debug("select_last_id_from_table - query = " + query)
+			
+			# Cleanup id column's name for ref tables:
+			# (regex: 'idRef' then multiple characters followed by ')')
+			query = query.gsub(/id_Ref.+\)/, "id)")
+			
+			# @logger.debug("select_last_id_from_table - query = " + query)
+			
+			# Note : the statement is not a attribute of the 
+			# DatabaseInterface object (no @) because the query 
+			# can change (query for RefSex, Breeder...)
+			stat_select_count = @db.prepare(query)
+					
+			row = execute_select_w_one_result(
+				query, 
+				stat_select_count, 
+				nil
+			)
+			response_column_name = "id_" + table
+			response_column_name = response_column_name.gsub(/id_Ref.+/, "id")
+			
+			last_id = row["MAX(" + response_column_name + ")"]
+			
+		else
+			@logger.info(table.to_s + " is not in the table list. " + 
+						"Returning 0.")
+			last_id = 0
 		end
 		
-		# Note : the statement is not a attribute of the DatabaseInterface object
-		# (not @) because the query can change (query for RefSex, Breeder...)
-		stat_select_count = @db.prepare(query)
-				
-		row = execute_select_w_one_result(
-			query, 
-			stat_select_count, 
-			nil
-		)
-		last_id = row["MAX(id_" + table + ")"]
 		@logger.debug("Got #" + last_id.to_s)
+		
 		return last_id
 	end
 	

@@ -41,6 +41,7 @@ def validate_race_R1_C7(fetched_race)
 		url: verif_url,  
 		value: verif_value
 	)
+	
 	validate_race(verif_race, fetched_race, "R1 C7")
 end
 

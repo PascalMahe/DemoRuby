@@ -10,6 +10,8 @@ class TestSuite < MiniTest::Test
 	attr_accessor :ref_list_hash
 	attr_accessor :state
 	
+	@@ref_list_hash = nil
+	
 	##########################
 	# Setup before any tests #
 	##########################
@@ -100,15 +102,25 @@ class TestSuite < MiniTest::Test
 	# getting the SQL for the setup and teardown
 	@sql_test = []
 	@sql_test = YAML.load_file(config[:gen][:sql_test])
-
-	# cleaning database, just in case a test failed before it could do it itself
-	logger.debug(@sql_test[:delete].keys)
-	@sql_test[:delete].keys.each do |table|
-		logger.info("Deleting test values from " + table.to_s)
-		current_query = @sql_test[:delete][table]
+	
+	# scrubbing database only in cas of tsDeepRef
+	logger.debug(config[:sql][:clean].keys)
+	config[:sql][:clean].keys.each do |table|
+		logger.info("Scrubbing values from " + table.to_s)
+		current_query =config[:sql][:clean][table]
 		dummy_statement = nil
 		dbi.execute_query(current_query, dummy_statement, nil, true)
 	end
+
+	
+	# cleaning database, just in case a test failed before it could do it itself
+	# logger.debug(@sql_test[:delete].keys)
+	# @sql_test[:delete].keys.each do |table|
+		# logger.info("Deleting test values from " + table.to_s)
+		# current_query = @sql_test[:delete][table]
+		# dummy_statement = nil
+		# dbi.execute_query(current_query, dummy_statement, nil, true)
+	# end
 	
 	#setting up the test values for select by tech ID
 	@sql_test[:tech_id].keys.each do |table|
@@ -171,5 +183,50 @@ class TestSuite < MiniTest::Test
 	#      End of teardown     #
 	############################
 
+	def testSetup(needs_crawler = false)
+		@logger = $globalState.logger
+		@config = $globalState.config
+		@dbi_select_biz = $globalState.dbi_select_by_business_id
+		@dbi_select_tech = $globalState.dbi_select_by_tech_id
+		@dbi_insert = $globalState.dbi_insert
+		@dbi_update = $globalState.dbi_update
+		
+		if(@@ref_list_hash == nil) then 
+			@@ref_list_hash = @dbi_select_tech.load_all_refs
+			@logger.debug("setup - ")
+			@logger.debug(@@ref_list_hash[:ref_race_type_list])
+		end
+		@ref_list_hash = @@ref_list_hash
+		
+		if needs_crawler
+			if @@crawler == nil then
+				@logger.info("Creating crawler for test.")
+				begin
+					@@crawler = Crawler::new(@logger, @ref_list_hash, @config)
+				rescue Exception => err
+					log_flunking_test(err)
+				end
+			end
+			@crawler = @@crawler
+		end
+		
+		@logger.level = SimpleHtmlLogger::INFO
+		
+		@test_start_time = Time.now()
+	end
+	
+	def testTearDown
+		test_end_time = Time.now()
+		
+		test_duration_in_s = test_end_time - @test_start_time
+		
+		@logger.ok("(Test took " + 
+			format_time_diff(test_duration_in_s) + 
+			".)")
+	
+		@logger.debug("Teardown")
+		# @crawler.close_driver()
+		@logger.level = SimpleHtmlLogger::INFO
+	end
 	
 end
