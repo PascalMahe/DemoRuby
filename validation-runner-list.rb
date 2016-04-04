@@ -1,6 +1,8 @@
 ﻿require './validation-core.rb'
 
 def validate_runner_R4_C5_N2(runner_from_list_runners)
+	@logger.info("Validating R4_C5_N2")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -58,6 +60,8 @@ def validate_runner_R4_C5_N2(runner_from_list_runners)
 end
 
 def validate_runner_R4_C5_N4(runner_from_list_runners)
+	@logger.info("Validating R4_C5_N4")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -117,6 +121,8 @@ def validate_runner_R4_C5_N4(runner_from_list_runners)
 end
 
 def validate_runner_R4_C5_N5(runner_from_list_runners)
+	@logger.info("Validating R4_C5_N5")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -176,6 +182,8 @@ def validate_runner_R4_C5_N5(runner_from_list_runners)
 end
 
 def validate_runner_R4_C5_N17(runner_from_list_runners)
+	@logger.info("Validating R4_C5_N17")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -233,6 +241,8 @@ def validate_runner_R4_C5_N17(runner_from_list_runners)
 end
 
 def validate_runner_R1_C1_N4(runner_from_list_runners)
+	@logger.info("Validating R1_C1_N4")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -293,6 +303,8 @@ def validate_runner_R1_C1_N4(runner_from_list_runners)
 end
 
 def validate_runner_R1_C1_N5(runner_from_list_runners)
+	@logger.info("Validating R1_C1_N5")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -363,6 +375,8 @@ def validate_runner_R1_C1_N5(runner_from_list_runners)
 end
 
 def validate_runner_R1_C1_N9(runner_from_list_runners)
+	@logger.info("Validating R1_C1_N9")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR FRANCAIS"]
@@ -422,6 +436,8 @@ def validate_runner_R1_C1_N9(runner_from_list_runners)
 end
 
 def validate_runner_R2_C7_N1(runner_from_list_runners)
+	@logger.info("Validating R2_C7_N1")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -481,6 +497,8 @@ def validate_runner_R2_C7_N1(runner_from_list_runners)
 end
 
 def validate_runner_R2_C7_N4(runner_from_list_runners)
+	@logger.info("Validating R2_C7_N4")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_CLASSIQUE"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -540,6 +558,8 @@ def validate_runner_R2_C7_N4(runner_from_list_runners)
 end
 
 def validate_runner_R2_C7_N11(runner_from_list_runners)
+	@logger.info("Validating R2_C7_N11")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["SANS_OEILLERES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -599,6 +619,8 @@ def validate_runner_R2_C7_N11(runner_from_list_runners)
 end
 
 def validate_runner_R2_C7_N12(runner_from_list_runners)
+	@logger.info("Validating R2_C7_N12")
+	
 	blinder = @ref_list_hash[:ref_blinder_list]["OEILLERES_AUSTRALIENNES"]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["PUR-SANG"]
@@ -658,6 +680,8 @@ def validate_runner_R2_C7_N12(runner_from_list_runners)
 end
 
 def validate_runner_R1_C7_N1(runner_from_list_runners)
+	@logger.info("Validating R1_C7_N1")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list][""]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
@@ -717,6 +741,8 @@ def validate_runner_R1_C7_N1(runner_from_list_runners)
 end
 
 def validate_runner_R1_C7_N3(runner_from_list_runners)
+	@logger.info("Validating R1_C7_N3")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]
@@ -776,6 +802,8 @@ def validate_runner_R1_C7_N3(runner_from_list_runners)
 end
 
 def validate_runner_R1_C7_N11(runner_from_list_runners)
+	@logger.info("Validating R1_C7_N11")
+	
 	blinder = @ref_list_hash[:ref_blinder_list][""]
 	shoes = @ref_list_hash[:ref_shoes_list]["DEFERRE_ANTERIEURS_POSTERIEURS"]
 	breed = @ref_list_hash[:ref_breed_list]["TROTTEUR ETRANGER"]

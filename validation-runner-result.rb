@@ -1,6 +1,8 @@
 ﻿require './validation-core.rb'
 
 def validate_result_R1_C1_N4(runner_from_result_list)
+	@logger.info("Validating R1_C1_N4")
+	
 	expected_runner = Runner::new(
 				commentary: "Vite en troisième position, a donné un bon coup de reins dans les 100 derniers mètres sans pouvoir remonter totalement Virgious du Maza (5).",
 				disqualified: false,
@@ -17,6 +19,8 @@ def validate_result_R1_C1_N4(runner_from_result_list)
 end
 
 def validate_result_R1_C1_N5(runner_from_result_list)
+	@logger.info("Validating R1_C1_N5")
+	
 	expected_runner = Runner::new(
 				commentary: "Installé au commandement en bas de la descente, a repoussé jusqu'au bout la bonne attaque de Valroy (9).",
 				disqualified: false,
@@ -33,6 +37,8 @@ def validate_result_R1_C1_N5(runner_from_result_list)
 end
 
 def validate_result_R1_C1_N9(runner_from_result_list)
+	@logger.info("Validating R1_C1_N9")
+	
 	expected_runner = Runner::new(
 				commentary: "Vite en tête, puis relayé par Virgious du Maza (5) en bas de la descente, venait visiblement dominer son rival lorsqu'il s'est montré fautif à mi-ligne droite.",
 				disqualified: true,
@@ -49,6 +55,8 @@ def validate_result_R1_C1_N9(runner_from_result_list)
 end
 
 def validate_result_R4_C5_N2(runner_from_result_list)
+	@logger.info("Validating R4_C5_N2")
+	
 	expected_runner = Runner::new(
 			commentary: "",
 			distance: "",
@@ -65,6 +73,8 @@ def validate_result_R4_C5_N2(runner_from_result_list)
 end
 
 def validate_result_R4_C5_N4(runner_from_result_list)
+	@logger.info("Validating R4_C5_N4")
+	
 	expected_runner = Runner::new(
 				commentary: "",
 				disqualified: false,
@@ -81,6 +91,8 @@ def validate_result_R4_C5_N4(runner_from_result_list)
 end
 
 def validate_result_R4_C5_N5(runner_from_result_list)
+	@logger.info("Validating R4_C5_N5")
+	
 	expected_runner = Runner::new(
 				commentary: "",
 				disqualified: false,
@@ -97,6 +109,8 @@ def validate_result_R4_C5_N5(runner_from_result_list)
 end
 
 def validate_result_R4_C5_N17(runner_from_result_list)
+	@logger.info("Validating R4_C5_N17")
+	
 	expected_runner = Runner::new(
 				commentary: "",
 				disqualified: false,
@@ -113,6 +127,8 @@ def validate_result_R4_C5_N17(runner_from_result_list)
 end
 
 def validate_result_R2_C7_N1(runner_from_result_list)
+	@logger.info("Validating R2_C7_N1")
+	
 	expected_runner = Runner::new(
 				commentary: "Vite en tête, n'a été dominé que dans les derniers mètres.",
 				disqualified: false,
@@ -129,6 +145,8 @@ def validate_result_R2_C7_N1(runner_from_result_list)
 end
 
 def validate_result_R2_C7_N4(runner_from_result_list)
+	@logger.info("Validating R2_C7_N4")
+	
 	expected_runner = Runner::new(
 				commentary: "Rapproché à la sortie du tournant final, faisant alors illusion pour la troisième ou quatrième place, a marqué le pas sur le plat.",
 				disqualified: false,
@@ -145,6 +163,8 @@ def validate_result_R2_C7_N4(runner_from_result_list)
 end
 
 def validate_result_R2_C7_N11(runner_from_result_list)
+	@logger.info("Validating R2_C7_N11")
+	
 	expected_runner = Runner::new(
 				commentary: "Après avoir patienté en quatrième ou cinquième position, s'est rapprochée entre les deux dernières haies, puis a bien accéléré sur le plat, créant la décision aux abords du poteau.",
 				disqualified: false,
@@ -161,6 +181,8 @@ def validate_result_R2_C7_N11(runner_from_result_list)
 end
 
 def validate_result_R2_C7_N12(runner_from_result_list)
+	@logger.info("Validating R2_C7_N12")
+	
 	expected_runner = Runner::new(
 				commentary: "Venue de l'arrière-garde, a progressé entre les deux dernières haies et a conclu correctement.",
 				disqualified: false,
@@ -177,6 +199,8 @@ def validate_result_R2_C7_N12(runner_from_result_list)
 end
 
 def validate_result_R1_C7_N1(runner_from_result_list)
+	@logger.info("Validating R1_C7_N1")
+	
 	expected_runner = Runner::new(
 				commentary: "Longtemps en dehors de l'animateur Juni Kongen (7), a conservé la quatrième place en léger retrait.",
 				disqualified: false,
@@ -193,6 +217,8 @@ def validate_result_R1_C7_N1(runner_from_result_list)
 end
 
 def validate_result_R1_C7_N3(runner_from_result_list)
+	@logger.info("Validating R1_C7_N3")
+	
 	expected_runner = Runner::new(
 				commentary: "Patient sur une troisième ligne, a débordé Närby Kalabalik (8) sur le fil.",
 				disqualified: false,
@@ -209,6 +235,8 @@ def validate_result_R1_C7_N3(runner_from_result_list)
 end
 
 def validate_result_R1_C7_N11(runner_from_result_list)
+	@logger.info("Validating R1_C7_N11")
+	
 	expected_runner = Runner::new(
 				commentary: "S'est montré fautif peu après le départ.",
 				disqualified: true,
