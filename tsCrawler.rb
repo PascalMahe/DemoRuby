@@ -10,7 +10,8 @@ require './validation-runner-result.rb'
 class TestCrawler < TestSuite
 	
 	def setup
-		testSetup()
+		needs_crawler = true
+		testSetup(needs_crawler)
 	end
 	
 	def teardown
@@ -20,7 +21,7 @@ class TestCrawler < TestSuite
 	##################
 	#      Tests     #
 	##################
-	# def not_testcrawl
+	# def testcrawl
 		
 		# @logger.imp("Testing fetch meetings")
 		# test_start_time = Time.now()
@@ -133,7 +134,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meetings OK.")
 	end
 	
-	def not_test_fetch_meeting_shallow
+	def test_fetch_meeting_shallow
 		
 		@logger.imp("Testing fetch meeting shallow")
 		test_start_time = Time.now()
@@ -190,7 +191,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_meeting_shallow OK.")
 	end
 	
-	def not_test_fetch_meeting
+	def test_fetch_meeting
 		
 		@logger.imp("Testing fetch meeting")
 		test_start_time = Time.now()
@@ -267,7 +268,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race OK.")
 	end
 	
-	def not_test_fetch_weather
+	def test_fetch_weather
 		
 		@logger.imp("Testing fetch weather")
 		test_start_time = Time.now()
@@ -315,7 +316,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_weather OK.")
 	end
 	
-	def not_test_join_runner_list_and_result_list
+	def test_join_runner_list_and_result_list
 		@logger.imp("Testing join runner list and result list")
 		test_start_time = Time.now()
 		begin
@@ -584,7 +585,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for join_runner_list_and_result_list OK.")
 	end
 	
-	def not_test_get_column_map()
+	def test_get_column_map()
 		
 		@logger.imp("Testing getting the right column map")
 		test_start_time = Time.now()
@@ -646,7 +647,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for get_column_map OK.")
 	end
 	
-	def not_test_fetch_runners
+	def test_fetch_runners
 		
 		@logger.imp("Testing fetch runners")
 		test_start_time = Time.now()
@@ -688,7 +689,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_runners OK.")
 	end
 	
-	def not_test_fetch_runners_shallow
+	def test_fetch_runners_shallow
 		
 		@logger.imp("Testing fetch runners shallow")
 		test_start_time = Time.now()
@@ -1075,7 +1076,7 @@ class TestCrawler < TestSuite
 		@logger.ok("Tests for fetch_race_results OK.")
 	end
 	
-	def not_test_fetch_runner()
+	def test_fetch_runner()
 		
 		@logger.imp("Testing fetch runner")
 		test_start_time = Time.now()

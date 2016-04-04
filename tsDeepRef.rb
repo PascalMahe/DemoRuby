@@ -11,7 +11,8 @@ class TestDeepRef < TestSuite
 	i_suck_and_my_tests_are_order_dependent!()
 	
 	def setup
-		testSetup()
+		needs_crawler = true
+		testSetup(needs_crawler)
 	end
 	
 	

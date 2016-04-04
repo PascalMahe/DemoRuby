@@ -104,23 +104,23 @@ class TestSuite < MiniTest::Test
 	@sql_test = YAML.load_file(config[:gen][:sql_test])
 	
 	# scrubbing database only in cas of tsDeepRef
-	logger.debug(config[:sql][:clean].keys)
-	config[:sql][:clean].keys.each do |table|
-		logger.info("Scrubbing values from " + table.to_s)
-		current_query =config[:sql][:clean][table]
-		dummy_statement = nil
-		dbi.execute_query(current_query, dummy_statement, nil, true)
-	end
-
-	
-	# cleaning database, just in case a test failed before it could do it itself
-	# logger.debug(@sql_test[:delete].keys)
-	# @sql_test[:delete].keys.each do |table|
-		# logger.info("Deleting test values from " + table.to_s)
-		# current_query = @sql_test[:delete][table]
+	# logger.debug(config[:sql][:clean].keys)
+	# config[:sql][:clean].keys.each do |table|
+		# logger.info("Scrubbing values from " + table.to_s)
+		# current_query =config[:sql][:clean][table]
 		# dummy_statement = nil
 		# dbi.execute_query(current_query, dummy_statement, nil, true)
 	# end
+
+	
+	# cleaning database, just in case a test failed before it could do it itself
+	logger.debug(@sql_test[:delete].keys)
+	@sql_test[:delete].keys.each do |table|
+		logger.info("Deleting test values from " + table.to_s)
+		current_query = @sql_test[:delete][table]
+		dummy_statement = nil
+		dbi.execute_query(current_query, dummy_statement, nil, true)
+	end
 	
 	#setting up the test values for select by tech ID
 	@sql_test[:tech_id].keys.each do |table|
