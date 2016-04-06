@@ -386,7 +386,7 @@ class TestSaver < TestSuite
 			)
 			
 			test_date = Date::new(2016, 02, 17)
-			test_racetrack = "Test Meeting for saving race" + differentiator
+			test_racetrack = "Test Racetrack for saving meeting" + differentiator
 			
 			# Creating race_list
 			race_list = []
@@ -583,7 +583,128 @@ class TestSaver < TestSuite
 	end
 	
 	def test_save_meeting_list()
+		@logger.imp("Testing save meeting list")
 		
+		begin
+			# Counting number of Meetings before test
+			old_meeting_num = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:meeting])
+			@logger.debug("test_save_meeting_list - old_meeting_num : " + old_meeting_num.to_s)
+					
+			# Getting last ID currently in Meeting
+			old_last_meeting_id = @dbi_select_tech.
+				select_last_id_from_table(
+					@config[:gen][:table_names][:meeting])
+					
+			# Creating a list of meetings 
+			number_of_meeting = 7
+			meeting_list_to_save = []
+			meeting_list_to_fail_to_save = []
+			for index in 0..number_of_meeting do
+			
+				# Creating a Meeting, a Job and a Weather without id
+				# (Adding the date & time to the racetrack so that's it unique
+				# even if the test is launched multiple times and the DB
+				# is not cleaned in between.)
+				differentiator = index.to_s + "-" +
+					DateTime.now.strftime(@config[:gen][:default_date_time_format])
+				
+				test_start_time = DateTime.now
+				test_job = Job::new(start_time: test_start_time)
+				
+				test_weather = Weather::new(
+					insolation: "P6.png" + differentiator,
+					temperature: 19,
+					wind_direction: @ref_list_hash[:ref_direction_list]["S"],
+					wind_speed: 11
+				)
+				
+				test_date = Date::new(2016, 02, 17)
+				test_racetrack = "Test Racetrack for saving meeting" + differentiator
+				
+				# Creating race_list
+				race_list = []
+				for jndex in 0..4 do
+					race = Race::new(number: jndex)
+					race_list.push(race)
+				end
+				
+				# @logger.debug("test_save_meeting_list - race_list.size.to_s = " + 
+					# race_list.size.to_s)
+				meeting_to_save = Meeting::new(	date: test_date,
+												job: test_job,
+												racetrack: test_racetrack,
+												race_list: race_list,
+												weather: test_weather)
+				
+				# @logger.debug("test_save_meeting_list - meeting_to_save.race_list.size.to_s = " + 
+					# meeting_to_save.race_list.size.to_s)
+				
+				meeting_list_to_save.push(meeting_to_save)
+				meeting_list_to_fail_to_save.push(meeting_to_save)
+			end
+			
+			# Saving the list
+			saver = Saver::new(@dbi_insert, 
+								@dbi_select_tech, 
+								@dbi_select_biz)
+			saver.save_meeting_list(meeting_list_to_save)
+			
+			# Number check
+			meeting_num_after_first_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:meeting])
+						
+			assert_equal(old_meeting_num + meeting_list_to_save.size, 
+						meeting_num_after_first_save,
+						"Wrong number of Meetings after first save.")
+			
+			# ID Check
+			
+			# Check that the meetings have IDs
+			for index in 0..number_of_meeting
+				meeting_saved = meeting_list_to_save[index]
+				@logger.debug("test_save_meeting_list - old_last_meeting_id : " + old_last_meeting_id.to_s)
+				@logger.debug("test_save_meeting_list - index : " + index.to_s)
+				@logger.debug("test_save_meeting_list - meeting_saved.id : " + meeting_saved.id.to_s)
+				assert_operator(old_last_meeting_id + index, :<=, meeting_saved.id)
+				
+				# Check that if a Meeting is retrieved just on those ID,
+				# it's the same as the meeting generated
+				verification_meeting = @dbi_select_tech.
+					load_meeting_by_id(meeting_saved.id)
+				
+				validate_meeting(meeting_saved, 
+								verification_meeting, 
+								"meeting to save")
+			end
+			
+			# Check that if a create the same Meeting (without ID)
+			# and try to save it, it retrieves the ID but doesn't save
+			# it (number of Meeting isn't incremented again)
+			
+			saver.save_meeting_list(meeting_list_to_fail_to_save)
+			
+			# Check that the meetings have IDs
+			for index in 0..number_of_meeting
+				meeting_saved = meeting_list_to_fail_to_save[index]
+				assert_operator(old_last_meeting_id + index, :<=, meeting_saved.id)
+			end
+			
+			# Check that the number of meetings hasn't changed
+			meeting_num_after_second_save = @dbi_select_tech.
+				select_count_from_table(
+					@config[:gen][:table_names][:meeting])
+			
+			assert_equal(meeting_num_after_first_save, 
+						meeting_num_after_second_save,
+						"Wrong number of Meetings in DB after second " + 
+							"attempt to save")
+		rescue Exception => err
+			log_flunking_test(err)
+		end
+		@logger.ok("Tests for save meeting list OK.")
 	end
 	
 	def test_save_owner
