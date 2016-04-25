@@ -67,7 +67,7 @@ class TestCrawler < TestSuite
 			# "s.)")
 	# end
 	
-	def sill_not_test_fetch_meetings
+	def not_test_fetch_meetings
 		
 		@logger.imp("Testing fetch meetings")
 		begin
@@ -79,7 +79,9 @@ class TestCrawler < TestSuite
 			if html_meeting_list == nil then
 				flunk("html_meeting_list is nil.")
 			end
-		
+			
+			result_insertion_time_before = Time.now
+			
 			meeting_list = @crawler.fetch_meetings(html_meeting_list, job)
 			
 			# Checking the list has meetings in it and that those meetings
@@ -93,40 +95,55 @@ class TestCrawler < TestSuite
 			assert_equal(6, meeting_list[4].race_list.size)
 			
 			# Checking the meetings
+			# in order to not spend an eternity writing validation functions
+			# for every race and runner, the meetings are "crippled" before 
+			# validation
 			# R1
 			r1 = meeting_list[0]
-			validate_R1(r1, job, date)
 			
 			r1_c7 = r1.race_list[6]
-			validate_race_R1_C7(r1_c7)
+			validate_race_R1_C7(r1_c7, result_insertion_time_before)
+			
+			r1.race_list = nil
+			validate_R1(r1, job)
 			
 			# R2
 			r2 = meeting_list[1]
-			validate_R2(r2, job, date)
 			
 			r2_c7 = r2.race_list[6]
-			validate_race_R2_C7(r2_c7)
+			validate_race_R2_C7(r2_c7, result_insertion_time_before)
+			
+			r2.race_list = nil
+			validate_R2(r2, job)
 			
 			# R3
 			r3 = meeting_list[2]
-			validate_R3(r3, job, date)
 			
 			r3_c1 = r3.race_list[0]
-			validate_race_R3_C1(r3_c1)
+			validate_race_R3_C1(r3_c1, result_insertion_time_before)
+			
+			r3.race_list = nil
+			validate_R3(r3, job)
 			
 			# R4
 			r4 = meeting_list[3]
-			validate_R4(r4, job, date)
 			
-			r4_c3 = r4.race_list[2]
-			validate_race_R4_C3(r4_c3)
+			r4_c3 = r4.race_list[1] # bug: R4_C1 isn't fetched (file doesn't 
+									# exist ?) so C3 is actually 2nd in the 
+									# list
+			validate_race_R4_C3(r4_c3, result_insertion_time_before)
+			
+			r4.race_list = nil
+			validate_R4(r4, job)
 			
 			# R5
-			r5 = meeting_list[0]
-			validate_R5(r5, job, date)
+			r5 = meeting_list[4]
 			
 			r5_c5 = r5.race_list[4]
-			validate_race_R5_C5(r5_c5)
+			validate_race_R5_C5(r5_c5, result_insertion_time_before)
+			
+			r5.race_list = nil
+			validate_R5(r5, job)
 			
 		rescue Exception => err
 			log_flunking_test(err)
@@ -257,9 +274,16 @@ class TestCrawler < TestSuite
 			# Extracting the race to test
 			url_to_race = urls_of_races_array[6]
 			meeting = Meeting::new(job: Job::new, weather: Weather:: new)
+			
+			@logger.level = SimpleHtmlLogger::DEBUG
+			result_insertion_time_before = Time::new
+			@logger.debug("test_fetch_race - result_insertion_time_before : " + 
+				result_insertion_time_before.
+					strftime(@config[:gen][:default_date_time_format])
+			)
 			fetched_race = @crawler.fetch_race(url_to_race, meeting)
 			# @logger.debug("test_fetch_race - fetched_race: " + fetched_race.to_s)
-			validate_race_R1_C7(fetched_race)
+			validate_race_R1_C7(fetched_race, result_insertion_time_before)
 			
 			
 		rescue Exception => err

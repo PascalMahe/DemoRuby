@@ -3,9 +3,20 @@
 def log_flunking_test(err)
 	@logger.error(err.inspect)
 	@logger.error(err.backtrace)
-	final_message = err.inspect + " in: \n" + 
-					err.backtrace[0] + "\n" +
-					err.backtrace[1]
+	
+	interesting_backtrace = []  # in the workspace, 
+								# the rest is ignored
+	for bkt in err.backtrace do 
+		if bkt.include?("workspace") then
+			interesting_backtrace.push(bkt)
+		end
+	end
+	
+	final_message = err.inspect + " in: \n"
+	
+	for bkt in interesting_backtrace do
+		final_message = final_message + bkt + "\n"
+	end
  	flunk(final_message)
 end
 
@@ -86,8 +97,7 @@ def validate_meeting(expected_meeting, actual_meeting, str_meeting_identifier)
 				assert_operator(actual_race, :!=, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should not be nil)")
 				validate_race(expected_race, 
 							actual_race, 
-							"race from " + str_meeting_identifier,
-							called_from_validate_meeting: true)
+							"race from " + str_meeting_identifier)
 			else
 				assert_equal(actual_race, nil, "Wrong race (num: " + i.to_s + ") in actual_meeting.race_list for " + str_meeting_identifier + " (should be nil)")
 			end
@@ -107,8 +117,8 @@ end
 
 def validate_race(expected_race, 
 					actual_race, 
-					str_race_identifier, 
-					called_from_validate_meeting: false)
+					str_race_identifier,
+					result_insertion_time_before = nil)
 	assert_equal(expected_race.bets, 					actual_race.bets, 					"Wrong bets for " + str_race_identifier)
 	assert_equal(expected_race.detailed_conditions, 	actual_race.detailed_conditions, 	"Wrong detailed_conditions for " + str_race_identifier)
 	assert_equal(expected_race.distance, 				actual_race.distance, 				"Wrong distance for " + str_race_identifier)  
@@ -121,30 +131,72 @@ def validate_race(expected_race,
 	assert_equal(expected_race.url, 					actual_race.url, 					"Wrong url for " + str_race_identifier)  
 	assert_equal(expected_race.value, 					actual_race.value, 					"Wrong value for " + str_race_identifier)  
 	
-	@logger.debug("validate_race - expected_race.result_insertion_time = " + 
-		expected_race.result_insertion_time.to_s)
+	# @logger.debug("validate_race - expected_race.result_insertion_time = " + 
+		# expected_race.result_insertion_time.to_s)
 		
-	@logger.debug("validate_race - expected_race.result_insertion_time = " + 
-		expected_race.result_insertion_time.to_s)
-	validate_time(expected_race.result_insertion_time, 	actual_race.result_insertion_time,  "result_insertion_time", str_race_identifier)
+	if result_insertion_time_before == nil then
+		@logger.debug("validate_race - ritb is nil -> checking race.rit with validate_time")
+		# if result_insertion_time_before is nil, we're testing the recovery 
+		# from the database and the result must be exact (or very very close)
+		validate_time(expected_race.result_insertion_time, 	
+						actual_race.result_insertion_time,  
+						"result_insertion_time", 
+						str_race_identifier)
+	else 
+		# if result_insertion_time_before is not nil, we're testing the 
+		# values from crawling and we can't know precisely when they'll
+		# be crawled 
+		# so we check the value is between result_insertion_time_before,
+		# which should be armed before calling the crawling function, and
+		# the expected_race's result_insertion_time, which represents then
+		# later barrier (in the before <= time <= after)
+		@logger.debug("validate_race - ritb is not nil -> checking ritb < race.rit < actual.rit")
+		
+		ritb_as_str = result_insertion_time_before.
+					strftime(@config[:gen][:default_date_time_format])
+		actual_rit_as_str = actual_race.result_insertion_time.
+					strftime(@config[:gen][:default_date_time_format])
+		expected_rit_as_str = actual_race.result_insertion_time.
+					strftime(@config[:gen][:default_date_time_format])
+		
+		@logger.debug("validate_race - ritb : " + ritb_as_str)
+		@logger.debug("validate_race - race.rit : " + actual_rit_as_str)
+		@logger.debug("validate_race - actual.rit : " + expected_rit_as_str)
+		
+		rit_is_between = actual_race.result_insertion_time.between?(
+							result_insertion_time_before, 
+							expected_race.result_insertion_time)
+		
+		assert_equal(true, 
+						rit_is_between, 
+						"Wrong result_insertion_time for " + 
+						str_race_identifier + ", " + 
+						actual_rit_as_str + " isn't between " + 
+						ritb_as_str + " and " + 
+						expected_rit_as_str)
+		
+	end
 	
 	# Checking runner_list's value would be too costly (in term of tests' development) so,
 	# we just check its length
 	if expected_race.runner_list != nil then
-		assert_operator(actual_race.runner_list, :!=, nil, "Wrong runner_list for " + str_race_identifier + " (should not be nil)")
-		assert_equal(actual_race.runner_list.length, 	actual_race.runner_list.length, 	"Wrong runner_list.length for " + str_race_identifier)
+		assert_operator(actual_race.runner_list, 
+						:!=, 
+						nil, 
+						"Wrong runner_list for " + 
+							str_race_identifier + 
+							" (should not be nil)")
+		assert_equal(expected_race.runner_list.length,
+						actual_race.runner_list.length, 
+						"Wrong runner_list.length for " + str_race_identifier)
 	else
-		assert_equal(nil, actual_race.runner_list, 	"Wrong runner_list for " + str_race_identifier + " (should be nil)")
+		assert_equal(nil, 
+					actual_race.runner_list, 
+					"Wrong runner_list for " + 
+						str_race_identifier + 
+						" (should be nil)")
 	end
 	
-	# if not called_from_validate_meeting then
-		# if expected_race.meeting != nil then
-			# assert_operator(actual_race.meeting, :!=, nil, "Wrong meeting for " + str_race_identifier + " (should not be nil)")
-			# validate_meeting(actual_race.meeting, actual_race.meeting, "meeting from " + str_race_identifier) 
-		# else
-			# assert_equal(nil, actual_race.meeting, 	"Wrong meeting for " + str_race_identifier + " (should be nil)")
-		# end
-	# end 
 	@logger.ok("Tests for " + str_race_identifier + " OK.")
 end
 
