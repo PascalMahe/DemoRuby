@@ -140,10 +140,10 @@ class Crawler
 	def getTraCon()
 		ref_to_ret = @ref_list_hash[:ref_race_type_list]["Attelé"]
 		
-		@logger.level = SimpleHtmlLogger::DEBUG
+		# @logger.level = SimpleHtmlLogger::DEBUG
 		@logger.debug("getTraCon - ")
 		@logger.debug(@ref_list_hash[:ref_race_type_list])
-		@logger.level = SimpleHtmlLogger::INFO
+		# @logger.level = SimpleHtmlLogger::INFO
 		
 		return ref_to_ret
 	end

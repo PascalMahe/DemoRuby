@@ -113,7 +113,7 @@ class DatabaseInterface
 			statement = @db.prepare(query)
 		end
 		
-		log_nicely("execute_select - Executing query: ", query, values_hash)
+		# log_nicely("execute_select - Executing query: ", query, values_hash)
 		
 		begin
 			statement.bind_params(values_hash)
@@ -214,7 +214,7 @@ class DatabaseInterface
 		
 		query = @sql[:gen][:duplicate_detection]
 		
-		@logger.debug("detect_duplicates - Getting IDs that are duplicates in: " + refTable.to_s)
+		# @logger.debug("detect_duplicates - Getting IDs that are duplicates in: " + refTable.to_s)
 		id_list = []
 		
 		query = query.gsub(':table', refTable.to_s)
@@ -242,8 +242,8 @@ class DatabaseInterface
 		if id_list.size > 1 then
 			plural = "s"
 		end
-		@logger.debug("detect_duplicates - Found " + id_list.size.to_s + " duplicate"  + 
-						plural + " in " + refTable.to_s + ".")
+		# @logger.debug("detect_duplicates - Found " + id_list.size.to_s + " duplicate"  + 
+		#				 plural + " in " + refTable.to_s + ".")
 		return id_list
 	end
 end

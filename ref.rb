@@ -40,7 +40,7 @@ class RefObjectContainer < Hash
 		raw_query = $globalState.config[:sql][:gen][:load_table]
 		query = raw_query.gsub(':table', @ref_class.to_s)
 		stat_select_all = nil
-		$globalState.logger.debug("load_table - query: " + query)
+		# $globalState.logger.debug("load_table - query: " + query)
 		table_content = $globalState.dbi_select_by_tech_id.
 							load_ref_object_list(
 								@ref_class, 
