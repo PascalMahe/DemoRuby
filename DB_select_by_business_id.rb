@@ -162,10 +162,13 @@ class DatabaseInterfaceSelectByBusinessId < DatabaseInterface
 	end
 	
 	def load_weather_id(weather)
+		if weather.wind_direction != nil then
+			id_wind_direction = weather.wind_direction.id
+		end
 		values_hash = {
 			:insolation => weather.insolation,
 			:temperature => weather.temperature,
-			:id_wind_direction => weather.wind_direction.id,
+			:id_wind_direction => id_wind_direction,
 			:wind_speed => weather.wind_speed
 		}
 		row = execute_select_w_one_result(

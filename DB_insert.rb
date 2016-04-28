@@ -436,8 +436,11 @@ class DatabaseInterfaceInsert < DatabaseInterface
 	end
 
 	def insert_weather(weather)
+		if weather.wind_direction != nil then
+			wind_direction_id = weather.wind_direction.id
+		end
 		values_hash = {
-			:wind_direction => weather.wind_direction.id, 
+			:wind_direction => wind_direction_id,
 			:insolation => weather.insolation,
 			:temperature => weather.temperature,
 			:wind_speed => weather.wind_speed

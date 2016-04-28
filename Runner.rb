@@ -108,6 +108,10 @@ class Runner
 
 	end
 	
+	def biz_id()
+		return @number.to_s
+	end
+	
 	def pretty(var)
 		str_age = "nil"
 		if var != nil

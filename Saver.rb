@@ -105,6 +105,7 @@ class Saver
 		save_weather(meeting.weather)
 		@logger.debug("save_meeting - weather#" + meeting.weather.id.to_s)
 		
+		info_str = "" + meeting.biz_id + " "
 		# if the ID is unknown 
 		# => if the meeting exists in the DB, its ID is loaded
 		# => if the meeting isn't in the DB, it's inserted
@@ -119,12 +120,15 @@ class Saver
 				@logger.debug("save_meeting - meeting inserted")
 			else
 				meeting.id = tech_id
+				info_str = info_str + "already "
 			end
 			@logger.debug("save_meeting - tech ID retrieved: " + meeting.id.to_s)
 		end
-		
+		info_str = info_str + "saved"
+		@logger.info("save_meeting - " + info_str)
+
 		# saving the races
-		@logger.debug("save_meeting - saving races")
+		@logger.info("save_meeting - saving races")
 		meeting.race_list.each do |race|
 			save_race(race, meeting.id)
 		end
@@ -137,6 +141,7 @@ class Saver
 	end
 	
 	def save_owner(owner)
+	
 		if owner.id == nil then
 			@logger.debug("save_owner - no ID")
 			tech_id = @dbi_select_biz.load_owner_id(owner)
@@ -154,9 +159,11 @@ class Saver
 		else
 			@logger.debug("save_owner - owner#" + owner.id.to_s)
 		end
+
 	end
 	
 	def save_race(race, id_meeting)
+		info_str = "" + race.biz_id + " "
 		if race.id == nil then
 			@logger.debug("save_race - no ID")
 			tech_id = @dbi_select_biz.load_race_id(race, id_meeting)
@@ -167,21 +174,25 @@ class Saver
 				@logger.debug("save_race - race inserted")
 			else
 				race.id = tech_id
+				info_str = info_str + "already "
 			end
 			@logger.debug("save_race - tech ID retrieved: " + race.id.to_s)
 		else
 			@logger.debug("save_race - race#" + race.id.to_s)
 		end
+		info_str = info_str + "saved"
+		@logger.info("save_race - " + info_str)
 		
 		# saving the runners, if necessary
 		if race.runner_list != nil then
-			@logger.debug("save_race - saving runners")
-			race.runner_list.each do |runner|
+			@logger.info("save_race - saving runners")
+			race.runner_list.each do |key, runner|
 				save_runner(runner, race.id)
 			end
 		else
 			@logger.debug("save_race - no runners to save")
 		end
+		
 	end
 	
 	def save_runner(runner, id_race)
@@ -254,6 +265,7 @@ class Saver
 		save_trainer(runner.trainer)
 		@logger.debug("save_runner - trainer#" + runner.trainer.id.to_s)
 		
+		info_str = "" + runner.biz_id + " "
 		if runner.id == nil then
 			@logger.debug("save_runner - no ID")
 			tech_id = @dbi_select_biz.load_runner_id(runner, id_race)
@@ -265,12 +277,15 @@ class Saver
 				@logger.debug("save_runner - runner inserted")
 			else
 				runner.id = tech_id
+				info_str = info_str + "already "
 			end
 			
 			@logger.debug("save_trainer - tech ID retrieved: " + runner.id.to_s)
 		else
 			@logger.debug("save_trainer - runner#" + runner.id.to_s)
 		end
+		info_str = info_str + "saved"
+		@logger.info("save_runner - " + info_str)
 	end
 	
 	def save_trainer(trainer)

@@ -32,6 +32,11 @@ class Meeting
 		@weather = weather
 	end
 	
+	def biz_id()
+		format = $globalState.config[:gen][:default_date_format]
+		return "" + date.strftime(format) + "M" + nil_safe_to_s(@number)
+	end
+	
 	def to_s()
 		return "Meeting[id = " + nil_safe_to_s(@id) +
 		", country = " + nil_safe_to_s(@country) +
@@ -115,6 +120,10 @@ class Race
 		@time = time
 		@url = url
 		@value = value
+	end
+	
+	def biz_id()
+		return @number.to_s
 	end
 	
 	def is_finished?()
