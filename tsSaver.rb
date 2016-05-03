@@ -821,7 +821,7 @@ class TestSaver < TestSuite
 			assert_operator(meeting.id, :!=, nil)
 			
 			# Creating runner_list
-			test_runner_list = []
+			test_runner_list = Hash.new
 			for i in 0..4 do
 				format = @config[:gen][:default_date_time_format]
 				differentiator = DateTime.now.strftime(format)
@@ -865,7 +865,7 @@ class TestSaver < TestSuite
 			assert_equal(old_last_race_id + 1, race_to_save.id)
 			
 			# Do the same for the runners
-			for runner in race_to_save.runner_list
+			test_runner_list.each do |key, runner|
 				# ID existence check
 				assert_operator(0, :<=, runner.id)
 				# ID bigger-than-previous-last check
@@ -905,7 +905,7 @@ class TestSaver < TestSuite
 							"race to save")
 			
 			# Do the same for the runners
-			for runner in race_to_save.runner_list
+			race_to_save.runner_list.each do |key, runner|
 				verification_runner = @dbi_select_tech.
 					load_runner_by_id(runner.id)
 				validate_runner(runner, 
