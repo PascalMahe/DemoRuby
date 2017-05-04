@@ -1,5 +1,6 @@
 :gen:
  :time_lapse: 3.months
+ :earliest_date: 02062013
  :database_name: 		'pmu.db'
  :test_database_name: 	'test.db'
  :default_date_time_format: '%d/%m/%Y %H:%M:%S.%L'
@@ -8,6 +9,7 @@
  # before inserts and after selects
  :database_date_time_format: '%d/%m/%Y %H:%M:%S.%L %z' 
  :default_date_format: 		'%d/%m/%Y'
+ :pmu_url_date_format:      '%d%m%Y'
  :default_time_format: 		'%H:%M:%S.%L'
  :minute_time_format: 		'%M:%S.%L'
  :second_time_format: 		'%S.%L'
@@ -18,7 +20,7 @@
  :sql_update: 	'sql.update.yml'
  :sql_gen: 		'sql.gen.yml'
  :sql_test: 	'sql.test.yml'
- :base_adress: 					'file://D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
+ :base_adress: 					'https://www.pmu.fr/turf/'
  :base_adress_test: 			'file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
  :base_adress_test_fetching: 	'https://www.pmu.fr/turf/#20022014'
  :table_names:  

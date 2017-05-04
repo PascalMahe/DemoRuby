@@ -158,22 +158,27 @@ class Crawler
 		@driver.get(base_adress)
 		
 		#TODO: loop on ALL* the days
-		# *ALL = config[:gen][::time_lapse]
-		date = Date::new(2013,11,15)
+		# *ALL = config[:gen][:earliest_date]
+		date = Date::new()
 		
 		#Fetching meetings
-		html_meeting_list = @driver.find_element(:id, "reunions-view")
+		nb_last_meeting = get_number_of_last_meeting()
+		@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting)
 		
-		meeting_list = fetch_meetings(html_meeting_list, date, current_job)
+		meeting_list = fetch_meetings(nb_last_meeting, date, current_job)
 		return meeting_list
+	end
+	
+	def get_number_of_last_meeting()
+		html_meeting_list = @driver.find_elements(:css, "div.reunion-infos")
+		last_meeting = html_meeting_list.last
+		str_number_of_last_meeting = last_meeting.attribute("data-reunionid")
+		return Integer(str_number_of_last_meeting)
 	end
 
 	
-    def fetch_meetings(html_meeting_list, current_job)
-		# html_meeting_list parameter: a WebElement representing a <div> tag 
-		# containing the meetings' tags
-		
-		# Loop on meetings to fetch basic info (number, racetrack, weather and 
+    def fetch_meetings(nb_last_meeting, date, current_job)
+		# Loop on number of meetings to fetch basic info (number, racetrack, weather and 
 		# track_condition (in the original tag's children)), get the tag 
 		# listing the races (from the meeting number) in order to get the 
 		# date and races' URLs.
@@ -183,18 +188,14 @@ class Crawler
 		# the pages.
 		meeting_list = []
 		
-		html_meeting_list = html_meeting_list.
-					find_elements(:css, "div.reunion-line")
-		@logger.info("Loading meetings: there are " + 
-					html_meeting_list.size.to_s + " meetings.")
-		html_meeting_list.each do |meeting|
+		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
+		
+		for i in 1..nb_last_meeting do
+			current_URL = str_formatted_date + "/R" + i + "/C1"
+			driver.get(current_URL)
 			business_meeting = 
-				fetch_meeting_shallow(meeting, current_job)
+				fetch_meeting_shallow(date, i, current_job)
 			meeting_list.push(business_meeting)
-			# @logger.debug("current business_meeting is a(n) " + business_meeting.class.to_s)
-			if business_meeting.is_a?(Meeting) then
-				# @logger.debug("business_meeting: " + business_meeting.date.to_s + ":" + business_meeting.number)
-			end
 		end
 		
 		# @logger.trace("Fetched meetings (shallow) all " + meeting_list.length.to_s + " of 'em. Fetching deep meetings.")
@@ -212,20 +213,27 @@ class Crawler
 		return meeting_list
 	end
 
-	def fetch_meeting_shallow(html_meeting, job)
-		# parameter: a WebElement representing an <div> tag, linking to the meeting
+	def fetch_meeting_shallow(date, number, job)
+		# fetches 	country
+		#			racetrack
+		#			track_condition
+		#			urls_of_races_array 
+		#			weather
 		
-		# number, racetrack, weather and track_condition are in the original tag's
-		# children, date is deduced from a race's tag
+		# number, job and date are parameters
+		# id is generated at insert
+		# race_list is created empty and completed in fetch_meeting
+		
+		# TODO 
 		
 		# number
-		number = html_meeting.attribute("data-reunionid").to_i
-		# @logger.debug("Number : " + number)
+		@logger.debug("Number : " + number)
 		
 		# racetrack & country
-		strong_tag_for_racetrack = html_meeting.
-					find_element(:css, "strong")
-		racetrack = strong_tag_for_racetrack.attribute("title")
+		span_tag_for_racetrack = @driver.
+					find_element(:xpath, "//div[@class='reunion-hippodrome']/span")
+					
+		racetrack = span_tag_for_racetrack.attribute("title")
 		
 		country = "France"
 		if racetrack.index("(") != nil then
@@ -606,13 +614,14 @@ class Crawler
 	end
 	
 	def go_and_fetch_runner(runner)
-		# @logger.debug("go_and_fetch_runner - Does the runner have a URL?")
-		# @logger.debug("go_and_fetch_runner - It can't, since that info is not on the runners page. Going by popin for now.")
+		@logger.debug("go_and_fetch_runner - Does the runner have a URL?")
+		@logger.debug("go_and_fetch_runner - It can't, since that info is not on the runners page. Going by popin for now.")
 		
 		# FIXME when we attack the real site
 		go_back = true
 		
 		if runner.url != nil and runner.url != "" then
+			@logger.debug("go_and_fetch_runner - go to runner.url: '" + runner.url + "'")
 			@driver.get(runner.url)
 			
 		else
@@ -628,7 +637,9 @@ class Crawler
 			# reversing the ' and the "
 			# because the horse's names can have apostrophes (fuckers...)
 			runner_link_elmt = runner_name_elmt.find_element(:css, "a")
-			runner_link_elmt.click
+			@logger.debug("go_and_fetch_runner - clicking on runner_link_elmt: '" + runner_link_elmt.attribute('href') + "'")
+			# runner_link_elmt.click
+			driver.get(runner_link_elmt.attribute('href'))
 		end
 		
 		runner = fetch_runner(runner)

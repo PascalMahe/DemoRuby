@@ -1,6 +1,5 @@
 ﻿require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
-require 'test/unit'
 require 'selenium-webdriver'
 require './common.rb'
 require './SimpleHtmlLogger.rb'
@@ -28,7 +27,7 @@ begin #general exception catching block
 	
 	path_to_log = ""
 	log_level = SimpleHtmlLogger::DEBUG
-	is_test = true
+	is_test = false
 	$globalState = GlobalState::new(is_test, log_level, path_to_log)
 	
 	logger = $globalState.logger
@@ -36,8 +35,9 @@ begin #general exception catching block
 	dbi = $globalState.dbi
 	
 	logger.info("Loading config")
-	logger.info("START TIME: " + start_time.strftime($config[:gen][:default_date_time_format]))
-	logger.debug("Config : " + $config.to_s)
+	config = $globalState.config
+	logger.info("START TIME: " + start_time.strftime(config[:gen][:default_date_time_format]))
+	# logger.debug("Config : " + config.to_s)
 
 	loading_end_time = Time.now
 
@@ -76,24 +76,36 @@ begin #general exception catching block
 	end
 	
 	logger.info("Loading reference values")
-	ref_list_hash = dbi.load_all_refs()
+	dbi_select_by_tech_id = $globalState.dbi_select_by_tech_id
+	ref_list_hash = dbi_select_by_tech_id.load_all_refs
 	
 	logger.imp("CRAWLING TIME")
 
 	logger.info("Starting to crawl")
 	if is_test
-		base_adress = $config[:gen][:base_adress]
+		base_adress = config[:gen][:base_adress_test]
 	else
-		base_adress = $config[:gen][:base_adress_test]
+		base_adress = config[:gen][:base_adress]
 	end
+	logger.debug("main - base_adress: " + base_adress)
 	
-	crawler = Crawler.new()
+	crawler = Crawler::new(logger, ref_list_hash, config)
 
-	meeting_list = crawler.crawl(base_adress)
+	meeting_list = crawler.crawl(base_adress, current_job)
 	
 	logger.info("Ending crawl")
 	crawling_end_time = Time.now
 	current_job.crawling_end_time = crawling_end_time
+	
+	
+	logger.info("Starting saves")
+	# Saving the meeting_list
+	saver = Saver::new($globalState.dbi_insert, 
+						$globalState.dbi_select_tech, 
+						$globalState.dbi_select_biz)
+	
+	saver.save_meeting_list(meeting_list)
+	logger.info("Ending saves")
 	
 	logger.info("Starting computations")
 	logger.info("Ending computations")
