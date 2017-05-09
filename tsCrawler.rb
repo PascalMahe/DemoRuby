@@ -145,7 +145,7 @@ class TestCrawler < TestSuite
 			url_to_race = urls_of_races_array[6]
 			meeting = Meeting::new(job: Job::new, weather: Weather:: new)
 			
-			@logger.level = SimpleHtmlLogger::DEBUG
+			
 			result_insertion_time_before = Time::new
 			@logger.debug("test_fetch_race - result_insertion_time_before : " + 
 				result_insertion_time_before.

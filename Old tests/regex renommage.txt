@@ -1,9 +1,0 @@
-REGEX : 
-- trouver liens vers courses (page 1) :
-	http://www.pmu.fr/turf/15112013/reunion-(.)-.+/course-(.)-[A-Z1-9_]+.html
-	-> renommer liens en :
-	journee_01_finie_course_\1\2_1.htm
-- trouver liens vers courses (vers page 2) :
-	http://www.pmu.fr/turf/15112013/reunion-(.)-.+/course-(.)-.+/rapports.html
-- renommer liens en :
-	journee_01_finie_course_\1\2_2.htm
