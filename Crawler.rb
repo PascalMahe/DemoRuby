@@ -159,11 +159,11 @@ class Crawler
 		
 		#TODO: loop on ALL* the days
 		# *ALL = config[:gen][:earliest_date]
-		date = Date::new()
+		date = Date.today()
 		
 		#Fetching meetings
 		nb_last_meeting = get_number_of_last_meeting()
-		@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting)
+		@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting.to_s)
 		
 		meeting_list = fetch_meetings(nb_last_meeting, date, current_job)
 		return meeting_list
@@ -189,9 +189,11 @@ class Crawler
 		meeting_list = []
 		
 		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
+		@logger.debug("fetch_meetings - str_formatted_date: " + str_formatted_date)
 		
 		for i in 1..nb_last_meeting do
-			current_URL = str_formatted_date + "/R" + i + "/C1"
+			current_URL = "https://www.pmu.fr/turf/" + str_formatted_date + "/R" + i.to_s + "/C1"
+			@logger.debug("fetch_meetings - current_URL: " + current_URL)
 			driver.get(current_URL)
 			business_meeting = 
 				fetch_meeting_shallow(date, i, current_job)
@@ -227,7 +229,7 @@ class Crawler
 		# TODO 
 		
 		# number
-		@logger.debug("Number : " + number)
+		@logger.debug("Number : " + number.to_s)
 		
 		# racetrack & country
 		span_tag_for_racetrack = @driver.
