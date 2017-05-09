@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Forecast(
 	normalised_result_match_rate REAL, /* percent */
 	FOREIGN KEY(id_race) REFERENCES Race(id_race),
 	FOREIGN KEY(id_origin) REFERENCES Origin(id_origin)
-);			
+);
 CREATE TABLE IF NOT EXISTS Horse(
 	id_horse INTEGER PRIMARY KEY,
 	id_breed INTEGER, /* FK to RefBreed */

@@ -2,17 +2,17 @@
 
  # BUSINESS TABLES
  :race: 'UPDATE Race
-		SET result = :result,
-		result_insertion_time = :result_insertion_time
-		WHERE id_race = :id'
+        SET result = :result,
+        result_insertion_time = :result_insertion_time
+        WHERE id_race = :id'
 
  :forecast: 'UPDATE Forecast
-			set result_match_rate = :result_match_rate,
-			normalised_result_match_rate = :normalised_result_match_rate
-			WHERE id_forecast = :id'
+            set result_match_rate = :result_match_rate,
+            normalised_result_match_rate = :normalised_result_match_rate
+            WHERE id_forecast = :id'
 
  :runner: 'UPDATE Runner
-			SET final_place = :final_place,
-			disqualified = :disqualified,
-			single_rating_after_race = :single_rating_after_race
-			WHERE id_runner = :id'
+            SET final_place = :final_place,
+            disqualified = :disqualified,
+            single_rating_after_race = :single_rating_after_race
+            WHERE id_runner = :id'

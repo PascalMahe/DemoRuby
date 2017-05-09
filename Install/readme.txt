@@ -28,3 +28,4 @@ INSTALLING RUBY DevKit :
  - run install_gems.bat
  - if it fails because of proxy, see inside for commands to go through the proxy
 
+/!\ Sqlite3 gem doesn't work with JRuby -> see http://stackoverflow.com/a/7786796/2112089, it points to another gem: https://rubygems.org/gems/activerecord-jdbcsqlite3-adapter

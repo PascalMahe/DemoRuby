@@ -13,7 +13,8 @@
 
 ::SET HTTP_PROXY=http://%USER%:%PASSWORD%@%SERVER%:%PORT%
 call gem install selenium-webdriver
-call gem install sqlite3
+:: call gem install sqlite3
+call gem install activerecord-jdbcsqlite3-adapter
 
 
 
