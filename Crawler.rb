@@ -196,117 +196,75 @@ class Crawler
 			@logger.debug("fetch_meetings - current_URL: " + current_URL)
 			driver.get(current_URL)
 			business_meeting = 
-				fetch_meeting_shallow(date, i, current_job)
+				fetch_meeting(date, i, current_job, current_URL)
 			meeting_list.push(business_meeting)
-		end
-		
-		# @logger.trace("Fetched meetings (shallow) all " + meeting_list.length.to_s + " of 'em. Fetching deep meetings.")
-		
-		
-		# Second loop: to get all the data on meetings
-		meeting_list.each do |shallow_meeting|
-			
-			# @logger.debug("shallow_meeting: " +
-				# shallow_meeting.date.to_s + ":" + shallow_meeting.number +
-				# " (" + shallow_meeting.race_list.length.to_s + " races)")
-			deep_meeting = fetch_meeting(shallow_meeting)
 		end
 				
 		return meeting_list
 	end
 
-	def fetch_meeting_shallow(date, number, job)
-		# fetches 	country
+	def fetch_meeting_shallow(date, number, job, meeting_URL)
+		# fetches 	country => lost for the moment
 		#			racetrack
 		#			track_condition
 		#			urls_of_races_array 
 		#			weather
 		
-		# number, job and date are parameters
-		# id is generated at insert
-		# race_list is created empty and completed in fetch_meeting
-		
-		# TODO 
-		
 		# number
 		@logger.debug("Number : " + number.to_s)
 		
-		# racetrack & country
+		# racetrack
 		span_tag_for_racetrack = @driver.
-					find_element(:xpath, "//div[@class='reunion-hippodrome']/span")
+					find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[1]/div/div[2]/ul/li[5]/div[3]/span")
 					
 		racetrack = span_tag_for_racetrack.attribute("title")
 		
-		country = "France"
-		if racetrack.index("(") != nil then
-			racetrackArray = racetrack.split("(")
-			racetrack = racetrackArray[0].strip()
-			country = racetrackArray[1]
-			country = country.gsub(")", "").strip
+		# country = "France"
+		# if racetrack.index("(") != nil then
+			# racetrackArray = racetrack.split("(")
+			# racetrack = racetrackArray[0].strip()
+			# country = racetrackArray[1]
+			# country = country.gsub(")", "").strip
 			# @logger.debug("Country : " + country)
-		end
+		# end
+		country = nil
 		# @logger.debug("Racetrack : " + racetrack)
 		
 		# weather
 		weather = nil
-		div_tag_for_weather = html_meeting.
-					find_element(:css, "div.picto-meteo")
-		if div_tag_for_weather != nil then
-			weather = fetch_weather(div_tag_for_weather)
-			# @logger.debug("Weather : " + weather.to_s)
+		p_tag_for_weather = @driver.
+					find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[3]/div/div[2]/div[2]/p")
+		if p_tag_for_weather != nil then
+			weather = fetch_weather(p_tag_for_weather)
+			@logger.debug("Weather : " + weather.to_s)
 		end
 		
-		# getting second tag
-		secondary_id = "numOfficiel-" + number.to_s
-		secondary_div_tag = @driver.find_element(:id, secondary_id)
 		
 		# urls_of_races_array
-		link_to_races_tags = secondary_div_tag.find_elements(:css, "a.course")
+		li_link_to_race = driver.find_elements(:css, "li.bandeau-nav-content-scroll-item")
 		urls_of_races_array = []
-		link_to_races_tags.each do |link_to_race_tag|
-			urls_of_races_array.push(link_to_race_tag.attribute("href"))
+		base_url = meeting_URL.slice(0, meeting_URL.length - 1)
+		@logger.debug("fetch_meeting_shallow - li_link_to_race.length: " + li_link_to_race.length.to_s)
+		for i in 1..li_link_to_race.length
+			race_url = base_url + i.to_s
+			urls_of_races_array.push(race_url)
 		end
-		# @logger.debug("Urls_of_races_array : " + urls_of_races_array.to_s)
-		
-		#date
-		if $globalState.is_test then
-			first_race_href = "#12062015/R8/C1"
-		else
-			first_race_href = urls_of_races_array[0]
-			 # should be like this : '#12062015/R8/C1'
-		end
-		str_meeting_date = first_race_href.split("/")[0] # => '#12062015'
-		str_meeting_date = str_meeting_date.gsub("#", "") # => '12062015'
-		str_year = str_meeting_date[4, 4]
-		str_month = str_meeting_date[2, 2]
-		str_day = str_meeting_date[0, 2]
-		year = str_year.to_i
-		month = str_month.to_i
-		day = str_day.to_i
-		
-		meeting_date = Date::new(year, month, day) # => 2015, 06, 15
-		
-		# @logger.debug("Meeting_date : " + meeting_date.to_s)
+		@logger.debug("Urls_of_races_array : " + urls_of_races_array.to_s)
 		
 		# track_condition
 		track_condition = @ref_list_hash[:ref_track_condition_list][""]
 		
-		begin # try/catch block for NoSuchElementError if not track_condition
-			span_tag_for_track_condition = html_meeting.
-					find_element(:xpath, "div/div/p/span[@class='etat-terrain']")
-		
-			track_condition_text = span_tag_for_track_condition.text
-			# @logger.debug("Track condition text : " + track_condition_text)
-			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_text]
-			
-			# @logger.debug("Track condition : " + track_condition.to_s)
-		rescue
-			@logger.debug("No element found for track condition in meeting " +
-				 meeting_date.strftime(@config[:gen][:default_date_format]) + " n°" + number.to_s)
+		p_tag_for_track_condition = driver.find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[3]/div/div[2]/div[1]/p")
+		text_from_p_elmt = p_tag_for_track_condition.text
+		text_from_p_components = text_from_p_elmt.split(" - ")
+		potential_track_condition = text_from_p_components[text_from_p_components.length - 1]
+		if potential_track_condition.include?("Terrain") then
+			track_condition = @ref_list_hash[:ref_track_condition_list][potential_track_condition]
 		end
+		@logger.debug("track_condition : " + track_condition.to_s)
 		
 		meeting = Meeting::new(country: country,
-								date: meeting_date, 
+								date: date, 
 								job: job, 
 								number: number, 
 								racetrack: racetrack, 
@@ -317,84 +275,60 @@ class Crawler
 		return meeting
 	end
 
-	def fetch_meeting(meeting)
-		# Parameter: a Meeting, containing all the data (fetched in fetch_meeting_shallow) 
-		# for the race list
-		# => Fetch the list with a loop on the urls_of_races_array
+	def fetch_meeting(date, number, job, current_URL)
 		
-		meeting.urls_of_races_array.each do |url_of_race|
-			race = fetch_race(url_of_race, meeting)
-			if meeting.race_list == nil then
-				meeting.race_list = []
-			end
-			meeting.race_list.push(race)
-		end
+		# Fetches all data on a meeting, including races
+		
+		# number, job and date are parameters
+		# id is generated at insert
+		# race_list is created empty and completed in fetch_races
+		# all else is fetched in fetch_meeting_shallow
+		
+		meeting = fetch_meeting_shallow(date, number, job, current_URL)
+		
+		meeting.race_list = fetch_races(meeting)
+		
 		return meeting
 	end
 
-	def fetch_weather(div_tag_for_weather)
-		# @logger.debug("div_tag_for_weather : " + div_tag_for_weather.to_s)
-		weather_class = div_tag_for_weather.attribute("class")
-		# @logger.debug("weather_class : " + weather_class)
-		wheather_insolation = weather_class.split(" ")[1] 
-		# @logger.debug("wheather_insolation : " + wheather_insolation)
-		# the class should look like this: "picto-meteo P4"
+	def fetch_weather(p_tag_for_weather)
+		
+		span_tag_for_insolation = p_tag_for_weather.find_element(:css, "span")
+		weather_class = span_tag_for_insolation.attribute("class")
+		# the class should look like this: "icon-meteo-P4"
+		# we're only interested the P4 part
+		weather_components = weather_class.split("-")
+		insolation = weather_components[weather_components.length - 1]
+		
+		@logger.debug("fetch_weather - insolation : " + insolation)
+		
+		weather_text = p_tag_for_weather.text
+		
+		
+		weather_text_components = weather_text.split(", vent")
+		# the class should look like this: "6°C, vent 7 km/h"
 		# we're only interested the P4 part
 		
-		# missing temperature and wind_speed to complete the Weather object
-		# => they are in another tag, a div.popin_bottom
-		# There are multiple div.popin_bottom tags, one per meeting  (for the weather)
-		# plus one per icon in the meeting's (div#reunion_line) div.paris-evenements tag
-		# => if not-test, hover over the picto element the find the div.popin_bottom that's
-		# visible and get data from it
-		@driver.action.move_to(div_tag_for_weather).perform
-		popin_bottoms_tags = @driver.find_elements(:css, "div.popin")
+		@logger.debug("fetch_weather - weather_text : " + weather_text)
+		@logger.debug("fetch_weather - weather_text_components : " + weather_text_components.to_s)
 		
-		my_popin_bottom = nil 
-		# number_of_pop_in_bottoms_displayed = 0
-		popin_bottoms_tags.each do |popin_bottom|
-			# @logger.debug("current popin_bottom : " + popin_bottom.to_s)
-			if popin_bottom.displayed? then
-				my_popin_bottom = popin_bottom
-				break
-				# number_of_pop_in_bottoms_displayed = number_of_pop_in_bottoms_displayed + 1
-			end	
-		end
+		temperature = weather_text_components[0].gsub("\u00B0C", "").strip()
+		wind_speed = weather_text_components[1].gsub("km/h", "").strip()
 		
-		# @logger.debug("my_popin_bottom : " + my_popin_bottom.to_s)
-		# @logger.debug("number_of_pop_in_bottoms_displayed : " + number_of_pop_in_bottoms_displayed.to_s)
-		if my_popin_bottom != nil then
-			str_weather_raw = my_popin_bottom.text.strip
-			
-			weather_components = str_weather_raw.split("\u00B0C\n") 
-			# from test page, may break on real page
-			
-			str_temperature = weather_components[0]
-			str_temperature = str_temperature.gsub("Temp :   ", "").gsub("°C", "").strip()
-			temperature = str_temperature.to_i
-			
-			str_wind_speed = weather_components[1]
-			str_wind_speed = str_wind_speed.gsub("Vent :    ", "").gsub("km/h", "").strip()
-			wind_speed = str_wind_speed.to_i
-		end
-		
-		# hide the pop-in (so that it doesn't fuck up the tests)
-		# -> by moving the mouse to the calendar above the meetings
-		todayElmt = @driver.find_element(:id, "calendar-input")
-		@driver.action.move_to(todayElmt).perform
-		
-		# @logger.debug("temperature : " + temperature.to_s)
-		# @logger.debug("wind_speed : " + wind_speed.to_s)
-		
-		# FIXME: what about wind_direction?
+		@logger.debug("fetch_weather - temperature : " + temperature)
+		@logger.debug("fetch_weather - wind_speed : " + wind_speed)
 		
 		weather = Weather::new(
-			insolation: wheather_insolation, 
+			insolation: insolation, 
 			temperature: temperature, 
 			wind_speed: wind_speed)
 		return weather
 	end
 
+	def fetch_races(meeting)
+	
+	end
+	
 	def fetch_race(url_of_race, meeting)
 		# Parameter: the URL of the page where the data is to be gathered
 		# and the Meeting containing this race
