@@ -128,9 +128,14 @@ class Saver
 		@logger.info("save_meeting - " + info_str)
 
 		# saving the races
-		@logger.info("save_meeting - saving races")
-		meeting.race_list.each do |race|
-			save_race(race, meeting.id)
+		@logger.info("save_meeting - saving races...")
+		if meeting.race_list.length > 0 then
+			meeting.race_list.each do |race|
+				save_race(race, meeting.id)
+			end
+			@logger.info("save_meeting - races savec.")
+		else 
+			@logger.info("save_meeting - no race to save.")
 		end
 	end
 	

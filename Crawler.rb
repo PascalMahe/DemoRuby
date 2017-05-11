@@ -109,6 +109,20 @@ class Crawler
 		profile["general.useragent.override"] = "Selenium UA"
 		profile["nglayout.initialpaint.delay"] = 0
 		
+		# URL to block:
+		# https://analytics.twitter.com/
+		# https://platform.twitter.com/
+		# https://connect.facebook.net/
+		# https://dcniko1cv0rz.cloudfront.net/
+		# https://dis.eu.criteo.com/
+		# https://static.criteo.net/
+		# https://i.realytics.io/
+		# https://tc-sync.realytics.io/
+		# https://tp.realytics.io/
+		# https://sb.scorecardresearch.com/
+		# https://sslwidget.criteo.com/
+		# https://us-u.openx.net
+		
 		#Loading browser
 		driver = Selenium::WebDriver.for(:firefox,:profile => profile)
 		# @driver = Selenium::WebDriver.for(:firefox)
@@ -154,18 +168,32 @@ class Crawler
 	################################################
 	
 	def crawl(base_adress, current_job)
-		# Getting main page
-		@driver.get(base_adress)
+	
+		begin
+			start_time = Time.now
+			# Getting main page
+			@driver.get(base_adress)
+			
+			getting_page_time = Time.now
+			getting_page_duration = getting_page_time - start_time
+			@logger.info("Getting base page took: " + format_time_diff(getting_page_duration))
+			
+			#TODO: loop on ALL* the days
+			# *ALL = config[:gen][:earliest_date]
+			date = Date.today()
+			
+			#Fetching meetings
+			nb_last_meeting = get_number_of_last_meeting()
+			@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting.to_s)
+			
+			meeting_list = fetch_meetings(nb_last_meeting, date, current_job)
+			
+		rescue => e
+			@logger.error("Error while crawling: " + e.inspect)
+			@logger.error(e.backtrace)
+		end
 		
-		#TODO: loop on ALL* the days
-		# *ALL = config[:gen][:earliest_date]
-		date = Date.today()
-		
-		#Fetching meetings
-		nb_last_meeting = get_number_of_last_meeting()
-		@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting.to_s)
-		
-		meeting_list = fetch_meetings(nb_last_meeting, date, current_job)
+		@driver.quit
 		return meeting_list
 	end
 	
@@ -195,9 +223,14 @@ class Crawler
 			current_URL = "https://www.pmu.fr/turf/" + str_formatted_date + "/R" + i.to_s + "/C1"
 			@logger.debug("fetch_meetings - current_URL: " + current_URL)
 			driver.get(current_URL)
-			business_meeting = 
-				fetch_meeting(date, i, current_job, current_URL)
-			meeting_list.push(business_meeting)
+			begin			
+				business_meeting = 
+					fetch_meeting(date, i, current_job, current_URL)
+				meeting_list.push(business_meeting)
+			rescue => e
+				@logger.error("Error while fetching meeting R" + i.to_s + " in date: " + str_formatted_date + " - Error: " + e.message)
+				@logger.error(e.backtrace)
+			end
 		end
 				
 		return meeting_list
@@ -211,12 +244,18 @@ class Crawler
 		#			weather
 		
 		# number
-		@logger.debug("Number : " + number.to_s)
+		@logger.debug("fetch_meeting_shallow - Number: " + number.to_s)
 		
 		# racetrack
-		span_tag_for_racetrack = @driver.
-					find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[1]/div/div[2]/ul/li[5]/div[3]/span")
+		li_tag_arount_racetrack = @driver.
+					find_element(:css, "li.bandeau-nav-content-scroll-item--current")
 					
+		div_tag_around_racetrack = li_tag_arount_racetrack.
+					find_element(:css, "div.reunion-hippodrome")
+					
+		span_tag_for_racetrack = div_tag_around_racetrack.
+					find_element(:css, "span")
+		
 		racetrack = span_tag_for_racetrack.attribute("title")
 		
 		# country = "France"
@@ -241,27 +280,30 @@ class Crawler
 		
 		
 		# urls_of_races_array
-		li_link_to_race = driver.find_elements(:css, "li.bandeau-nav-content-scroll-item")
+		p_race_number_list = @driver.find_elements(:css, "p.bandeau-nav-content-scroll-item-numero")
 		urls_of_races_array = []
-		base_url = meeting_URL.slice(0, meeting_URL.length - 1)
-		@logger.debug("fetch_meeting_shallow - li_link_to_race.length: " + li_link_to_race.length.to_s)
-		for i in 1..li_link_to_race.length
-			race_url = base_url + i.to_s
+		base_url = meeting_URL.slice(0, meeting_URL.length - 2)
+		@logger.debug("fetch_meeting_shallow - p_race_number_list.length: " + p_race_number_list.length.to_s)
+		p_race_number_list.each do |p_around_race_number|
+			span_to_race_number = p_around_race_number.find_element(:css, "span")
+			race_number = span_to_race_number.text
+			race_url = base_url + race_number
 			urls_of_races_array.push(race_url)
 		end
-		@logger.debug("Urls_of_races_array : " + urls_of_races_array.to_s)
+		@logger.debug("fetch_meeting_shallow - Urls_of_races_array : " + urls_of_races_array.to_s)
 		
 		# track_condition
 		track_condition = @ref_list_hash[:ref_track_condition_list][""]
 		
-		p_tag_for_track_condition = driver.find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[3]/div/div[2]/div[1]/p")
+		p_tag_for_track_condition = @driver.find_element(:xpath, "//*[@id='main']/div/div[3]/div/div[3]/div/div[2]/div[1]/p")
 		text_from_p_elmt = p_tag_for_track_condition.text
 		text_from_p_components = text_from_p_elmt.split(" - ")
 		potential_track_condition = text_from_p_components[text_from_p_components.length - 1]
 		if potential_track_condition.include?("Terrain") then
+			potential_track_condition = potential_track_condition.gsub(" D\u00E9tails des conditions", "").strip()
 			track_condition = @ref_list_hash[:ref_track_condition_list][potential_track_condition]
 		end
-		@logger.debug("track_condition : " + track_condition.to_s)
+		@logger.debug("fetch_meeting_shallow - track_condition: " + track_condition.to_s)
 		
 		meeting = Meeting::new(country: country,
 								date: date, 
@@ -312,11 +354,14 @@ class Crawler
 		@logger.debug("fetch_weather - weather_text : " + weather_text)
 		@logger.debug("fetch_weather - weather_text_components : " + weather_text_components.to_s)
 		
-		temperature = weather_text_components[0].gsub("\u00B0C", "").strip()
-		wind_speed = weather_text_components[1].gsub("km/h", "").strip()
+		str_temperature = weather_text_components[0].gsub("\u00B0C", "").strip()
+		str_wind_speed = weather_text_components[1].gsub("km/h", "").strip()
 		
-		@logger.debug("fetch_weather - temperature : " + temperature)
-		@logger.debug("fetch_weather - wind_speed : " + wind_speed)
+		@logger.debug("fetch_weather - temperature : " + str_temperature)
+		@logger.debug("fetch_weather - wind_speed : " + str_wind_speed)
+		
+		temperature = Integer(str_temperature)
+		wind_speed = Integer(str_wind_speed)
 		
 		weather = Weather::new(
 			insolation: insolation, 
@@ -326,7 +371,19 @@ class Crawler
 	end
 
 	def fetch_races(meeting)
-	
+		race_list = []
+		
+		meeting.urls_of_races_array.each do |current_race_url|
+			begin			
+				race = fetch_race(current_race_url, meeting)
+				race_list.push(race)
+			rescue => e
+				@logger.error("Error while fetching race at URL: " + current_race_url + " - Error: " + e.inspect)
+				@logger.error(e.backtrace)
+			end
+		end
+		
+		return race_list
 	end
 	
 	def fetch_race(url_of_race, meeting)
@@ -335,10 +392,12 @@ class Crawler
 		# Fields to fill: bets, country, detailed_conditions, distance, 
 		# general_conditions, name, number, race_type, result, result_insertion_time, 
 		# runner_list, time, url and value
-			
+		
 		#Fetching page
 		@logger.info("fetch_race - Fetching race: " + url_of_race) 
 		@driver.get(url_of_race)
+		
+		# TODO
 		
 		# bets
 		# div#masses-enjeu/div[1]/div => Placé : XXX,XX €

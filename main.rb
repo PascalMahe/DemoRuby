@@ -98,12 +98,13 @@ begin #general exception catching block
 	crawling_end_time = Time.now
 	current_job.crawling_end_time = crawling_end_time
 	
+	logger.imp("SAVING TIME")
 	
 	logger.info("Starting saves")
 	# Saving the meeting_list
 	saver = Saver::new($globalState.dbi_insert, 
-						$globalState.dbi_select_tech, 
-						$globalState.dbi_select_biz)
+						$globalState.dbi_select_by_tech_id, 
+						$globalState.dbi_select_by_business_id)
 	
 	saver.save_meeting_list(meeting_list)
 	logger.info("Ending saves")

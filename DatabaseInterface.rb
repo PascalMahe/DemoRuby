@@ -1,4 +1,5 @@
 require 'sqlite3'
+# require 'activerecord-jdbcsqlite3-adapter'
 require 'date'
 require './ref.rb'
 
