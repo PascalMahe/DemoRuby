@@ -88,6 +88,7 @@ class Crawler
 		
 		# proxy
 		# see https://github.com/jarib/browsermob-proxy-rb
+		# and http://stackoverflow.com/a/15297676/2112089
 		@server = BrowserMob::Proxy::Server.new("D:/Perso/Dev/workspace/DemoRuby/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
 		
 		@server.start
