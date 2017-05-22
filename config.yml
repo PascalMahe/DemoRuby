@@ -20,9 +20,9 @@
  :sql_update: 'sql.update.yml'
  :sql_gen:    'sql.gen.yml'
  :sql_test:   'sql.test.yml'
- :base_adress:               'https://www.pmu.fr/turf/'
- :base_adress_test:          'file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
- :base_adress_test_fetching: 'https://www.pmu.fr/turf/#20022014'
+ :base_address:               'https://www.pmu.fr/turf/'
+ :base_address_test:          'file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
+ :base_address_test_fetching: 'https://www.pmu.fr/turf/#20022014'
  :table_names: 
   :ref_blinder:         'RefBlinder'
   :ref_breed:           'RefBreed'

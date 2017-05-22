@@ -16,4 +16,4 @@ call gem install selenium-webdriver
 call gem install sqlite3
 call gem install minitest
 :: call gem install activerecord-jdbcsqlite3-adapter
-
+call gem install browsermob-proxy 

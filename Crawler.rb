@@ -2,6 +2,8 @@
 #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
 require 'selenium-webdriver'
+require 'browsermob/proxy'
+
 require './common.rb'
 require './SimpleHtmlLogger.rb'
 require './ref.rb'
@@ -58,15 +60,25 @@ class Crawler
 							load_ride: nil, 		single_rating: "td[12]"}
 							
 	attr_accessor:driver
+	attr_accessor:server
+	attr_accessor:proxy
 	
 	################################################
 	###############       INIT       ###############
 	################################################
 	
-	def initialize(logger, ref_list_hash, config)
+	def initialize(logger, ref_list_hash, config, is_test)
 		@logger = logger
 		@ref_list_hash = ref_list_hash
 		@config = config
+		
+		if is_test
+			@base_address = @config[:gen][:base_address_test]
+		else
+			@base_address = @config[:gen][:base_address]
+		end
+		@logger.debug("initialize - base_address: " + @base_address)
+		
 		@driver = launch_driver()
 	end
 	
@@ -74,10 +86,30 @@ class Crawler
 		@logger.info("Preparing browser")
 		browser_start_start_time = Time::now
 		
-		# Proxy problem: see 
-		# http://tech.danbarrese.com/2013/04/08/solved-use-watir-webdriver-behind-proxy/
-		# and http://code.google.com/p/selenium/issues/detail?id=4300
-		# ENV['no_proxy'] = '127.0.0.1'
+		# proxy
+		# see https://github.com/jarib/browsermob-proxy-rb
+		@server = BrowserMob::Proxy::Server.new("D:/Perso/Dev/workspace/DemoRuby/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
+		
+		@server.start
+
+		@proxy = @server.create_proxy #=> #<BrowserMob::Proxy::Client:0x0000010224bdc0 ...>
+
+		@proxy.blacklist("https://analytics.twitter.com/", 410)
+		@proxy.blacklist("https://platform.twitter.com/", 410)
+		@proxy.blacklist("https://connect.facebook.net/", 410)
+		@proxy.blacklist("https://dcniko1cv0rz.cloudfront.net/", 410)
+		@proxy.blacklist("https://dis.eu.criteo.com/", 410)
+		@proxy.blacklist("https://static.criteo.net/", 410)
+		@proxy.blacklist("https://i.realytics.io/", 410)
+		@proxy.blacklist("https://tc-sync.realytics.io/", 410)
+		@proxy.blacklist("https://tp.realytics.io/", 410)
+		@proxy.blacklist("https://sb.scorecardresearch.com/", 410)
+		@proxy.blacklist("https://sslwidget.criteo.com/", 410)
+		@proxy.blacklist("https://us-u.openx.net", 410)
+		@proxy.blacklist("http://www.joueurs-info-service.fr/", 80)
+		
+		profile = Selenium::WebDriver::Firefox::Profile.new #=> #<Selenium::WebDriver::Firefox::Profile:0x000001022bf748 ...>
+		
 		
 		# preparing FF: adding Firebug 
 		# see this page for version: https://getfirebug.com/downloads/
@@ -103,12 +135,14 @@ class Crawler
 		profile["browser.sessionhistory.max_tabs_undo"] = 0
 		profile["browser.sessionhistory.max_total_viewer"] = 1
 		profile["browser.sessionhistory.max_total_viewers"] = 1
-		profile["browser.startup.homepage"] = "file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm"
+		
 		profile["browser.tabs.animated"] = false
 		profile["image.animation_modr"] = "none"
 		profile["general.useragent.override"] = "Selenium UA"
 		profile["nglayout.initialpaint.delay"] = 0
-		
+
+		profile.proxy = proxy.selenium_proxy		
+
 		# URL to block:
 		# https://analytics.twitter.com/
 		# https://platform.twitter.com/
@@ -140,6 +174,8 @@ class Crawler
 	
 	def close_driver()
 		@driver.quit
+		@server.stop
+		@profile.close
 	end
 	
 	################################################
@@ -167,12 +203,12 @@ class Crawler
 	#############       CRAWLING       #############
 	################################################
 	
-	def crawl(base_adress, current_job)
+	def crawl(current_job)
 	
 		begin
 			start_time = Time.now
 			# Getting main page
-			@driver.get(base_adress)
+			@driver.get(@base_address)
 			
 			getting_page_time = Time.now
 			getting_page_duration = getting_page_time - start_time
@@ -220,7 +256,7 @@ class Crawler
 		@logger.debug("fetch_meetings - str_formatted_date: " + str_formatted_date)
 		
 		for i in 1..nb_last_meeting do
-			current_URL = "https://www.pmu.fr/turf/" + str_formatted_date + "/R" + i.to_s + "/C1"
+			current_URL = @base_address + str_formatted_date + "/R" + i.to_s + "/C1"
 			@logger.debug("fetch_meetings - current_URL: " + current_URL)
 			driver.get(current_URL)
 			begin			

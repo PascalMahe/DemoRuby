@@ -47,7 +47,7 @@ class TestSuite < MiniTest::Test
 		logger.debug("Creating " + save_dir_name)
 		Dir.mkdir(save_dir_name)
 		logger.debug("Saving all files and directories")
-		FileUtils.copy_entry(".", "./Save")
+		FileUtils.copy_entry(".", save_dir_name)
 	else
 		save_dir = Dir.new(save_dir_name)
 		array_of_files = Dir.entries(".")
@@ -202,7 +202,8 @@ class TestSuite < MiniTest::Test
 			if @@crawler == nil then
 				@logger.info("Creating crawler for test.")
 				begin
-					@@crawler = Crawler::new(@logger, @ref_list_hash, @config)
+					is_test = true
+					@@crawler = Crawler::new(@logger, @ref_list_hash, @config, is_test)
 				rescue Exception => err
 					log_flunking_test(err)
 				end

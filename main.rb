@@ -83,16 +83,10 @@ begin #general exception catching block
 	logger.imp("CRAWLING TIME")
 
 	logger.info("Starting to crawl")
-	if is_test
-		base_adress = config[:gen][:base_adress_test]
-	else
-		base_adress = config[:gen][:base_adress]
-	end
-	logger.debug("main - base_adress: " + base_adress)
 	
-	crawler = Crawler::new(logger, ref_list_hash, config)
+	crawler = Crawler::new(logger, ref_list_hash, config, is_test)
 
-	meeting_list = crawler.crawl(base_adress, current_job)
+	meeting_list = crawler.crawl(current_job)
 	
 	logger.info("Ending crawl")
 	crawling_end_time = Time.now
