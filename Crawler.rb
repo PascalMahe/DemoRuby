@@ -309,7 +309,7 @@ class Crawler
 		# weather
 		weather = nil
 		p_tag_for_weather = @driver.
-					find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[3]/div/div[2]/div[2]/p")
+					find_element(:xpath, "//div[@class='course-infos-meteo']/p")
 		if p_tag_for_weather != nil then
 			weather = fetch_weather(p_tag_for_weather)
 			@logger.debug("Weather : " + weather.to_s)
@@ -333,7 +333,7 @@ class Crawler
 		track_condition = @ref_list_hash[:ref_track_condition_list][""]
 		
 		
-		p_tag_for_track_condition = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[3]/div/div[2]/div[1]/p")
+		p_tag_for_track_condition = @driver.find_element(:xpath, "//div[@class='course-infos-conditions']/p")
 		text_from_p_elmt = p_tag_for_track_condition.text
 		text_from_p_components = text_from_p_elmt.split(" - ")
 		potential_track_condition = text_from_p_components[text_from_p_components.length - 1]
@@ -446,7 +446,7 @@ class Crawler
 		@logger.info("fetch_race - Fetching race: " + url_of_race) 
 		@driver.get(url_of_race)
 		
-		header_tag = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[3]/div/div[1]/header/p")
+		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
 		header_text = header_tag.text
 		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
 		# 					Trot Attelé | 20 000 € | 2150 m | 16 partants
@@ -470,11 +470,11 @@ class Crawler
 		
 		# bets
 		# //*[@id='main']/div/div[4]/div/div[4]/div/div[1]/ul/li[3]
-		bet_button_tag = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[4]/div/div[1]/ul/li[3]")
+		bet_button_tag = @driver.find_element(:xpath, "//i[@class='icon icon-enjeux']")
 		bet_button_tag.click
 		
 		bets = nil
-		bet_potential_tags = @driver.find_elements(:xpath, "//*[@id='main']/div/div[4]/div/div[4]/div/div[2]/div[2]/ul/li[2]")
+		bet_potential_tags = @driver.find_elements(:xpath, "//li[@class='masse-enjeu']")
 		bet_potential_tags.each do |bet_potential_tag|
 			bet_potential_text = bet_potential_tag.text
 			if bet_potential_text.include?("Placé") then
@@ -522,7 +522,7 @@ class Crawler
 		#							Groupe I - Corde à droite Détails des conditions
 		#							Inconnu - Corde à gauche Détails des conditions
 		
-		general_cond_tag = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[3]/div/div[2]/div[1]/p")
+		general_cond_tag = @driver.find_element(:xpath, "//div[@class='course-infos-conditions']/p")
 		general_cond_str = general_cond_tag.text
 		general_cond_str.gsub(" Détails des conditions", "")
 		
@@ -555,20 +555,25 @@ class Crawler
 		
 		# result
 		# //*[@id='main']/div/div[4]/div/div[3]/div/div[1]/div/div/p[2]
-		result_tag = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[3]/div/div[1]/div/div/p[2]")
-		result = result_tag.text.strip
-		@logger.debug("fetch_race - result : " + result)
-		
-		# result_insertion_time
-		if result != '' then
-			result_insertion_time = Time::new
-			@logger.debug("fetch_race - result_insertion_time : " + 
-				result_insertion_time.
-					strftime(@config[:gen][:default_date_time_format])
-			)
-		else 
-			result_insertion_time = nil
-			@logger.debug("fetch_race - result_insertion_time : nil")
+		begin
+			result_tag = @driver.find_element(:css, "ul.participants-arrivee-list-chevaux participants-arrivee-list-chevaux--definitive")
+			result = result_tag.text.strip
+			@logger.debug("fetch_race - result : " + result)
+			
+			# result_insertion_time
+			if result != '' then
+				result_insertion_time = Time::new
+				@logger.debug("fetch_race - result_insertion_time : " + 
+					result_insertion_time.
+						strftime(@config[:gen][:default_date_time_format])
+				)
+			else 
+				result_insertion_time = nil
+				@logger.debug("fetch_race - result_insertion_time : nil")
+			end
+		rescue Selenium::WebDriver::Error::NoSuchElementError => nsee
+			# do nothing, maybe it's not finished yet
+			# @logger.debug("fetch_race - no result_tag")
 		end
 						
 		# time
@@ -577,7 +582,7 @@ class Crawler
 		# 29 Mai. 12h00
 		# 16h55
 		# Demain -  15h35
-		race_long_title_tag = @driver.find_element(:xpath, "//*[@id='main']/div/div[4]/div/div[2]/div/div[2]/ul/li[1]/p[2]/span")
+		race_long_title_tag = @driver.find_element(:css, "p.course-infos-statut-details")
 		race_long_title_text = race_long_title_tag.text.strip
 		
 		if race_long_title_text.include?("-") then
@@ -643,7 +648,7 @@ class Crawler
 		# if the race is over, its results are fetched
 		# (in a separate loop because it involves going to a different page)
 		result_list = Hash.new
-		html_info_arrivee = @driver.find_elements(:id, "infos-arrivee")
+		html_info_arrivee = @driver.find_elements(:css, "p.course-infos-statut-details--arrivee")
 		if html_info_arrivee.length > 0 then
 			@logger.info("fetch_runners - Fetching race results.")
 			# result_list = fetch_race_results(race)
