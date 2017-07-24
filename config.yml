@@ -21,8 +21,8 @@
  :sql_gen:    'sql.gen.yml'
  :sql_test:   'sql.test.yml'
  :base_address:               'https://www.pmu.fr/turf/'
- :base_address_test:          'file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
- :base_address_test_fetching: 'https://www.pmu.fr/turf/#20022014'
+ :old_base_address_test:          'file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm'
+ :base_address_test: 'https://www.pmu.fr/turf/20022014'
  :table_names: 
   :ref_blinder:         'RefBlinder'
   :ref_breed:           'RefBreed'

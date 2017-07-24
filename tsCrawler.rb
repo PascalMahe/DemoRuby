@@ -32,7 +32,7 @@ class TestCrawler < TestSuite
 			job = Job::new
 			
 			# -> Getting the page
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			@crawler.driver.get(@config[:gen][:base_address_test])
 			# -> Getting the meeting list
 			html_meeting_list = @crawler.driver.
 					find_elements(:css, "div.reunion-line")
@@ -85,14 +85,14 @@ class TestCrawler < TestSuite
 		begin
 			
 			urls_of_races_array = 
-				["file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C2.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C3.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C4.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C5.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C6.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C7.htm",
-				 "file:///D:/Dev/workspace/RPP/Test-HTML/R3_C8.htm"]
+				["https://www.pmu.fr/turf/20022014/R3/C1",
+				 "https://www.pmu.fr/turf/20022014/R3/C2",
+				 "https://www.pmu.fr/turf/20022014/R3/C3",
+				 "https://www.pmu.fr/turf/20022014/R3/C4",
+				 "https://www.pmu.fr/turf/20022014/R3/C5",
+				 "https://www.pmu.fr/turf/20022014/R3/C6",
+				 "https://www.pmu.fr/turf/20022014/R3/C7",
+				 "https://www.pmu.fr/turf/20022014/R3/C8"]
 			
 			html_meeting_to_test = Meeting::new(urls_of_races_array: urls_of_races_array)
 			
@@ -114,7 +114,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the page
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			@crawler.driver.get(@config[:gen][:base_address_test])
 			
 			# -> Getting the meeting list
 			html_meeting_list = @crawler.driver.
@@ -169,7 +169,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the page
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/accueil.htm")
+			@crawler.driver.get(@config[:gen][:base_address_test])
 			
 			# -> Getting the meeting list
 			html_meeting_list = @crawler.driver.
@@ -216,7 +216,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the first race
-			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5.htm"
+			url = "https://www.pmu.fr/turf/20022014/R4/C5"
 			@crawler.driver.get(url)
 			
 			
@@ -285,7 +285,7 @@ class TestCrawler < TestSuite
 			validate_joint_R4_C5_N17(runner_to_check)
 			
 			# Getting the second page
-			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C1.htm"
+			url = "https://www.pmu.fr/turf/20022014/R1/C1"
 			@crawler.driver.get(url)
 			
 			# -> Getting the meeting list
@@ -343,7 +343,7 @@ class TestCrawler < TestSuite
 			
 			# Third page : R2_C7 (no draw)
 			
-			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R2_C7.htm"
+			url = "https://www.pmu.fr/turf/20022014/R2/C7"
 			@crawler.driver.get(url)
 			
 			# -> Getting the meeting list
@@ -412,7 +412,7 @@ class TestCrawler < TestSuite
 			
 			
 			# Fourth page : R1_C7 (attelé, with driver rather than jockey)
-			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
+			url = "https://www.pmu.fr/turf/20022014/R1/C7"
 			@crawler.driver.get(url)
 			
 			# -> Getting the meeting list
@@ -487,46 +487,45 @@ class TestCrawler < TestSuite
 			# Setting up 
 			# -> Getting the first race
 			url_race_dict = Hash::new
-			url_race_dict["R1_C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
-			url_race_dict["R1_C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C6".to_s] = Crawler::COLUMN_MAP_TYPE_1
-			url_race_dict["R1_C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R1_C9".to_s] = Crawler::COLUMN_MAP_TYPE_1
-			url_race_dict["R3_C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
-			url_race_dict["R3_C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C6".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R3_C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
-			url_race_dict["R2_C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R4_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R4_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R4_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R4_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R5_C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
-			url_race_dict["R2_C7".to_s] = Crawler::COLUMN_MAP_TYPE_3
-			url_race_dict["R2_C8".to_s] = Crawler::COLUMN_MAP_TYPE_3
+			url_race_dict["R1/C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R1/C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C6".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R1/C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R1/C9".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R3/C1".to_s] = Crawler::COLUMN_MAP_TYPE_1
+			url_race_dict["R3/C2".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C3".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C4".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C5".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C6".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C7".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R3/C8".to_s] = Crawler::COLUMN_MAP_TYPE_4
+			url_race_dict["R2/C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4/C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4/C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4/C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R4/C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C1".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C2".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C3".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C4".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C5".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R5/C6".to_s] = Crawler::COLUMN_MAP_TYPE_2
+			url_race_dict["R2/C7".to_s] = Crawler::COLUMN_MAP_TYPE_3
+			url_race_dict["R2/C8".to_s] = Crawler::COLUMN_MAP_TYPE_3
 			
 			url_race_dict.each do |race_ID, expected_column_map|
 				
-				url = "file:///D:/Dev/workspace/RPP/Test-HTML/" +
-						race_ID + "_runners.htm"
+				url = "https://www.pmu.fr/turf/20022014/" + race_ID 
 				
 				@crawler.driver.get(url)
 				actual_column_map = @crawler.get_column_map()
@@ -548,7 +547,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the race
-			url = "file:///D:/Dev/workspace/RPP/Test-HTML/R4_C5.htm"
+			url = "https://www.pmu.fr/turf/20022014/R4/C5"
 			# @crawler.driver.get(url)
 			
 			# -> Getting the meeting list
@@ -823,7 +822,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the first race (with distance)
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C1.htm")
+			@crawler.driver.get("https://www.pmu.fr/turf/20022014/R4/C1")
 			
 			race_to_test = Race::new() # R4_C1
 			runner = nil
@@ -913,7 +912,7 @@ class TestCrawler < TestSuite
 			@logger.ok("Tests for race with distance OK.")
 			
 			# -> Getting the second race (with time)
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R3_C1.htm")
+			@crawler.driver.get("https://www.pmu.fr/turf/20022014/R3/C1")
 			
 			race_to_test = Race::new() # R3_C1
 			
@@ -977,7 +976,7 @@ class TestCrawler < TestSuite
 		begin
 			# Setting up 
 			# -> Getting the first race (with distance)
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R4_C4.htm")
+			@crawler.driver.get("https://www.pmu.fr/turf/20022014/R4/C4")
 			
 			race_to_test = Race::new() # R4_C4
 			runner = nil
@@ -1079,7 +1078,7 @@ class TestCrawler < TestSuite
 			
 			
 			# -> Getting the second race (with time)
-			@crawler.driver.get("file:///D:/Dev/workspace/RPP/Test-HTML/R2_C8.htm")
+			@crawler.driver.get("https://www.pmu.fr/turf/20022014/R2/C8")
 			
 			race_to_test = Race::new() # R2_C8
 			runner = nil
