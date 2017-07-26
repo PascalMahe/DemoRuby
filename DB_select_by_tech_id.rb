@@ -120,6 +120,7 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		disqualified = boolean_load(row["disqualified"])
 		is_favorite = boolean_load(row["is_favorite"])
 		is_non_runner = boolean_load(row["is_non_runner"])
+		is_pregnant = boolean_load(row["is_pregnant"])
 		is_substitute = boolean_load(row["is_substitute"])
 		
 		runner = Runner::new(
@@ -141,6 +142,7 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			id: row["id_runner"],
 			is_favorite: is_favorite,
 			is_non_runner: is_non_runner,
+			is_pregnant: is_pregnant,
 			is_substitute: is_substitute,
 			jockey: jockey,
 			load_handicap: row["load_handicap"],

@@ -1,0 +1,8 @@
+20170725
+R1/C1 - Plat - found header line : N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand.
+R1/C8 - Plat - found header line : N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand.
+R2/C5 - Obstacle Steeple - found header line : N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand.
+R2/C7 - Obstacle Cross - found header line : N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand.
+R3/C7 - Trot Monté - found header line : N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)
+R3/C1 - Trot Attelé - found header line : Place N° Cheval Driver Red. Km Rapports prob. Commentaires d'après-course Œil
+R3/C6 - Trot Attelé - found header line : N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)

@@ -18,6 +18,7 @@ class Runner
 	attr_accessor :id
 	attr_accessor :is_favorite
 	attr_accessor :is_non_runner
+	attr_accessor :is_pregnant
 	attr_accessor :is_substitute
 	attr_accessor :jockey
 	attr_accessor :load_handicap
@@ -54,6 +55,7 @@ class Runner
 			id: nil,
 			is_favorite: nil,
 			is_non_runner: nil,
+			is_pregnant: nil,
 			is_substitute: nil,
 			jockey: nil,
 			load_handicap: nil,
@@ -89,6 +91,7 @@ class Runner
 		@id = id
 		@is_favorite = is_favorite
 		@is_non_runner = is_non_runner
+		@is_pregnant = is_pregnant
 		@is_substitute = is_substitute
 		@jockey = jockey
 		@load_handicap = load_handicap
@@ -165,6 +168,9 @@ class Runner
 		end
 		if @is_non_runner == nil then 
 			@is_non_runner = other_runner.is_non_runner 
+		end
+		if @is_pregnant == nil then 
+			@is_pregnant = other_runner.is_pregnant 
 		end
 		if @is_substitute == nil then 
 			@is_substitute = other_runner.is_substitute 
@@ -268,6 +274,7 @@ class Runner
 		", final_place = " + nil_safe_to_s(final_place) +
 		", is_favorite = " + nil_safe_to_s(is_favorite) +
 		", is_non_runner = " + nil_safe_to_s(is_non_runner) +
+		", is_pregnant = " + nil_safe_to_s(is_pregnant) +
 		", is_substitute = " + nil_safe_to_s(is_substitute) +
 		", history = " + nil_safe_to_s(history) +
 		", jockey = " + nil_safe_to_s(jockey) +

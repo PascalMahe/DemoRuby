@@ -487,6 +487,7 @@ class TestDatabaseInterfaceSelect < TestSuite
 				id: test_id,
 				is_favorite: false,
 				is_non_runner: false,
+				is_pregnant: false,
 				is_substitute: false,
 				load_handicap: -1.1,
 				load_ride: -1.1,

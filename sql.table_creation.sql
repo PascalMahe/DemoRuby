@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS Runner(
 	history TEXT,
 	is_favorite INTEGER, /* boolean */
 	is_non_runner INTEGER, /* boolean */
+	is_pregnant INTEGER, /* boolean */
 	is_substitute INTEGER, /* boolean */
 	load_handicap REAL,
 	load_ride REAL,
