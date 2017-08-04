@@ -28,42 +28,19 @@ class Crawler
 	
 	DETAILED_COND_INTRO = ""
 	
-	# HEADER_LINE_TYPE_1 = 		"N° Nom Cas Fer S A Jockey Poids (kg) Entraîneur Dist (mètres) Musique Gains Rapports probables SG"								
-	# HEADER_LINE_TYPE_1_BIS = 	"N° Nom Cas. Fer S A Driver Poids (kg) Entraîneur Dist (mètres) Musique Gains Rapports probables SG"
-	# HEADER_LINE_TYPE_2 = 		"N° Nom Cas. Oeil S A Jockey Corde Poids (kg) Entraineur Musique Rapports probables SG"
-	# HEADER_LINE_TYPE_3 = 		"N° Nom Cas. Oeil S A Jockey Poids (kg) Entraîneur Musique Rapports probables SG"
-	# HEADER_LINE_TYPE_4 = 		"N° Nom Cas. Fer S A Driver Entraîneur Dist (mètres) Musique Gains Rapports probables SG"
-	
-	HEADER_LINE_TYPE_1 =	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand."								
+	# Plat 1
+	HEADER_LINE_TYPE_1 =	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand."
+	# Plat 2
 	HEADER_LINE_TYPE_2 = 	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand."
-	HEADER_LINE_TYPE_3 = 	"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)"
+	# Obstacle Steeple / Obstacle Cross
+	HEADER_LINE_TYPE_3 = 	"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand."
+	# Trot Monté
 	HEADER_LINE_TYPE_4 = 	"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)"
-	HEADER_LINE_TYPE_5 = 	"Place N° Cheval Jockey Ecart prèc. Rapports prob. Commentaires d'après-course Œil"
-	
-	# COLUMN_MAP_TYPE_1 = {	blinder: nil, 			shoes: "td[4]/b",
-							# draw: nil, 				distance: "td[10]",
-							# trainer: "td[9]",		earnings_carrer: "td[12]",
-							# history: "td[11]", 		load_handicap: "td[8]",
-							# load_ride: nil, 		single_rating: "td[13]"}
-							
-	# COLUMN_MAP_TYPE_2 = {	blinder: "td[4]/b", 	shoes: nil,
-							# draw: "td[8]", 			distance: nil,
-							# trainer: "td[11]", 		earnings_carrer: nil,
-							# history: "td[12]", 		load_handicap: "td[9]",
-							# load_ride: "td[10]",	single_rating: "td[13]"}
-							
-	# COLUMN_MAP_TYPE_3 = {	blinder: "td[4]/b", 	shoes: nil,
-							# draw: nil, 				distance: nil,
-							# trainer: "td[10]", 		earnings_carrer: nil,
-							# history: "td[11]", 		load_handicap: "td[8]",
-							# load_ride: "td[9]", 	single_rating: "td[12]"}
-
-	# COLUMN_MAP_TYPE_4 = {	blinder: nil, 			shoes: "td[4]/b",
-							# draw: nil, 				distance: "td[9]",
-							# trainer: "td[8]", 		earnings_carrer: "td[11]",
-							# history: "td[10]", 		load_handicap: nil,
-							# load_ride: nil, 		single_rating: "td[12]"}
-	
+	# Trot Attelé 1
+	HEADER_LINE_TYPE_5 = 	"Place N° Cheval Driver Red. Km Rapports prob. Commentaires d'après-course Œil"
+	# Trot Attelé 2
+	HEADER_LINE_TYPE_6 = 	"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)"
+		
 	COLUMN_MAP_TYPE_1 = {	blinder: nil, 			shoes: "td[4]/b",
 							draw: nil, 				distance: "td[10]",
 							trainer: "td[9]",		earnings_carrer: "td[12]",
@@ -582,7 +559,6 @@ class Crawler
 		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
 		#                             			=> R6C2 - PRIX FANDANGO
 		# split#0
-		current_racer_tag = @driver.find_element(:css, "h1.course-infos-header-title")
 		str_number = race_title_array[0].strip()
 		str_number_array = str_number.split("C")
 		number = str_number_array[1].to_i
@@ -680,6 +656,10 @@ class Crawler
 		# if the race is finished, the driver lands on the results page
 		# otherwise it goes to the runner's table
 		
+		
+		@logger.info("fetch_runners - Fetching runners (shallow & deep).")
+		list_runners = fetch_list_runners()
+				
 		# if the race is over, its results are fetched
 		# (in a separate loop because it involves going to a different page)
 		result_list = Hash.new
@@ -690,9 +670,6 @@ class Crawler
 			result_list = fetch_race_results()
 			go_to_runners_page()
 		end
-		
-		@logger.info("fetch_runners - Fetching runners (shallow & deep).")
-		list_runners = fetch_list_runners()
 		
 		if not result_list.empty? then
 			@logger.info("fetch_runners - Joining before and after race runners.")
@@ -818,6 +795,18 @@ class Crawler
 	end
 	
 	def get_column_map()
+		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
+		header_text = header_tag.text
+		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
+		# 					Trot Attelé | 20 000 € | 2150 m | 16 partants
+		#					Obstacle Steeple | 15 000 € | 4100 m | 9 partants 
+		#					race_type | value | distance | number of participants (ignored)
+		header_text_components = header_text.split(" | ")
+		
+		# race_type
+		race_type_raw = header_text_components[0].strip()
+	
+	
 		html_header = @driver.find_element(:css, CSS_TO_HEADER_LINE)
 		# cf. column_map.txt
 		
@@ -840,7 +829,7 @@ class Crawler
 		debug_url = @driver.current_url.slice(33, 5)
 		
 		@logger.debug("get_column_map - for race : " + debug_url +
-						", found header line : " + str_flattened_header)
+						" - race type: " + race_type_raw + " - found header line : " + str_flattened_header)
 		
 		column_map = nil
 		
@@ -868,13 +857,33 @@ class Crawler
 				@logger.debug("get_column_map - header 4 -> column_map type 4")
 				column_map = COLUMN_MAP_TYPE_4
 			when HEADER_LINE_TYPE_5 then
-				@logger.debug("get_column_map - header 4 -> column_map type 4")
-				column_map = COLUMN_MAP_TYPE_4
+				@logger.debug("get_column_map - header 5 -> column_map type 5")
+				column_map = COLUMN_MAP_TYPE_5
 			else
 				raise "Unknown type of race."
 		end
 		# @logger.debug("get_column_map - returning : " + column_map.to_s)
 		return column_map
+	end
+	
+	def is_element_present(how, what)
+		@driver.manage.timeouts.implicit_wait = 0
+		result = @driver.find_elements(how, what).size() > 0
+		if result
+			result = @driver.find_element(how, what).displayed?
+		end
+		@driver.manage.timeouts.implicit_wait = 30
+		return result
+	end
+	
+	def find_element_clean(how, what, from)
+		result = nil
+		implicit_wait = @driver.manage.timeouts.implicit_wait
+		@driver.manage.timeouts.implicit_wait = 0
+		result = from.find_element(how, what).size() > 0
+		
+		@driver.manage.timeouts.implicit_wait = implicit_wait
+		return result
 	end
 	
 	def fetch_runners_shallow()
@@ -930,7 +939,7 @@ class Crawler
 		result = Hash.new
 		
 		# if race is finished, click on link to runner's table 
-		if @driver.find_element(:css, "p.course-infos-statut-details--arrivee") then
+		if is_element_present(:css, "p.course-infos-statut-details--arrivee") then
 			@driver.find_element(:css, "li.partants").click()
 		end
 		
@@ -1004,7 +1013,7 @@ class Crawler
 				# @logger.debug("fetch_runners_shallow - runner branch ")
 				
 				# sex (horse)
-				sex_elmt = html_runner.find_element(:xpath, "td[3]")
+				sex_elmt = find_element_clean(html_runner, :xpath, "td[3]")
 				sex_raw = sex_elmt.text.strip
 				sex_text = sex_raw
 				
@@ -1292,8 +1301,9 @@ class Crawler
 			
 			# url //*[@id="participants-view"]/div[1]/table/tbody/tr[3]/td[3]/span[1]
 			
-			html_link_to_runner = html_runner.find_element(:xpath, "td[3]/span[1]/a")
-			url = html_link_to_runner.attribute("href")
+			# html_link_to_runner = html_runner.find_element(:xpath, "td[3]/span[1]/a")
+			# url = html_link_to_runner.attribute("href")
+			url = ""
 			
 			# number (== hash key)
 			
