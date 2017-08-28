@@ -285,6 +285,22 @@ class Crawler
 		return meeting_list
 	end
 
+	def fetch_meeting(date, number, job, current_URL)
+		
+		# Fetches all data on a meeting, including races
+		
+		# number, job and date are parameters
+		# id is generated at insert
+		# race_list is created empty and completed in fetch_races
+		# all else is fetched in fetch_meeting_shallow
+		
+		meeting = fetch_meeting_shallow(date, number, job, current_URL)
+		
+		meeting.race_list = fetch_races(meeting)
+		
+		return meeting
+	end
+
 	def fetch_meeting_shallow(date, number, job, meeting_URL)
 		# fetches 	country => lost for the moment
 		#			racetrack
@@ -367,22 +383,6 @@ class Crawler
 		return meeting
 	end
 
-	def fetch_meeting(date, number, job, current_URL)
-		
-		# Fetches all data on a meeting, including races
-		
-		# number, job and date are parameters
-		# id is generated at insert
-		# race_list is created empty and completed in fetch_races
-		# all else is fetched in fetch_meeting_shallow
-		
-		meeting = fetch_meeting_shallow(date, number, job, current_URL)
-		
-		meeting.race_list = fetch_races(meeting)
-		
-		return meeting
-	end
-
 	def fetch_weather(p_tag_for_weather)
 		
 		span_tag_for_insolation = p_tag_for_weather.find_element(:css, "span")
@@ -458,6 +458,18 @@ class Crawler
 		@logger.info("fetch_race - Fetching race: " + url_of_race) 
 		@driver.get(url_of_race)
 		
+		race = fetch_race_shallow()
+		
+		# runner_list
+		@logger.debug("fetch_race - Fetching runners.")
+		race.runner_list = fetch_runners(race)
+		# @logger.debug("runner_list : " + runner_list.to_s)
+		
+		return race
+	end
+
+	def fetch_race_shallow()
+		
 		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
 		header_text = header_tag.text
 		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
@@ -468,17 +480,17 @@ class Crawler
 		
 		distance_str = header_text_components[2].gsub("m", "").strip()
 		distance = distance_str.to_i
-		@logger.debug("fetch_race - distance : " + distance.to_s)
+		@logger.debug("fetch_race_shallow - distance : " + distance.to_s)
 		
 		# race_type
 		race_type_raw = header_text_components[0].strip()
 		race_type = @ref_list_hash[:ref_race_type_list][race_type_raw]
-		@logger.debug("fetch_race - race_type : " + race_type.to_s)
+		@logger.debug("fetch_race_shallow - race_type : " + race_type.to_s)
 		
 		# value
 		value_str = header_text_components[1].strip().gsub("€" , "").gsub(" ", "")
 		value = value_str.to_i
-		@logger.debug("fetch_race - value : " + value.to_s)
+		@logger.debug("fetch_race_shallow - value : " + value.to_s)
 		
 		# bets
 		# //*[@id='main']/div/div[4]/div/div[4]/div/div[1]/ul/li[3]
@@ -498,7 +510,7 @@ class Crawler
 				bets_str = bets_str_raw.gsub("€", "").gsub(" ", "").gsub(",", ".").strip()
 				bets = bets_str.to_f
 				
-				@logger.debug("fetch_race - bets : " + bets.to_s)
+				@logger.debug("fetch_race_shallow - bets : " + bets.to_s)
 			end
 		end
 		
@@ -516,7 +528,7 @@ class Crawler
 			div_detailed_cond_tag = div_detailed_cond_tag_array[0]
 			detailed_cond = div_detailed_cond_tag.text.strip()
 			
-			@logger.debug("fetch_race - detailed_cond : " + detailed_cond)
+			@logger.debug("fetch_race_shallow - detailed_cond : " + detailed_cond)
 			
 			# close popin
 			# btn_close_popin = @driver.find_element(:css, "div.popin-close")
@@ -542,7 +554,7 @@ class Crawler
 			general_cond_str = general_cond_str.split("Terrain")[0].strip
 		end
 		
-		@logger.debug("fetch_race - general_conditions : " + general_cond_str)
+		@logger.debug("fetch_race_shallow - general_conditions : " + general_cond_str)
 		
 		# name
 		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
@@ -553,7 +565,7 @@ class Crawler
 		# @logger.debug("race_title_str : " + race_title_str)
 		race_title_array = race_title_str.split(" - ")
 		name = race_title_array[1].strip()
-		@logger.debug("fetch_race - name : " + name)
+		@logger.debug("fetch_race_shallow - name : " + name)
 		
 		# number
 		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
@@ -562,29 +574,29 @@ class Crawler
 		str_number = race_title_array[0].strip()
 		str_number_array = str_number.split("C")
 		number = str_number_array[1].to_i
-		@logger.debug("fetch_race - number : " + number.to_s)
+		@logger.debug("fetch_race_shallow - number : " + number.to_s)
 		
 		# result
 		# //*[@id='main']/div/div[4]/div/div[3]/div/div[1]/div/div/p[2]
 		begin
 			result_tag = @driver.find_element(:css, "ul.participants-arrivee-list-chevaux participants-arrivee-list-chevaux--definitive")
 			result = result_tag.text.strip
-			@logger.debug("fetch_race - result : " + result)
+			@logger.debug("fetch_race_shallow - result : " + result)
 			
 			# result_insertion_time
 			if result != '' then
 				result_insertion_time = Time::new
-				@logger.debug("fetch_race - result_insertion_time : " + 
+				@logger.debug("fetch_race_shallow - result_insertion_time : " + 
 					result_insertion_time.
 						strftime(@config[:gen][:default_date_time_format])
 				)
 			else 
 				result_insertion_time = nil
-				@logger.debug("fetch_race - result_insertion_time : nil")
+				@logger.debug("fetch_race_shallow - result_insertion_time : nil")
 			end
 		rescue Selenium::WebDriver::Error::NoSuchElementError => nsee
 			# do nothing, maybe it's not finished yet
-			# @logger.debug("fetch_race - no result_tag")
+			# @logger.debug("fetch_race_shallow - no result_tag")
 		end
 						
 		# time
@@ -610,7 +622,7 @@ class Crawler
 		# @logger.debug("date_min_i : " + date_min_i.to_s)
 
 		time = Time::new(1, 1, 1, date_hours_i, date_min_i)
-		@logger.debug("fetch_race - time : " + 
+		@logger.debug("fetch_race_shallow - time : " + 
 			time.strftime(@config[:gen][:default_time_format])
 		)
 
@@ -632,16 +644,19 @@ class Crawler
 					value: value
 		)
 		
-		@logger.debug("fetch_race - race: " + race.to_s)
-		
-		# runner_list
-		@logger.debug("fetch_race - Fetching runners.")
-		race.runner_list = fetch_runners(race)
-		# @logger.debug("runner_list : " + runner_list.to_s)
-		
+		@logger.debug("fetch_race - race: " + race.to_s
 		return race
 	end
-
+	
+	# TODO:
+	# break up fetch_runners so that it calls a few functions:
+	# fetch_runners
+	#   |-> fetch_runner
+	#          |-> fetch_runner_shallow (runners' page)
+	#          |-> fetch_runner_deep (popin)
+	#   |-> fetch_results
+	#          |-> fetch_result_shallow
+	
 	def fetch_runners(race)
 		# Parameter: a Race
 		# Returns a list of (completed) Runners
@@ -786,8 +801,7 @@ class Crawler
 		end
 		return joint_list
 	end
-	
-	
+
 	def get_runner_number_from_result_page(runner_web_elmt)
 		number_html = runner_web_elmt.find_element(:xpath, "td[2]")
 		number = number_html.text.strip.to_i
@@ -900,7 +914,6 @@ class Crawler
 		# - load_handicap (runner)
 		# - load_ride (runner)
 		# - name (horse)
-
 		# - number (runner)
 		# X race (runner)
 		# - shirt (?) -> nobody cares...
