@@ -13,7 +13,8 @@ require './people.rb'
 require './Runner.rb'
 
 class Crawler
-	CSS_TO_RUNNERS = ".participants-tbody-tr" #participants-view > div:nth-child(1) > table:nth-child(3) > tbody:nth-child(2) > tr
+	CSS_TO_RUNNER_TABLE = "li.partants"
+	CSS_TO_RUNNERS = "tr.participants-tbody-tr" #participants-view > div:nth-child(1) > table:nth-child(3) > tbody:nth-child(2) > tr
 	CSS_TO_HEADER_LINE = ".participants-thead"
 	CSS_TO_HEADER_TH = "th"
 	
@@ -669,29 +670,30 @@ class Crawler
 		end
 		
 		# if the race is finished, the driver lands on the results page
-		# otherwise it goes to the runner's table
+		# -> display runners' table
+		if is_element_present(:css, CSS_TO_RUNNER_TABLE) then
+			runner_table_button = @driver.find_element(:css, CSS_TO_RUNNER_TABLE)
+			runner_table_button.click
+		end
 		
+		runner_list = Hash.new
+		list_of_runners = @driver.find_element(:css, CSS_TO_RUNNERS)
+		i = 0
+		list_of_runners.each do |runner_elmt|
+			@logger.info("fetch_runners - Fetching runner #" + i.to_s)
+			current_runner = fetch_runner(runner_elmt)
+			result[current_runner.number] = runner
+			i = i + 1
+		end
 		
-		@logger.info("fetch_runners - Fetching runners (shallow & deep).")
-		list_runners = fetch_list_runners()
-				
 		# if the race is over, its results are fetched
-		# (in a separate loop because it involves going to a different page)
-		result_list = Hash.new
-		html_info_arrivee = @driver.find_elements(:css, "p.course-infos-statut-details--arrivee")
-		if html_info_arrivee.length > 0 then
+		
+		if is_element_present(:css, "p.course-infos-statut-details--arrivee") then
 			@logger.info("fetch_runners - Fetching race results.")
-			# result_list = fetch_race_results(race)
-			result_list = fetch_race_results()
-			go_to_runners_page()
+			fetch_race_results(runner_list)
 		end
 		
-		if not result_list.empty? then
-			@logger.info("fetch_runners - Joining before and after race runners.")
-			list_runners = join_runner_list_and_result_list(list_runners, result_list)
-		end
-		
-		return list_runners
+		return runner_list
 	end
 	
 	def go_to_runners_page()
@@ -702,105 +704,6 @@ class Crawler
 		@logger.debug("Going to runner's page: now on page " + @driver.current_url)
 	end
 	
-	def go_and_fetch_runner(runner)
-		@logger.debug("go_and_fetch_runner - Does the runner have a URL?")
-		@logger.debug("go_and_fetch_runner - It can't, since that info is not on the runners page. Going by popin for now.")
-		
-		# FIXME when we attack the real site
-		go_back = true
-		
-		if runner.url != nil and runner.url != "" then
-			@logger.debug("go_and_fetch_runner - go to runner.url: '" + runner.url + "'")
-			@driver.get(runner.url)
-			
-		else
-			# if the runner doesn't have a URL, we have to 
-			# find its line on the page and click on its 
-			# name to make the popin appear
-			
-			# find the runner's name and click on it
-			name = runner.horse.name
-			name = name.upcase
-			
-			runner_name_elmt = @driver.find_element(:xpath, '//span[@title="' + name + '"]') 
-			# reversing the ' and the "
-			# because the horse's names can have apostrophes (fuckers...)
-			runner_link_elmt = runner_name_elmt.find_element(:css, "a")
-			@logger.debug("go_and_fetch_runner - clicking on runner_link_elmt: '" + runner_link_elmt.attribute('href') + "'")
-			# runner_link_elmt.click
-			driver.get(runner_link_elmt.attribute('href'))
-		end
-		
-		runner = fetch_runner(runner)
-		# @logger.debug("go_and_fetch_runner - Fetched runner. Going back to runners page.")
-		# @logger.debug("go_and_fetch_runner - Current page: " + driver.current_url)
-		if go_back then
-			@driver.navigate.back
-			# @logger.debug("go_and_fetch_runner - Going back by stepping once in the browser's history.")
-		else
-			# click to close popin
-			# @logger.debug("go_and_fetch_runner - Going back by closing the popin.")
-			close_popin_elmt = @driver.find_element(:id, "popin-close")
-			close_popin_elmt.click
-			
-		end
-		# @logger.debug("go_and_fetch_runner - Went back to: " + driver.current_url)
-	end
-	
-	def fetch_list_runners()
-		@logger.info("fetch_list_runners - Fetching runners (shallow).")
-		list_runners = fetch_runners_shallow()
-				
-		if $globalState.is_test then
-			# in the tests, we have to go back to the results' page to 
-			# deep fetch the runners (the test runners' page doesn't have
-			# a link to the individual runners' pages)
-			@driver.navigate.back
-		end
-		
-		@logger.info("fetch_list_runners - Fetching runners (deep).")
-		list_runners.each do |key, runner|
-			@logger.info("fetch_list_runners - Fetching runner (deep): " + key.to_s)
-			go_and_fetch_runner(runner)
-		end
-		return list_runners
-	end
-	
-	def join_runner_list_and_result_list(list_runners, result_list)
-		# joining the lists: for each runner in a list,
-		# we join it to the runner in the other list then add it 
-		# to the joint list. If it's not in the other list, it's
-		# added directly. In both cases, it must not be in the list
-		# before being added.
-		
-		joint_list = Hash.new
-		
-		list_runners.each do |key, runner|
-			# @logger.debug("jrlarl - current runner: " + key.to_s)
-			
-			if joint_list[key] == nil then
-				# @logger.debug("jrlarl - taking runner from list_runners: " + runner.to_s)
-				other_runner = result_list[key]
-				if other_runner != nil then
-					# @logger.debug("jrlarl - runner from runner_list is not nil, joining")
-					runner.join!(other_runner)
-				end
-				# @logger.debug("jrlarl - runner: " + runner.to_s)
-				# @logger.debug("jrlarl - adding runner to joint_list (pos. " + key.to_s + ")")
-				joint_list[key] = runner
-			end
-		end
-		
-		result_list.each do |key, runner|
-			# @logger.debug("jrlarl - taking runner from result_list (pos. " + key.to_s + ")")
-			# @logger.debug("jrlarl - at that pos. is: " + joint_list[key].to_s)
-			if joint_list[key] == nil then
-				# @logger.debug("jrlarl - adding runner to joint_list (pos. " + key.to_s + ")")
-				joint_list[key] = runner
-			end
-		end
-		return joint_list
-	end
 
 	def get_runner_number_from_result_page(runner_web_elmt)
 		number_html = runner_web_elmt.find_element(:xpath, "td[2]")
@@ -1344,58 +1247,34 @@ class Crawler
 		return result
 	end
 
-	def fetch_runner(runner)
+	def fetch_runner(runner_tr_element, column_map)
+		runner = fetch_runner_shallow(runner_tr_element, column_map)
+		fetch_runner_deep(runner, runner_tr_element, column_map)
+		return runner
+	end
+	
+	def fetch_runner_shallow(runner_tr_element, column_map)
 		# Fields to fill:
-		# - breed (pur-sang...) (horse)
-		# - breeder (runner)
-		# - coat (horse)
-		# - description (runner)
-		# - earnings_career (runner)
-		# - earnings_current_year (runner)
-		# - earnings_last_year (runner)
-		# - earnings_victory (runner)
-		# - father (runner)
-		# - mother (runner)
-		# - mother's father (runner)
-		# - owner
-		# - places (runner)
-		# - races_run (runner)
-		# - trainer
-		# - victories (runner)
-		
-		# see fetch_runner_shallow for:
-		# - age (runner)
-		# - blinder (runner)
-		# - distance (runner)
-		# - draw (runner)
-		# - earnings_career (runner)
-		# - history (shortened history) (runner)
+		# - age
+		# - blinder
+		# - distance
+		# - handicap
+		# - history
+		# - is_favorite
+		# - is_non_runner
+		# - is_replaced
 		# - jockey
-		# - load_handicap (runner)
-		# - load_ride (runner)
+		# - load_handicap
+		# - load_ride
 		# - name (horse)
-		# - is_non_runner (runner)
-		# - number (runner)
-		# X race (runner)
-		# - shirt (?) -> nobody cares...
-		# - shoes (?) -> nobody cares...
-		# - single_rating_before_race (runner)
+		# - number
+		# - pregnant
 		# - sex (horse)
+		# - shoes
 		# - trainer
-		# - url (runner)
 		
-		# see fetch_race_results for :
-		# - commentary (runner)
-		# - disqualified (runner)
-		# - diff. with precedent -> distance (runner)
-		# - final_place (runner)
-		# - is_favorite (runner)
-		# - is_non_runner (rapports) (runner)
-		# - number (runner)
-		# - single_rating_after_race (rapports) (runner)
-		# - time (runner)
-		description = ""
-
+		# TODO
+		
 		races_run_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-courses']/ul/li[1]/b")
 		races_run_raw = races_run_elmt.text.strip()
 		races_run = races_run_raw.to_i
