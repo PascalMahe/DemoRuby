@@ -72,6 +72,12 @@ class Crawler
 							history: "td[11]", 		load_handicap: "td[8]",
 							load_ride: "td[9]", 	single_rating: "td[12]"}
 
+	COLUMN_MAP_TYPE_5 = {	blinder: "td[4]/b", 	shoes: nil,
+							draw: nil, 				distance: nil,
+							trainer: "td[10]", 		earnings_carrer: nil,
+							history: "td[11]", 		load_handicap: "td[8]",
+							load_ride: "td[9]", 	single_rating: "td[12]"}
+
 	attr_accessor:driver
 	attr_accessor:server
 	attr_accessor:proxy
@@ -459,7 +465,7 @@ class Crawler
 		@logger.info("fetch_race - Fetching race: " + url_of_race) 
 		@driver.get(url_of_race)
 		
-		race = fetch_race_shallow()
+		race = fetch_race_shallow(url_of_race)
 		
 		# runner_list
 		@logger.debug("fetch_race - Fetching runners.")
@@ -469,7 +475,7 @@ class Crawler
 		return race
 	end
 
-	def fetch_race_shallow()
+	def fetch_race_shallow(url_of_race)
 		
 		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
 		header_text = header_tag.text
@@ -645,7 +651,7 @@ class Crawler
 					value: value
 		)
 		
-		@logger.debug("fetch_race - race: " + race.to_s
+		@logger.debug("fetch_race - race: " + race.to_s)
 		return race
 	end
 	
@@ -671,13 +677,15 @@ class Crawler
 		
 		# if the race is finished, the driver lands on the results page
 		# -> display runners' table
-		if is_element_present(:css, CSS_TO_RUNNER_TABLE) then
+		if is_element_present(:css, CSS_TO_RUNNER_TABLE, @driver) then
 			runner_table_button = @driver.find_element(:css, CSS_TO_RUNNER_TABLE)
 			runner_table_button.click
 		end
 		
+		column_map = get_column_map()
+		
 		runner_list = Hash.new
-		list_of_runners = @driver.find_element(:css, CSS_TO_RUNNERS)
+		list_of_runners = @driver.find_elements(:css, CSS_TO_RUNNERS)
 		i = 0
 		list_of_runners.each do |runner_elmt|
 			@logger.info("fetch_runners - Fetching runner #" + i.to_s)
@@ -688,7 +696,7 @@ class Crawler
 		
 		# if the race is over, its results are fetched
 		
-		if is_element_present(:css, "p.course-infos-statut-details--arrivee") then
+		if is_element_present(:css, "p.course-infos-statut-details--arrivee", @driver) then
 			@logger.info("fetch_runners - Fetching race results.")
 			fetch_race_results(runner_list)
 		end
@@ -783,11 +791,23 @@ class Crawler
 		return column_map
 	end
 	
-	def is_element_present(how, what)
+	# cf. https://stackoverflow.com/a/32713128/2112089
+	def element_has_class(elmt, className)
+		classes = elmt.getAttribute("class")
+		classes_array = classes.split(" ")
+		classes_array.each do |currentClass|
+			if currentClass == "" then
+				return true
+			end
+		end
+		return false
+	end
+	
+	def is_element_present(how, what, where)
 		@driver.manage.timeouts.implicit_wait = 0
-		result = @driver.find_elements(how, what).size() > 0
+		result = where.find_elements(how, what).size() > 0
 		if result
-			result = @driver.find_element(how, what).displayed?
+			result = where.find_element(how, what).displayed?
 		end
 		@driver.manage.timeouts.implicit_wait = 30
 		return result
@@ -855,7 +875,7 @@ class Crawler
 		result = Hash.new
 		
 		# if race is finished, click on link to runner's table 
-		if is_element_present(:css, "p.course-infos-statut-details--arrivee") then
+		if is_element_present(:css, "p.course-infos-statut-details--arrivee", @driver) then
 			@driver.find_element(:css, "li.partants").click()
 		end
 		
@@ -1255,149 +1275,141 @@ class Crawler
 	
 	def fetch_runner_shallow(runner_tr_element, column_map)
 		# Fields to fill:
-		# - age
-		# - blinder
-		# - distance
-		# - handicap
-		# - history
-		# - is_favorite
-		# - is_non_runner
-		# - is_replaced
-		# - jockey
-		# - load_handicap
-		# - load_ride
-		# - name (horse)
-		# - number
-		# - pregnant
-		# - sex (horse)
-		# - shoes
+		# - age V
+		# - blinder V
+		# - distance V
+		# - handicap V
+		# - history V
+		# - is_favorite V
+		# - is_non_runner V
+		# - is_pregnant V
+		# - is_replaced V
+		# - jockey V
+		# - load_handicap V
+		# - load_ride V
+		# - name (horse) V
+		# - number V
+		# - sex (horse) V
+		# - shoes V
 		# - trainer
 		
-		# TODO
+		age_and_sex_elmt = runner_tr_element.find_element(:xpath, "tr[3]")
+		age_and_sex_raw = age_and_sex_elmt.text.strip()
+		age_and_sex_array = age_and_sex_raw.split("<br>")
+		age_raw = age_and_sex_array[0]
+		age = age_raw.to_i
 		
-		races_run_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-courses']/ul/li[1]/b")
-		races_run_raw = races_run_elmt.text.strip()
-		races_run = races_run_raw.to_i
-		
-		victories_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-courses']/ul/li[2]/b")
-		victories_raw = victories_elmt.text.strip()
-		victories = victories_raw.to_i
-		
-		places_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-courses']/ul/li[3]/b")
-		places_raw = places_elmt.text.strip()
-		places = places_raw.to_i
-		
-		trainer_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-entraineur']/b[1]")
-		trainer_name = trainer_elmt.text.strip()
-		if trainer_name.index(NC_FLAG) != nil and trainer_name.length == 1 then
-			trainer_name = ""
+		blinder = nil
+		if column_map[:blinder] then
+			if is_element_present(:css, "use", runner_tr_element) then
+				blinder_elmt = runner_tr_element.find_element(:css, "use")			
+				blinder_link_raw = blinder_elmt.attribute("xlink:href")
+				blinder_text = blinder_link_raw.split("#")[1] # second element when splitting the string on the '#'
+				# @logger.debug("fetch_runner_shallow - blinder_text : " + blinder_text)
+				blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
+			end
 		end
+		
+		if column_map[:distance] then
+			distance_elmt = runner_tr_element.find_element(:xpath, "td[6]")
+			distance_raw = distance_elmt.text.strip()
+			distance = distance_raw.to_i
+		end
+		
+		if column_map[:handicap] then
+			handicap_elmt = runner_tr_element.find_element(:xpath, "td[6]")
+			handicap_raw = handicap_elmt.text.strip()
+			handicap = handicap_raw.gsub(",",".").to_f
+		end
+		
+		history_elmt = runner_tr_element.find_element(:css, "span.participants-performances")
+		history = history_elmt.text.strip()
+		
+		is_favorite = element_has_class(runner_tr_element, "participants-tbody-tr--favorite")
+		
+		is_non_runner = element_has_class(runner_tr_element, "participants-tbody-tr--non-partant")
+		
+		is_pregnant = is_element_present(:css, "svg.jument_pleine", runner_tr_element)
+		
+		is_replaced = is_element_present(:css, "li.participants-details--suppl", runner_tr_element)
+		
+		jockey_name_elmt = runner_tr_element.find_element(:xpath, column_map[:jockey])
+		jockey_name = jockey_name_elmt.text.strip()
+		jockey = Jockey::new(name: jockey_name)
+		
+		if column_map[:load] then
+			load_elmt = runner_tr_element.find_element(:xpath, column_map[:load])
+			load_raw = load_elmt.text.strip()
+			load_array = load_raw.split("<br>")
+			
+			#load_handicap
+			load_handicap_raw = load_array[0]
+			if load_handicap_raw == "-" then
+				load_handicap = 0
+			else 
+				load_handicap = load_handicap_raw.to_f
+			end
+			
+			#load_ride
+			load_ride_raw = load_array[1]
+			if load_ride_raw == "-" then
+				load_ride = 0
+			else 
+				load_ride = load_ride_raw.to_f
+			end
+		end
+		
+		number_elmt = runner_tr_element.find_element(:css, "span.participants-num")
+		number_raw = number_elmt.text.strip()
+		numer = number_raw.to_i
+		
+		name_elmt = runner_tr_element.find_element(:css, "p.participants-name")
+		name_raw = name_elmt.text.strip()
+		name = name_raw.to_i
+		
+		sex_raw = age_and_sex_array[1]
+		sex = sex_raw.to_i
+		
+		shoes = nil
+		if column_map[:shoes] then
+			if is_element_present(:css, "svg.deferre_anterieurs", runner_tr_element) then
+				shoes_text = "deferre_anterieurs"
+				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+			elsif is_element_present(:css, "svg.deferre_anterieurs_posterieurs", runner_tr_element) then
+				shoes_text = "deferre_anterieurs_posterieurs"
+				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+			elsif is_element_present(:css, "svg.deferre_posterieurs", runner_tr_element) then
+				shoes_text = "svg.deferre_posterieurs"
+				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+			end
+		end
+		
+		horse = Horse::new(name: name, sex: sex)
+		
+		trainer_name_elmt = runner_tr_element.find_element(:css, "span.participants-entraineur")
+		trainer_name = trainer_name_elmt.text.strip()
 		trainer = Trainer::new(name: trainer_name)
 		
-		owner_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-entraineur']/b[2]")
-		owner_name = owner_elmt.text.strip()
-		if owner_name.index(NC_FLAG) != nil and owner_name.length == 1  then
-			owner_name = ""
-		end
-		owner = Owner::new(name: owner_name)
-		
-		breeder_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-entraineur']/b[3]")
-		breeder_name = breeder_elmt.text.strip()
-		# @logger.debug("fetch_runner - " + runner.number.to_s + " breeder_raw = " + breeder_name)
-		if breeder_name.index(NC_FLAG) != nil and breeder_name.length == 1 then
-			breeder_name = ""
-		end
-		breeder = Breeder::new(name: breeder_name)
-		
-		earnings_career_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-gains']/ul/li[1]/b")
-		earnings_career_raw = earnings_career_elmt.text.strip()
-		earnings_career_raw = earnings_career_raw.gsub(",", ".")
-		earnings_career_raw = earnings_career_raw.gsub("€", "")
-		earnings_career_raw = earnings_career_raw.gsub(" ", "")
-		earnings_career = 0.0
-		# @logger.debug("fetch_runner - " + runner.number.to_s + " earnings_career_raw = " + earnings_career_raw)
-		if earnings_career_raw.index(NC_FLAG) == nil then
-			earnings_career = earnings_career_raw.to_f
-		end
-		
-		earnings_last_year_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-gains']/ul/li[2]/b")
-		earnings_last_year_raw = earnings_last_year_elmt.text.strip()
-		earnings_last_year_raw = earnings_last_year_raw.gsub(",", ".")
-		earnings_last_year_raw = earnings_last_year_raw.gsub("€", "")
-		earnings_last_year_raw = earnings_last_year_raw.gsub(" ", "")
-		earnings_last_year = 0.0
-		# @logger.debug("fetch_runner - " + runner.number.to_s + " earnings_last_year_raw = " + earnings_last_year_raw)
-		if earnings_last_year_raw.index(NC_FLAG) == nil then
-			earnings_last_year = earnings_last_year_raw.to_f
-		end
-		
-		earnings_victory_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-gains']/ul/li[3]/b")
-		earnings_victory_raw = earnings_victory_elmt.text.strip()
-		earnings_victory_raw = earnings_victory_raw.gsub(",", ".")
-		earnings_victory_raw = earnings_victory_raw.gsub("€", "")
-		earnings_victory_raw = earnings_victory_raw.gsub(" ", "")
-		earnings_victory = 0.0
-		# @logger.debug("fetch_runner - " + runner.number.to_s + " earnings_victory_raw = " + earnings_victory_raw)
-		if earnings_victory_raw.index(NC_FLAG) == nil then
-			earnings_victory = earnings_victory_raw.to_f
-		end
-		
-		earnings_current_year_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-gains']/ul/li[4]/b")
-		earnings_current_year_raw = earnings_current_year_elmt.text.strip()
-		earnings_current_year_raw = earnings_current_year_raw.gsub(",", ".")
-		earnings_current_year_raw = earnings_current_year_raw.gsub("€", "")
-		earnings_current_year_raw = earnings_current_year_raw.gsub(" ", "")
-		earnings_current_year = 0.0
-		# @logger.debug("fetch_runner - " + runner.number.to_s + " earnings_current_year_raw = " + earnings_current_year_raw)
-		if earnings_current_year_raw.index(NC_FLAG) == nil then
-			earnings_current_year = earnings_current_year_raw.to_f
-		end
-		
-		father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-ascendance']/ul/li[1]/span[2]/b")
-		father_name = father_elmt.text.strip()
-		father = Horse::new(name: father_name)
-		
-		mothers_father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-ascendance']/ul/li[3]/span[2]/b")
-		mothers_father_name = mothers_father_elmt.text.strip()
-		mothers_father = Horse::new(name: mothers_father_name)
-		
-		mother_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-ascendance']/ul/li[2]/span[2]/b")
-		mother_name = mother_elmt.text.strip()
-		mother = Horse::new(name: mother_name, father: mothers_father)
-		
-		content_elmt = @driver.find_element(:xpath, "//div[@class='content']/h3")
-		content = content_elmt.text.strip
-		content_array = content.split(",")
-		# @logger.debug("fetch_runner - content_array : " + content_array.to_s)
-		breed_raw = content_array[0]
-		breed_text = breed_raw.strip
-		breed = @ref_list_hash[:ref_breed_list][breed_text]
-		
-		
-		coat_text = ""
-		if content_array.size >= 4 then
-			coat_raw = content_array[3]
-			# @logger.debug("fetch_runner - coat_raw : " + coat_raw)
-			coat_text = coat_raw.strip
-		end
-		coat = @ref_list_hash[:ref_coat_list][coat_text]
-		
-		
-		runner.horse.breed = breed
-		runner.breeder = breeder
-		runner.horse.coat = coat
-		runner.description = description
-		runner.earnings_career = earnings_career
-		runner.earnings_current_year = earnings_current_year
-		runner.earnings_last_year = earnings_last_year
-		runner.earnings_victory = earnings_victory
-		runner.horse.father = father				
-		runner.horse.mother = mother
-		runner.owner = owner
-		runner.places = places
-		runner.races_run = races_run
-		runner.trainer = trainer
-		runner.victories = victories
+		runner = Runner::new(
+			age: age,
+			blinder: blinder,
+			distance: distance,
+			handicap: handicap,
+			history: history,
+			is_favorite: is_favorite,
+			is_non_runner: is_non_runner,
+			is_pregnant: is_pregnant,
+			is_replaced: is_replaced,
+			jockey: jockey,
+			load_handicap: load_handicap,
+			load_ride: load_ride,
+			number: number,
+			shoes: shoes,
+			trainer: trainer
+		)
 		
 		return runner
 	end
