@@ -29,54 +29,50 @@ class Crawler
 	
 	DETAILED_COND_INTRO = ""
 	
-	# Plat 1
-	HEADER_LINE_TYPE_1 =	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand."
-	# Plat 2
-	HEADER_LINE_TYPE_2 = 	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand."
-	# Obstacle Steeple / Obstacle Cross
-	HEADER_LINE_TYPE_3 = 	"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand."
-	# Trot Monté
-	HEADER_LINE_TYPE_4 = 	"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)"
-	# Trot Attelé 1
-	HEADER_LINE_TYPE_5 = 	"Place N° Cheval Driver Red. Km Rapports prob. Commentaires d'après-course Œil"
-	# Trot Attelé 2
-	HEADER_LINE_TYPE_6 = 	"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)"
-		
-	COLUMN_MAP_TYPE_1 = {	blinder: nil, 			shoes: "td[4]/b",
-							draw: nil, 				distance: "td[10]",
-							trainer: "td[9]",		earnings_carrer: "td[12]",
-							history: "td[11]", 		load_handicap: "td[8]",
-							load_ride: nil, 		single_rating: "td[13]"}
-							
-	COLUMN_MAP_TYPE_2 = {	blinder: "td[4]/b", 	shoes: nil,
-							draw: "td[8]", 			distance: nil,
-							trainer: "td[11]", 		earnings_carrer: nil,
-							history: "td[12]", 		load_handicap: "td[9]",
-							load_ride: "td[10]",	single_rating: "td[13]"}
-							
-	COLUMN_MAP_TYPE_3 = {	blinder: "td[4]/b", 	shoes: nil,
-							draw: nil, 				distance: nil,
-							trainer: "td[10]", 		earnings_carrer: nil,
-							history: "td[11]", 		load_handicap: "td[8]",
-							load_ride: "td[9]", 	single_rating: "td[12]"}
+	# Obstacle Steeple / Obstacle Cross / Obstacle Haies already finished
+	HEADER_LINE_TYPE_1 = 			"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand."
+	# Obstacle Steeple / Obstacle Cross / Obstacle Haies if not finished
+	HEADER_LINE_TYPE_1_FINISHED = 	"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraîneur Poids M. Hand."
+	# "Plat" if already finished
+	HEADER_LINE_TYPE_2 =			"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand."
+	# "Plat" if not finished
+	HEADER_LINE_TYPE_2_FINISHED = 	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand."
+	# "Trot Attelé" if already finished
+	HEADER_LINE_TYPE_3 = 			"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Fer Age Entraineur (kg) Gains (€)"
+	# "Trot Attelé" if not finished
+	HEADER_LINE_TYPE_3_FINISHED = 	"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)"
+	# "Trot Monté" if already finished
+	HEADER_LINE_TYPE_4 = 			"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Fer Age Entraineur (€) (km)"
+	# "Trot Monté" if not finished
+	HEADER_LINE_TYPE_4_FINISHED = 	"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)"
+	
+	# Obstacle Steeple / Obstacle Cross / Obstacle Haies
+	COLUMN_MAP_TYPE_1 = {	age: "td[3]", 						blinder: true,
+							distance: false, 						handicap: true,
+							jockey: "span.participants-jokey", 	load_handicap: "td[5]", 
+							load_ride: "td[5]",					sex: "td[3]",
+							shoes: false}
 
-	COLUMN_MAP_TYPE_4 = {	blinder: "td[4]/b", 	shoes: nil,
-							draw: nil, 				distance: nil,
-							trainer: "td[10]", 		earnings_carrer: nil,
-							history: "td[11]", 		load_handicap: "td[8]",
-							load_ride: "td[9]", 	single_rating: "td[12]"}
-
-	COLUMN_MAP_TYPE_5 = {	blinder: "td[4]/b", 	shoes: nil,
-							draw: nil, 				distance: nil,
-							trainer: "td[10]", 		earnings_carrer: nil,
-							history: "td[11]", 		load_handicap: "td[8]",
-							load_ride: "td[9]", 	single_rating: "td[12]"}
-
-	COLUMN_MAP_TYPE_5 = {	blinder: "td[4]/b", 	shoes: nil,
-							draw: nil, 				distance: nil,
-							trainer: "td[10]", 		earnings_carrer: nil,
-							history: "td[11]", 		load_handicap: "td[8]",
-							load_ride: "td[9]", 	single_rating: "td[12]"}
+	# "Plat"						
+	COLUMN_MAP_TYPE_2 = {	age: "td[4]", 						blinder: true,
+							distance: false, 					handicap: false,
+							jockey: "span.participants-jokey", 	load_handicap: "td[6]", 
+							load_ride: "td[6]",					sex: "td[4]",
+							shoes: false}
+	
+	# "Trot Attelé"						
+	COLUMN_MAP_TYPE_3 = {	age: "td[3]", 						blinder: false,
+							distance: "td[6]", 					handicap: false,
+							jockey: "span.participants-driver", load_handicap: nil, 
+							load_ride: nil,						sex: "td[3]",
+							shoes: true}
+	
+	# "Trot Monté"
+	COLUMN_MAP_TYPE_4 = {	age: "td[3]", 						blinder: false,
+							distance: "td[6]", 					handicap: false,
+							jockey: "span.participants-jokey", load_handicap: nil, 
+							load_ride: nil,						sex: "td[3]",
+							shoes: true}
 
 	attr_accessor:driver
 	attr_accessor:server
@@ -683,7 +679,7 @@ class Crawler
 		end
 		
 		column_map = get_column_map()
-		
+		return false #TODO : delete
 		runner_list = Hash.new
 		list_of_runners = @driver.find_elements(:css, CSS_TO_RUNNERS)
 		i = 0
@@ -753,10 +749,13 @@ class Crawler
 		
 		debug_url = @driver.current_url.slice(33, 5)
 		
-		@logger.debug("get_column_map - for race : " + debug_url +
-						" - race type: " + race_type_raw + " - found header line : " + str_flattened_header)
+		is_finished = not(is_element_present(:css, "p.course-infos-statut-details--depart", @driver))
+		
+		@logger.info("get_column_map - for race : " + debug_url +
+						" - race type: " + race_type_raw + " is finished : " + is_finished.to_s + " - found header line : " + str_flattened_header)
 		
 		column_map = nil
+		return column_map #TODO : delete
 		
 		# @logger.debug("get_column_map - header = HEADER_LINE_TYPE_1 : " +
 						# (str_flattened_header == HEADER_LINE_TYPE_1).to_s)
@@ -772,18 +771,27 @@ class Crawler
 			when HEADER_LINE_TYPE_1 then
 				@logger.debug("get_column_map - header 1 -> column_map type 1")
 				column_map = COLUMN_MAP_TYPE_1
+			when HEADER_LINE_TYPE_1_FINISHED then
+				@logger.debug("get_column_map - header 1 (finished) -> column_map type 1")
+				column_map = COLUMN_MAP_TYPE_1
 			when HEADER_LINE_TYPE_2 then
 				@logger.debug("get_column_map - header 2 -> column_map type 2")
 				column_map = COLUMN_MAP_TYPE_2
+			when HEADER_LINE_TYPE_2_FINISHED then
+				@logger.debug("get_column_map - header 2 (finished) -> column_map type 1")
+				column_map = COLUMN_MAP_TYPE_1
 			when HEADER_LINE_TYPE_3 then
 				@logger.debug("get_column_map - header 3 -> column_map type 3")
 				column_map = COLUMN_MAP_TYPE_3
+			when HEADER_LINE_TYPE_3_FINISHED then
+				@logger.debug("get_column_map - header 3 (finished) -> column_map type 1")
+				column_map = COLUMN_MAP_TYPE_1
 			when HEADER_LINE_TYPE_4 then
 				@logger.debug("get_column_map - header 4 -> column_map type 4")
 				column_map = COLUMN_MAP_TYPE_4
-			when HEADER_LINE_TYPE_5 then
-				@logger.debug("get_column_map - header 5 -> column_map type 5")
-				column_map = COLUMN_MAP_TYPE_5
+			when HEADER_LINE_TYPE_4_FINISHED then
+				@logger.debug("get_column_map - header 4 (finished) -> column_map type 1")
+				column_map = COLUMN_MAP_TYPE_1
 			else
 				raise "Unknown type of race."
 		end
