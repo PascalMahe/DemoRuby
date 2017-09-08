@@ -2,8 +2,8 @@ Obstacle X is finished : true - 		N° Cheval Sexe Jockey Poids H. Val. Performan
 Obstacle X is finished : false - 		N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraîneur Poids M. Hand.
 Plat is finished : true - 				N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand.
 Plat is finished : false - 				N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand.
-Trot Monté is finished : true - 		N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Fer Age Entraineur (kg) Gains (€)
-Trot Monté is finished : false - 		N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)
 Trot Attelé is finished : true - 		N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Fer Age Entraineur (€) (km)
 Trot Attelé is finished : false - 		N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)
+Trot Monté is finished : true - 		N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Fer Age Entraineur (kg) Gains (€)
+Trot Monté is finished : false - 		N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)
 

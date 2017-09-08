@@ -13,6 +13,7 @@ class Runner
 	attr_accessor :earnings_last_year
 	attr_accessor :earnings_victory
 	attr_accessor :final_place
+	attr_accessor :handicap
 	attr_accessor :history
 	attr_accessor :horse
 	attr_accessor :id
@@ -50,6 +51,7 @@ class Runner
 			earnings_last_year: nil,
 			earnings_victory: nil,
 			final_place: nil,
+			handicap: nil,
 			history: nil,
 			horse: nil,
 			id: nil,
@@ -86,6 +88,7 @@ class Runner
 		@earnings_last_year = earnings_last_year
 		@earnings_victory = earnings_victory
 		@final_place = final_place
+		@handicap = handicap
 		@history = history
 		@horse = horse
 		@id = id
@@ -276,6 +279,7 @@ class Runner
 		", is_non_runner = " + nil_safe_to_s(is_non_runner) +
 		", is_pregnant = " + nil_safe_to_s(is_pregnant) +
 		", is_substitute = " + nil_safe_to_s(is_substitute) +
+		", handicap = " + nil_safe_to_s(handicap) +
 		", history = " + nil_safe_to_s(history) +
 		", jockey = " + nil_safe_to_s(jockey) +
 		", load_handicap = " + nil_safe_to_s(load_handicap) +
