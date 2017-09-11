@@ -29,22 +29,15 @@ class Crawler
 	
 	DETAILED_COND_INTRO = ""
 	
-	# Obstacle Steeple / Obstacle Cross / Obstacle Haies already finished
-	HEADER_LINE_TYPE_1 = 			"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraîneur Poids M. Hand."
-	# Obstacle Steeple / Obstacle Cross / Obstacle Haies if not finished
-	HEADER_LINE_TYPE_1_FINISHED = 	"N° Cheval Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraîneur Poids M. Hand."
-	# "Plat" if already finished
-	HEADER_LINE_TYPE_2 =			"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Œillère Age Entraineur Poids M. Hand."
-	# "Plat" if not finished
-	HEADER_LINE_TYPE_2_FINISHED = 	"N° Cheval Cde. Sexe Jockey Poids H. Val. Performances Rapports prob. Sélect. Œillère Age Entraineur Poids M. Hand."
+	# Obstacle Steeple / Obstacle Cross / Obstacle Haies 
+	HEADER_LINE_TYPE_1 = 			"N° Cheval Sexe Jockey Poids H. "
+	# "Plat" 
+	HEADER_LINE_TYPE_2 =			"N° Cheval Cde. Sexe Jockey Poid"
 	# "Trot Attelé" if already finished
-	HEADER_LINE_TYPE_3 = 			"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Fer Age Entraineur (€) (km)"
-	# "Trot Attelé" if not finished
-	HEADER_LINE_TYPE_3_FINISHED = 	"N° Cheval Sexe Driver Gains Distance Performances Rapports prob. Sélect. Fer Age Entraineur (€) (km)"
+	HEADER_LINE_TYPE_3 = 			"N° Cheval Sexe Driver Gains Dis"
 	# "Trot Monté" if already finished
-	HEADER_LINE_TYPE_4 = 			"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Fer Age Entraineur (kg) Gains (€)"
-	# "Trot Monté" if not finished
-	HEADER_LINE_TYPE_4_FINISHED = 	"N° Cheval Sexe Jockey Poids Dist. (m) Performances Rapports prob. Sélect. Fer Age Entraineur (kg) Gains (€)"
+	HEADER_LINE_TYPE_4 = 			"N° Cheval Sexe Jockey Poids Dis"
+	
 	
 	# Obstacle Steeple / Obstacle Cross / Obstacle Haies
 	COLUMN_MAP_TYPE_1 = {	age: "td[3]", 						blinder: true,
@@ -682,7 +675,7 @@ class Crawler
 		
 		runner_list = Hash.new
 		list_of_runners = @driver.find_elements(:css, CSS_TO_RUNNERS)
-		i = 0
+		i = 1
 		list_of_runners.each do |runner_elmt|
 			@logger.info("fetch_runners - Fetching runner #" + i.to_s)
 			current_runner = fetch_runner(runner_elmt, column_map)
@@ -751,6 +744,10 @@ class Crawler
 		
 		is_finished = not(is_element_present(:css, "p.course-infos-statut-details--depart", @driver))
 		
+		# shortening for check
+		# to same size as HEADER_LINES because that's the size of the shortest 
+		# string to differentiate between the 4 possibilities.
+		str_flattened_header = str_flattened_header[0, HEADER_LINE_TYPE_1.length]
 		@logger.info("get_column_map - for race : " + debug_url +
 						" - race type: " + race_type_raw + " is finished : " + is_finished.to_s + " - found header line : " + str_flattened_header)
 		
@@ -760,26 +757,14 @@ class Crawler
 			when HEADER_LINE_TYPE_1 then
 				@logger.debug("get_column_map - header 1 -> column_map type 1")
 				column_map = COLUMN_MAP_TYPE_1
-			when HEADER_LINE_TYPE_1_FINISHED then
-				@logger.debug("get_column_map - header 1 (finished) -> column_map type 1")
-				column_map = COLUMN_MAP_TYPE_1
 			when HEADER_LINE_TYPE_2 then
 				@logger.debug("get_column_map - header 2 -> column_map type 2")
-				column_map = COLUMN_MAP_TYPE_2
-			when HEADER_LINE_TYPE_2_FINISHED then
-				@logger.debug("get_column_map - header 2 (finished) -> column_map type 2")
 				column_map = COLUMN_MAP_TYPE_2
 			when HEADER_LINE_TYPE_3 then
 				@logger.debug("get_column_map - header 3 -> column_map type 3")
 				column_map = COLUMN_MAP_TYPE_3
-			when HEADER_LINE_TYPE_3_FINISHED then
-				@logger.debug("get_column_map - header 3 (finished) -> column_map type 3")
-				column_map = COLUMN_MAP_TYPE_3
 			when HEADER_LINE_TYPE_4 then
 				@logger.debug("get_column_map - header 4 -> column_map type 4")
-				column_map = COLUMN_MAP_TYPE_4
-			when HEADER_LINE_TYPE_4_FINISHED then
-				@logger.debug("get_column_map - header 4 (finished) -> column_map type 4")
 				column_map = COLUMN_MAP_TYPE_4
 			else
 				raise "Unknown type of race."
@@ -790,10 +775,11 @@ class Crawler
 	
 	# cf. https://stackoverflow.com/a/32713128/2112089
 	def element_has_class(elmt, className)
+		
 		classes = elmt.attribute("class")
-		classes_array = classes.split(" ")
+		classes_array = classes.split(" ")		
 		classes_array.each do |currentClass|
-			if currentClass == "" then
+			if currentClass == className then
 				return true
 			end
 		end
@@ -838,7 +824,6 @@ class Crawler
 	
 	def fetch_runner_shallow(runner_tr_element, column_map)
 		# Fields to fill:
-		# - age V
 		# - blinder V
 		# - distance V
 		# - handicap V
@@ -852,89 +837,9 @@ class Crawler
 		# - load_ride V
 		# - name (horse) V
 		# - number V
-		# - sex (horse) V
 		# - shoes V
 		# - trainer
-		
-		age_and_sex_elmt = runner_tr_element.find_element(:xpath, column_map[:age])
-		age_and_sex_raw = age_and_sex_elmt.text.strip()
-		age_and_sex_array = age_and_sex_raw.split("\n")
-		@logger.debug("fetch_runner_shallow - age_and_sex_raw : " + age_and_sex_raw.to_s)
-		@logger.debug("fetch_runner_shallow - age_and_sex_array : " + age_and_sex_array.to_s)
-		age_raw = age_and_sex_array[1]
-		age = age_raw.to_i
-		@logger.debug("fetch_runner_shallow - age : " + age.to_s)
-		
-		blinder = nil
-		if column_map[:blinder] then
-			if is_element_present(:css, "use", runner_tr_element) then
-				blinder_elmt = runner_tr_element.find_element(:css, "use")			
-				blinder_link_raw = blinder_elmt.attribute("xlink:href")
-				blinder_text = blinder_link_raw.split("#")[1] # second element when splitting the string on the '#'
-				blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
-				@logger.debug("fetch_runner_shallow - blinder : " + blinder.to_s)
-			end
-		end
-		
-		if column_map[:distance] then
-			distance_elmt = runner_tr_element.find_element(:xpath, "td[6]")
-			distance_raw = distance_elmt.text.strip()
-			distance = distance_raw.to_i
-			@logger.debug("fetch_runner_shallow - distance : " + distance.to_s)
-		end
-		
-		if column_map[:handicap] then
-			handicap_elmt = runner_tr_element.find_element(:xpath, "td[6]")
-			handicap_raw = handicap_elmt.text.strip()
-			handicap = handicap_raw.gsub(",",".").to_f
-			@logger.debug("fetch_runner_shallow - handicap : " + handicap.to_s)
-		end
-		
-		history_elmt = runner_tr_element.find_element(:css, "span.participants-performances")
-		history = history_elmt.text.strip()
-		@logger.debug("fetch_runner_shallow - history : " + history)
-		
-		is_favorite = element_has_class(runner_tr_element, "participants-tbody-tr--favorite")
-		@logger.debug("fetch_runner_shallow - is_favorite : " + is_favorite.to_s)
-		
-		is_non_runner = element_has_class(runner_tr_element, "participants-tbody-tr--non-partant")
-		@logger.debug("fetch_runner_shallow - is_non_runner : " + is_non_runner.to_s)
-		
-		is_pregnant = is_element_present(:css, "svg.jument_pleine", runner_tr_element)
-		@logger.debug("fetch_runner_shallow - is_pregnant : " + is_pregnant.to_s)
-		
-		is_substitute = is_element_present(:css, "li.participants-details--suppl", runner_tr_element)
-		@logger.debug("fetch_runner_shallow - is_substitute : " + is_substitute.to_s)
-		
-		jockey_name_elmt = runner_tr_element.find_element(:css, column_map[:jockey])
-		jockey_name = jockey_name_elmt.text.strip()
-		jockey = Jockey::new(name: jockey_name)
-		@logger.debug("fetch_runner_shallow - jockey_name : " + jockey.to_s)
-		
-		if column_map[:load] then
-			load_elmt = runner_tr_element.find_element(:xpath, column_map[:load])
-			load_raw = load_elmt.text.strip()
-			load_array = load_raw.split("<br>")
-			
-			#load_handicap
-			load_handicap_raw = load_array[0]
-			if load_handicap_raw == "-" then
-				load_handicap = 0.0
-			else 
-				load_handicap = load_handicap_raw.to_f
-			end
-			@logger.debug("fetch_runner_shallow - load_handicap : " + load_handicap.to_s)
-			
-			#load_ride
-			load_ride_raw = load_array[1]
-			if load_ride_raw == "-" then
-				load_ride = 0.0
-			else 
-				load_ride = load_ride_raw.to_f
-			end
-			@logger.debug("fetch_runner_shallow - load_ride : " + load_ride.to_s)
-		end
-		
+				
 		number_elmt = runner_tr_element.find_element(:css, "span.participants-num")
 		number_raw = number_elmt.text.strip()
 		number = number_raw.to_i
@@ -943,41 +848,124 @@ class Crawler
 		name_elmt = runner_tr_element.find_element(:css, "p.participants-name")
 		name = name_elmt.text.strip()
 		@logger.debug("fetch_runner_shallow - name : " + name)
+		horse = Horse::new(name: name)
 		
-		sex_raw = age_and_sex_array[0]
-		sex = @ref_list_hash[:ref_sex_list][sex_raw.strip()]
-		@logger.debug("fetch_runner_shallow - sex : " + sex.to_s)
+		is_non_runner = element_has_class(runner_tr_element, "participants-tbody-tr--non-partant")
+		@logger.debug("fetch_runner_shallow - is_non_runner : " + is_non_runner.to_s)
 		
+		blinder = nil
+		distance = 0
+		handicap = 0.0
+		history = nil
+		is_favorite = false
+		is_pregnant = false
+		is_substitute = false
+		jockey = nil
+		load_handicap = 0.0
+		load_ride = 0.0
 		shoes = nil
-		if column_map[:shoes] then
-			if is_element_present(:css, "svg.deferre_anterieurs", runner_tr_element) then
-				shoes_text = "deferre_anterieurs"
-				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
-				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
-			elsif is_element_present(:css, "svg.deferre_anterieurs_posterieurs", runner_tr_element) then
-				shoes_text = "deferre_anterieurs_posterieurs"
-				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
-				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
-			elsif is_element_present(:css, "svg.deferre_posterieurs", runner_tr_element) then
-				shoes_text = "svg.deferre_posterieurs"
-				# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
-				shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+		trainer = nil
+		if not is_non_runner then 
+			
+			blinder = nil
+			if column_map[:blinder] then
+				if is_element_present(:css, "use", runner_tr_element) then
+					blinder_elmt = runner_tr_element.find_element(:css, "use")			
+					blinder_link_raw = blinder_elmt.attribute("xlink:href")
+					blinder_text = blinder_link_raw.split("#")[1] # second element when splitting the string on the '#'
+					blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
+					@logger.debug("fetch_runner_shallow - blinder : " + blinder.to_s)
+				end
 			end
-			@logger.debug("fetch_runner_shallow - shoes : " + shoes.to_s)
+			
+			if column_map[:distance] then
+				distance_elmt = runner_tr_element.find_element(:xpath, "td[6]")
+				distance_raw = distance_elmt.text.strip()
+				distance = distance_raw.to_i
+				@logger.debug("fetch_runner_shallow - distance : " + distance.to_s)
+			end
+			
+			if column_map[:handicap] then
+				handicap_elmt = runner_tr_element.find_element(:xpath, "td[6]")
+				handicap_raw = handicap_elmt.text.strip()
+				handicap = handicap_raw.gsub(",",".").to_f
+				@logger.debug("fetch_runner_shallow - handicap : " + handicap.to_s)
+			end
+			
+			history_elmt = runner_tr_element.find_element(:css, "span.participants-performances")
+			history = history_elmt.text.strip()
+			@logger.debug("fetch_runner_shallow - history : " + history)
+			
+			is_favorite = element_has_class(runner_tr_element, "participants-tbody-tr--favorite")
+			@logger.debug("fetch_runner_shallow - is_favorite : " + is_favorite.to_s)
+
+			
+			is_pregnant = is_element_present(:css, "svg.jument_pleine", runner_tr_element)
+			@logger.debug("fetch_runner_shallow - is_pregnant : " + is_pregnant.to_s)
+			
+			is_substitute = is_element_present(:css, "li.participants-details--suppl", runner_tr_element)
+			@logger.debug("fetch_runner_shallow - is_substitute : " + is_substitute.to_s)
+			
+			jockey_name_elmt = runner_tr_element.find_element(:css, column_map[:jockey])
+			jockey_name = jockey_name_elmt.text.strip()
+			jockey = Jockey::new(name: jockey_name)
+			@logger.debug("fetch_runner_shallow - jockey_name : " + jockey.to_s)
+			
+			if column_map[:load] then
+				load_elmt = runner_tr_element.find_element(:xpath, column_map[:load])
+				load_raw = load_elmt.text.strip()
+				load_array = load_raw.split("<br>")
+				
+				#load_handicap
+				load_handicap_raw = load_array[0]
+				if load_handicap_raw == "-" then
+					load_handicap = 0.0
+				else 
+					load_handicap = load_handicap_raw.to_f
+				end
+				@logger.debug("fetch_runner_shallow - load_handicap : " + load_handicap.to_s)
+				
+				#load_ride
+				load_ride_raw = load_array[1]
+				if load_ride_raw == "-" then
+					load_ride = 0.0
+				else 
+					load_ride = load_ride_raw.to_f
+				end
+				@logger.debug("fetch_runner_shallow - load_ride : " + load_ride.to_s)
+			end
+			
+			shoes = nil
+			if column_map[:shoes] then
+				if is_element_present(:css, "svg.deferre_anterieurs", runner_tr_element) then
+					shoes_text = "deferre_anterieurs"
+					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+				elsif is_element_present(:css, "svg.deferre_anterieurs_posterieurs", runner_tr_element) then
+					shoes_text = "deferre_anterieurs_posterieurs"
+					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+				elsif is_element_present(:css, "svg.deferre_posterieurs", runner_tr_element) then
+					shoes_text = "svg.deferre_posterieurs"
+					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
+				end
+				@logger.debug("fetch_runner_shallow - shoes : " + shoes.to_s)
+			end
+			
+			
+			trainer_name_elmt = runner_tr_element.find_element(:css, "span.participants-entraineur")
+			trainer_name = trainer_name_elmt.text.strip()
+			trainer = Trainer::new(name: trainer_name)
+			@logger.debug("fetch_runner_shallow - trainer : " + trainer.to_s)
 		end
 		
-		horse = Horse::new(name: name, sex: sex)
-		
-		trainer_name_elmt = runner_tr_element.find_element(:css, "span.participants-entraineur")
-		trainer_name = trainer_name_elmt.text.strip()
-		trainer = Trainer::new(name: trainer_name)
-		@logger.debug("fetch_runner_shallow - trainer : " + trainer.to_s)
 		
 		runner = Runner::new(
-			age: age,
 			blinder: blinder,
 			distance: distance,
 			handicap: handicap,
+			horse: horse,
 			history: history,
 			is_favorite: is_favorite,
 			is_non_runner: is_non_runner,
