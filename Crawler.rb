@@ -14,6 +14,7 @@ require './Runner.rb'
 
 class Crawler
 	CSS_TO_RUNNER_TABLE = "li.partants"
+	CSS_TO_ARRIVEE_TABLE = "li.arrivee"
 	CSS_TO_RUNNERS = "tr.participants-tbody-tr" #participants-view > div:nth-child(1) > table:nth-child(3) > tbody:nth-child(2) > tr
 	CSS_TO_HEADER_LINE = ".participants-thead"
 	CSS_TO_HEADER_TH = "th"
@@ -699,7 +700,7 @@ class Crawler
 			runner_table_button.click
 			wait = Selenium::WebDriver::Wait.new(:timeout => 15)
 			element = wait.until { 
-				@driver.find_element(:css => "li.partants.selected")  
+				@driver.find_element(:css => CSS_TO_RUNNER_TABLE + ".selected")  
 			}
 			
 		end
@@ -717,10 +718,11 @@ class Crawler
 		end
 		
 		# if the race is over, its results are fetched
-		
 		if is_element_present(:css, "p.course-infos-statut-details--arrivee", @driver) then
 			@logger.info("fetch_runners - Fetching race results.")
-			fetch_race_results(runner_list)
+			fetch_race_results(runner_list, column_map)
+		else 
+			@logger.info("fetch_runners - Race not finisehd, not fetching race results.")
 		end
 		
 		return runner_list
@@ -807,13 +809,38 @@ class Crawler
 	end
 	
 
-	def fetch_race_results(runner_list)
+	def fetch_race_results(runner_list, column_map)
 		
 		# Click on button to show result table
 		
 		# loop on table lines
 		#  -> fetch_result_shallow
+		runner_table_button = @driver.find_element(:css, CSS_TO_ARRIVEE_TABLE)
+		# wait for table to show up
+		Selenium::WebDriver::Wait.new(:timeout => 3)
+		runner_table_button.click
+		wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+		element = wait.until { 
+			@driver.find_element(:css => CSS_TO_ARRIVEE_TABLE + ".selected")  
+		}
 		
+		list_of_runners = @driver.find_elements(:css, CSS_TO_RUNNERS)
+		i = 1
+		list_of_runners.each do |runner_elmt|
+			@logger.info("fetch_race_results - Fetching runner #" + i.to_s)
+			
+			number_elmt = runner_elmt.find_element(:css, "span.participants-num")
+			number_raw = number_elmt.text.strip()
+			number = number_raw.to_i
+			
+			runner = runner_list[number]
+			
+			current_runner = fetch_result_shallow(runner, runner_elmt, column_map)
+			# Is this next line necesary?
+			runner_list[current_runner.number] = current_runner
+			i = i + 1
+		end
+	
 	end
 
 	def fetch_runner(runner_tr_element, column_map)
@@ -1144,12 +1171,15 @@ class Crawler
 		
 		commentary_elmt = runner_tr_element.find_element(:css, "td.participants-tbody-td--commentaire")
 		commentary = commentary_elmt.text.strip()
-		runner.set_commentary(commentary)
+		runner.commentary = commentary
 		
 		final_place_elmt = runner_tr_element.find_element(:css, "span.participants-place")
 		final_place_raw = final_place_elmt.text.strip()
-		final_place_raw = final_place_raw.gsub("er")
-		final_place_raw = final_place_raw.gsub("ème")
+		final_place_raw = final_place_raw.gsub("er", "")
+		final_place_raw = final_place_raw.gsub("Er", "")
+		final_place_raw = final_place_raw.gsub("ème", "")
+		final_place_raw = final_place_raw.gsub("Eme", "")
+		final_place_raw = final_place_raw.gsub("Ème", "")
 		
 		final_place = 99
 		disqualified = true
@@ -1157,25 +1187,31 @@ class Crawler
 			disqualified = false
 			final_place = final_place_raw.to_i
 		end 
-		runner.set_final_place(final_place)
-		runner.set_disqualified(disqualified)
+		@logger.debug("fetch_result_shallow - final_place: " + final_place.to_s)
 		
-		if colmun_map[:km_time] then
+		runner.final_place = final_place
+		runner.disqualified = disqualified
+		
+		if column_map[:km_time] then
 			km_time_elmt = runner_tr_element.find_element(:xpath, "td[5]")
 			km_time = km_time_elmt.text.strip()
-			runner.set_km_time(km_time)
+			@logger.debug("fetch_result_shallow - km_time: " + km_time)
+			runner.km_time(km_time)
 		end
 		
 		odds_ref_elmt = runner_tr_element.find_element(:css, "td.participants-tbody-td--rapport-probable-first")
 		odds_ref_raw = odds_ref_elmt.text.strip()
 		odds_ref = odds_ref_raw.to_f
-		runner.set_odds_ref(odds_ref)
+		@logger.debug("fetch_result_shallow - odds_ref: " + odds_ref.to_s)
+		runner.odds_ref = odds_ref
 		
 		odds_direct_elmt = runner_tr_element.find_element(:css, "td.participants-tbody-td--rapport-probable-last")
 		odds_direct_raw = odds_direct_elmt.text.strip()
 		odds_direct = odds_direct_raw.to_f
-		runner.set_odds_direct(odds_direct)
+		@logger.debug("fetch_result_shallow - odds_direct: " + odds_direct.to_s)
+		runner.odds_direct = odds_direct
 		
+		return runner
 	end
 	
 end

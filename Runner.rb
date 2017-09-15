@@ -26,6 +26,8 @@ class Runner
 	attr_accessor :load_ride
 	attr_accessor :number
 	attr_accessor :owner
+	attr_accessor :odds_direct
+	attr_accessor :odds_ref
 	attr_accessor :places
 	# attr_accessor :race
 	attr_accessor :races_run
@@ -64,6 +66,8 @@ class Runner
 			load_ride: nil,
 			number: nil,
 			owner: nil,
+			odds_direct: nil,
+			odds_ref: nil,
 			places: nil,
 			# race: nil,
 			races_run: nil,
@@ -101,6 +105,8 @@ class Runner
 		@load_ride = load_ride
 		@number = number
 		@owner = owner
+		@odds_direct = odds_direct
+		@odds_ref = odds_ref
 		@places = places
 		# @race = race
 		@races_run = races_run
@@ -286,6 +292,8 @@ class Runner
 		", load_ride = " + nil_safe_to_s(load_ride) +
 		", number = " + nil_safe_to_s(number) +
 		", owner = " + nil_safe_to_s(owner) +
+		", odds_direct = " + nil_safe_to_s(odds_direct) +
+		", odds_ref = " + nil_safe_to_s(odds_ref) +
 		", places = " + nil_safe_to_s(places) +
 		# ", race = " + nil_safe_to_s(race) +
 		", races_run = " + nil_safe_to_s(races_run) +
