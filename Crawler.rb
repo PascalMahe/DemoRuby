@@ -124,7 +124,7 @@ class Crawler
 		# proxy
 		# see https://github.com/jarib/browsermob-proxy-rb
 		# and http://stackoverflow.com/a/15297676/2112089
-		@server = BrowserMob::Proxy::Server.new("D:/Perso/Dev/workspace/DemoRuby/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
+		@server = BrowserMob::Proxy::Server.new("D:/Dev/workspace/RPP/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
 		
 		@server.start
 
@@ -158,7 +158,7 @@ class Crawler
 		  #:ftp      => PROXY,
 		  #:ssl      => PROXY
 		# )
-		# profile.add_extension("./Install/firebug-1.12.6.xpi") # NB : FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
+		# profile.add_extension("./Install/firebug-1.12.6.xpi") # NB: FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
 		profile["browser.bookmarks.max_backups"] = 0
 		profile["browser.cache.memory.enable"] = true
 		profile["browser.cache.disk.enable"] = true
@@ -193,25 +193,37 @@ class Crawler
 		# https://sslwidget.criteo.com/
 		# https://us-u.openx.net
 		
+		options = Selenium::WebDriver::Firefox::Options.new
+		options.profile = profile
+		
 		#Loading browser
-		driver = Selenium::WebDriver.for(:firefox,:profile => profile)
-		# @driver = Selenium::WebDriver.for(:firefox)
-		# @driver = Selenium::WebDriver.for(:remote, :url => "http://localhost:4444/wd/hub", :desired_capabilities => :htmlunit)
+		# driver = Selenium::WebDriver.for(:chrome, :profile => profile, detach: false)
+		driver = Selenium::WebDriver.for(:firefox, options: options)
+		# , :profile => profile
+		# @driver = Selenium::WebDriver.for(:remote,:url => "http://localhost:4444/wd/hub",:desired_capabilities =>:htmlunit)
 		
 		driver.manage.timeouts.implicit_wait = 5 # seconds
 		browser_start_end_time = Time::now
 		browser_start_total_time = browser_start_end_time - browser_start_start_time
 		logStr = "Browser prepared (" + 
 			format_time_diff(browser_start_total_time)	+ 
-			")"
+		")"
 		@logger.info(logStr)
 		return driver
 	end
 	
 	def close_driver()
-		@driver.quit
+		if @driver != nil
+			@driver.close
+		end
+		if @driver != nil
+			@driver.quit
+		end
 		@server.stop
-		@profile.close
+		
+		if @profile != nil
+			@profile.close
+		end
 	end
 	
 	################################################
@@ -253,6 +265,7 @@ class Crawler
 			#TODO: loop on ALL* the days
 			# *ALL = config[:gen][:earliest_date]
 			date = Date.today()
+			date = date - 1 
 			
 			#Fetching meetings
 			nb_last_meeting = get_number_of_last_meeting()
@@ -352,10 +365,10 @@ class Crawler
 			# racetrack = racetrackArray[0].strip()
 			# country = racetrackArray[1]
 			# country = country.gsub(")", "").strip
-			# @logger.debug("Country : " + country)
+			# @logger.debug("Country: " + country)
 		# end
 		country = nil
-		# @logger.debug("Racetrack : " + racetrack)
+		# @logger.debug("Racetrack: " + racetrack)
 		
 		# weather
 		weather = nil
@@ -363,7 +376,7 @@ class Crawler
 					find_element(:xpath, "//div[@class='course-infos-meteo']/p")
 		if p_tag_for_weather != nil then
 			weather = fetch_weather(p_tag_for_weather)
-			@logger.debug("Weather : " + weather.to_s)
+			@logger.debug("Weather: " + weather.to_s)
 		end
 		
 		
@@ -378,7 +391,7 @@ class Crawler
 			race_url = base_url + race_number
 			urls_of_races_array.push(race_url)
 		end
-		@logger.debug("fetch_meeting_shallow - Urls_of_races_array : " + urls_of_races_array.to_s)
+		@logger.debug("fetch_meeting_shallow - Urls_of_races_array: " + urls_of_races_array.to_s)
 		
 		# track_condition
 		track_condition = @ref_list_hash[:ref_track_condition_list][""]
@@ -415,7 +428,7 @@ class Crawler
 		weather_components = weather_class.split("-")
 		insolation = weather_components[weather_components.length - 1]
 		
-		@logger.debug("fetch_weather - insolation : " + insolation)
+		@logger.debug("fetch_weather - insolation: " + insolation)
 		
 		weather_text = p_tag_for_weather.text
 		
@@ -424,14 +437,14 @@ class Crawler
 		# the class should look like this: "6°C, vent 7 km/h"
 		# we're only interested the P4 part
 		
-		@logger.debug("fetch_weather - weather_text : " + weather_text)
-		@logger.debug("fetch_weather - weather_text_components : " + weather_text_components.to_s)
+		@logger.debug("fetch_weather - weather_text: " + weather_text)
+		@logger.debug("fetch_weather - weather_text_components: " + weather_text_components.to_s)
 		
 		str_temperature = weather_text_components[0].gsub("\u00B0C", "").strip()
 		str_wind_speed = weather_text_components[1].gsub("km/h", "").strip()
 		
-		@logger.debug("fetch_weather - temperature : " + str_temperature)
-		@logger.debug("fetch_weather - wind_speed : " + str_wind_speed)
+		@logger.debug("fetch_weather - temperature: " + str_temperature)
+		@logger.debug("fetch_weather - wind_speed: " + str_wind_speed)
 		
 		temperature = Integer(str_temperature)
 		wind_speed = Integer(str_wind_speed)
@@ -486,56 +499,61 @@ class Crawler
 		# runner_list
 		@logger.debug("fetch_race - Fetching runners.")
 		race.runner_list = fetch_runners(race)
-		# @logger.debug("runner_list : " + runner_list.to_s)
+		# @logger.debug("runner_list: " + runner_list.to_s)
 		
 		return race
 	end
 
 	def fetch_race_shallow(url_of_race)
 		
-		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
-		header_text = header_tag.text
+		header_tag_array = @driver.find_elements(:css, ".course-infos-header-extras-main > li")
+		
 		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
 		# 					Trot Attelé | 20 000 € | 2150 m | 16 partants
 		#					Obstacle Steeple | 15 000 € | 4100 m | 9 partants 
 		#					race_type | value | distance | number of participants (ignored)
-		header_text_components = header_text.split(" | ")
-		
-		distance_str = header_text_components[2].gsub("m", "").strip()
-		distance = distance_str.to_i
-		@logger.debug("fetch_race_shallow - distance : " + distance.to_s)
 		
 		# race_type
-		race_type_raw = header_text_components[0].strip()
+		race_type_tag = header_tag_array[0]
+		race_type_raw = race_type_tag.text.strip()
 		race_type = @ref_list_hash[:ref_race_type_list][race_type_raw]
-		@logger.debug("fetch_race_shallow - race_type : " + race_type.to_s)
+		@logger.debug("fetch_race_shallow - race_type: " + race_type.to_s)
 		
 		# value
-		value_str = header_text_components[1].strip().gsub("€" , "").gsub(" ", "")
+		value_tag = header_tag_array[1]
+		race_type_raw = race_type_tag.text.strip()
+		value_str = race_type_tag.text.strip().gsub("€" , "").gsub(" ", "")
 		value = value_str.to_i
-		@logger.debug("fetch_race_shallow - value : " + value.to_s)
+		@logger.debug("fetch_race_shallow - value: " + value.to_s)
+		
+		# distance
+		distance_tag = header_tag_array[2]
+		distance_str = distance_tag.text.strip().gsub("m", "")
+		distance = distance_str.to_i
+		@logger.debug("fetch_race_shallow - distance: " + distance.to_s)
 		
 		# bets
-		# //*[@id='main']/div/div[4]/div/div[4]/div/div[1]/ul/li[3]
-		bet_button_tag = @driver.find_element(:xpath, "//i[@class='icon icon-enjeux']")
+		# under "Les plus joues" now
+		bet_button_tag = @driver.find_element(:xpath, "//i[@class='icon icon-plus-joues']")
 		bet_button_tag.click
 		
 		bets = nil
-		bet_potential_tags = @driver.find_elements(:xpath, "//li[@class='masse-enjeu']")
+		bet_potential_tags = @driver.find_elements(:xpath, "//td[@class='masse-enjeux-val']")
+		
+		@logger.debug("fetch_race_shallow - number of potential bet tags: " + bet_potential_tags.length.to_s)
 		bet_potential_tags.each do |bet_potential_tag|
 			bet_potential_text = bet_potential_tag.text
-			if bet_potential_text.include?("Placé") then
-				# should look like :
-				# Placéà 15h50 :22 871 €
-				
-				bets_text_array = bet_potential_text.split(":")
-				bets_str_raw = bets_text_array[1]
-				bets_str = bets_str_raw.gsub("€", "").gsub(" ", "").gsub(",", ".").strip()
+			@logger.debug("fetch_race_shallow - bet_potential_text: " + bet_potential_text.to_s)
+			corresponding_label = bet_potential_tag.find_element(:xpath, "../td[@class='label']")
+			@logger.debug("fetch_race_shallow - corresponding_label: " + corresponding_label.to_s)
+			if corresponding_label.text.include?("Placé")
+				# should look like:
+				bets_str = bet_potential_text.gsub("€", "").gsub(" ", "").gsub(",", ".").strip()
 				bets = bets_str.to_f
 				
-				@logger.debug("fetch_race_shallow - bets : " + bets.to_s)
 			end
 		end
+		@logger.debug("fetch_race_shallow - bets: " + bets.to_s)
 		
 		
 		# detailed conditions
@@ -551,7 +569,7 @@ class Crawler
 			div_detailed_cond_tag = div_detailed_cond_tag_array[0]
 			detailed_cond = div_detailed_cond_tag.text.strip()
 			
-			@logger.debug("fetch_race_shallow - detailed_cond : " + detailed_cond)
+			@logger.debug("fetch_race_shallow - detailed_cond: " + detailed_cond)
 			
 			# close popin
 			# btn_close_popin = @driver.find_element(:css, "div.popin-close")
@@ -561,7 +579,7 @@ class Crawler
 			# end
 		end
 		
-		# @logger.debug("detailed_cond : " + detailed_cond)
+		# @logger.debug("detailed_cond: " + detailed_cond)
 		
 		# general_conditions
 		# inside div#conditions =>	Courses à conditions - Corde à droite - Terrain bon Détails des conditions
@@ -577,7 +595,7 @@ class Crawler
 			general_cond_str = general_cond_str.split("Terrain")[0].strip
 		end
 		
-		@logger.debug("fetch_race_shallow - general_conditions : " + general_cond_str)
+		@logger.debug("fetch_race_shallow - general_conditions: " + general_cond_str)
 		
 		# name
 		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
@@ -585,10 +603,10 @@ class Crawler
 		# split#1
 		race_title_tag = @driver.find_element(:css, "h1.course-infos-header-title")
 		race_title_str = race_title_tag.text
-		# @logger.debug("race_title_str : " + race_title_str)
+		# @logger.debug("race_title_str: " + race_title_str)
 		race_title_array = race_title_str.split(" - ")
 		name = race_title_array[1].strip()
-		@logger.debug("fetch_race_shallow - name : " + name)
+		@logger.debug("fetch_race_shallow - name: " + name)
 		
 		# number
 		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
@@ -597,25 +615,25 @@ class Crawler
 		str_number = race_title_array[0].strip()
 		str_number_array = str_number.split("C")
 		number = str_number_array[1].to_i
-		@logger.debug("fetch_race_shallow - number : " + number.to_s)
+		@logger.debug("fetch_race_shallow - number: " + number.to_s)
 		
 		# result
 		# //*[@id='main']/div/div[4]/div/div[3]/div/div[1]/div/div/p[2]
 		begin
 			result_tag = @driver.find_element(:css, "ul.participants-arrivee-list-chevaux participants-arrivee-list-chevaux--definitive")
 			result = result_tag.text.strip
-			@logger.debug("fetch_race_shallow - result : " + result)
+			@logger.debug("fetch_race_shallow - result: " + result)
 			
 			# result_insertion_time
 			if result != '' then
 				result_insertion_time = Time::new
-				@logger.debug("fetch_race_shallow - result_insertion_time : " + 
+				@logger.debug("fetch_race_shallow - result_insertion_time: " + 
 					result_insertion_time.
 						strftime(@config[:gen][:default_date_time_format])
 				)
 			else 
 				result_insertion_time = nil
-				@logger.debug("fetch_race_shallow - result_insertion_time : nil")
+				@logger.debug("fetch_race_shallow - result_insertion_time: nil")
 			end
 		rescue Selenium::WebDriver::Error::NoSuchElementError => nsee
 			# do nothing, maybe it's not finished yet
@@ -641,11 +659,11 @@ class Crawler
 		date_hours_i = date_str_array[0].to_i # => 12
 		date_min_i = date_str_array[1].to_i # => 15
 		
-		# @logger.debug("date_hours_i : " + date_hours_i.to_s)
-		# @logger.debug("date_min_i : " + date_min_i.to_s)
+		# @logger.debug("date_hours_i: " + date_hours_i.to_s)
+		# @logger.debug("date_min_i: " + date_min_i.to_s)
 
 		time = Time::new(1, 1, 1, date_hours_i, date_min_i)
-		@logger.debug("fetch_race_shallow - time : " + 
+		@logger.debug("fetch_race_shallow - time: " + 
 			time.strftime(@config[:gen][:default_time_format])
 		)
 
@@ -744,18 +762,13 @@ class Crawler
 	end
 	
 	def get_column_map()
-		header_tag = @driver.find_element(:xpath, "//header[@class='course-infos-header']/p")
-		header_text = header_tag.text
-		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
-		# 					Trot Attelé | 20 000 € | 2150 m | 16 partants
-		#					Obstacle Steeple | 15 000 € | 4100 m | 9 partants 
-		#					race_type | value | distance | number of participants (ignored)
-		header_text_components = header_text.split(" | ")
+		# race_type (for logging)
+		header_tag_array = @driver.find_elements(:css, ".course-infos-header-extras-main > li")
+
 		
-		# race_type
-		race_type_raw = header_text_components[0].strip()
-	
-	
+		race_type_tag = header_tag_array[0]
+		race_type_raw = race_type_tag.text.strip()
+		
 		html_header = @driver.find_element(:css, CSS_TO_HEADER_LINE)
 		# cf. column_map.txt
 		
@@ -783,8 +796,8 @@ class Crawler
 		# to same size as HEADER_LINES because that's the size of the shortest 
 		# string to differentiate between the 4 possibilities.
 		str_flattened_header = str_flattened_header[0, HEADER_LINE_TYPE_1.length]
-		@logger.info("get_column_map - for race : " + debug_url +
-						" - race type: " + race_type_raw + " is finished : " + is_finished.to_s + " - found header line : " + str_flattened_header)
+		@logger.info("get_column_map - for race: " + debug_url +
+						" - race type: " + race_type_raw + " is finished: " + is_finished.to_s + " - found header line: " + str_flattened_header)
 		
 		column_map = nil
 		
@@ -804,7 +817,7 @@ class Crawler
 			else
 				raise "Unknown type of race."
 		end
-		# @logger.debug("get_column_map - returning : " + column_map.to_s)
+		# @logger.debug("get_column_map - returning: " + column_map.to_s)
 		return column_map
 	end
 	
@@ -870,15 +883,15 @@ class Crawler
 		number_elmt = runner_tr_element.find_element(:css, "span.participants-num")
 		number_raw = number_elmt.text.strip()
 		number = number_raw.to_i
-		@logger.debug("fetch_runner_shallow - number : " + number.to_s)
+		@logger.debug("fetch_runner_shallow - number: " + number.to_s)
 		
 		name_elmt = runner_tr_element.find_element(:css, CSS_TO_RUNNER_NAME)
 		name = name_elmt.text.strip()
-		@logger.debug("fetch_runner_shallow - name : " + name)
+		@logger.debug("fetch_runner_shallow - name: " + name)
 		horse = Horse::new(name: name)
 		
 		is_non_runner = element_has_class(runner_tr_element, "participants-tbody-tr--non-partant")
-		@logger.debug("fetch_runner_shallow - is_non_runner : " + is_non_runner.to_s)
+		@logger.debug("fetch_runner_shallow - is_non_runner: " + is_non_runner.to_s)
 		
 		blinder = nil
 		distance = 0
@@ -901,7 +914,7 @@ class Crawler
 					blinder_link_raw = blinder_elmt.attribute("xlink:href")
 					blinder_text = blinder_link_raw.split("#")[1] # second element when splitting the string on the '#'
 					blinder = @ref_list_hash[:ref_blinder_list][blinder_text]
-					@logger.debug("fetch_runner_shallow - blinder : " + blinder.to_s)
+					@logger.debug("fetch_runner_shallow - blinder: " + blinder.to_s)
 				end
 			end
 			
@@ -909,34 +922,34 @@ class Crawler
 				distance_elmt = runner_tr_element.find_element(:xpath, "td[6]")
 				distance_raw = distance_elmt.text.strip()
 				distance = distance_raw.to_i
-				@logger.debug("fetch_runner_shallow - distance : " + distance.to_s)
+				@logger.debug("fetch_runner_shallow - distance: " + distance.to_s)
 			end
 			
 			if column_map[:handicap] then
 				handicap_elmt = runner_tr_element.find_element(:xpath, "td[6]")
 				handicap_raw = handicap_elmt.text.strip()
 				handicap = handicap_raw.gsub(",",".").to_f
-				@logger.debug("fetch_runner_shallow - handicap : " + handicap.to_s)
+				@logger.debug("fetch_runner_shallow - handicap: " + handicap.to_s)
 			end
 			
 			history_elmt = runner_tr_element.find_element(:css, "span.participants-performances")
 			history = history_elmt.text.strip()
-			@logger.debug("fetch_runner_shallow - history : " + history)
+			@logger.debug("fetch_runner_shallow - history: " + history)
 			
 			is_favorite = element_has_class(runner_tr_element, "participants-tbody-tr--favorite")
-			@logger.debug("fetch_runner_shallow - is_favorite : " + is_favorite.to_s)
+			@logger.debug("fetch_runner_shallow - is_favorite: " + is_favorite.to_s)
 
 			
 			is_pregnant = is_element_present(:css, "svg.jument_pleine", runner_tr_element)
-			@logger.debug("fetch_runner_shallow - is_pregnant : " + is_pregnant.to_s)
+			@logger.debug("fetch_runner_shallow - is_pregnant: " + is_pregnant.to_s)
 			
 			is_substitute = is_element_present(:css, "li.participants-details--suppl", runner_tr_element)
-			@logger.debug("fetch_runner_shallow - is_substitute : " + is_substitute.to_s)
+			@logger.debug("fetch_runner_shallow - is_substitute: " + is_substitute.to_s)
 			
 			jockey_name_elmt = runner_tr_element.find_element(:css, column_map[:jockey])
 			jockey_name = jockey_name_elmt.text.strip()
 			jockey = Jockey::new(name: jockey_name)
-			@logger.debug("fetch_runner_shallow - jockey_name : " + jockey.to_s)
+			@logger.debug("fetch_runner_shallow - jockey_name: " + jockey.to_s)
 			
 			if column_map[:load] then
 				load_elmt = runner_tr_element.find_element(:xpath, column_map[:load])
@@ -950,7 +963,7 @@ class Crawler
 				else 
 					load_handicap = load_handicap_raw.to_f
 				end
-				@logger.debug("fetch_runner_shallow - load_handicap : " + load_handicap.to_s)
+				@logger.debug("fetch_runner_shallow - load_handicap: " + load_handicap.to_s)
 				
 				#load_ride
 				load_ride_raw = load_array[1]
@@ -959,32 +972,32 @@ class Crawler
 				else 
 					load_ride = load_ride_raw.to_f
 				end
-				@logger.debug("fetch_runner_shallow - load_ride : " + load_ride.to_s)
+				@logger.debug("fetch_runner_shallow - load_ride: " + load_ride.to_s)
 			end
 			
 			shoes = nil
 			if column_map[:shoes] then
 				if is_element_present(:css, "svg.deferre_anterieurs", runner_tr_element) then
 					shoes_text = "deferre_anterieurs"
-					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					# @logger.debug("fetch_runner_shallow - shoes_text: " + shoes_text)
 					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
 				elsif is_element_present(:css, "svg.deferre_anterieurs_posterieurs", runner_tr_element) then
 					shoes_text = "deferre_anterieurs_posterieurs"
-					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					# @logger.debug("fetch_runner_shallow - shoes_text: " + shoes_text)
 					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
 				elsif is_element_present(:css, "svg.deferre_posterieurs", runner_tr_element) then
 					shoes_text = "svg.deferre_posterieurs"
-					# @logger.debug("fetch_runner_shallow - shoes_text : " + shoes_text)
+					# @logger.debug("fetch_runner_shallow - shoes_text: " + shoes_text)
 					shoes = @ref_list_hash[:ref_shoes_list][shoes_text]
 				end
-				@logger.debug("fetch_runner_shallow - shoes : " + shoes.to_s)
+				@logger.debug("fetch_runner_shallow - shoes: " + shoes.to_s)
 			end
 			
 			
 			trainer_name_elmt = runner_tr_element.find_element(:css, "span.participants-entraineur")
 			trainer_name = trainer_name_elmt.text.strip()
 			trainer = Trainer::new(name: trainer_name)
-			@logger.debug("fetch_runner_shallow - trainer : " + trainer.to_s)
+			@logger.debug("fetch_runner_shallow - trainer: " + trainer.to_s)
 		end
 		
 		
