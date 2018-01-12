@@ -130,19 +130,65 @@ class Crawler
 
 		@proxy = @server.create_proxy #=> #<BrowserMob::Proxy::Client:0x0000010224bdc0 ...>
 
-		@proxy.blacklist("https://analytics.twitter.com/", 410)
-		@proxy.blacklist("https://platform.twitter.com/", 410)
-		@proxy.blacklist("https://connect.facebook.net/", 410)
-		@proxy.blacklist("https://dcniko1cv0rz.cloudfront.net/", 410)
-		@proxy.blacklist("https://dis.eu.criteo.com/", 410)
-		@proxy.blacklist("https://static.criteo.net/", 410)
-		@proxy.blacklist("https://i.realytics.io/", 410)
-		@proxy.blacklist("https://tc-sync.realytics.io/", 410)
-		@proxy.blacklist("https://tp.realytics.io/", 410)
-		@proxy.blacklist("https://sb.scorecardresearch.com/", 410)
-		@proxy.blacklist("https://sslwidget.criteo.com/", 410)
-		@proxy.blacklist("https://us-u.openx.net", 410)
+		@proxy.blacklist("https://analytics.twitter.com/", 443)
+		@proxy.blacklist("https://platform.twitter.com/", 443)
+		@proxy.blacklist("https://connect.facebook.net/", 443)
+		@proxy.blacklist("https://dcniko1cv0rz.cloudfront.net/", 443)
+		@proxy.blacklist("https://dis.eu.criteo.com/", 443)
+		@proxy.blacklist("https://static.criteo.net/", 443)
+		@proxy.blacklist("https://i.realytics.io/", 443)
+		@proxy.blacklist("https://tc-sync.realytics.io/", 443)
+		@proxy.blacklist("https://tp.realytics.io/", 443)
+		@proxy.blacklist("https://sb.scorecardresearch.com/", 443)
+		@proxy.blacklist("https://sslwidget.criteo.com/", 443)
+		@proxy.blacklist("https://us-u.openx.net", 443)
 		@proxy.blacklist("http://www.joueurs-info-service.fr/", 80)
+		@proxy.blacklist("https://597f24f54a2e59001542436a.tracker.adotmob.com", 443)
+		@proxy.blacklist("https://ad.360yield.com/", 443)
+		@proxy.blacklist("https://ad.doubleclick.net", 443)
+		@proxy.blacklist("https://ads.stickyadstv.com/", 443)
+		@proxy.blacklist("https://ads.yahoo.com/", 443)
+		@proxy.blacklist("https://ads.yieldmo.com/", 443)
+		@proxy.blacklist("https://bat.bing.com/", 443)
+		@proxy.blacklist("https://cm.adform.net/", 443)
+		@proxy.blacklist("https://cm.g.doubleclick.net/", 443)
+		@proxy.blacklist("https://cosy.smaato.net/", 443)
+		@proxy.blacklist("https://cotads.adscale.de/", 443)
+		@proxy.blacklist("https://d5p.de17a.com/", 443)
+		@proxy.blacklist("https://dis.criteo.com/", 443)
+		@proxy.blacklist("https://dsum-sec.casalemedia.com/", 443)
+		@proxy.blacklist("https://email-reflex.com/", 443)
+		@proxy.blacklist("https://eule1.pmu.fr/", 443)
+		@proxy.blacklist("https://fo-ssp.omnitagjs.com", 443)
+		@proxy.blacklist("https://gum.criteo.com/", 443)
+		@proxy.blacklist("https://ib.adnxs.com/", 443)
+		@proxy.blacklist("https://ih.adscale.de/", 443)
+		@proxy.blacklist("https://match.sharethrough.com/", 443)
+		@proxy.blacklist("https://pixel.advertising.com/", 443)
+		@proxy.blacklist("https://pixel.rubiconproject.com/", 443)
+		@proxy.blacklist("https://rtb-csync.smartadserver.com/", 443)
+		@proxy.blacklist("https://s.sspqns.com/", 443)
+		@proxy.blacklist("https://sb.scorecardresearch.com/", 443)
+		@proxy.blacklist("https://secure.adnxs.com/", 443)
+		@proxy.blacklist("https://simage2.pubmatic.com/", 443)
+		@proxy.blacklist("https://sp.analytics.yahoo.com/", 443)
+		@proxy.blacklist("https://static.ads-twitter.com/", 443)
+		@proxy.blacklist("https://stats.g.doubleclick.net", 443)
+		@proxy.blacklist("https://sync.adotmob.com/", 443)
+		@proxy.blacklist("https://sync.outbrain.com/", 443)
+		@proxy.blacklist("https://sync.teads.tv/", 443)
+		@proxy.blacklist("https://t.co/", 443)
+		@proxy.blacklist("https://ums.adtech.de/", 443)
+		@proxy.blacklist("https://us-u.openx.net/", 443)
+		@proxy.blacklist("https://usync.nexage.com/", 443)
+		@proxy.blacklist("https://visitor.omnitagjs.com/", 443)
+		@proxy.blacklist("https://www.google-analytics.com/", 443)
+		@proxy.blacklist("https://www.google.fr/", 443)
+		@proxy.blacklist("https://x.bidswitch.net/", 443)
+		
+		
+		@proxy.whitelist("https://www.alerting.pmu.fr", 443)
+		@proxy.whitelist("https://www.pmu.fr/", 443)
 		
 		profile = Selenium::WebDriver::Firefox::Profile.new #=> #<Selenium::WebDriver::Firefox::Profile:0x000001022bf748 ...>
 		
@@ -1047,16 +1093,41 @@ class Crawler
 		@logger.debug("fetch_runner_deep - opening popin.")
 		
 		# age, breed, coat & sex
-		age_breed_coat_sex_elmt = @driver.find_element(:css, "h3.clearfix")
-		age_breed_coat_sex_text = age_breed_coat_sex_elmt.text.strip()
-		age_breed_coat_sex_array = age_breed_coat_sex_text.split(", ")
+		age_raw = nil
+		breed_raw = nil
+		sex_raw = nil
+		coat_raw = nil
 		
-		breed_raw = age_breed_coat_sex_array[0]
-		sex_raw = age_breed_coat_sex_array[1]
-		age_raw = age_breed_coat_sex_array[2]
-		coat_raw = age_breed_coat_sex_array[3]
+		identity_tags = @driver.find_elements(:css, "li.fiche-cheval-header-identite-data")
+		identity_tags.each do |identity_tag|
+			identity_tag_text = identity_tag.text
+			@logger.debug("fetch_runner_deep - identity_tag.text: " + identity_tag.text)
+			identity_tag_text_array = identity_tag_text.split(" : ")
+			identifying_text = identity_tag_text_array[0]
+			id_text = identity_tag_text_array[1]
+			
+			if identifying_text.include?("Âge") then
+				age_raw = id_text.strip()
+				@logger.debug("fetch_runner_deep - age_raw: " + age_raw.to_s)
+			elsif identifying_text.include?("Race") then
+				breed_raw = id_text.strip()
+				@logger.debug("fetch_runner_deep - breed_raw: " + breed_raw.to_s)
+			elsif identifying_text.include?("Sexe") then
+				sex_raw = id_text.strip()
+				@logger.debug("fetch_runner_deep - sex_raw: " + sex_raw.to_s)
+			elsif identifying_text.include?("Robe") then
+				coat_raw = id_text.strip()
+				@logger.debug("fetch_runner_deep - coat_raw: " + coat_raw.to_s)
+			end 
+		end
 		
-		age = age_raw.to_i
+		@logger.debug("fetch_runner_deep - age_raw: " + age_raw.to_s)
+		@logger.debug("fetch_runner_deep - breed_raw: " + breed_raw.to_s)
+		@logger.debug("fetch_runner_deep - sex_raw: " + sex_raw.to_s)
+		@logger.debug("fetch_runner_deep - coat_raw: " + coat_raw.to_s)
+
+		
+		age = age_raw.gsub(" ANS", "").to_i
 		@logger.debug("fetch_runner_deep - age: " + age.to_s)
 		
 		breed = @ref_list_hash[:ref_breed_list][breed_raw]
@@ -1069,19 +1140,18 @@ class Crawler
 		@logger.debug("fetch_runner_deep - sex: " + sex.to_s)
 		
 		# races
-		races_father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-courses']/ul")
-		races_run_elmt = races_father_elmt.find_element(:xpath, "li[1]/b")
+		races_run_elmt = @driver.find_element(:css, "span.fiche-cheval-courses-legend-value--total")
 		races_run_raw = races_run_elmt.text.strip()
 		races_run = races_run_raw.to_i
 		@logger.debug("fetch_runner_deep - races_run: " + races_run.to_s)
 		
-		victories_elmt = races_father_elmt.find_element(:xpath, "li[2]/b")
-		victories_raw = victories_elmt.text.strip()
+		victories_elmt = @driver.find_element(:css, "span.fiche-cheval-courses-legend-item--victoires")
+		victories_raw = victories_elmt.text.gsub("Victoire", "").strip()
 		victories = victories_raw.to_i
 		@logger.debug("fetch_runner_deep - victories: " + victories.to_s)
 		
-		places_elmt = races_father_elmt.find_element(:xpath, "li[3]/b")
-		places_raw = places_elmt.text.strip()
+		places_elmt = @driver.find_element(:css, "span.fiche-cheval-courses-legend-item--places")
+		places_raw = places_elmt.text.gsub("2ème & 3ème", "").strip()
 		places = places_raw.to_i
 		@logger.debug("fetch_runner_deep - places: " + places.to_s)
 		
