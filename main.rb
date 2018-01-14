@@ -119,6 +119,9 @@ rescue Exception => err
 	end
 end
 
+if crawler != nil then
+	crawler.close_driver
+end
 
 logger.end_log
 
