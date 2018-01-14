@@ -26,6 +26,11 @@ INSTALLING RUBY DevKit :
 --------------------------------
  - run install_gems.bat
  - if it fails because of proxy, see inside for commands to go through the proxy
- - set env. variables to have geckodriver.exe on path
+ - For FF: 
+	- download geckodriver from https://github.com/mozilla/geckodriver/releases
+	- set env. variables to have geckodriver.exe on path
+ - For Chrome:
+	- download chromedriver from https://sites.google.com/a/chromium.org/chromedriver/
+	- set env. variables to have chromedriver.exe on path
 
 /!\ Sqlite3 gem doesn't work with JRuby -> see http://stackoverflow.com/a/7786796/2112089, it points to another gem: https://rubygems.org/gems/activerecord-jdbcsqlite3-adapter
