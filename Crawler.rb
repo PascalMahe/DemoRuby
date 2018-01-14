@@ -1145,19 +1145,18 @@ class Crawler
 		races_run = races_run_raw.to_i
 		@logger.debug("fetch_runner_deep - races_run: " + races_run.to_s)
 		
-		victories_elmt = @driver.find_element(:css, "span.fiche-cheval-courses-legend-item--victoires")
-		victories_raw = victories_elmt.text.gsub("Victoire", "").strip()
+		victories_elmt = @driver.find_element(:css, "li.fiche-cheval-courses-legend-item--victoires")
+		victories_raw = victories_elmt.text.gsub("Victoires", "").strip()
 		victories = victories_raw.to_i
 		@logger.debug("fetch_runner_deep - victories: " + victories.to_s)
 		
-		places_elmt = @driver.find_element(:css, "span.fiche-cheval-courses-legend-item--places")
+		places_elmt = @driver.find_element(:css, "li.fiche-cheval-courses-legend-item--places")
 		places_raw = places_elmt.text.gsub("2ème & 3ème", "").strip()
 		places = places_raw.to_i
 		@logger.debug("fetch_runner_deep - places: " + places.to_s)
 		
 		# earnings
-		earnings_father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-gains']/ul")
-		earnings_career_elmt = earnings_father_elmt.find_element(:xpath, "li[1]/b")
+		earnings_career_elmt = @driver.find_element(:css, "span.fiche-cheval-gains-total-text")
 		earnings_career_raw = earnings_career_elmt.text.strip()
 		earnings_career_raw = earnings_career_raw.gsub("-", "0")
 		earnings_career_raw = earnings_career_raw.gsub("€", "")
@@ -1165,15 +1164,8 @@ class Crawler
 		earnings_career = earnings_career_raw.to_i
 		@logger.debug("fetch_runner_deep - earnings career: " + earnings_career.to_s)
 		
-		earnings_last_year_elmt = earnings_father_elmt.find_element(:xpath, "li[2]/b")
-		earnings_last_year_raw = earnings_last_year_elmt.text.strip()
-		earnings_last_year_raw = earnings_last_year_raw.gsub("-", "0")
-		earnings_last_year_raw = earnings_last_year_raw.gsub("€", "")
-		earnings_last_year_raw = earnings_last_year_raw.gsub(" ", "")
-		earnings_last_year = earnings_last_year_raw.to_i
-		@logger.debug("fetch_runner_deep - earnings last year: " + earnings_last_year.to_s)
-		
-		earnings_victory_elmt = earnings_father_elmt.find_element(:xpath, "li[3]/b")
+		earnings_victory_father_elmt = @driver.find_element(:css, "div.fiche-cheval-gains-victory")
+		earnings_victory_elmt = earnings_victory_father_elmt.find_element(:css, "span.fiche-cheval-gains-legend-value")
 		earnings_victory_raw = earnings_victory_elmt.text.strip()
 		earnings_victory_raw = earnings_victory_raw.gsub("-", "0")
 		earnings_victory_raw = earnings_victory_raw.gsub("€", "")
@@ -1181,7 +1173,8 @@ class Crawler
 		earnings_victory = earnings_victory_raw.to_i
 		@logger.debug("fetch_runner_deep - earnings victory: " + earnings_victory.to_s)
 		
-		earnings_current_year_elmt = earnings_father_elmt.find_element(:xpath, "li[4]/b")
+		earnings_current_year_father_elmt = @driver.find_element(:css, "div.fiche-cheval-gains-current")
+		earnings_current_year_elmt = earnings_current_year_father_elmt.find_element(:css, "span.fiche-cheval-gains-legend-value")
 		earnings_current_year_raw = earnings_current_year_elmt.text.strip()
 		earnings_current_year_raw = earnings_current_year_raw.gsub("-", "0")
 		earnings_current_year_raw = earnings_current_year_raw.gsub("€", "")
@@ -1190,30 +1183,47 @@ class Crawler
 		@logger.debug("fetch_runner_deep - earnings current year: " + earnings_current_year.to_s)
 		
 		# breeder, owner
-		breeder_owner_father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-entraineur']")
-		breeder_elmt = breeder_owner_father_elmt.find_element(:xpath, "b[1]")
-		breeder_name = breeder_elmt.text.strip()
+		breeder_name = nil
+		owner_name = nil
+		
+		potential_elmt_array = @driver.find_elements(:css, "li.fiche-cheval-header-entourage-data")
+		potential_elmt_array.each do |potential_elmt|
+			potential_text = potential_elmt.text
+			if potential_text.include?("Éleveur") then
+				breeder_name = potential_text.gsub("Éleveur :", "").strip()
+			elsif potential_text.include?("Propriétaire") then
+				owner_name = potential_text.gsub("Propriétaire :", "").strip()
+			end
+		end
+		
 		@logger.debug("fetch_runner_deep - breeder's name: " + breeder_name)
 		breeder = Breeder::new(name: breeder_name)
 		
-		owner_elmt = breeder_owner_father_elmt.find_element(:xpath, "b[2]")
-		owner_name = owner_elmt.text.strip()
 		@logger.debug("fetch_runner_deep - owner's name: " + owner_name)
 		owner = Owner::new(name: owner_name)
 		
 		# ancestry
-		ancestry_father_elmt = @driver.find_element(:xpath, "//div[@class='fiche-cheval-ascendance']/ul")
-		father_name_elmt = ancestry_father_elmt.find_element(:xpath, "li[1]/span[2]/b")
-		father_name = father_name_elmt.text.strip()
+		ancestry_elmt_array = @driver.find_elements(:css, "li.fiche-cheval-header-origine-data")
+		father_name = nil
+		mother_name = nil
+		mothers_father_name = nil
+		
+		ancestry_elmt_array.each do |ancestry_elmt|
+			ancestry_text = ancestry_elmt.text
+			if ancestry_text.include?("Père") then
+				father_name = ancestry_text.gsub("Père :", "").strip()
+			elsif ancestry_text.include?("Mère") then
+				mother_name = ancestry_text.gsub("Mère :", "").strip()
+			elsif ancestry_text.include?("Père de la mère") then
+				mothers_father_name = ancestry_text.gsub("Père de la mère :", "").strip()
+			end
+		end
+		
 		@logger.debug("fetch_runner_deep - father's name: " + father_name)
 		father = Horse::new(name: father_name)
 		
-		mother_name_elmt = ancestry_father_elmt.find_element(:xpath, "li[2]/span[2]/b")
-		mother_name = mother_name_elmt.text.strip()
 		@logger.debug("fetch_runner_deep - mother's name: " + mother_name)
 		
-		mothers_father_elmt = ancestry_father_elmt.find_element(:xpath, "li[3]/span[2]/b")
-		mothers_father_name = mothers_father_elmt.text.strip()
 		@logger.debug("fetch_runner_deep - mother's father's name: " + mothers_father_name)
 		
 		mother = Horse::new(name: mother_name, 
