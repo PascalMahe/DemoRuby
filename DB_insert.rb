@@ -75,6 +75,15 @@ class DatabaseInterfaceInsert < DatabaseInterface
 		)
 	end
 
+	def insert_rope_type(ref_rope)
+		ref_rope.id = execute_query(
+			@sql[:insert][:ref_rope], 
+			@stat_insert_refrope, 
+			{:text => ref_rope.text}, 
+			true
+		)
+	end
+
 	def insert_ref_sex(ref_sex)
 		ref_sex.id = execute_query(
 			@sql[:insert][:ref_sex], 
@@ -83,7 +92,16 @@ class DatabaseInterfaceInsert < DatabaseInterface
 			true
 		)
 	end
-		
+	
+	def insert_ref_sex_rule(ref_sex_rule)
+		ref_sex_rule.id = execute_query(
+			@sql[:insert][:ref_sex_rule], 
+			@stat_insert_refsex_rule, 
+			{:text => ref_sex_rule.text}, 
+			true
+		)
+	end
+	
 	def insert_ref_shoes(ref_shoes)
 		ref_shoes.id = execute_query(
 			@sql[:insert][:ref_shoes], 

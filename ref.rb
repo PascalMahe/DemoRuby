@@ -207,6 +207,15 @@ class RefRaceType < RefObject
 	end
 end
 
+class RefRope < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefRope")
+	end
+end
+
 class RefShoes < RefObject
 		
 	alias :super_to_s :to_s
@@ -222,6 +231,15 @@ class RefSex < RefObject
 
 	def to_s()
 		return super_to_s("RefSex")
+	end
+end
+
+class RefSexRule < RefObject
+		
+	alias :super_to_s :to_s
+
+	def to_s()
+		return super_to_s("RefSexRule")
 	end
 end
 

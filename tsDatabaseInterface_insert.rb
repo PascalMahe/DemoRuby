@@ -511,6 +511,16 @@ class TestDatabaseInterfaceInsert < TestSuite
 			assert_equal(old_ref_race_type_num + 1, new_ref_race_type_num)
 			
 			
+			##### REF ROPE #####
+			# Counting number of RefRope before test
+			old_ref_rope_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_rope])
+			
+			@dbi_insert.insert_ref_rope(RefRope::new("", "test1"))
+			
+			# Counting number of RefRaceType after test
+			new_ref_rope_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_rope])
+			assert_equal(old_ref_rope_num + 1, new_ref_rope_num)
+			
 			##### REF COLUMN #####
 			# Counting number of RefColumn before test
 			old_ref_column_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_column])
@@ -530,6 +540,16 @@ class TestDatabaseInterfaceInsert < TestSuite
 			# Counting number of RefSex after test
 			new_ref_sex_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_sex])
 			assert_equal(old_ref_sex_num + 1, new_ref_sex_num)
+			
+			##### REF SEX RULE #####
+			# Counting number of RefSexRule before test
+			old_ref_sex_rule_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_sex_rule])
+			
+			@dbi_insert.insert_ref_sex_rule(RefSexRule::new("", "test1"))
+			
+			# Counting number of RefSex after test
+			new_ref_sex_rule_num = @dbi_select_tech.select_count_from_table(@config[:gen][:table_names][:ref_sex_rule])
+			assert_equal(old_ref_sex_rule_num + 1, new_ref_sex_rule_num)
 			
 			
 			##### REF BREED #####

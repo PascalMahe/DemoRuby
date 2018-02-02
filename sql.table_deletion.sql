@@ -6,8 +6,10 @@ DROP TABLE IF EXISTS RefCoat;
 DROP TABLE IF EXISTS RefColumn;
 DROP TABLE IF EXISTS RefDirection;
 DROP TABLE IF EXISTS RefRaceType;
+DROP TABLE IF EXISTS RefRope;
 DROP TABLE IF EXISTS RefShoes;
 DROP TABLE IF EXISTS RefSex;
+DROP TABLE IF EXISTS RefSexRule;
 DROP TABLE IF EXISTS RefTrackCondition;
  
 -- business tables 
@@ -33,8 +35,10 @@ DELETE FROM RefCoat;
 DELETE FROM RefColumn;
 DELETE FROM RefDirection;
 DELETE FROM RefRaceType;
+DELETE FROM RefRope;
 DELETE FROM RefShoes;
 DELETE FROM RefSex;
+DELETE FROM RefSexRule;
 DELETE FROM RefTrackCondition;
  
 -- business tables 

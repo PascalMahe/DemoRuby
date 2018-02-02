@@ -32,6 +32,7 @@ class Meeting
 		@weather = weather
 	end
 	
+	
 	def biz_id()
 		format = $globalState.config[:gen][:default_date_format]
 		return "" + date.strftime(format) + "M" + nil_safe_to_s(@number)
@@ -187,6 +188,14 @@ class Weather
 		@temperature = temperature
 		@wind_direction = wind_direction
 		@wind_speed = wind_speed
+	end
+	
+	def initialize(jsonWeather)
+		@id = id
+		@insolation = jsonWeather["nebulositeLibelleCourt"]
+		@temperature = jsonWeather["temperature"]
+		@wind_direction = jsonWeather["directionVent"]
+		@wind_speed = jsonWeather["forceVent"]
 	end
 	
 	def to_s()

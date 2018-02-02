@@ -1,8 +1,8 @@
 ﻿require 'psych' 
 #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
-require 'selenium-webdriver'
-require 'browsermob/proxy'
+require 'net/http'
+require 'json'
 
 require './common.rb'
 require './SimpleHtmlLogger.rb'
@@ -12,66 +12,9 @@ require './prediction.rb'
 require './people.rb'
 require './Runner.rb'
 
-class Crawler
-	CSS_TO_RUNNER_TABLE = "li.partants"
-	CSS_TO_ARRIVEE_TABLE = "li.arrivee"
-	CSS_TO_RUNNERS = "tr.participants-tbody-tr" #participants-view > div:nth-child(1) > table:nth-child(3) > tbody:nth-child(2) > tr
-	CSS_TO_HEADER_LINE = ".participants-thead"
-	CSS_TO_HEADER_TH = "th"
-	CSS_TO_RUNNER_NAME = "p.participants-name"
+class JSONCrawler
 	
-	DISQUALIFIED_FLAG = "DAI"
-	FAVORITE_FLAG = "favorite"
-	NC_FLAG = "-"
-	NON_RUNNER_FLAG = "participants-tbody-tr--non-partant"
-	SUBSTITUTE_FLAG = "[suppl]"
-	
-	ODD_LINE_FLAG = "even"
-	EVEN_LINE_FLAG = "odd"
-	
-	DETAILED_COND_INTRO = ""
-	
-	# Obstacle Steeple / Obstacle Cross / Obstacle Haies 
-	HEADER_LINE_TYPE_1 = 			"N° Cheval Sexe Jockey Poids H. "
-	# "Plat" 
-	HEADER_LINE_TYPE_2 =			"N° Cheval Cde. Sexe Jockey Poid"
-	# "Trot Attelé" if already finished
-	HEADER_LINE_TYPE_3 = 			"N° Cheval Sexe Driver Gains Dis"
-	# "Trot Monté" if already finished
-	HEADER_LINE_TYPE_4 = 			"N° Cheval Sexe Jockey Poids Dis"
-	
-	
-	# Obstacle Steeple / Obstacle Cross / Obstacle Haies
-	COLUMN_MAP_TYPE_1 = {	age: "td[3]", 						blinder: true,
-							distance: false, 						handicap: true,
-							jockey: "span.participants-jokey", 	load_handicap: "td[5]", 
-							load_ride: "td[5]",					sex: "td[3]",
-							shoes: false}
-
-	# "Plat"						
-	COLUMN_MAP_TYPE_2 = {	age: "td[4]", 						blinder: true,
-							distance: false, 					handicap: false,
-							jockey: "span.participants-jokey", 	load_handicap: "td[6]", 
-							load_ride: "td[6]",					sex: "td[4]",
-							shoes: false}
-	
-	# "Trot Attelé"						
-	COLUMN_MAP_TYPE_3 = {	age: "td[3]", 						blinder: false,
-							distance: "td[6]", 					handicap: false,
-							jockey: "span.participants-driver", load_handicap: nil, 
-							load_ride: nil,						sex: "td[3]",
-							shoes: true}
-	
-	# "Trot Monté"
-	COLUMN_MAP_TYPE_4 = {	age: "td[3]", 						blinder: false,
-							distance: "td[6]", 					handicap: false,
-							jockey: "span.participants-jokey", load_handicap: nil, 
-							load_ride: nil,						sex: "td[3]",
-							shoes: true}
-
-	attr_accessor:driver
-	attr_accessor:server
-	attr_accessor:proxy
+	BASE_URL = "https://www.pmu.fr/services/turfInfo/client/1/programme/"
 	
 	################################################
 	###############       INIT       ###############
@@ -89,187 +32,6 @@ class Crawler
 		end
 		@logger.debug("initialize - base_address: " + @base_address)
 		
-		@driver = launch_driver()
-	end
-	
-	
-	# cf. https://stackoverflow.com/a/32713128/2112089
-	def element_has_class(elmt, className)
-		
-		classes = elmt.attribute("class")
-		classes_array = classes.split(" ")		
-		classes_array.each do |currentClass|
-			if currentClass == className then
-				return true
-			end
-		end
-		return false
-	end
-	
-	def is_element_present(how, what, where)
-		@driver.manage.timeouts.implicit_wait = 0
-		result = where.find_elements(how, what).size() > 0
-		if result
-			result = where.find_element(how, what).displayed?
-		end
-		@driver.manage.timeouts.implicit_wait = 30
-		return result
-	end
-	
-	
-	def launch_driver()
-		@logger.info("Preparing browser")
-		browser_start_start_time = Time::now
-		
-		# proxy
-		# see https://github.com/jarib/browsermob-proxy-rb
-		# and http://stackoverflow.com/a/15297676/2112089
-		@server = BrowserMob::Proxy::Server.new("D:/Dev/workspace/RPP/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
-		
-		@server.start
-
-		@proxy = @server.create_proxy #=> #<BrowserMob::Proxy::Client:0x0000010224bdc0 ...>
-
-		@proxy.blacklist("https://analytics.twitter.com/", 443)
-		@proxy.blacklist("https://platform.twitter.com/", 443)
-		@proxy.blacklist("https://connect.facebook.net/", 443)
-		@proxy.blacklist("https://dcniko1cv0rz.cloudfront.net/", 443)
-		@proxy.blacklist("https://dis.eu.criteo.com/", 443)
-		@proxy.blacklist("https://static.criteo.net/", 443)
-		@proxy.blacklist("https://i.realytics.io/", 443)
-		@proxy.blacklist("https://tc-sync.realytics.io/", 443)
-		@proxy.blacklist("https://tp.realytics.io/", 443)
-		@proxy.blacklist("https://sb.scorecardresearch.com/", 443)
-		@proxy.blacklist("https://sslwidget.criteo.com/", 443)
-		@proxy.blacklist("https://us-u.openx.net", 443)
-		@proxy.blacklist("http://www.joueurs-info-service.fr/", 80)
-		@proxy.blacklist("https://597f24f54a2e59001542436a.tracker.adotmob.com", 443)
-		@proxy.blacklist("https://ad.360yield.com/", 443)
-		@proxy.blacklist("https://ad.doubleclick.net", 443)
-		@proxy.blacklist("https://ads.stickyadstv.com/", 443)
-		@proxy.blacklist("https://ads.yahoo.com/", 443)
-		@proxy.blacklist("https://ads.yieldmo.com/", 443)
-		@proxy.blacklist("https://bat.bing.com/", 443)
-		@proxy.blacklist("https://cm.adform.net/", 443)
-		@proxy.blacklist("https://cm.g.doubleclick.net/", 443)
-		@proxy.blacklist("https://cosy.smaato.net/", 443)
-		@proxy.blacklist("https://cotads.adscale.de/", 443)
-		@proxy.blacklist("https://d5p.de17a.com/", 443)
-		@proxy.blacklist("https://dis.criteo.com/", 443)
-		@proxy.blacklist("https://dsum-sec.casalemedia.com/", 443)
-		@proxy.blacklist("https://email-reflex.com/", 443)
-		@proxy.blacklist("https://eule1.pmu.fr/", 443)
-		@proxy.blacklist("https://fo-ssp.omnitagjs.com", 443)
-		@proxy.blacklist("https://gum.criteo.com/", 443)
-		@proxy.blacklist("https://ib.adnxs.com/", 443)
-		@proxy.blacklist("https://ih.adscale.de/", 443)
-		@proxy.blacklist("https://match.sharethrough.com/", 443)
-		@proxy.blacklist("https://pixel.advertising.com/", 443)
-		@proxy.blacklist("https://pixel.rubiconproject.com/", 443)
-		@proxy.blacklist("https://rtb-csync.smartadserver.com/", 443)
-		@proxy.blacklist("https://s.sspqns.com/", 443)
-		@proxy.blacklist("https://sb.scorecardresearch.com/", 443)
-		@proxy.blacklist("https://secure.adnxs.com/", 443)
-		@proxy.blacklist("https://simage2.pubmatic.com/", 443)
-		@proxy.blacklist("https://sp.analytics.yahoo.com/", 443)
-		@proxy.blacklist("https://static.ads-twitter.com/", 443)
-		@proxy.blacklist("https://stats.g.doubleclick.net", 443)
-		@proxy.blacklist("https://sync.adotmob.com/", 443)
-		@proxy.blacklist("https://sync.outbrain.com/", 443)
-		@proxy.blacklist("https://sync.teads.tv/", 443)
-		@proxy.blacklist("https://t.co/", 443)
-		@proxy.blacklist("https://ums.adtech.de/", 443)
-		@proxy.blacklist("https://us-u.openx.net/", 443)
-		@proxy.blacklist("https://usync.nexage.com/", 443)
-		@proxy.blacklist("https://visitor.omnitagjs.com/", 443)
-		@proxy.blacklist("https://www.google-analytics.com/", 443)
-		@proxy.blacklist("https://www.google.fr/", 443)
-		@proxy.blacklist("https://x.bidswitch.net/", 443)
-		
-		
-		@proxy.whitelist("https://www.alerting.pmu.fr", 443)
-		@proxy.whitelist("https://www.pmu.fr/", 443)
-		
-		profile = Selenium::WebDriver::Firefox::Profile.new #=> #<Selenium::WebDriver::Firefox::Profile:0x000001022bf748 ...>
-		
-		
-		# preparing FF: adding Firebug 
-		# see this page for version: https://getfirebug.com/downloads/
-		profile = Selenium::WebDriver::Firefox::Profile.new
-		
-		# No longer working from MMA
-		# PROXY = 'proxy-internet.societe.mma.fr:8080'
-		# profile.proxy = Selenium::WebDriver::Proxy.new(
-		  #:http     => PROXY,
-		  #:ftp      => PROXY,
-		  #:ssl      => PROXY
-		# )
-		# profile.add_extension("./Install/firebug-1.12.6.xpi") # NB: FF takes ~2.5 more seconds to load w/ Firebug (from 6.1 to 8.8)
-		profile["browser.bookmarks.max_backups"] = 0
-		profile["browser.cache.memory.enable"] = true
-		profile["browser.cache.disk.enable"] = true
-		profile["browser.download.manager.scanWhenDone"] = false
-		profile["browser.formfill.enable"] = false
-		profile["network.http.pipeline"] = true
-		profile["network.http.pipeline.maxrequests"] = 8
-		profile["browser.search.suggest.enabled"] = false
-		profile["browser.sessionhistory.max_entries"] = 3
-		profile["browser.sessionhistory.max_tabs_undo"] = 0
-		profile["browser.sessionhistory.max_total_viewer"] = 1
-		profile["browser.sessionhistory.max_total_viewers"] = 1
-		
-		profile["browser.tabs.animated"] = false
-		profile["image.animation_modr"] = "none"
-		profile["general.useragent.override"] = "Selenium UA"
-		profile["nglayout.initialpaint.delay"] = 0
-
-		profile.proxy = proxy.selenium_proxy		
-
-		# URL to block:
-		# https://analytics.twitter.com/
-		# https://platform.twitter.com/
-		# https://connect.facebook.net/
-		# https://dcniko1cv0rz.cloudfront.net/
-		# https://dis.eu.criteo.com/
-		# https://static.criteo.net/
-		# https://i.realytics.io/
-		# https://tc-sync.realytics.io/
-		# https://tp.realytics.io/
-		# https://sb.scorecardresearch.com/
-		# https://sslwidget.criteo.com/
-		# https://us-u.openx.net
-		
-		options = Selenium::WebDriver::Firefox::Options.new
-		options.profile = profile
-		
-		#Loading browser
-		# driver = Selenium::WebDriver.for(:chrome, :profile => profile, detach: false)
-		driver = Selenium::WebDriver.for(:firefox, options: options)
-		# , :profile => profile
-		# @driver = Selenium::WebDriver.for(:remote,:url => "http://localhost:4444/wd/hub",:desired_capabilities =>:htmlunit)
-		
-		driver.manage.timeouts.implicit_wait = 5 # seconds
-		browser_start_end_time = Time::now
-		browser_start_total_time = browser_start_end_time - browser_start_start_time
-		logStr = "Browser prepared (" + 
-			format_time_diff(browser_start_total_time)	+ 
-		")"
-		@logger.info(logStr)
-		return driver
-	end
-	
-	def close_driver()
-		if @driver != nil
-			@driver.close
-		end
-		if @driver != nil
-			@driver.quit
-		end
-		@server.stop
-		
-		if @profile != nil
-			@profile.close
-		end
 	end
 	
 	################################################
@@ -302,11 +64,6 @@ class Crawler
 		begin
 			start_time = Time.now
 			# Getting main page
-			@driver.get(@base_address)
-			
-			getting_page_time = Time.now
-			getting_page_duration = getting_page_time - start_time
-			@logger.info("Getting base page took: " + format_time_diff(getting_page_duration))
 			
 			#TODO: loop on ALL* the days
 			# *ALL = config[:gen][:earliest_date]
@@ -314,29 +71,18 @@ class Crawler
 			date = date - 1 
 			
 			#Fetching meetings
-			nb_last_meeting = get_number_of_last_meeting()
-			@logger.debug("crawl - nb_last_meeting: " + nb_last_meeting.to_s)
-			
-			meeting_list = fetch_meetings(nb_last_meeting, date, current_job)
+			meeting_list = fetch_meetings(date, current_job)
 			
 		rescue => e
 			@logger.error("Error while crawling: " + e.inspect)
 			@logger.error(e.backtrace)
 		end
 		
-		@driver.quit
 		return meeting_list
-	end
-	
-	def get_number_of_last_meeting()
-		html_meeting_list = @driver.find_elements(:css, "div.reunion-infos")
-		last_meeting = html_meeting_list.last
-		str_number_of_last_meeting = last_meeting.attribute("data-reunionid")
-		return Integer(str_number_of_last_meeting)
 	end
 
 	
-    def fetch_meetings(nb_last_meeting, date, current_job)
+    def fetch_meetings(date, current_job)
 		# Loop on number of meetings to fetch basic info (number, racetrack, weather and 
 		# track_condition (in the original tag's children)), get the tag 
 		# listing the races (from the meeting number) in order to get the 
@@ -350,106 +96,83 @@ class Crawler
 		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
 		@logger.debug("fetch_meetings - str_formatted_date: " + str_formatted_date)
 		
-		for i in 1..nb_last_meeting do
-			current_URL = @base_address + str_formatted_date + "/R" + i.to_s + "/C1"
-			@logger.debug("fetch_meetings - current_URL: " + current_URL)
-			driver.get(current_URL)
+		url = BASE_URL + str_formatted_date
+		uri = URI(url)
+		
+		start_time = Time.now
+		
+		response = Net::HTTP.get(uri)
+		getting_response_time = Time.now
+		
+		getting_response_duration = getting_response_time - start_time
+		@logger.info("fetch_meetings - Getting JSON response took: " + format_time_diff(getting_response_duration))
+		
+		jsonResponse = JSON.parse(response)
+		
+		
+		jsonResponse["programme"]["reunions"].each do |jsonMeeting|
+			
+			meeting_nb = jsonMeeting["numOfficiel"]
+			@logger.debug("fetch_meetings - meeting: " + str_formatted_date + "/R" + meeting_nb.to_s)
+			
 			begin			
 				business_meeting = 
-					fetch_meeting(date, i, current_job, current_URL)
+					fetch_meeting(date, meeting_nb, current_job, jsonMeeting)
 				meeting_list.push(business_meeting)
 			rescue => e
-				@logger.error("Error while fetching meeting R" + i.to_s + " in date: " + str_formatted_date + " - Error: " + e.message)
+				@logger.error("Error while fetching meeting R" + meeting_nb.to_s + " in date: " + str_formatted_date + " - Error: " + e.message)
 				@logger.error(e.backtrace)
 			end
+			meeting_nb = meeting_nb + 1
 		end
 				
 		return meeting_list
 	end
 
-	def fetch_meeting(date, number, job, current_URL)
+	def fetch_meeting(date, meeting_nb, job, jsonMeeting)
 		
 		# Fetches all data on a meeting, including races
 		
-		# number, job and date are parameters
+		# meeting_nb, job and date are parameters
 		# id is generated at insert
 		# race_list is created empty and completed in fetch_races
 		# all else is fetched in fetch_meeting_shallow
 		
-		meeting = fetch_meeting_shallow(date, number, job, current_URL)
+		meeting = fetch_meeting_shallow(date, meeting_nb, job, jsonMeeting)
 		
-		meeting.race_list = fetch_races(meeting)
+		meeting.race_list = fetch_races(jsonMeeting, meeting_nb)
 		
 		return meeting
 	end
 
-	def fetch_meeting_shallow(date, number, job, meeting_URL)
-		# fetches 	country => lost for the moment
+	def fetch_meeting_shallow(date, number, job, jsonMeeting)
+		# fetches 	country
 		#			racetrack
 		#			track_condition
-		#			urls_of_races_array 
 		#			weather
 		
 		# number
 		@logger.debug("fetch_meeting_shallow - Number: " + number.to_s)
 		
-		# racetrack
-		li_tag_arount_racetrack = @driver.
-					find_element(:css, "li.bandeau-nav-content-scroll-item--current")
-					
-		div_tag_around_racetrack = li_tag_arount_racetrack.
-					find_element(:css, "div.reunion-hippodrome")
-					
-		span_tag_for_racetrack = div_tag_around_racetrack.
-					find_element(:css, "span")
+		# racetrack [""]
+		racetrack = jsonMeeting["hippodrome"]["libelle_long"]
+		@logger.debug("Racetrack: " + racetrack.to_s)
 		
-		racetrack = span_tag_for_racetrack.attribute("title")
-		
-		# country = "France"
-		# if racetrack.index("(") != nil then
-			# racetrackArray = racetrack.split("(")
-			# racetrack = racetrackArray[0].strip()
-			# country = racetrackArray[1]
-			# country = country.gsub(")", "").strip
-			# @logger.debug("Country: " + country)
-		# end
-		country = nil
-		# @logger.debug("Racetrack: " + racetrack)
+		# country 
+		country = jsonMeeting["pays"]["libelle"]
 		
 		# weather
 		weather = nil
-		p_tag_for_weather = @driver.
-					find_element(:xpath, "//div[@class='course-infos-meteo']/p")
-		if p_tag_for_weather != nil then
-			weather = fetch_weather(p_tag_for_weather)
+		if jsonMeeting["meteo"] then
+			weather = Weather::new(jsonMeeting["meteo"])
 			@logger.debug("Weather: " + weather.to_s)
 		end
 		
-		
-		# urls_of_races_array
-		p_race_number_list = @driver.find_elements(:css, "p.bandeau-nav-content-scroll-item-numero")
-		urls_of_races_array = []
-		base_url = meeting_URL.slice(0, meeting_URL.length - 2)
-		@logger.debug("fetch_meeting_shallow - p_race_number_list.length: " + p_race_number_list.length.to_s)
-		p_race_number_list.each do |p_around_race_number|
-			span_to_race_number = p_around_race_number.find_element(:css, "span")
-			race_number = span_to_race_number.text
-			race_url = base_url + race_number
-			urls_of_races_array.push(race_url)
-		end
-		@logger.debug("fetch_meeting_shallow - Urls_of_races_array: " + urls_of_races_array.to_s)
-		
 		# track_condition
-		track_condition = @ref_list_hash[:ref_track_condition_list][""]
-		
-		
-		p_tag_for_track_condition = @driver.find_element(:xpath, "//div[@class='course-infos-conditions']/p")
-		text_from_p_elmt = p_tag_for_track_condition.text
-		text_from_p_components = text_from_p_elmt.split(" - ")
-		potential_track_condition = text_from_p_components[text_from_p_components.length - 1]
-		if potential_track_condition.include?("Terrain") then
-			potential_track_condition = potential_track_condition.gsub(" D\u00E9tails des conditions", "").strip()
-			track_condition = @ref_list_hash[:ref_track_condition_list][potential_track_condition]
+		track_condition = nil
+		track_condition_raw = jsonMeeting["courses"][0]["penetrometre"]["valeurMesure"]
+		if track_condition_raw != nil then
+			track_condition = @ref_list_hash[:ref_track_condition_list][track_condition_raw]
 		end
 		@logger.debug("fetch_meeting_shallow - track_condition: " + track_condition.to_s)
 		
@@ -458,59 +181,23 @@ class Crawler
 								job: job, 
 								number: number, 
 								racetrack: racetrack, 
-								urls_of_races_array: urls_of_races_array, 
 								track_condition: track_condition, 
 								weather: weather)
 		# @logger.debug(meeting)
 		return meeting
 	end
 
-	def fetch_weather(p_tag_for_weather)
-		
-		span_tag_for_insolation = p_tag_for_weather.find_element(:css, "span")
-		weather_class = span_tag_for_insolation.attribute("class")
-		# the class should look like this: "icon-meteo-P4"
-		# we're only interested the P4 part
-		weather_components = weather_class.split("-")
-		insolation = weather_components[weather_components.length - 1]
-		
-		@logger.debug("fetch_weather - insolation: " + insolation)
-		
-		weather_text = p_tag_for_weather.text
-		
-		
-		weather_text_components = weather_text.split(", vent")
-		# the class should look like this: "6°C, vent 7 km/h"
-		# we're only interested the P4 part
-		
-		@logger.debug("fetch_weather - weather_text: " + weather_text)
-		@logger.debug("fetch_weather - weather_text_components: " + weather_text_components.to_s)
-		
-		str_temperature = weather_text_components[0].gsub("\u00B0C", "").strip()
-		str_wind_speed = weather_text_components[1].gsub("km/h", "").strip()
-		
-		@logger.debug("fetch_weather - temperature: " + str_temperature)
-		@logger.debug("fetch_weather - wind_speed: " + str_wind_speed)
-		
-		temperature = Integer(str_temperature)
-		wind_speed = Integer(str_wind_speed)
-		
-		weather = Weather::new(
-			insolation: insolation, 
-			temperature: temperature, 
-			wind_speed: wind_speed)
-		return weather
-	end
-
-	def fetch_races(meeting)
+	def fetch_races(jsonMeeting, meeting_nb)
 		race_list = []
 		
-		meeting.urls_of_races_array.each do |current_race_url|
+		jsonMeeting["courses"].each do |jsonRace|
+			race_nb = jsonMeeting["numOfficiel"]
 			begin			
-				race = fetch_race(current_race_url, meeting)
+				race = fetch_race(jsonRace, race_nb)
 				race_list.push(race)
 			rescue => e
-				@logger.error("Error while fetching race at URL: " + current_race_url + " - Error: " + e.inspect)
+				@logger.error("Error while fetching race: R" + meeting_nb.to_s + "C" + race_nb.to_s + 
+								" - Error: " + e.inspect)
 				@logger.error(e.backtrace)
 			end
 		end
@@ -518,11 +205,11 @@ class Crawler
 		return race_list
 	end
 	
-	def fetch_race(url_of_race, meeting)
+	def fetch_race(jsonRace, meeting_nb)
 		# Parameter: the URL of the page where the data is to be gathered
 		# and the Meeting containing this race
-		# Fields to fill: 	bets, -> tooltip
-		# 					detailed_conditions, -> tooltip
+		# Fields to fill: 	bets, 
+		# 					detailed_conditions, 
 		#					distance, 
 		# 					general_conditions, 
 		# 					name, 
@@ -532,189 +219,82 @@ class Crawler
 		# 					result_insertion_time, 
 		# 					runner_list, 
 		# 					time, 
-		# 					url -> parameter
+		# 					url,
 		# 					value
 		# country (lost after upgrade)
 		
-		#Fetching page
-		@logger.info("fetch_race - Fetching race: " + url_of_race) 
-		@driver.get(url_of_race)
+		race_nb = jsonRace["numExterne"]
 		
-		race = fetch_race_shallow(url_of_race)
+		#Fetching page
+		@logger.info("fetch_race - Fetching race: " + race_nb)
+		
+		race = fetch_race_shallow(jsonRace, race_nb)
 		
 		# runner_list
 		@logger.debug("fetch_race - Fetching runners.")
-		race.runner_list = fetch_runners(race)
+		race.runner_list = fetch_runners(meeting_nb, race_nb)
 		# @logger.debug("runner_list: " + runner_list.to_s)
 		
 		return race
 	end
 
-	def fetch_race_shallow(url_of_race)
-		
-		header_tag_array = @driver.find_elements(:css, ".course-infos-header-extras-main > li")
-		
-		# header_text =>	Plat | 12 000 € | 2400 m | 5 partants 
-		# 					Trot Attelé | 20 000 € | 2150 m | 16 partants
-		#					Obstacle Steeple | 15 000 € | 4100 m | 9 partants 
-		#					race_type | value | distance | number of participants (ignored)
+	def fetch_race_shallow(jsonRace, race_nb)
 		
 		# race_type
-		race_type_tag = header_tag_array[0]
-		race_type_raw = race_type_tag.text.strip()
+		race_type_raw = jsonRace["specialite"]
 		race_type = @ref_list_hash[:ref_race_type_list][race_type_raw]
 		@logger.debug("fetch_race_shallow - race_type: " + race_type.to_s)
 		
 		# value
-		value_tag = header_tag_array[1]
-		race_type_raw = race_type_tag.text.strip()
-		value_str = race_type_tag.text.strip().gsub("€" , "").gsub(" ", "")
-		value = value_str.to_i
+		race_type_raw = jsonRace["montantPrix"].to_i
 		@logger.debug("fetch_race_shallow - value: " + value.to_s)
 		
 		# distance
-		distance_tag = header_tag_array[2]
-		distance_str = distance_tag.text.strip().gsub("m", "")
-		distance = distance_str.to_i
+		distance = jsonRace["distance"].to_i
 		@logger.debug("fetch_race_shallow - distance: " + distance.to_s)
 		
 		# bets
 		# under "Les plus joues" now
-		bet_button_tag = @driver.find_element(:xpath, "//i[@class='icon icon-plus-joues']")
-		bet_button_tag.click
 		
-		bets = nil
-		bet_potential_tags = @driver.find_elements(:xpath, "//td[@class='masse-enjeux-val']")
-		
-		@logger.debug("fetch_race_shallow - number of potential bet tags: " + bet_potential_tags.length.to_s)
-		bet_potential_tags.each do |bet_potential_tag|
-			bet_potential_text = bet_potential_tag.text
-			@logger.debug("fetch_race_shallow - bet_potential_text: " + bet_potential_text.to_s)
-			corresponding_label = bet_potential_tag.find_element(:xpath, "../td[@class='label']")
-			@logger.debug("fetch_race_shallow - corresponding_label: " + corresponding_label.to_s)
-			if corresponding_label.text.include?("Placé")
-				# should look like:
-				bets_str = bet_potential_text.gsub("€", "").gsub(" ", "").gsub(",", ".").strip()
-				bets = bets_str.to_f
-				
-			end
-		end
 		@logger.debug("fetch_race_shallow - bets: " + bets.to_s)
 		
 		
 		# detailed conditions
-		# a.course-infos-conditions-link -> btn to click
-		# p.details-conditions-tooltip-content-texte (visible after the click)
-		# closed by moving the mouse away
-		btn_detailed_conditions = @driver.find_element(:css, "a.course-infos-conditions-link")
-		btn_detailed_conditions.click
-		div_detailed_cond_tag_array = @driver.
-			find_elements(:css, "p.details-conditions-tooltip-content-texte")
-		detailed_cond = "" #if there's no detail element
-		if div_detailed_cond_tag_array.length > 0 then
-			div_detailed_cond_tag = div_detailed_cond_tag_array[0]
-			detailed_cond = div_detailed_cond_tag.text.strip()
-			
-			@logger.debug("fetch_race_shallow - detailed_cond: " + detailed_cond)
-			
-			# close popin
-			# btn_close_popin = @driver.find_element(:css, "div.popin-close")
-			# btn_close_popin.click
-			# if $globalState.is_test then
-				# @driver.navigate.back
-			# end
-		end
+		detailed_cond = jsonRace["conditions"]
+		@logger.debug("fetch_race_shallow - detailed_cond: " + detailed_cond)
 		
-		# @logger.debug("detailed_cond: " + detailed_cond)
-		
-		# general_conditions
+		# general_conditions (rope & sex_rule)
 		# inside div#conditions =>	Courses à conditions - Corde à droite - Terrain bon Détails des conditions
 		#							Courses à conditions - Corde à droite - Terrain bon Détails des conditions
 		#							Groupe I - Corde à droite Détails des conditions
 		#							Inconnu - Corde à gauche Détails des conditions
+		rope_raw = jsonRace["corde"]
+		race_type = @ref_list_hash[:ref_rope_list][rope_raw]
 		
-		general_cond_tag = @driver.find_element(:xpath, "//div[@class='course-infos-conditions']/p")
-		general_cond_str = general_cond_tag.text
-		general_cond_str.gsub(" Détails des conditions", "")
+		sex_rule_raw = jsonRace["conditionSexe"]
+		race_type = @ref_list_hash[:ref_sex_rule_list][sex_rule_raw]
 		
-		if general_cond_str.include?("Terrain") then
-			general_cond_str = general_cond_str.split("Terrain")[0].strip
-		end
-		
+		general_cond_str = rope + " " + sex_rule
 		@logger.debug("fetch_race_shallow - general_conditions: " + general_cond_str)
 		
 		# name
-		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
-		#                             			=> R6C2 - PRIX FANDANGO
-		# split#1
-		race_title_tag = @driver.find_element(:css, "h1.course-infos-header-title")
-		race_title_str = race_title_tag.text
-		# @logger.debug("race_title_str: " + race_title_str)
-		race_title_array = race_title_str.split(" - ")
-		name = race_title_array[1].strip()
+		name = jsonRace["libelle"]
 		@logger.debug("fetch_race_shallow - name: " + name)
 		
 		# number
-		# inside h1.course-infos-header-title 	=> R2C1 - PRIX DE CANNES NORVEGE
-		#                             			=> R6C2 - PRIX FANDANGO
-		# split#0
-		str_number = race_title_array[0].strip()
-		str_number_array = str_number.split("C")
-		number = str_number_array[1].to_i
+		number = race_nb
 		@logger.debug("fetch_race_shallow - number: " + number.to_s)
 		
 		# result
-		# //*[@id='main']/div/div[4]/div/div[3]/div/div[1]/div/div/p[2]
-		begin
-			result_tag = @driver.find_element(:css, "ul.participants-arrivee-list-chevaux participants-arrivee-list-chevaux--definitive")
-			result = result_tag.text.strip
-			@logger.debug("fetch_race_shallow - result: " + result)
-			
-			# result_insertion_time
-			if result != '' then
-				result_insertion_time = Time::new
-				@logger.debug("fetch_race_shallow - result_insertion_time: " + 
-					result_insertion_time.
-						strftime(@config[:gen][:default_date_time_format])
-				)
-			else 
-				result_insertion_time = nil
-				@logger.debug("fetch_race_shallow - result_insertion_time: nil")
-			end
-		rescue Selenium::WebDriver::Error::NoSuchElementError => nsee
-			# do nothing, maybe it's not finished yet
-			# @logger.debug("fetch_race_shallow - no result_tag")
-		end
+		
+		@logger.debug("fetch_race_shallow - result: " + result)
 						
 		# time
-		# //*[@id='main']/div/div[4]/div/div[2]/div/div[2]/ul/li[1]/p[2]/span
-		# Hier -  14h05
-		# 29 Mai. 12h00
-		# 16h55
-		# Demain -  15h35
-		race_long_title_tag = @driver.find_element(:css, "p.course-infos-statut-details")
-		race_long_title_text = race_long_title_tag.text.strip
 		
-		if race_long_title_text.include?("-") then
-			race_long_title_text = race_long_title_text.split("-")[1].strip
-		elsif race_long_title_text.include?(".") then 
-			race_long_title_text = race_long_title_text.split(".")[1].strip
-		end
-		
-		date_str_array = race_long_title_text.split("h") # => ["12", "15"]
-		date_hours_i = date_str_array[0].to_i # => 12
-		date_min_i = date_str_array[1].to_i # => 15
-		
-		# @logger.debug("date_hours_i: " + date_hours_i.to_s)
-		# @logger.debug("date_min_i: " + date_min_i.to_s)
-
 		time = Time::new(1, 1, 1, date_hours_i, date_min_i)
 		@logger.debug("fetch_race_shallow - time: " + 
 			time.strftime(@config[:gen][:default_time_format])
 		)
-
-		# url
-		url = url_of_race
 		
 		race = Race::new(bets: bets,
 					detailed_conditions: detailed_cond,
@@ -726,6 +306,8 @@ class Crawler
 					race_type: race_type,
 					result: result,
 					result_insertion_time: result_insertion_time,
+					rope: rope,
+					sex_rule: sex_rule,
 					time: time,
 					url: url,  
 					value: value
@@ -735,7 +317,6 @@ class Crawler
 		return race
 	end
 	
-	# TODO:
 	# break up fetch_runners so that it calls a few functions:
 	# fetch_runners
 	#   |-> fetch_runner

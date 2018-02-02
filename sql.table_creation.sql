@@ -22,7 +22,15 @@ CREATE TABLE IF NOT EXISTS RefRaceType(
 	id INTEGER PRIMARY KEY,
 	text TEXT
 );
+CREATE TABLE IF NOT EXISTS RefRope(
+	id INTEGER PRIMARY KEY,
+	text TEXT
+);
 CREATE TABLE IF NOT EXISTS RefSex(
+	id INTEGER PRIMARY KEY,
+	text TEXT
+);
+CREATE TABLE IF NOT EXISTS RefSexRule(
 	id INTEGER PRIMARY KEY,
 	text TEXT
 );
@@ -114,6 +122,8 @@ CREATE TABLE IF NOT EXISTS Race(
 	url TEXT,
 	value INTEGER, /* in euros */
 	FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id),
+	FOREIGN KEY(id_rope) REFERENCES RefRope(id),
+	FOREIGN KEY(id_sex_rule) REFERENCES RefSexRule(id),
 	FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting)
 );
 CREATE TABLE IF NOT EXISTS Runner(

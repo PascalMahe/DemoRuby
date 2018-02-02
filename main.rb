@@ -9,7 +9,7 @@ require './prediction.rb'
 require './people.rb'
 require './Runner.rb'
 require './DatabaseInterface.rb'
-require './Crawler.rb'
+require './JSONCrawler.rb'
 require './Saver.rb'
 
 
@@ -84,8 +84,9 @@ begin #general exception catching block
 
 	logger.info("Starting to crawl")
 	
-	crawler = Crawler::new(logger, ref_list_hash, config, is_test)
-
+	# crawler = Crawler::new(logger, ref_list_hash, config, is_test)
+	
+	crawler = JSONCrawler::new(logger, ref_list_hash, config, is_test)
 	meeting_list = crawler.crawl(current_job)
 	
 	logger.info("Ending crawl")
@@ -114,13 +115,9 @@ rescue Exception => err
 	logger.error("Caught general error: " + err.inspect)
 	logger.error(err.backtrace)
 	# only works fro chromedriver...
-	if crawler != nil then
-		crawler.close_driver
-	end
-end
-
-if crawler != nil then
-	crawler.close_driver
+	# if crawler != nil then
+		# crawler.close_driver
+	# end
 end
 
 logger.end_log

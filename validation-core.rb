@@ -125,12 +125,13 @@ def validate_race(expected_race,
 	assert_equal(expected_race.general_conditions, 		actual_race.general_conditions, 	"Wrong general_conditions for " + str_race_identifier)
 	assert_equal(expected_race.name, 					actual_race.name, 					"Wrong name for " + str_race_identifier) 
 	assert_equal(expected_race.number, 					actual_race.number, 				"Wrong number for " + str_race_identifier) 
-	assert_equal(expected_race.race_type, 				actual_race.race_type, 				"Wrong race_type for " + str_race_identifier)
+	assert_equal(expected_race.race_type, 				actual_race.race_type, 				"Wrong race_type for " + str_race_identifier) 
+	assert_equal(expected_race.rope, 					actual_race.rope, 					"Wrong rope for " + str_race_identifier)
 	assert_equal(expected_race.result, 					actual_race.result, 				"Wrong result for " + str_race_identifier)
 	assert_equal(expected_race.time, 					actual_race.time, 					"Wrong time for " + str_race_identifier)
 	assert_equal(expected_race.url, 					actual_race.url, 					"Wrong url for " + str_race_identifier)  
 	assert_equal(expected_race.value, 					actual_race.value, 					"Wrong value for " + str_race_identifier)  
-	
+	assert_equal(expected_race.sex_rule, 				actual_race.sex_rule, 				"Wrong sex_rule for " + str_race_identifier)  
 	# @logger.debug("validate_race - expected_race.result_insertion_time = " + 
 		# expected_race.result_insertion_time.to_s)
 		

@@ -358,6 +358,14 @@ class TestDatabaseInterfaceSelect < TestSuite
 			assert_equal(test_id, 			selected_race_type.id)
 			assert_equal("Test Race Type", 	selected_race_type.text)
 			
+			@logger.info("Rope")
+			test_id = -1
+			selected_rope = @ref_list_hash[:ref_rope_list].get(test_id)
+			
+			# Checking value
+			assert_equal(test_id, 			selected_rope.id)
+			assert_equal("Test Rope", 		selected_rope.text)
+			
 			@logger.info("Sex")
 			test_id = -1
 			selected_sex = @ref_list_hash[:ref_sex_list].get(test_id)
@@ -365,6 +373,14 @@ class TestDatabaseInterfaceSelect < TestSuite
 			# Checking value
 			assert_equal(test_id, 		selected_sex.id)
 			assert_equal("Test Sex", 	selected_sex.text)
+
+			@logger.info("Sex Rule")
+			test_id = -1
+			selected_sex_rule = @ref_list_hash[:ref_sex_rule_list].get(test_id)
+			
+			# Checking value
+			assert_equal(test_id, 		selected_sex_rule.id)
+			assert_equal("Test Sex", 	selected_sex_rule.text)
 			
 			@logger.info("Shoes")
 			test_id = -1

@@ -9,8 +9,10 @@
  :ref_column_list: 'SELECT * FROM RefColumn'
  :ref_direction_list: 'SELECT * FROM RefDirection'
  :ref_race_type_list: 'SELECT * FROM RefRaceType'
+ :ref_rope_list: 'SELECT * FROM RefRope'
  :ref_track_condition_list: 'SELECT * FROM RefTrackCondition'
  :ref_sex_list: 'SELECT * FROM RefSex'
+ :ref_sex_rule_list: 'SELECT * FROM RefSexRule'
  :ref_shoes_list: 'SELECT * FROM RefShoes'
  
  # BUSINESS TABLES BY TECH ID

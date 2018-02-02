@@ -228,10 +228,26 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		)
 	end
 	
+	def load_ref_rope_list()
+		return load_ref_object_list(
+			RefRaceType, 
+			@sql[:select][:ref_rope_list],
+			@stat_select_ref_race_type_list
+		)
+	end
+	
 	def load_ref_sex_list()
 		return load_ref_object_list(
 			RefSex, 
 			@sql[:select][:ref_sex_list],
+			@stat_select_ref_sex_list
+		)
+	end
+	
+	def load_ref_sex_rule_list()
+		return load_ref_object_list(
+			RefSex, 
+			@sql[:select][:ref_sex_rule_list],
 			@stat_select_ref_sex_list
 		)
 	end
@@ -261,7 +277,9 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 		ref_column_list = load_ref_column_list()
 		ref_dir_list = load_ref_direction_list()
 		ref_race_type_list = load_ref_race_type_list()
+		ref_rope_list = load_ref_race_type_list()
 		ref_sex_list = load_ref_sex_list()
+		ref_sex_rule_list = load_ref_sex_list()
 		ref_shoes_list = load_ref_shoes_list()
 		ref_track_condition_list = load_ref_track_condition_list()
 		
@@ -304,7 +322,9 @@ class DatabaseInterfaceSelectByTechId < DatabaseInterface
 			:ref_column_list => ref_column_list,
 			:ref_direction_list => ref_dir_list,
 			:ref_race_type_list => ref_race_type_list,
+			:ref_rope_list => ref_rope_list,
 			:ref_sex_list => ref_sex_list,
+			:ref_sex_rule_list => ref_sex_list,
 			:ref_shoes_list => ref_shoes_list,	
 			:ref_track_condition_list => ref_track_condition_list}
 		return @ref_list_hash

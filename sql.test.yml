@@ -6,7 +6,9 @@
  :ref_column: 'INSERT INTO RefColumn (id, text) VALUES (-1, "Test Column")'
  :ref_direction: 'INSERT INTO RefDirection (id, text) VALUES (-1, "Test Direction")'
  :ref_race_type: 'INSERT INTO RefRaceType (id, text) VALUES (-1, "Test Race Type")'
+ :ref_rope: 'INSERT INTO RefRope (id, text) VALUES (-1, "Test Rope")'
  :ref_sex: 'INSERT INTO RefSex (id, text) VALUES (-1, "Test Sex")'
+ :ref_sex_rule: 'INSERT INTO RefSexRule (id, text) VALUES (-1, "Test Sex Rule")'
  :ref_shoes: 'INSERT INTO RefShoes (id, text) VALUES (-1, "Test Shoes")'
  :ref_track_condition: 'INSERT INTO RefTrackCondition (id, text) VALUES (-1, "Test Track Condition")'
 

@@ -10,6 +10,7 @@ def validate_race_R1_C7(fetched_race, result_insertion_time_before)
 	verif_name = "PRIX DES TROTTEURS \"SANG-FROID\""
 	verif_number = 7
 	verif_race_type = @ref_list_hash[:ref_race_type_list]["Attelé"]
+	verif_rope = @ref_list_hash[:ref_rope_list]["CORDE_GAUCHE"]
 	verif_result = "3 - 7 - 1 - 10 - 6 - 2 - 12"
 	verif_result_insertion_time = Time::new
 	@logger.debug("validate_race_R1_C7 - verif_result_insertion_time : " + 
@@ -21,6 +22,7 @@ def validate_race_R1_C7(fetched_race, result_insertion_time_before)
 		verif_runner_list[i] = Runner::new
 	end
 	# @logger.debug("validate_race_R1_C7 - verif_runner_list: " + verif_runner_list.to_s)
+	verif_sex_rule = @ref_list_hash[:ref_sex_rul]["FEMELLES"]
 	verif_time =  Time::new(1, 1, 1, 16, 30)
 	verif_url = "file:///D:/Dev/workspace/RPP/Test-HTML/R1_C7.htm"
 	verif_value =  20000
@@ -32,11 +34,13 @@ def validate_race_R1_C7(fetched_race, result_insertion_time_before)
 		general_conditions: verif_general_conditions,
 		# meeting: verif_meeting, 
 		name: verif_name, 
-		number: verif_number, 
+		number: verif_number,
 		race_type: verif_race_type,
+		rope: verif_rope,
 		result: verif_result,
 		result_insertion_time: verif_result_insertion_time,
 		runner_list: verif_runner_list,
+		sex_rule: verif_sex_rule,
 		time: verif_time,
 		url: verif_url,  
 		value: verif_value

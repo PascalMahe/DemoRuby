@@ -6,8 +6,10 @@
  :ref_column: 'DROP TABLE IF EXISTS RefColumn;'
  :ref_direction: 'DROP TABLE IF EXISTS RefDirection;'
  :ref_race_type: 'DROP TABLE IF EXISTS RefRaceType;'
+ :ref_rope: 'DROP TABLE IF EXISTS RefRope;'
  :ref_shoes: 'DROP TABLE IF EXISTS RefShoes;'
  :ref_sex: 'DROP TABLE IF EXISTS RefSex;'
+ :ref_sex_rule: 'DROP TABLE IF EXISTS RefSexRule;'
  :ref_track_condition: 'DROP TABLE IF EXISTS RefTrackCondition;'
  
  # business tables 
@@ -33,8 +35,10 @@
  :ref_column: 'DELETE FROM RefColumn;'
  :ref_direction: 'DELETE FROM RefDirection;'
  :ref_race_type: 'DELETE FROM RefRaceType;'
+ :ref_rope: 'DELETE FROM RefRope;'
  :ref_shoes: 'DELETE FROM RefShoes;'
  :ref_sex: 'DELETE FROM RefSex;'
+ :ref_sex: 'DELETE FROM RefSexRule;'
  :ref_track_condition: 'DELETE FROM RefTrackCondition;'
  
  # business tables 

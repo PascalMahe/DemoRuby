@@ -6,7 +6,9 @@
  :ref_column: 'INSERT INTO RefColumn (text) VALUES (:text)'
  :ref_direction: 'INSERT INTO RefDirection (text) VALUES (:text)'
  :ref_race_type: 'INSERT INTO RefRaceType (text) VALUES (:text)'
+ :ref_rope: 'INSERT INTO RefRaceType (text) VALUES (:text)'
  :ref_sex: 'INSERT INTO RefSex (text) VALUES (:text)'
+ :ref_sex_rule: 'INSERT INTO RefSexRule (text) VALUES (:text)'
  :ref_shoes: 'INSERT INTO RefShoes (text) VALUES (:text)'
  :ref_track_condition: 'INSERT INTO RefTrackCondition (text) VALUES (:text)'
  :ref_object: 'INSERT INTO %s (text) VALUES (:text)'
@@ -115,6 +117,8 @@
  :race_with_result: 'INSERT INTO Race(
             id_meeting, 
             id_race_type,
+            id_rope,
+            id_sex_rule,
             bets,
             detailed_conditions, 
             distance, 
@@ -129,6 +133,8 @@
         ) VALUES (
             :meeting, 
             :race_type, 
+            :rope, 
+            :sex_rule,
             :bets,
             :detailed_conditions,
             :distance, 
@@ -145,6 +151,8 @@
  :race_without_result: 'INSERT INTO Race(
             id_meeting, 
             id_race_type,
+            id_rope,
+            id_sex_rule,
             bets,
             detailed_conditions, 
             distance, 
@@ -157,6 +165,8 @@
         ) VALUES (
             :meeting, 
             :race_type, 
+            :rope, 
+            :sex_rule,
             :bets,
             :detailed_conditions,
             :distance, 
