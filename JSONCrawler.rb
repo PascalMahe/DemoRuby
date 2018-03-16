@@ -15,6 +15,7 @@ require './Runner.rb'
 class JSONCrawler
 
 	BASE_URL = "https://www.pmu.fr/services/turfInfo/client/1/programme/"
+	RUNNER_URl_SUFFIX = "/participants"
 
 	################################################
 	###############       INIT       ###############
@@ -81,8 +82,13 @@ class JSONCrawler
 		return meeting_list
 	end
 
+	def get_meeting_url(date)
+		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
+		@logger.debug("get_meeting_url - str_formatted_date: " + str_formatted_date)
+		return url_as_str = BASE_URL + str_formatted_date
+	end
 
-    def fetch_meetings(date, current_job)
+  def fetch_meetings(date, current_job)
 		# Loop on number of meetings to fetch basic info (number, racetrack, weather and
 		# track_condition (in the original tag's children)), get the tag
 		# listing the races (from the meeting number) in order to get the
@@ -93,10 +99,7 @@ class JSONCrawler
 		# the pages.
 		meeting_list = []
 
-		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
-		@logger.debug("fetch_meetings - str_formatted_date: " + str_formatted_date)
-
-		url_as_str = BASE_URL + str_formatted_date
+		url_as_str = get_meeting_url(date)
 		uri = URI(url_as_str)
 
 		start_time = Time.now
@@ -111,7 +114,7 @@ class JSONCrawler
 
 		jsonResponse = JSON.parse(response)
 
-
+		str_formatted_date = date.strftime(@config[:gen][:pmu_url_date_format])
 		jsonResponse["programme"]["reunions"].each do |jsonMeeting|
 
 			meeting_nb = jsonMeeting["numOfficiel"]
@@ -142,7 +145,7 @@ class JSONCrawler
 
 		meeting = fetch_meeting_shallow(date, meeting_nb, job, jsonMeeting)
 
-		meeting.race_list = fetch_races(jsonMeeting, meeting_nb)
+		meeting.race_list = fetch_races(jsonMeeting, meeting_nb, date)
 
 		return meeting
 	end
@@ -194,13 +197,13 @@ class JSONCrawler
 		return meeting
 	end
 
-	def fetch_races(jsonMeeting, meeting_nb)
+	def fetch_races(jsonMeeting, meeting_nb, date)
 		race_list = []
 
 		jsonMeeting["courses"].each do |jsonRace|
 			race_nb = jsonMeeting["numOfficiel"]
 			begin
-				race = fetch_race(jsonRace, race_nb)
+				race = fetch_race(jsonRace, race_nb, date)
 				race_list.push(race)
 			rescue => e
 				@logger.error("Error while fetching race: R" + meeting_nb.to_s + "C" + race_nb.to_s +
@@ -212,7 +215,7 @@ class JSONCrawler
 		return race_list
 	end
 
-	def fetch_race(jsonRace, meeting_nb)
+	def fetch_race(jsonRace, meeting_nb, date)
 		# Parameter: the URL of the page where the data is to be gathered
 		# and the Meeting containing this race
 		# Fields to fill: 	bets,
@@ -239,7 +242,7 @@ class JSONCrawler
 
 		# runner_list
 		@logger.debug("fetch_race - Fetching runners.")
-		race.runner_list = fetch_runners(meeting_nb, race_nb)
+		race.runner_list = fetch_runners(date, meeting_nb, race_nb)
 		# @logger.debug("runner_list: " + runner_list.to_s)
 
 		return race
@@ -345,52 +348,27 @@ class JSONCrawler
 	#   |-> fetch_results
 	#          |-> fetch_result_shallow
 
-	def fetch_runners(meeting_nb, race_nb)
+	def fetch_runners(date, meeting_nb, race_nb)
 		# Parameter: a Race
 		# Returns a list of (completed) Runners
-		@logger.info("fetch_runners - Fetching runners for race @: " + race.url)
+		@logger.info("fetch_runners - Fetching runners for race: " + race_nb.to_s)
 
-		# TODO
-		# cf. https://forum.phpfrance.com/php-debutant/recuperation-donnee-t275306.html
+		runner_url_as_str = get_meeting_url(date) +
+													"/R" + meeting_nb.to_s +
+													"/C" + race_nb.to_s +
+													RUNNER_URl_SUFFIX
 
-		# Go to race page
-		if driver.current_url != race.url and race.url != nil then
-			@logger.info("fetch_runners - getting race url: " + race.url)
-			@driver.get(race.url)
-		end
+		uri = URI(runner_url_as_str)
+		response = Net::HTTP.get(uri)
 
-		# if the race is finished, the driver lands on the results page
-		# -> display runners' table
-		if is_element_present(:css, CSS_TO_RUNNER_TABLE, @driver) then
-			runner_table_button = @driver.find_element(:css, CSS_TO_RUNNER_TABLE)
-			# wait for table to show up
-			Selenium::WebDriver::Wait.new(:timeout => 3)
-			runner_table_button.click
-			wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-			element = wait.until {
-				@driver.find_element(:css => CSS_TO_RUNNER_TABLE + ".selected")
-			}
+		jsonRunnersResponse = JSON.parse(response)
 
-		end
-
-		column_map = get_column_map()
+		runners_json_array = jsonRunnersResponse["participants"]
 
 		runner_list = Hash.new
-		list_of_runners = @driver.find_elements(:css, CSS_TO_RUNNERS)
-		i = 1
-		list_of_runners.each do |runner_elmt|
-			@logger.info("fetch_runners - Fetching runner #" + i.to_s)
-			current_runner = fetch_runner(runner_elmt, column_map)
-			runner_list[current_runner.number] = current_runner
-			i = i + 1
-		end
-
-		# if the race is over, its results are fetched
-		if is_element_present(:css, "p.course-infos-statut-details--arrivee", @driver) then
-			@logger.info("fetch_runners - Fetching race results.")
-			fetch_race_results(runner_list, column_map)
-		else
-			@logger.info("fetch_runners - Race not finisehd, not fetching race results.")
+		runners_json_array.each do |jsonRunner|
+			runner = fetch_runner(jsonRunner)
+			runner_list.add(runner)
 		end
 
 		return runner_list
@@ -506,9 +484,91 @@ class JSONCrawler
 
 	end
 
-	def fetch_runner(runner_tr_element, column_map)
-		runner = fetch_runner_shallow(runner_tr_element, column_map)
-		fetch_runner_deep(runner, runner_tr_element)
+	def fetch_runner(jsonRunner)
+		# Fields to fill:
+		# - blinder
+		# - distance
+		# - handicap
+		# - history
+		# - is_favorite
+		# - is_non_runner
+		# - is_pregnant
+		# - is_substitute
+		# - jockey
+		# - load_handicap
+		# - load_ride
+		# - name (horse)
+		# - number
+		# - shoes
+		# - trainer
+
+		# - age
+		# - breed
+		# - breeder
+		# - coat
+		# - earnings_career
+		# - earnings_current_year
+		# - earnings_last_year
+		# - earnings_victory
+		# - father
+		# - mother
+		# - mother's father
+		# - owner
+		# - places
+		# - races_run
+		# - sex
+		# - victories
+
+		# TODO
+
+		grandad = Horse::new(
+			name: grandad_name
+		)
+
+		father = Horse::new(
+			name: father_name
+		)
+
+		mother = Horse::new(
+			name: mother_name,
+			father: grandad
+		)
+
+		horse = Horse::new(
+			breed: breed,
+			coat: coat,
+			father: father,
+			mother: mother,
+			sex: sex
+		)
+
+		runner = Runner::new(
+			age: age,
+			blinder: blinder,
+			breeder: breeder,
+			distance: distance,
+			earnings_career: earnings_career,
+			earnings_current_year: earnings_current_year,
+			earnings_last_year: earnings_last_year,
+			earnings_victory: earnings_victory,
+			handicap: handicap,
+			horse: horse,
+			history: history,
+			is_favorite: is_favorite,
+			is_non_runner: is_non_runner,
+			is_pregnant: is_pregnant,
+			is_substitute: is_substitute,
+			jockey: jockey,
+			load_handicap: load_handicap,
+			load_ride: load_ride,
+			number: number,
+			owner: owner,
+			places: places,
+			races_run: races_run,
+			shoes: shoes,
+			trainer: trainer,
+			victories: victories
+		)
 		return runner
 	end
 
