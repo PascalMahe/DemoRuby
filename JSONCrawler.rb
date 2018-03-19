@@ -351,12 +351,13 @@ class JSONCrawler
 	def fetch_runners(date, meeting_nb, race_nb)
 		# Parameter: a Race
 		# Returns a list of (completed) Runners
-		@logger.info("fetch_runners - Fetching runners for race: " + race_nb.to_s)
 
 		runner_url_as_str = get_meeting_url(date) +
 													"/R" + meeting_nb.to_s +
 													"/C" + race_nb.to_s +
 													RUNNER_URl_SUFFIX
+
+		@logger.info("fetch_runners - Fetching runners for race: " + race_nb.to_s + " @: " + runner_url_as_str)
 
 		uri = URI(runner_url_as_str)
 		response = Net::HTTP.get(uri)
@@ -365,10 +366,10 @@ class JSONCrawler
 
 		runners_json_array = jsonRunnersResponse["participants"]
 
-		runner_list = Hash.new
+		runner_list = Array.new
 		runners_json_array.each do |jsonRunner|
 			runner = fetch_runner(jsonRunner)
-			runner_list.add(runner)
+			runner_list.push(runner)
 		end
 
 		return runner_list
@@ -519,45 +520,107 @@ class JSONCrawler
 		# - sex
 		# - victories
 
-		# TODO
+		blinder_raw = jsonRunner["oeilleres"]
+		blinder = @ref_list_hash[:ref_blinder_list][blinder_raw]
 
-		grandad = Horse::new(
-			name: grandad_name
-		)
+		breed_raw = jsonRunner["race"]
+		breed = @ref_list_hash[:ref_breed_list][breed_raw]
 
-		father = Horse::new(
-			name: father_name
-		)
+		coat = nil
+		if jsonRunner["robe"] then
+			coat_raw = jsonRunner["robe"]["libelle_long"]
+			coat = @ref_list_hash[:ref_coat_list][coat_raw]
+		end
 
-		mother = Horse::new(
-			name: mother_name,
-			father: grandad
-		)
+		shoes_raw = jsonRunner["deferre"]
+		shoes = @ref_list_hash[:ref_shoes_list][shoes_raw]
+
+		sex_raw = jsonRunner["sexe"]
+		sex = @ref_list_hash[:ref_sex_list][sex_raw]
+
+		age = jsonRunner["age"]
+		breeder_name = jsonRunner["eleveur"]
+		distance = nil
+		distance_raw = jsonRunner["handicapDistance"]
+		if distance_raw != nil father_name
+			distance = distance_raw.to_i
+		elsif jsonRunner["distanceChevalPrecedent"] != nil then
+			distance = jsonRunner["distanceChevalPrecedent"]["libelleLong"]
+		end
+
+		draw_raw = jsonRunner["placeCorde"]
+		draw = nil
+		if draw_raw != nil then
+			draw = jsonRunner["placeCorde"].to_i
+		end
+		earnings_career = jsonRunner["gainsParticipant"]["gainsCarriere"].to_i
+		earnings_current_year = jsonRunner["gainsParticipant"]["gainsAnneeEnCours"].to_i
+		earnings_last_year = jsonRunner["gainsParticipant"]["gainsAnneePrecedente"].to_i
+		earnings_victory = jsonRunner["gainsParticipant"]["gainsVictoires"].to_i
+		incident = jsonRunner["incident"]
+		disqualified = incident == "DISQUALIFIE_POUR_ALLURE_IRREGULIERE"
+		father_name = jsonRunner["nomPere"]
+		final_place = jsonRunner["ordreArrivee"]
+		grandad_name = jsonRunner["nomPereMere"]
+		handicap = jsonRunner["handicapValeurs"]
+		history = jsonRunner["musique"]
+		is_favorite = jsonRunner["favoris"] == "true"
+		is_non_runner = false
+
+		if incident != nil then
+			is_non_runner = (incident == "NON_PARTANT")
+		end
+		is_pregnant = jsonRunner["jumentPleine"] == "true"
+
+		jockey_name = jsonRunner["driver"]
+		load_handicap = jsonRunner["handicapPoids"]
+		load_ride = jsonRunner["poidsConditionMonte"]
+		mother_name = jsonRunner["nomMere"]
+		name = jsonRunner["nom"]
+		number = jsonRunner["numPmu"].to_i
+		owner_name = jsonRunner["proprietaire"]
+		places = jsonRunner["nombrePlaces"]
+		races_run = jsonRunner["nombreCourses"]
+		time = jsonRunner["reductionKilometrique"].to_i
+		trainer_name = jsonRunner["entraineur"]
+		victories = jsonRunner["nombreVictoires"]
+
+		breeder = Breeder::new(name: breeder_name)
+		grandad = Horse::new(name: grandad_name)
+		father = Horse::new(name: father_name)
+		mother = Horse::new(name: mother_name, father: grandad)
 
 		horse = Horse::new(
 			breed: breed,
 			coat: coat,
 			father: father,
 			mother: mother,
+			name: name,
 			sex: sex
 		)
+
+		jockey = Jockey::new(name: jockey_name)
+		owner = Owner::new(name: owner_name)
+		trainer = Trainer::new(name: trainer_name)
 
 		runner = Runner::new(
 			age: age,
 			blinder: blinder,
 			breeder: breeder,
 			distance: distance,
+			draw: draw,
 			earnings_career: earnings_career,
 			earnings_current_year: earnings_current_year,
 			earnings_last_year: earnings_last_year,
 			earnings_victory: earnings_victory,
+			final_place: final_place,
 			handicap: handicap,
 			horse: horse,
 			history: history,
 			is_favorite: is_favorite,
 			is_non_runner: is_non_runner,
 			is_pregnant: is_pregnant,
-			is_substitute: is_substitute,
+			# is_substitute: is_substitute,
 			jockey: jockey,
 			load_handicap: load_handicap,
 			load_ride: load_ride,
@@ -566,9 +629,13 @@ class JSONCrawler
 			places: places,
 			races_run: races_run,
 			shoes: shoes,
+			time: time,
 			trainer: trainer,
 			victories: victories
 		)
+
+		@logger.debug("fetch_runner - Runner #" + number.to_s + ": " + runner.to_long_s)
+
 		return runner
 	end
 
