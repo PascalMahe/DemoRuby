@@ -542,7 +542,7 @@ class JSONCrawler
 		breeder_name = jsonRunner["eleveur"]
 		distance = nil
 		distance_raw = jsonRunner["handicapDistance"]
-		if distance_raw != nil father_name
+		if distance_raw != nil then
 			distance = distance_raw.to_i
 		elsif jsonRunner["distanceChevalPrecedent"] != nil then
 			distance = jsonRunner["distanceChevalPrecedent"]["libelleLong"]
