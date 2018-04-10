@@ -170,7 +170,7 @@ class JSONCrawler
 		# weather
 		weather = nil
 		if jsonMeeting["meteo"] then
-			weather = Weather::new(jsonMeeting["meteo"])
+			weather = Weather::new(jsonMeeting["meteo"], @ref_list_hash)
 			@logger.debug("Weather: " + weather.to_s)
 		end
 

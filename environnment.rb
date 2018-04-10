@@ -195,11 +195,11 @@ class Weather
 		@wind_speed = wind_speed
 	end
 
-	def initialize(jsonWeather)
+	def initialize(jsonWeather, ref_list_hash)
 		@id = id
 		@insolation = jsonWeather["nebulositeLibelleCourt"]
 		@temperature = jsonWeather["temperature"]
-		@wind_direction = jsonWeather["directionVent"]
+		@wind_direction = ref_list_hash[:ref_track_condition_list][jsonWeather["directionVent"]]
 		@wind_speed = jsonWeather["forceVent"]
 	end
 
