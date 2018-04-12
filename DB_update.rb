@@ -1,11 +1,11 @@
 require 'sqlite3'
 # require 'activerecord-jdbcsqlite3-adapter'
 require 'date'
-require './ref.rb'
-require './DatabaseInterface.rb'
+require_relative './ref.rb'
+require_relative './DatabaseInterface.rb'
 
 class DatabaseInterfaceUpdate < DatabaseInterface
-	
+
 	#UPDATE
 	#forecast : result_match_rate & normalised_result_match_rate
 	def update_forecast_with_match_rate(forecast)
@@ -15,13 +15,13 @@ class DatabaseInterfaceUpdate < DatabaseInterface
 			:id => forecast.id
 		}
 		execute_query(
-			@sql[:update][:forecast], 
-			@stat_update_forecast, 
-			values_hash, 
+			@sql[:update][:forecast],
+			@stat_update_forecast,
+			values_hash,
 			false
 		)
 	end
-	
+
 	#race : update result & result_insertion_time
 	def update_race_with_result(race)
 		race.result_insertion_time.strftime(@config[:gen][:default_date_time_format])
@@ -35,13 +35,13 @@ class DatabaseInterfaceUpdate < DatabaseInterface
 			:id => race.id
 		}
 		execute_query(
-			@sql[:update][:race], 
-			@stat_update_race, 
-			values_hash, 
+			@sql[:update][:race],
+			@stat_update_race,
+			values_hash,
 			false
 		)
 	end
-	
+
 	#runner :final_place, disqualified, single_rating_after_race
 	def update_runner_after_race(runner)
 		values_hash = {
@@ -51,11 +51,11 @@ class DatabaseInterfaceUpdate < DatabaseInterface
 			:id => runner.id
 		}
 		execute_query(
-			@sql[:update][:runner], 
-			@stat_update_runner, 
-			values_hash, 
+			@sql[:update][:runner],
+			@stat_update_runner,
+			values_hash,
 			false
 		)
 	end
-	
+
 end

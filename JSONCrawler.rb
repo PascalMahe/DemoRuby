@@ -4,13 +4,13 @@ require 'yaml'
 require 'net/http'
 require 'json'
 
-require './common.rb'
-require './SimpleHtmlLogger.rb'
-require './ref.rb'
-require './environnment.rb'
-require './prediction.rb'
-require './people.rb'
-require './Runner.rb'
+require_relative './common.rb'
+require_relative './SimpleHtmlLogger.rb'
+require_relative './ref.rb'
+require_relative './environnment.rb'
+require_relative './prediction.rb'
+require_relative './people.rb'
+require_relative './Runner.rb'
 
 class JSONCrawler
 

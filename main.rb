@@ -111,8 +111,14 @@ begin #general exception catching block
 	logger.imp("END REAL STUFF")
 
 rescue Exception => err
-	logger.error("Caught general error: " + err.inspect)
-	logger.error(err.backtrace)
+
+	if logger != nil then
+		logger.error("Caught general error: " + err.inspect)
+		logger.error(err.backtrace)
+	else
+		puts err.backtrace
+	end
+	
 	# only works fro chromedriver...
 	# if crawler != nil then
 		# crawler.close_driver

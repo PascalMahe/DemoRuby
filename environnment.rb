@@ -39,6 +39,25 @@ class Meeting
 	end
 
 	def to_s()
+		race_list_size = 'nil'
+		if @race_list != nil then
+			race_list_size = @race_list.size.to_s
+		end
+		return_value =  "Meeting[id = " + nil_safe_to_s(@id) +
+										", country = " + nil_safe_to_s(@country) +
+										", date = " + nil_safe_to_s(@date) +
+										", job = " + nil_safe_to_s(@job) +
+										", number = " + nil_safe_to_s(@number) +
+										", racetrack = " + nil_safe_to_s(@racetrack) +
+										", track_condition = " + nil_safe_to_s(@track_condition) +
+										", urls_of_races_array = " + nil_safe_to_s(@urls_of_races_array) +
+										", weather = " + nil_safe_to_s(@weather) +
+										", race_list.size = " + race_list_size +
+										"]"
+		return return_value
+	end
+
+	def to_long_s()
 		return "Meeting[id = " + nil_safe_to_s(@id) +
 		", country = " + nil_safe_to_s(@country) +
 		", date = " + nil_safe_to_s(@date) +

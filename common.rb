@@ -1,13 +1,13 @@
 ﻿require 'psych' #see why at http://www.opinionatedprogrammer.com/2011/04/parsing-yaml-1-1-with-ruby/
 require 'yaml'
-require './DatabaseInterface.rb'
-require './DB_insert.rb'
-require './DB_select_by_tech_id.rb'
-require './DB_select_by_business_id.rb'
-require './DB_update.rb'
-require './SimpleHtmlLogger.rb'
+require_relative './DatabaseInterface.rb'
+require_relative './DB_insert.rb'
+require_relative './DB_select_by_tech_id.rb'
+require_relative './DB_select_by_business_id.rb'
+require_relative './DB_update.rb'
+require_relative './SimpleHtmlLogger.rb'
 
-	
+
 def nil_safe_to_s(attr)
 	if attr == nil
 		attr_as_string = "nil"
@@ -36,10 +36,10 @@ def log_object_and_ref(obj)
 	logger = $globalState.logger
 	level_before = logger.level
 	logger.level = SimpleHtmlLogger::DEBUG
-	
+
 	logger.debug("Currently inside a : " + obj.class.to_s)
 	logger.debug("Current @ref_list_hash : " + obj.ref_list_hash.to_s)
-	
+
 	logger.level = level_before
 end
 
@@ -54,7 +54,7 @@ class GlobalState
 	attr_accessor :is_test
 
 	def load_config()
-		
+
 		# Read config file
 		config = []
 		config = YAML.load_file("config.yml") # From file (cf. http://strugglingwithruby.blogspot.fr/2008/10/yaml.html)
@@ -67,11 +67,11 @@ class GlobalState
 		sql_update = YAML.load_file(config[:gen][:sql_update])
 		sql_gen = YAML.load_file(config[:gen][:sql_gen])
 		sql = sql_create.merge!(sql_delete.merge!(sql_insert.merge!(sql_select.merge!(sql_update.merge!(sql_gen)))))
-		
+
 		config[:sql] = sql
 		return config
 	end
-	
+
 	def initialize(is_test, log_level, path_to_log)
 		@config = load_config()
 		@logger = SimpleHtmlLogger::new(path_to_log, log_level)
@@ -82,6 +82,5 @@ class GlobalState
 		@dbi_select_by_business_id = DatabaseInterfaceSelectByBusinessId::new(@config, is_test, @logger)
 		@dbi_update = DatabaseInterfaceUpdate::new(@config, is_test, @logger)
 	end
-	
-end
 
+end

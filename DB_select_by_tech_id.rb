@@ -1,8 +1,8 @@
 require 'sqlite3'
 # require 'activerecord-jdbcsqlite3-adapter'
 require 'date'
-require './ref.rb'
-require './DatabaseInterface.rb'
+require_relative './ref.rb'
+require_relative './DatabaseInterface.rb'
 
 class DatabaseInterfaceSelectByTechId < DatabaseInterface
 	# row to object methods
