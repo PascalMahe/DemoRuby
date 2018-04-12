@@ -1,0 +1,10 @@
+:gen:
+ # ALL TABLES
+ :count_all: 'SELECT COUNT (*) FROM :table'
+ :last_id: 'SELECT MAX(id_:table) FROM :table'
+ 
+ # QUERY TO DETECT DUPLICATES (cf. http://stackoverflow.com/a/8244823)
+ :duplicate_detection: 'SELECT ID FROM :table WHERE ID NOT IN (SELECT MAX(ID) FROM :table GROUP BY TEXT HAVING MAX(ID) IS NOT NULL)'
+ 
+ # QUERY TO LOAD A TABLE WITHOUT KNOWING WHICH ONE (totally safe, I swear..)
+ :load_table: 'SELECT * FROM :table'

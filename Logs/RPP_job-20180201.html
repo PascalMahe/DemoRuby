@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<title>RPP - log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+
+	tr {
+		font-family: 'Lucida sans typewriter', 'sans-serif';
+		font-size: 10.0pt;
+	}
+
+	tr.IMP {
+		color: #101997;
+	}
+
+	tr.ERR {
+		color: #ED1212;
+	}
+
+	tr.OK {
+		color: green;
+	}
+	
+	tr.INF {
+		color: #000000;
+	}
+
+	tr.TST {
+		color: orange;
+	}
+	
+	tr.DBG {
+		color: #6633CC;
+	}
+	
+	td.IMP-main {
+		font-size: 14.0pt;
+	}
+	
+	td.ERR-main {
+		font-size: 12.0pt;
+	}
+
+-->
+</style>
+<br/>
+<div style="width: 90%; margin-right: auto; margin-left: auto;">
+	<table>
+		
+		
+<tr class="INF"><td>16:32:28.454</td><td>INF</td><td class="INF-main">Loading config</td>
+<tr class="INF"><td>16:32:28.454</td><td>INF</td><td class="INF-main">START TIME: 01/02/2018 16:32:28.443</td>
+<tr class="IMP"><td>16:32:28.454</td><td>IMP</td><td class="IMP-main">Checking Database Existence</td>
+<tr class="INF"><td>16:32:28.455</td><td>INF</td><td class="INF-main">Creating tables</td>
+<tr class="DBG"><td>16:32:28.455</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefBlinder( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.456</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefBreed( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.457</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefCoat( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.457</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefColumn( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.458</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefDirection( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.458</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefRaceType( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.459</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefSex( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.459</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefShoes( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.460</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS RefTrackCondition( id INTEGER PRIMARY KEY, text TEXT );</td>
+<tr class="DBG"><td>16:32:28.461</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Breeder( id_breeder INTEGER PRIMARY KEY, name TEXT );</td>
+<tr class="DBG"><td>16:32:28.461</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Forecast( id_forecast INTEGER PRIMARY KEY, id_race INTEGER, /* FK to Race */ id_origin INTEGER, /* FK to Origin */ expected_result TEXT, result_match_rate REAL, /* ratio */ normalised_result_match_rate REAL, /* percent */ FOREIGN KEY(id_race) REFERENCES Race(id_race), FOREIGN KEY(id_origin) REFERENCES Origin(id_origin) );</td>
+<tr class="DBG"><td>16:32:28.463</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Horse( id_horse INTEGER PRIMARY KEY, id_breed INTEGER, /* FK to RefBreed */ id_coat INTEGER, /* FK to RefCoat */ id_father INTEGER, /* FK to Horse */ id_mother INTEGER, /* FK to Horse */ id_sex INTEGER, /* FK to RefSex */ name TEXT, FOREIGN KEY(id_breed) REFERENCES RefBreed(id), FOREIGN KEY(id_coat) REFERENCES RefCoat(id), FOREIGN KEY(id_father) REFERENCES Horse(id_horse), FOREIGN KEY(id_mother) REFERENCES Horse(id_horse), FOREIGN KEY(id_sex) REFERENCES RefSex(id) );</td>
+<tr class="DBG"><td>16:32:28.466</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Job( id_job INTEGER PRIMARY KEY, start_time DATETIME, loading_end_time DATETIME, crawling_end_time DATETIME, computing_end_time DATETIME );</td>
+<tr class="DBG"><td>16:32:28.469</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Jockey( id_jockey INTEGER PRIMARY KEY, name TEXT, jacket TEXT );</td>
+<tr class="DBG"><td>16:32:28.470</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Meeting( id_meeting INTEGER PRIMARY KEY, id_track_condition INTEGER, /* FK to RefTrackCondition */ id_job INTEGER, /* FK to Job */ id_weather INTEGER, /* FK to Weather */ country TEXT, date DATE, number INTEGER, racetrack TEXT, FOREIGN KEY(id_track_condition) REFERENCES RefTrackCondition(id) FOREIGN KEY(id_job) REFERENCES Job(id_job) FOREIGN KEY(id_weather) REFERENCES Weather(id_weather) );</td>
+<tr class="DBG"><td>16:32:28.473</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Origin( id_origin INTEGER PRIMARY KEY, name TEXT, column_order TEXT, url TEXT );</td>
+<tr class="DBG"><td>16:32:28.474</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Owner( id_owner INTEGER PRIMARY KEY, name TEXT );</td>
+<tr class="DBG"><td>16:32:28.474</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Race( id_race INTEGER PRIMARY KEY, id_meeting INTEGER, /* FK to Meeting */ id_race_type INTEGER, /* FK to RefRaceType */ bets INTEGER, /* in euros */ detailed_conditions TEXT, distance INTEGER, /* in meters */ general_conditions TEXT, number INTEGER, name TEXT, result TEXT, result_insertion_time DATETIME, time TEXT, url TEXT, value INTEGER, /* in euros */ FOREIGN KEY(id_race_type) REFERENCES RefRaceType(id), FOREIGN KEY(id_meeting) REFERENCES Meeting(id_meeting) );</td>
+<tr class="DBG"><td>16:32:28.478</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Runner( id_runner INTEGER PRIMARY KEY, id_blinder INTEGER, /* FK to RefBlinder */ id_breeder INTEGER, /* FK to Breeder */ id_horse INTEGER, /* FK to Horse */ id_jockey INTEGER, /* FK to Jockey */ id_owner INTEGER, /* FK to Owner */ id_race INTEGER, /* FK to Race */ id_shoes INTEGER, /* FK to RefShoes */ id_trainer INTEGER, /* FK to Trainer */ age INTEGER, commentary TEXT, description TEXT, disqualified INTEGER, /* boolean */ distance INTEGER, draw INTEGER, earnings_career INTEGER, /* in euros */ earnings_current_year INTEGER, /* in euros */ earnings_last_year INTEGER, /* in euros */ earnings_victory INTEGER, /* in euros */ final_place INTEGER, history TEXT, is_favorite INTEGER, /* boolean */ is_non_runner INTEGER, /* boolean */ is_pregnant INTEGER, /* boolean */ is_substitute INTEGER, /* boolean */ load_handicap REAL, load_ride REAL, number INTEGER, places INTEGER, races_run INTEGER, single_rating_after_race REAL, single_rating_before_race REAL, time TEXT, url TEXT, victories INTEGER, FOREIGN KEY(id_blinder) REFERENCES RefBlinder(id), FOREIGN KEY(id_breeder) REFERENCES Breeder(id), FOREIGN KEY(id_horse) REFERENCES Horse(id), FOREIGN KEY(id_jockey) REFERENCES Jockey(id), FOREIGN KEY(id_owner) REFERENCES Owner(id), FOREIGN KEY(id_race) REFERENCES Race(id), FOREIGN KEY(id_shoes) REFERENCES RefShoes(id) FOREIGN KEY(id_trainer) REFERENCES Trainer(id) );</td>
+<tr class="DBG"><td>16:32:28.483</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Trainer( id_trainer INTEGER PRIMARY KEY, name TEXT );</td>
+<tr class="DBG"><td>16:32:28.484</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Weather( id_weather INTEGER PRIMARY KEY, id_wind_direction INTEGER, /* FK to RefDirection */ temperature INTEGER, /* in degrees C */ wind_speed INTEGER, insolation TEXT, FOREIGN KEY(id_wind_direction) REFERENCES RefDirection(id) );</td>
+<tr class="DBG"><td>16:32:28.485</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: CREATE TABLE IF NOT EXISTS Weight( id_weight INTEGER PRIMARY KEY, id_forecast INTEGER, /* FK to Forecast */ name TEXT, value REAL, FOREIGN KEY(id_forecast) REFERENCES Forecast(id_forecast) );</td>
+<tr class="INF"><td>16:32:28.487</td><td>INF</td><td class="INF-main">Tables created</td>
+<tr class="INF"><td>16:32:28.487</td><td>INF</td><td class="INF-main">Loading reference values</td>
+<tr class="INF"><td>16:32:28.487</td><td>INF</td><td class="INF-main">Loading all reference objects</td>
+<tr class="IMP"><td>16:32:28.487</td><td>IMP</td><td class="IMP-main">CRAWLING TIME</td>
+<tr class="INF"><td>16:32:28.488</td><td>INF</td><td class="INF-main">Starting to crawl</td>
+<tr class="DBG"><td>16:32:28.488</td><td>DBG</td><td class="DBG-main">initialize - base_address: https://www.pmu.fr/turf/</td>
+<tr class="INF"><td>16:32:28.488</td><td>INF</td><td class="INF-main">Preparing browser</td>
+<tr class="ERR"><td>16:32:28.490</td><td>ERR</td><td class="ERR-main">Caught general error: #&lt;Errno::ENOENT: No such file or directory - D:/Dev/workspace/RPP/Install/browsermob-proxy-2.1.4/bin/browsermob-proxy.bat&gt;</td>
+<tr class="ERR"><td>16:32:28.490</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/usr/local/lib/ruby/gems/2.5.0/gems/browsermob-proxy-0.2.0/lib/browsermob/proxy/server.rb:95:in `assert_executable'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/lib/ruby/gems/2.5.0/gems/browsermob-proxy-0.2.0/lib/browsermob/proxy/server.rb:21:in `initialize'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Crawler.rb:127:in `new'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Crawler.rb:127:in `launch_driver'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Crawler.rb:92:in `initialize'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:87:in `new'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:87:in `&lt;main&gt;'"]</td>
+	</table>
+<br/>
+
+</div>

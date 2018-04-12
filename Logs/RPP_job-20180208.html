@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+<title>RPP - log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+
+	tr {
+		font-family: 'Lucida sans typewriter', 'sans-serif';
+		font-size: 10.0pt;
+	}
+
+	tr.IMP {
+		color: #101997;
+	}
+
+	tr.ERR {
+		color: #ED1212;
+	}
+
+	tr.OK {
+		color: green;
+	}
+	
+	tr.INF {
+		color: #000000;
+	}
+
+	tr.TST {
+		color: orange;
+	}
+	
+	tr.DBG {
+		color: #6633CC;
+	}
+	
+	td.IMP-main {
+		font-size: 14.0pt;
+	}
+	
+	td.ERR-main {
+		font-size: 12.0pt;
+	}
+
+-->
+</style>
+<br/>
+<div style="width: 90%; margin-right: auto; margin-left: auto;">
+	<table>
+		
+		
+<tr class="INF"><td>12:37:52.865</td><td>INF</td><td class="INF-main">Loading config</td>
+<tr class="INF"><td>12:37:52.865</td><td>INF</td><td class="INF-main">START TIME: 08/02/2018 12:37:52.859</td>
+<tr class="IMP"><td>12:37:52.865</td><td>IMP</td><td class="IMP-main">Checking Database Existence</td>
+<tr class="INF"><td>12:37:52.866</td><td>INF</td><td class="INF-main">Tables already exist</td>
+<tr class="INF"><td>12:37:52.866</td><td>INF</td><td class="INF-main">Loading reference values</td>
+<tr class="INF"><td>12:37:52.866</td><td>INF</td><td class="INF-main">Loading all reference objects</td>
+<tr class="IMP"><td>12:37:52.867</td><td>IMP</td><td class="IMP-main">CRAWLING TIME</td>
+<tr class="INF"><td>12:37:52.867</td><td>INF</td><td class="INF-main">Starting to crawl</td>
+<tr class="DBG"><td>12:37:52.867</td><td>DBG</td><td class="DBG-main">initialize - base_address: https://www.pmu.fr/turf/</td>
+<tr class="DBG"><td>12:37:52.867</td><td>DBG</td><td class="DBG-main">fetch_meetings - str_formatted_date: 07022018</td>
+<tr class="INF"><td>12:37:53.075</td><td>INF</td><td class="INF-main">fetch_meetings - Getting JSON meeting @: https://www.pmu.fr/services/turfInfo/client/1/programme/07022018</td>
+<tr class="INF"><td>12:37:53.076</td><td>INF</td><td class="INF-main">fetch_meetings - Getting JSON response took: 00.207 s</td>
+<tr class="DBG"><td>12:37:53.091</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R1</td>
+<tr class="DBG"><td>12:37:53.091</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 1</td>
+<tr class="DBG"><td>12:37:53.091</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.091</td><td>DBG</td><td class="DBG-main">Country: 'FRANCE'</td>
+<tr class="DBG"><td>12:37:53.091</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Neige,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 2,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = N,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 11]</td>
+<tr class="DBG"><td>12:37:53.092</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: </td>
+<tr class="INF"><td>12:37:53.092</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 1</td>
+<tr class="DBG"><td>12:37:53.093</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#3: TROT_MONTE</td>
+<tr class="DBG"><td>12:37:53.093</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 50000</td>
+<tr class="DBG"><td>12:37:53.093</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.093</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX HENRI HELLARD Course  6 Course D 50.000. - Monté,<br/>
+ mâles. - 2.700 mètres (G. P.) 22.500,<br/>
+ 12.500,<br/>
+ 7.000,<br/>
+ 4.000,<br/>
+ 2.500,<br/>
+ 1.000,<br/>
+ 500. Pour chevaux entiers et hongres de 5 ans (D),<br/>
+ n'ayant pas gagné 75.000. Avantage de poids (voir Conditions Générales).</td>
+<tr class="DBG"><td>12:37:53.095</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#1: MALES_ET_HONGRES</td>
+<tr class="DBG"><td>12:37:53.095</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX HENRI HELLARD</td>
+<tr class="DBG"><td>12:37:53.095</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 1</td>
+<tr class="DBG"><td>12:37:53.095</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 4 - 7 - 9 - 10 - 8 - 1 - 6</td>
+<tr class="ERR"><td>12:37:53.099</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.100</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.102</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.102</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.102</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 50000</td>
+<tr class="DBG"><td>12:37:53.103</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2100</td>
+<tr class="DBG"><td>12:37:53.103</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE L'ILLE-ET-VILAINE Course  1 Course D Course Européenne Départ à l'Autostart 50.000. - Attelé. - 2.100 mètres (G. P.) 22.500,<br/>
+ 12.500,<br/>
+ 7.000,<br/>
+ 4.000,<br/>
+ 2.500,<br/>
+ 1.000,<br/>
+ 500. Pour 7 à 10 ans inclus (B à U),<br/>
+ n'ayant pas gagné 195.000. Sont seuls admis à participer à cette épreuve les chevaux n'ayant pas,<br/>
+ dans es 12 mois précédant la course,<br/>
+ été classés,<br/>
+ au trot attelé,<br/>
+ 1er,<br/>
+ 2ème ou 3ème d'une épreuve de Groupe I.</td>
+<tr class="DBG"><td>12:37:53.106</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.106</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE L'ILLE-ET-VILAINE</td>
+<tr class="DBG"><td>12:37:53.106</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.106</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 17 - 10 - 5 - 3 - 16 - 14 - 1 - 13 - 15 - 18 - 12</td>
+<tr class="ERR"><td>12:37:53.110</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.110</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.114</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.114</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.114</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 31000</td>
+<tr class="DBG"><td>12:37:53.114</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.114</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE MONTLUCON Course  7 Course E 31.000. - Attelé,<br/>
+ femelles. - 2.700 mètres (G. P.) 13.950,<br/>
+ 7.750,<br/>
+ 4.340,<br/>
+ 2.480,<br/>
+ 1.550,<br/>
+ 620,<br/>
+ 310. Pour pouliches de 4 ans (E),<br/>
+ n'ayant pas gagné 22.000.</td>
+<tr class="DBG"><td>12:37:53.116</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.116</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE MONTLUCON (Gr A)</td>
+<tr class="DBG"><td>12:37:53.116</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.116</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 13 - 6 - 8 - 9 - 12 - 14 - 7 - 4 - 10 - 5</td>
+<tr class="ERR"><td>12:37:53.119</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.119</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.121</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 4</td>
+<tr class="DBG"><td>12:37:53.122</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.122</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 31000</td>
+<tr class="DBG"><td>12:37:53.122</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.122</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE MONTLUCON Course  7 Course E 31.000. - Attelé,<br/>
+ femelles. - 2.700 mètres (G. P.) 13.950,<br/>
+ 7.750,<br/>
+ 4.340,<br/>
+ 2.480,<br/>
+ 1.550,<br/>
+ 620,<br/>
+ 310. Pour pouliches de 4 ans (E),<br/>
+ n'ayant pas gagné 22.000.</td>
+<tr class="DBG"><td>12:37:53.123</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.123</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE MONTLUCON (Gr B)</td>
+<tr class="DBG"><td>12:37:53.123</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 4</td>
+<tr class="DBG"><td>12:37:53.123</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 13 - 10 - 4 - 8 - 6 - 12 - 14 - 7</td>
+<tr class="ERR"><td>12:37:53.127</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.127</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.129</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 5</td>
+<tr class="DBG"><td>12:37:53.129</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.130</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 64000</td>
+<tr class="DBG"><td>12:37:53.130</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.130</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE BOURG-EN-BRESSE Course  3 Course B 64.000. - Attelé,<br/>
+ femelles. - 2.700 mètres (G. P.) 28.800,<br/>
+ 16.000,<br/>
+ 8.960,<br/>
+ 5.120,<br/>
+ 3.200,<br/>
+ 1.280,<br/>
+ 640. Pour juments de 6 ans (C),<br/>
+ ayant gagné au moins 50.000,<br/>
+ mais pas 180.000.</td>
+<tr class="DBG"><td>12:37:53.132</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.132</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE BOURG-EN-BRESSE</td>
+<tr class="DBG"><td>12:37:53.132</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 5</td>
+<tr class="DBG"><td>12:37:53.132</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 5 - 3 - 4 - 6 - 2 - 9 - 8 - 7</td>
+<tr class="ERR"><td>12:37:53.137</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.137</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.139</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 6</td>
+<tr class="DBG"><td>12:37:53.140</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.140</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 38000</td>
+<tr class="DBG"><td>12:37:53.140</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2100</td>
+<tr class="DBG"><td>12:37:53.140</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE PERIGUEUX Course  8 Course D Départ à l'Autostart 38.000. - Attelé,<br/>
+ femelles. - 2.100 mètres (G. P.) 17.100,<br/>
+ 9.500,<br/>
+ 5.320,<br/>
+ 3.040,<br/>
+ 1.900,<br/>
+ 760,<br/>
+ 380. Pour juments de 5 ans (D),<br/>
+ n'ayant pas gagné 50.000.</td>
+<tr class="DBG"><td>12:37:53.142</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.142</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE PERIGUEUX</td>
+<tr class="DBG"><td>12:37:53.142</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 6</td>
+<tr class="DBG"><td>12:37:53.143</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 1 - 2 - 8 - 7 - 9 - 3 - 6 - 4</td>
+<tr class="ERR"><td>12:37:53.146</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.146</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.148</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 7</td>
+<tr class="DBG"><td>12:37:53.148</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#3: TROT_MONTE</td>
+<tr class="DBG"><td>12:37:53.148</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 36000</td>
+<tr class="DBG"><td>12:37:53.148</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.148</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE ROZAY EN BRIE Course  4 Course D 36.000. - Monté,<br/>
+ mâles. - 2.700 mètres (G. P.) 16.200,<br/>
+ 9.000,<br/>
+ 5.040,<br/>
+ 2.880,<br/>
+ 1.800,<br/>
+ 720,<br/>
+ 360. Pour poulains entiers et hongres de 4 ans (E),<br/>
+ n'ayant pas gagné 26.000. Avantage de poids (voir Conditions Générales).</td>
+<tr class="DBG"><td>12:37:53.150</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#1: MALES_ET_HONGRES</td>
+<tr class="DBG"><td>12:37:53.150</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE ROZAY EN BRIE</td>
+<tr class="DBG"><td>12:37:53.150</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 7</td>
+<tr class="DBG"><td>12:37:53.150</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 12 - 8 - 5 - 4 - 9 - 6 - 1 - 10</td>
+<tr class="ERR"><td>12:37:53.153</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.153</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.155</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 8</td>
+<tr class="DBG"><td>12:37:53.155</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.155</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 33000</td>
+<tr class="DBG"><td>12:37:53.155</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2700</td>
+<tr class="DBG"><td>12:37:53.155</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE VIBRAYE Course  5 Course D 33.000. - Attelé,<br/>
+ mâles. - 2.700 mètres (G. P.) 14.850,<br/>
+ 8.250,<br/>
+ 4.620,<br/>
+ 2.640,<br/>
+ 1.650,<br/>
+ 660,<br/>
+ 330. Pour poulains entiers et hongres de 3 ans (F),<br/>
+ n'ayant pas gagné 10.000.</td>
+<tr class="DBG"><td>12:37:53.157</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#1: MALES_ET_HONGRES</td>
+<tr class="DBG"><td>12:37:53.157</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE VIBRAYE</td>
+<tr class="DBG"><td>12:37:53.157</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 8</td>
+<tr class="DBG"><td>12:37:53.157</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 7 - 6 - 8 - 4 - 5 - 11 - 2 - 3 - 13 - 9</td>
+<tr class="ERR"><td>12:37:53.161</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.161</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.163</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 9</td>
+<tr class="DBG"><td>12:37:53.163</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#3: TROT_MONTE</td>
+<tr class="DBG"><td>12:37:53.163</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 60000</td>
+<tr class="DBG"><td>12:37:53.163</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2175</td>
+<tr class="DBG"><td>12:37:53.163</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PRIX DE DOUVRES Course  2 Course B Challenge Marolles-en-Brie APPRENTIS-LADS-JOCKEYS 60.000. - Monté,<br/>
+ femelles. - 2.175 mètres (G. P.) 27.000,<br/>
+ 15.000,<br/>
+ 8.400,<br/>
+ 4.800,<br/>
+ 3.000,<br/>
+ 1.200,<br/>
+ 600. Pour juments de 6 ans (C),<br/>
+ n'ayant pas gagné 160.000. Poids minimum (voir Conditions Générales).</td>
+<tr class="DBG"><td>12:37:53.167</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.167</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE DOUVRES</td>
+<tr class="DBG"><td>12:37:53.167</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 9</td>
+<tr class="DBG"><td>12:37:53.167</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 7 - 6 - 5 - 1</td>
+<tr class="ERR"><td>12:37:53.172</td><td>ERR</td><td class="ERR-main">Error while fetching race: R1C1 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.172</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="DBG"><td>12:37:53.174</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R2</td>
+<tr class="DBG"><td>12:37:53.174</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 2</td>
+<tr class="DBG"><td>12:37:53.174</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.174</td><td>DBG</td><td class="DBG-main">Country: 'Afrique du Sud'</td>
+<tr class="DBG"><td>12:37:53.174</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Très Nuageux,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 27,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = S,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 20]</td>
+<tr class="DBG"><td>12:37:53.175</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: RefTrackCondition#1: 3,0</td>
+<tr class="INF"><td>12:37:53.175</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 1</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 6184</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1800</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: FOLLOW MAIDEN PLATE</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 1</td>
+<tr class="DBG"><td>12:37:53.176</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 5 - 3 - 2 - 6 - 1 - 7 - 9 - 4 - 8</td>
+<tr class="ERR"><td>12:37:53.181</td><td>ERR</td><td class="ERR-main">Error while fetching race: R2C2 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.181</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.183</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 6184</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1800</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: MAIDEN PLATE</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.184</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 1 - 2 - 4 - 3 - 8 - 5 - 9</td>
+<tr class="ERR"><td>12:37:53.188</td><td>ERR</td><td class="ERR-main">Error while fetching race: R2C2 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.188</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.191</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.191</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.191</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 4947</td>
+<tr class="DBG"><td>12:37:53.191</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1400</td>
+<tr class="DBG"><td>12:37:53.191</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.192</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.192</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: QUALIFIED MAIDEN PLATE</td>
+<tr class="DBG"><td>12:37:53.192</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.192</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 1 - 5 - 7 - 4 - 3 - 8 - 10 - 9 - 6 - 2</td>
+<tr class="ERR"><td>12:37:53.196</td><td>ERR</td><td class="ERR-main">Error while fetching race: R2C2 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.196</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="DBG"><td>12:37:53.198</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R3</td>
+<tr class="DBG"><td>12:37:53.198</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 3</td>
+<tr class="DBG"><td>12:37:53.198</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.198</td><td>DBG</td><td class="DBG-main">Country: 'Chine'</td>
+<tr class="DBG"><td>12:37:53.198</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Soleil,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 16,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = NE,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 14]</td>
+<tr class="DBG"><td>12:37:53.199</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: RefTrackCondition#1: 3,0</td>
+<tr class="INF"><td>12:37:53.199</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 1</td>
+<tr class="DBG"><td>12:37:53.200</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.200</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 71900</td>
+<tr class="DBG"><td>12:37:53.200</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1650</td>
+<tr class="DBG"><td>12:37:53.200</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.201</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.201</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: BOWRINGTON HANDICAP</td>
+<tr class="DBG"><td>12:37:53.201</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 1</td>
+<tr class="DBG"><td>12:37:53.201</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 2 - 8 - 1 - 5 - 4 - 10 - 9 - 11 - 7 - 6 - 12</td>
+<tr class="ERR"><td>12:37:53.206</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.206</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.208</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.208</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.208</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 95867</td>
+<tr class="DBG"><td>12:37:53.208</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2200</td>
+<tr class="DBG"><td>12:37:53.208</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.209</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.209</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: CANAL HANDICAP</td>
+<tr class="DBG"><td>12:37:53.209</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.209</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 6 - 7 - 8 - 1 - 4 - 10 - 3 - 9 - 5 - 2 - 11 - 12</td>
+<tr class="ERR"><td>12:37:53.212</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.212</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.214</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 202628</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1800</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: WONG NAI CHUNG HANDICAP</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.215</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 3 - 7 - 6 - 8 - 4 - 1 - 5</td>
+<tr class="ERR"><td>12:37:53.219</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.219</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.221</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 4</td>
+<tr class="DBG"><td>12:37:53.221</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.222</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 95867</td>
+<tr class="DBG"><td>12:37:53.222</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1200</td>
+<tr class="DBG"><td>12:37:53.222</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.222</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.222</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: LEIGHTON HANDICAP</td>
+<tr class="DBG"><td>12:37:53.223</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 4</td>
+<tr class="DBG"><td>12:37:53.223</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 8 - 9 - 6 - 11 - 7 - 12 - 10 - 1 - 3 - 2 - 5 - 4</td>
+<tr class="ERR"><td>12:37:53.226</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.227</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.229</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 5</td>
+<tr class="DBG"><td>12:37:53.229</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.229</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 95867</td>
+<tr class="DBG"><td>12:37:53.229</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1200</td>
+<tr class="DBG"><td>12:37:53.229</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.230</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.230</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE CRAIGENGOWER CRICKET CLUB CHALLENGE CUP</td>
+<tr class="DBG"><td>12:37:53.230</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 5</td>
+<tr class="DBG"><td>12:37:53.230</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 1 - 4 - 9 - 2 - 6 - 12 - 3 - 5 - 11 - 8 - 7</td>
+<tr class="ERR"><td>12:37:53.233</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.233</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.235</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 6</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 95867</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1650</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PERCIVAL HANDICAP</td>
+<tr class="DBG"><td>12:37:53.236</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 6</td>
+<tr class="DBG"><td>12:37:53.237</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 5 - 7 - 4 - 9 - 8 - 11 - 1 - 6 - 3 - 10 - 12</td>
+<tr class="ERR"><td>12:37:53.240</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.240</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.249</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 7</td>
+<tr class="DBG"><td>12:37:53.249</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 142711</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1200</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: RUSSELL HANDICAP</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 7</td>
+<tr class="DBG"><td>12:37:53.250</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 5 - 12 - 11 - 1 - 4 - 7 - 6 - 2 - 9 - 8 - 10 - 3</td>
+<tr class="ERR"><td>12:37:53.254</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.254</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.256</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 8</td>
+<tr class="DBG"><td>12:37:53.256</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.257</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 142711</td>
+<tr class="DBG"><td>12:37:53.257</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1650</td>
+<tr class="DBG"><td>12:37:53.257</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 5 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.257</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#2: CORDE_DROITE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.257</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: SPORTS ROAD HANDICAP</td>
+<tr class="DBG"><td>12:37:53.258</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 8</td>
+<tr class="DBG"><td>12:37:53.258</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 12 - 2 - 10 - 5 - 1 - 8 - 3 - 6 - 9 - 4 - 11 - 7</td>
+<tr class="ERR"><td>12:37:53.261</td><td>ERR</td><td class="ERR-main">Error while fetching race: R3C3 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.261</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="DBG"><td>12:37:53.263</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R4</td>
+<tr class="DBG"><td>12:37:53.263</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 4</td>
+<tr class="DBG"><td>12:37:53.263</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.263</td><td>DBG</td><td class="DBG-main">Country: 'FRANCE'</td>
+<tr class="DBG"><td>12:37:53.263</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Peu Nuageux,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 13,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = O,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 1]</td>
+<tr class="DBG"><td>12:37:53.264</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: RefTrackCondition#2: 4,0</td>
+<tr class="INF"><td>12:37:53.264</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 1</td>
+<tr class="DBG"><td>12:37:53.264</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.264</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 19000</td>
+<tr class="DBG"><td>12:37:53.264</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1500</td>
+<tr class="DBG"><td>12:37:53.264</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour poulains entiers,<br/>
+ hongres et pou liches de 4 ans ,<br/>
+ n'ayant pas,<br/>
+ depuis le 1er mars de l'année dernière incl us,<br/>
+ gagné une course de Classe 2 ni,<br/>
+ depuis le 1er décembre de l'année der  nière inclus reçu une allocation de 10.000. Poids : 57 k. Surcharges accu mulées pour l es sommes reçues en vic toires et places,<br/>
+ depuis le 1er mars de l'année dernière inclus : 1 k . pa r 6.000 reçus.</td>
+<tr class="DBG"><td>12:37:53.268</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.268</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE BORMES LES MIMOSAS</td>
+<tr class="DBG"><td>12:37:53.268</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 1</td>
+<tr class="DBG"><td>12:37:53.268</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 4 - 5 - 6 - 1 - 2 - 3 - 7</td>
+<tr class="ERR"><td>12:37:53.271</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.271</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.273</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.274</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.274</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 17000</td>
+<tr class="DBG"><td>12:37:53.274</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.274</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour poulains entiers,<br/>
+ hongres et pou liches de 4 ans,<br/>
+ n'ayant pas,<br/>
+ depuis le 1er décembre 2017 inclus,<br/>
+ reçu une  allocation de 10.000. Seront qualifi és dans cette épreuve,<br/>
+ les chevaux au xquels le handicapeur aura attribué u ne va leur égale ou inférieure à 28 k . Les poids de cette épreuve seront r emontés après division à la clôture d es partants,<br/>
+ afin que le poids le plu s élevé soit fixé à 60 k.</td>
+<tr class="DBG"><td>12:37:53.276</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.276</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE LA MAURIENNE</td>
+<tr class="DBG"><td>12:37:53.276</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.276</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 13 - 8 - 4 - 5 - 3 - 6 - 11 - 1 - 2 - 10 - 12 - 7 - 9</td>
+<tr class="ERR"><td>12:37:53.279</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.280</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.282</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.282</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.282</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 26000</td>
+<tr class="DBG"><td>12:37:53.282</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1500</td>
+<tr class="DBG"><td>12:37:53.282</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour poulains entiers,<br/>
+ hongres et pou liches de 3 ans ,<br/>
+ ayant couru en Fran ce et reçu au plu s,<br/>
+ une allocation d e 13.500 (A réclamer excepté) et n'ay ant pas gagné une course de Classe 2.  Poids : 57 k . Les chevaux ayant (à réclamer et handicaps exceptés) reçu une allocation de 9.000 porteront 1 k . ; une allocation de 13.500 2 k. Les  chevaux n'ayant pas reçu 7. 000 en v ictoires et places recevront 1 k.1/2.</td>
+<tr class="DBG"><td>12:37:53.284</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.285</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE VICHY</td>
+<tr class="DBG"><td>12:37:53.285</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.285</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 8 - 1 - 3 - 7 - 4 - 6 - 5</td>
+<tr class="ERR"><td>12:37:53.288</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.288</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.290</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 4</td>
+<tr class="DBG"><td>12:37:53.291</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.291</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 17000</td>
+<tr class="DBG"><td>12:37:53.291</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.291</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour juments de 4 ans et au-dessus ,<br/>
+ n'ayant,<br/>
+ depuis le 1er décembre 2017 inclus,<br/>
+ ni reçu u ne allocation de 12 .000 ni été classés 2ème ou 3ème d'un e course de dotation totale de 50.000 . Les poids de cette épreuve seront r emontés après division à la clôture d es partants,<br/>
+ afin que le poids le plu s élevé soit fixé à 60 k.</td>
+<tr class="DBG"><td>12:37:53.293</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.293</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX PECKINPAH'S SOUL</td>
+<tr class="DBG"><td>12:37:53.293</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 4</td>
+<tr class="DBG"><td>12:37:53.293</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 4 - 2 - 8 - 6 - 10 - 5 - 12 - 3 - 7 - 9 - 13 - 1 - 11</td>
+<tr class="ERR"><td>12:37:53.296</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.296</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.298</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 5</td>
+<tr class="DBG"><td>12:37:53.299</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.299</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 24000</td>
+<tr class="DBG"><td>12:37:53.299</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1300</td>
+<tr class="DBG"><td>12:37:53.299</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour poulains entiers,<br/>
+ hongres et pou liches de 3 ans ,<br/>
+ n'ayant jamais gagn é. Poids : 5 8 k. Les chevaux n'ayant  jamais couru recevront 2 k.</td>
+<tr class="DBG"><td>12:37:53.300</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.301</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DES SEMBOULES</td>
+<tr class="DBG"><td>12:37:53.301</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 5</td>
+<tr class="DBG"><td>12:37:53.301</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 8 - 3 - 4 - 10 - 9 - 2 - 5 - 7 - 1 - 6</td>
+<tr class="ERR"><td>12:37:53.304</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.304</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.307</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 6</td>
+<tr class="DBG"><td>12:37:53.307</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.307</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 19000</td>
+<tr class="DBG"><td>12:37:53.307</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.307</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour poulains entiers,<br/>
+ hongres et pou liches de 4 ans,<br/>
+ n'ayant pas,<br/>
+ depuis le 1er décembre 2017 inclus,<br/>
+ reçu une  allocation de 10.000. Seront qualifi és dans cette épreuve,<br/>
+ les chevaux au xquels le handicapeur aura attribué u ne va leur égale ou inférieure à 28 k . La référence de cette épreuve sera éventuellement remontée à la déclarat ion des partants prob ables,<br/>
+ afin que le poids le plus élevé soit fixé à 6 0 k.</td>
+<tr class="DBG"><td>12:37:53.311</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.311</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX DE LA TARENTAISE</td>
+<tr class="DBG"><td>12:37:53.311</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 6</td>
+<tr class="DBG"><td>12:37:53.311</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 13 - 12 - 5 - 6 - 3 - 10 - 4 - 8 - 11 - 2 - 1 - 9 - 7</td>
+<tr class="ERR"><td>12:37:53.315</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.316</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.317</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 7</td>
+<tr class="DBG"><td>12:37:53.318</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.318</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 20000</td>
+<tr class="DBG"><td>12:37:53.318</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 3200</td>
+<tr class="DBG"><td>12:37:53.318</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour tous chevaux entiers,<br/>
+ hongres et  juments de 4 ans et au-dessus . La r éférence de cette épreuve sera éventu ellement remontée à la déclaration de s partants prob ables,<br/>
+ afin que le po ids le plus élevé soit fixé à 60 k .</td>
+<tr class="DBG"><td>12:37:53.320</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.320</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX LORD DU SUD</td>
+<tr class="DBG"><td>12:37:53.320</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 7</td>
+<tr class="DBG"><td>12:37:53.320</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 5 - 10 - 9 - 7 - 8 - 1 - 12 - 6 - 4 - 3</td>
+<tr class="ERR"><td>12:37:53.324</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.324</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.326</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 8</td>
+<tr class="DBG"><td>12:37:53.326</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.326</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 20000</td>
+<tr class="DBG"><td>12:37:53.326</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.326</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour juments de 4 ans et au-dessus,<br/>
+ n 'ayant,<br/>
+ depuis le 1er décembre 2017 i nclus,<br/>
+ ni reçu u ne allocation de 12. 000 ni été classés 2ème ou 3ème d'une course de dotation totale de 50.000.  La référence de cette épreuve sera é ventuellement remontée à la déclarati on des partants prob ables,<br/>
+ afin que le poids le plus élevé soit fixé à 60  k.</td>
+<tr class="DBG"><td>12:37:53.329</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#3: FEMELLES</td>
+<tr class="DBG"><td>12:37:53.329</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PRIX MARILDO</td>
+<tr class="DBG"><td>12:37:53.329</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 8</td>
+<tr class="DBG"><td>12:37:53.329</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 13 - 3 - 10 - 7 - 4 - 6 - 5 - 1 - 11 - 12 - 9 - 2 - 8 - 14</td>
+<tr class="ERR"><td>12:37:53.333</td><td>ERR</td><td class="ERR-main">Error while fetching race: R4C4 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.333</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R5</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 5</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">Country: 'Espagne'</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Pluies,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 8,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = E,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 5]</td>
+<tr class="DBG"><td>12:37:53.335</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: </td>
+<tr class="INF"><td>12:37:53.335</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.336</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.336</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5000</td>
+<tr class="DBG"><td>12:37:53.336</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2650</td>
+<tr class="DBG"><td>12:37:53.336</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI LYON-LA SOIE Course 02 Départ à l'Autostart 5.000 - Attelé. - 2.650 mètres. 2.300,<br/>
+ 1.150,<br/>
+ 600,<br/>
+ 350,<br/>
+ 250,<br/>
+ 200,<br/>
+ 150. Pour 3 à 15 ans n'ayant pas gagné 100.000.</td>
+<tr class="DBG"><td>12:37:53.338</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.338</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI LYON-LA SOIE                      ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.338</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.338</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 4 - 8 - 9 - 1 - 5 - 3 - 7 - 6</td>
+<tr class="ERR"><td>12:37:53.342</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.342</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.344</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.344</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.344</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 4500</td>
+<tr class="DBG"><td>12:37:53.344</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.344</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI NEVADA Course 03 Départ à l'Autostart 4.500 - Attelé. - 2.150 mètres. 2.070,<br/>
+ 1.036,<br/>
+ 540,<br/>
+ 314,<br/>
+ 226,<br/>
+ 180,<br/>
+ 134. Pour 4 à 9 ans ayant gagné au moins 9.000,<br/>
+ mais pas 14.000.</td>
+<tr class="DBG"><td>12:37:53.346</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.346</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI NEVADA                            ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.346</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.346</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 10 - 3 - 16 - 1 - 13 - 4 - 9 - 8 - 11 - 6</td>
+<tr class="ERR"><td>12:37:53.349</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.349</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.351</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 4</td>
+<tr class="DBG"><td>12:37:53.351</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.351</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 4000</td>
+<tr class="DBG"><td>12:37:53.351</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.351</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI SALON DE PROVENCE Course 04 Départ à l'Autostart 4.000 - Attelé. - 2.150 mètres. 1.840,<br/>
+ 920,<br/>
+ 480,<br/>
+ 280,<br/>
+ 200,<br/>
+ 160,<br/>
+ 120. Pour 3 à 9 ans.</td>
+<tr class="DBG"><td>12:37:53.353</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.353</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI SALON DE PROVENCE                 ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.353</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 4</td>
+<tr class="DBG"><td>12:37:53.353</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 6 - 7 - 5 - 3 - 2 - 9 - 12 - 10 - 4 - 15</td>
+<tr class="ERR"><td>12:37:53.356</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.356</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.358</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 5</td>
+<tr class="DBG"><td>12:37:53.358</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.358</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5500</td>
+<tr class="DBG"><td>12:37:53.358</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2650</td>
+<tr class="DBG"><td>12:37:53.358</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI VALENTINO Course 05 Départ à l'Autostart 5.500 - Attelé. - 2.650 mètres. 2.530,<br/>
+ 1.266,<br/>
+ 660,<br/>
+ 384,<br/>
+ 276,<br/>
+ 220,<br/>
+ 164. Pour 4 à 12 ans ayant gagné au moins 20.000,<br/>
+ mais pas 30.000.</td>
+<tr class="DBG"><td>12:37:53.360</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.360</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI VALENTINO                         ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.360</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 5</td>
+<tr class="DBG"><td>12:37:53.360</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 5 - 11 - 10 - 7 - 13 - 8 - 1 - 4 - 3</td>
+<tr class="ERR"><td>12:37:53.364</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.364</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.366</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 6</td>
+<tr class="DBG"><td>12:37:53.367</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.367</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 6000</td>
+<tr class="DBG"><td>12:37:53.367</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2650</td>
+<tr class="DBG"><td>12:37:53.367</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI ROQUEPINE Course 06 Départ à l'Autostart 6.000 - Attelé. - 2.650 mètres. 2.760,<br/>
+ 1.380,<br/>
+ 720,<br/>
+ 420,<br/>
+ 300,<br/>
+ 240,<br/>
+ 180. Pour 3 à 12 ans.</td>
+<tr class="DBG"><td>12:37:53.369</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.369</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI ROQUEPINE                         ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.369</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 6</td>
+<tr class="DBG"><td>12:37:53.369</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 8 - 10 - 7 - 6 - 5 - 1 - 4 - 3 - 11 - 2</td>
+<tr class="ERR"><td>12:37:53.373</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.373</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.375</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 7</td>
+<tr class="DBG"><td>12:37:53.375</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.381</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5500</td>
+<tr class="DBG"><td>12:37:53.381</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.381</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI FORMENTERA Course 07 Départ à l'Autostart 5.500 - Attelé. - 2.150 mètres. 2.530,<br/>
+ 1.266,<br/>
+ 660,<br/>
+ 384,<br/>
+ 276,<br/>
+ 220,<br/>
+ 164. Pour 4 à 10 ans ayant gagné au moins 14.000,<br/>
+ mais pas 20.000.</td>
+<tr class="DBG"><td>12:37:53.382</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.382</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI FORMENTERA                        ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.382</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 7</td>
+<tr class="DBG"><td>12:37:53.382</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 9 - 5 - 4 - 12 - 2 - 8 - 6 - 7 - 3</td>
+<tr class="ERR"><td>12:37:53.386</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.386</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.388</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 8</td>
+<tr class="DBG"><td>12:37:53.388</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.388</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 3750</td>
+<tr class="DBG"><td>12:37:53.388</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2650</td>
+<tr class="DBG"><td>12:37:53.388</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI EIVISSA Course 08 Départ à l'Autostart 3.750 - Attelé. - 2.650 mètres. 1.726,<br/>
+ 862,<br/>
+ 450,<br/>
+ 262,<br/>
+ 188,<br/>
+ 150,<br/>
+ 112. Pour 4 à 8 ans ayant gagné au moins 2.000,<br/>
+ mais pas 5.000.</td>
+<tr class="DBG"><td>12:37:53.390</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.390</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI EIVISSA                           ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.390</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 8</td>
+<tr class="DBG"><td>12:37:53.390</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 3 - 5 - 13 - 4 - 10 - 12 - 11 - 14 - 15 - 7</td>
+<tr class="ERR"><td>12:37:53.395</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.395</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.398</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 9</td>
+<tr class="DBG"><td>12:37:53.399</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.399</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 4250</td>
+<tr class="DBG"><td>12:37:53.399</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.399</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI CABRERA Course 09 Départ à l'Autostart 4.250 - Attelé. - 2.150 mètres. 1.956,<br/>
+ 978,<br/>
+ 510,<br/>
+ 296,<br/>
+ 212,<br/>
+ 170,<br/>
+ 128. Pour 4 à 8 ans ayant gagné au moins 5.000,<br/>
+ mais pas 9.000.</td>
+<tr class="DBG"><td>12:37:53.401</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.401</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI CABRERA                           ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.401</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 9</td>
+<tr class="DBG"><td>12:37:53.401</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 5 - 7 - 12 - 8 - 10 - 9 - 1</td>
+<tr class="ERR"><td>12:37:53.405</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.405</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.407</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 10</td>
+<tr class="DBG"><td>12:37:53.407</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#2: TROT_ATTELE</td>
+<tr class="DBG"><td>12:37:53.407</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 3500</td>
+<tr class="DBG"><td>12:37:53.407</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2150</td>
+<tr class="DBG"><td>12:37:53.407</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: PREMI ORONDEL Course 10 Départ à l'Autostart 3.500 - Attelé. - 2.150 mètres. 1.610,<br/>
+ 806,<br/>
+ 420,<br/>
+ 244,<br/>
+ 176,<br/>
+ 140,<br/>
+ 104. Pour 4 à 6 ans ayant gagné au moins 300,<br/>
+ mais pas 2.000.</td>
+<tr class="DBG"><td>12:37:53.408</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#3:  RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.409</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: PREMI ORONDEL                           ESPAGNE</td>
+<tr class="DBG"><td>12:37:53.409</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 10</td>
+<tr class="DBG"><td>12:37:53.409</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 10 - 4 - 13 - 14 - 3 - 1 - 6 - 8 - 11 - 9</td>
+<tr class="ERR"><td>12:37:53.412</td><td>ERR</td><td class="ERR-main">Error while fetching race: R5C5 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.412</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">fetch_meetings - meeting: 07022018/R6</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - Number: 6</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">Racetrack: ''</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">Country: 'Royaume-Uni'</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">Weather: Weather
+	<br/>&nbsp;&nbsp;&nbsp;[id = nil,<br/>&nbsp;&nbsp;&nbsp;
+	 insolation = Peu Nuageux,<br/>&nbsp;&nbsp;&nbsp;
+	 temperature = 2,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_direction = NO,<br/>&nbsp;&nbsp;&nbsp;
+	 wind_speed = 7]</td>
+<tr class="DBG"><td>12:37:53.414</td><td>DBG</td><td class="DBG-main">fetch_meeting_shallow - track_condition: </td>
+<tr class="INF"><td>12:37:53.414</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 1</td>
+<tr class="DBG"><td>12:37:53.415</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.415</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5379</td>
+<tr class="DBG"><td>12:37:53.415</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1200</td>
+<tr class="DBG"><td>12:37:53.415</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans et plus (Allocations d tribuées aux 4 premiers). Les informations concernant les partants sont comm iquées sous la responsabilité de l'autorité hippique du pays dans lequel la urse est organisée.</td>
+<tr class="DBG"><td>12:37:53.416</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.416</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE BETWAY NOVICE MEDIAN AUCTION STAKES (CLASS 6)</td>
+<tr class="DBG"><td>12:37:53.416</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 1</td>
+<tr class="DBG"><td>12:37:53.416</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 9 - 1 - 2 - 4 - 3 - 6 - 7 - 5</td>
+<tr class="ERR"><td>12:37:53.419</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.419</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.421</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 2</td>
+<tr class="DBG"><td>12:37:53.422</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.422</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 6500</td>
+<tr class="DBG"><td>12:37:53.422</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 2800</td>
+<tr class="DBG"><td>12:37:53.422</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de 4 ans et plus (Allocations distr uées aux 4 premiers). Les informations concernant les partants sont communiq es sous la responsabilité de l'autorité hippique du pays dans lequel la cour est organisée.</td>
+<tr class="DBG"><td>12:37:53.423</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.423</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE BETWAY CASINO HANDICAP STAKES (CLASS 5)</td>
+<tr class="DBG"><td>12:37:53.423</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 2</td>
+<tr class="DBG"><td>12:37:53.423</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 6 - 3 - 2 - 1 - 7 - 4 - 5</td>
+<tr class="ERR"><td>12:37:53.426</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.426</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.428</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 3</td>
+<tr class="DBG"><td>12:37:53.428</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.428</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5379</td>
+<tr class="DBG"><td>12:37:53.428</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1200</td>
+<tr class="DBG"><td>12:37:53.428</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de trois ans (Allocations distribué aux 4 premiers). Les informations concernant les partants sont communiquées ous la responsabilité de l'autorité hippique du pays dans lequel la course e organisée.</td>
+<tr class="DBG"><td>12:37:53.429</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.429</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE 32RED.COM HANDICAP STAKES (CLASS 6)</td>
+<tr class="DBG"><td>12:37:53.429</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 3</td>
+<tr class="DBG"><td>12:37:53.429</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 9 - 4 - 1 - 7 - 5 - 6 - 2 - 3 - 8</td>
+<tr class="ERR"><td>12:37:53.433</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.433</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.435</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 4</td>
+<tr class="DBG"><td>12:37:53.435</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.435</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 12888</td>
+<tr class="DBG"><td>12:37:53.435</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1400</td>
+<tr class="DBG"><td>12:37:53.435</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de 4 ans et plus (Allocations distr uées aux 5 premiers). Les informations concernant les partants sont communiq es sous la responsabilité de l'autorité hippique du pays dans lequel la cour est organisée.</td>
+<tr class="DBG"><td>12:37:53.436</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.436</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE BET & WATCH AT SUNBETS.CO.UK HANDICAP STAKES (CLASS 3)</td>
+<tr class="DBG"><td>12:37:53.436</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 4</td>
+<tr class="DBG"><td>12:37:53.436</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 2 - 7 - 12 - 5 - 6 - 11 - 10 - 1 - 3 - 4 - 8 - 9</td>
+<tr class="ERR"><td>12:37:53.440</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.440</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.447</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 5</td>
+<tr class="DBG"><td>12:37:53.447</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.447</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5379</td>
+<tr class="DBG"><td>12:37:53.447</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1750</td>
+<tr class="DBG"><td>12:37:53.447</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de 4 ans et plus (Allocations distr uées aux 4 premiers). Les informations concernant les partants sont communiq es sous la responsabilité de l'autorité hippique du pays dans lequel la cour est organisée.</td>
+<tr class="DBG"><td>12:37:53.448</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.448</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: THE SUNBETS.CO.UK HANDICAP STAKES ( DIV II)</td>
+<tr class="DBG"><td>12:37:53.448</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 5</td>
+<tr class="DBG"><td>12:37:53.448</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 12 - 9 - 4 - 3 - 11 - 10 - 1 - 2 - 7 - 13 - 5 - 6</td>
+<tr class="ERR"><td>12:37:53.451</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.451</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.453</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 6</td>
+<tr class="DBG"><td>12:37:53.454</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.454</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 5379</td>
+<tr class="DBG"><td>12:37:53.454</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1750</td>
+<tr class="DBG"><td>12:37:53.454</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de 4 ans et plus (Allocations distr uées aux 4 premiers). Les informations concernant les partants sont communiq es sous la responsabilité de l'autorité hippique du pays dans lequel la cour est organisée.</td>
+<tr class="DBG"><td>12:37:53.455</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.455</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: HANDICAP STAKES (DIV 2)</td>
+<tr class="DBG"><td>12:37:53.455</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 6</td>
+<tr class="DBG"><td>12:37:53.455</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 4 - 7 - 3 - 5 - 2 - 1 - 12 - 6 - 10 - 9 - 13</td>
+<tr class="ERR"><td>12:37:53.458</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.458</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.460</td><td>INF</td><td class="INF-main">fetch_race - Fetching race: 7</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - race_type: RefRaceType#1: PLAT</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - value: 9582</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - distance: 1900</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - detailed_cond: Pour pur sang males, hongres et femelles de 4 ans et plus (Allocations distr uées aux 4 premiers). Les informations concernant les partants sont communiq es sous la responsabilité de l'autorité hippique du pays dans lequel la cour est organisée.</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - general_conditions: RefRope#1: CORDE_GAUCHE RefSex#2: TOUS_CHEVAUX</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - name: CASINO HANDICAP STAKES (CLASS 4)</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - number: 7</td>
+<tr class="DBG"><td>12:37:53.461</td><td>DBG</td><td class="DBG-main">fetch_race_shallow - result: 1 - 6 - 5 - 4 - 2 - 3 - 8 - 7</td>
+<tr class="ERR"><td>12:37:53.465</td><td>ERR</td><td class="ERR-main">Error while fetching race: R6C6 - Error: #&lt;NameError: undefined local variable or method `date_hours_i' for #&lt;JSONCrawler:0x00007ffc5101d2e0&gt;&gt;</td>
+<tr class="ERR"><td>12:37:53.465</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:311:in `fetch_race_shallow'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:238:in `fetch_race'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:203:in `block in fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:200:in `fetch_races'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:145:in `fetch_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:122:in `block in fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:115:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+<tr class="INF"><td>12:37:53.467</td><td>INF</td><td class="INF-main">Ending crawl</td>
+<tr class="IMP"><td>12:37:53.467</td><td>IMP</td><td class="IMP-main">SAVING TIME</td>
+<tr class="INF"><td>12:37:53.467</td><td>INF</td><td class="INF-main">Starting saves</td>
+<tr class="DBG"><td>12:37:53.467</td><td>DBG</td><td class="DBG-main">save_meeting - saving job</td>
+<tr class="DBG"><td>12:37:53.467</td><td>DBG</td><td class="DBG-main">save_job - no ID</td>
+<tr class="DBG"><td>12:37:53.467</td><td>DBG</td><td class="DBG-main">execute_select_w_one_result - Fetching first result of query : SELECT id_job FROM Job WHERE start_time = :start_time; with values : {:start_time=&gt;"08/02/2018 12:37:52.859 +0100"}</td>
+<tr class="DBG"><td>12:37:53.468</td><td>DBG</td><td class="DBG-main">save_job - no tech ID retrieved, inserting job</td>
+<tr class="DBG"><td>12:37:53.468</td><td>DBG</td><td class="DBG-main">execute_query - Executing query: INSERT INTO Job( start_time, loading_end_time, crawling_end_time, computing_end_time ) VALUES ( :start_time, :loading_end_time, :crawling_end_time, :computing_end_time ); with values : 
+	<br/>&nbsp;&nbsp;&nbsp;{:start_time=&gt;"08/02/2018 12:37:52.859 +0100",<br/>&nbsp;&nbsp;&nbsp;
+	 :loading_end_time=&gt;"08/02/2018 12:37:52.865 +0100",<br/>&nbsp;&nbsp;&nbsp;
+	 :crawling_end_time=&gt;"08/02/2018 12:37:53.467 +0100",<br/>&nbsp;&nbsp;&nbsp;
+	 :computing_end_time=&gt;nil}</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">Insertion Ok; got ID : 20</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">save_job - job inserted</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">save_job - tech ID retrieved: 20</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">save_meeting - job#20</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">save_meeting - saving weather</td>
+<tr class="DBG"><td>12:37:53.471</td><td>DBG</td><td class="DBG-main">save_weather - no ID</td>
+<tr class="ERR"><td>12:37:53.472</td><td>ERR</td><td class="ERR-main">Caught general error: #&lt;NoMethodError: undefined method `id' for "N":String&gt;</td>
+<tr class="ERR"><td>12:37:53.472</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/DB_select_by_business_id.rb:167:in `load_weather_id'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:319:in `save_weather'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:105:in `save_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:144:in `block in save_meeting_list'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:143:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:143:in `save_meeting_list'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:104:in `&lt;main&gt;'"]</td>
+	</table>
+<br/>
+
+</div>

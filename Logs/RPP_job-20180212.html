@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<title>RPP - log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+
+	tr {
+		font-family: 'Lucida sans typewriter', 'sans-serif';
+		font-size: 10.0pt;
+	}
+
+	tr.IMP {
+		color: #101997;
+	}
+
+	tr.ERR {
+		color: #ED1212;
+	}
+
+	tr.OK {
+		color: green;
+	}
+	
+	tr.INF {
+		color: #000000;
+	}
+
+	tr.TST {
+		color: orange;
+	}
+	
+	tr.DBG {
+		color: #6633CC;
+	}
+	
+	td.IMP-main {
+		font-size: 14.0pt;
+	}
+	
+	td.ERR-main {
+		font-size: 12.0pt;
+	}
+
+-->
+</style>
+<br/>
+<div style="width: 90%; margin-right: auto; margin-left: auto;">
+	<table>
+		
+		
+<tr class="INF"><td>18:20:41.497</td><td>INF</td><td class="INF-main">Loading config</td>
+<tr class="INF"><td>18:20:41.498</td><td>INF</td><td class="INF-main">START TIME: 12/02/2018 18:20:41.492</td>
+<tr class="IMP"><td>18:20:41.498</td><td>IMP</td><td class="IMP-main">Checking Database Existence</td>
+<tr class="INF"><td>18:20:41.498</td><td>INF</td><td class="INF-main">Tables already exist</td>
+<tr class="INF"><td>18:20:41.498</td><td>INF</td><td class="INF-main">Loading reference values</td>
+<tr class="INF"><td>18:20:41.498</td><td>INF</td><td class="INF-main">Loading all reference objects</td>
+<tr class="IMP"><td>18:20:41.499</td><td>IMP</td><td class="IMP-main">CRAWLING TIME</td>
+<tr class="INF"><td>18:20:41.499</td><td>INF</td><td class="INF-main">Starting to crawl</td>
+<tr class="DBG"><td>18:20:41.499</td><td>DBG</td><td class="DBG-main">initialize - base_address: https://www.pmu.fr/turf/</td>
+<tr class="DBG"><td>18:20:41.499</td><td>DBG</td><td class="DBG-main">fetch_meetings - str_formatted_date: 11022018</td>
+<tr class="ERR"><td>18:20:42.215</td><td>ERR</td><td class="ERR-main">Caught general error: Interrupt</td>
+<tr class="ERR"><td>18:20:42.215</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/protocol.rb:181:in `wait_readable'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/protocol.rb:181:in `rbuf_fill'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/protocol.rb:157:in `readuntil'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/protocol.rb:167:in `readline'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http/response.rb:40:in `read_status_line'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http/response.rb:29:in `read_new'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:1494:in `block in transport_request'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:1491:in `catch'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:1491:in `transport_request'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:1464:in `request'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:1365:in `request_get'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:487:in `block in get_response'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:910:in `start'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:609:in `start'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:485:in `get_response'",<br/>&nbsp;&nbsp;&nbsp; "/usr/local/Cellar/ruby/2.5.0/lib/ruby/2.5.0/net/http.rb:462:in `get'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:104:in `fetch_meetings'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/JSONCrawler.rb:74:in `crawl'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:90:in `&lt;main&gt;'"]</td>
+	</table>
+<br/>
+
+</div>

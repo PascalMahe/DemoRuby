@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<title>RPP - log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style>
+
+	tr {
+		font-family: 'Lucida sans typewriter', 'sans-serif';
+		font-size: 10.0pt;
+	}
+
+	tr.IMP {
+		color: #101997;
+	}
+
+	tr.ERR {
+		color: #ED1212;
+	}
+
+	tr.OK {
+		color: green;
+	}
+	
+	tr.INF {
+		color: #000000;
+	}
+
+	tr.TST {
+		color: orange;
+	}
+	
+	tr.DBG {
+		color: #6633CC;
+	}
+	
+	td.IMP-main {
+		font-size: 14.0pt;
+	}
+	
+	td.ERR-main {
+		font-size: 12.0pt;
+	}
+
+-->
+</style>
+<br/>
+<div style="width: 90%; margin-right: auto; margin-left: auto;">
+	<table>
+		
+		
+<tr class="IMP"><td>16:37:19.548</td><td>IMP</td><td class="IMP-main">Checking Database Existence</td>
+<tr class="IMP"><td>16:37:19.551</td><td>IMP</td><td class="IMP-main">CRAWLING TIME</td>
+<tr class="IMP"><td>16:37:28.299</td><td>IMP</td><td class="IMP-main">SAVING TIME</td>
+<tr class="ERR"><td>16:37:28.302</td><td>ERR</td><td class="ERR-main">Caught general error: #&lt;NoMethodError: undefined method `id' for "SE":String&gt;</td>
+<tr class="ERR"><td>16:37:28.302</td><td>ERR</td><td class="ERR-main"><br/>&nbsp;&nbsp;&nbsp;["/Users/pmahe/dev/DemoRuby/DB_select_by_business_id.rb:167:in `load_weather_id'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:319:in `save_weather'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:105:in `save_meeting'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:144:in `block in save_meeting_list'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:143:in `each'",<br/>&nbsp;&nbsp;&nbsp; "/Users/pmahe/dev/DemoRuby/Saver.rb:143:in `save_meeting_list'",<br/>&nbsp;&nbsp;&nbsp; "main.rb:103:in `&lt;main&gt;'"]</td>
+<tr class="IMP"><td>16:37:28.304</td><td>IMP</td><td class="IMP-main">TOTAL TIME: 08.762 s</td>
+	</table>
+<br/>
+
+</div>
